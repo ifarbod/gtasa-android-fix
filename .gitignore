@@ -339,3 +339,8 @@ Temporary Items
 #################################################################
 Build/
 Bin/
+
+# vcxproj files
+*.vcxproj
+*.vcxproj.filters
+*.sln
