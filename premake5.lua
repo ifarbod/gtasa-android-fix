@@ -9,4 +9,5 @@
 
 workspace "SAO"
 	location "Build"
+	configurations {"Debug", "Release"}
 -- TODO
