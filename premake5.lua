@@ -67,7 +67,7 @@ workspace "SAO"
     filter "system:windows"
         toolset "v140"
 		defines { "WIN32", "_WIN32" }
-        linkoptions { "/DYNAMICBASE:NO" }
+        
 		includedirs { 
 			dxdir.."Include"
 		}
@@ -75,8 +75,8 @@ workspace "SAO"
 			dxdir.."Lib/x86"
 		}
         
-    filter {"system:windows", "kind:StaticLib"}
-        linkoptions { "/ignore:4044" } -- unrecognized option '/DYNAMICBASE:NO'; ignored
+    filter {"system:windows", "kind:not StaticLib"}
+        linkoptions { "/DYNAMICBASE:NO" }
     
     -- Helper functions for output path 
 	buildpath = function(p) return "%{wks.location}../Bin/"..p.."/" end
