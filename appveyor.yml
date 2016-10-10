@@ -1,0 +1,22 @@
+version: '{build}'
+os: Visual Studio 2015
+
+configuration: Release
+  
+before_build:
+  - utils\premake5 vs2015
+  
+clone_depth: 1
+  
+build:
+  parallel: true
+  project: Build/SAO.sln
+  #verbosity: minimal
+  
+notifications:
+- provider: Slack
+  incoming_webhook: https://hooks.slack.com/services/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
+  channel: '#buildstatus'
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
