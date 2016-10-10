@@ -1,7 +1,7 @@
 [![SAO Logo](https://cdn.pbrd.co/images/cX4GNpEQn.png)](https://github.com/sanandreasonline/sao/)
 
-[![Build status](https://ci.appveyor.com/api/projects/status/ics3b7g061nymo0c?svg=true)](https://ci.appveyor.com/project/iFarbod/sao)
-[![Build status](https://ci.appveyor.com/api/projects/status/ics3b7g061nymo0c/branch/master?svg=true)](https://ci.appveyor.com/project/iFarbod/sao/branch/master)
+[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/sanandreasonline/sao.svg?maxAge=2592000)](https://ci.appveyor.com/project/sanandreasonline/sao)
+[![AppVeyor master branch Build Status](https://img.shields.io/appveyor/ci/sanandreasonline/sao/master.svg?maxAge=2592000)](https://ci.appveyor.com/project/sanandreasonline/sao/branch/master)
 
 ## License
 
