@@ -15,12 +15,17 @@ project "miniupnpc"
     
     files {
 		"premake5.lua",
-		"*.h",
-		"*.c"
+        "connecthostport.c",
+		"minixml.c",
+        "upnpc.c",
+        "miniwget.c",
+        "minisoap.c",
+        "miniupnpc.c",
+        "portlistingparse.c",
+        "igd_desc_parse.c",
+        "upnpreplyparse.c",
+        "upnpcommands.c",
+        "upnperrors.c"
 	}
     
-    excludes {
-        "minissdpc.c",
-        "miniupnpcmodule.c",
-        "minihttptestserver.c"
-    }
+    

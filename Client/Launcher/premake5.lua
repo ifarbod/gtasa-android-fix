@@ -1,7 +1,7 @@
 project "Launcher"
     language "C++"
     kind "WindowedApp"
-    targetname "San Andreas Online"
+    targetname "SAO"
     targetdir(buildpath("."))
     
     --pchheader "StdH.hpp"
