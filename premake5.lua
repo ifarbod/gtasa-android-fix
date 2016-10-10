@@ -19,7 +19,7 @@ workspace "SAO"
     platforms { "x86", "x64"}
 	targetprefix ("")
 	configurations {"Debug", "Release"}
-    flags { "C++11", "Symbols" }
+    flags { "C++14", "Symbols" }
 	characterset "MBCS"
 	pic "On"
     
@@ -67,13 +67,16 @@ workspace "SAO"
     filter "system:windows"
         toolset "v140"
 		defines { "WIN32", "_WIN32" }
-        linkoptions "/DYNAMICBASE:NO"
+        linkoptions { "/DYNAMICBASE:NO" }
 		includedirs { 
 			dxdir.."Include"
 		}
 		libdirs {
 			dxdir.."Lib/x86"
 		}
+        
+    filter {"system:windows", "kind:StaticLib"}
+        linkoptions { "/ignore:4044" } -- unrecognized option '/DYNAMICBASE:NO'; ignored
     
     -- Helper functions for output path 
 	buildpath = function(p) return "%{wks.location}../Bin/"..p.."/" end

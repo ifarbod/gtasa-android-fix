@@ -18,3 +18,9 @@ project "miniupnpc"
 		"*.h",
 		"*.c"
 	}
+    
+    excludes {
+        "minissdpc.c",
+        "miniupnpcmodule.c",
+        "minihttptestserver.c"
+    }

@@ -4,8 +4,8 @@ project "Launcher"
     targetname "San Andreas Online"
     targetdir(buildpath("."))
     
-    pchheader "Stdafx.hpp"
-	pchsource "StdH.cpp"
+    --pchheader "StdH.hpp"
+	--pchsource "StdH.cpp"
     
     flags { "WinMain" }
     
