@@ -21,7 +21,7 @@ workspace "SAO"
 	configurations {"Debug", "Release"}
     flags { "C++14" }
     symbols "On"
-	characterset "MBCS"
+	characterset "Unicode"
 	pic "On"
     
     -- Disable deprecation warnings and errors
