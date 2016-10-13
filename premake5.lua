@@ -19,7 +19,8 @@ workspace "SAO"
     platforms { "x86", "x64"}
 	targetprefix ("")
 	configurations {"Debug", "Release"}
-    flags { "C++14", "Symbols" }
+    flags { "C++14" }
+    symbols "On"
 	characterset "MBCS"
 	pic "On"
     
@@ -62,7 +63,8 @@ workspace "SAO"
     -- Generate PDB files at \Build\Symbols
     filter {"system:windows", "configurations:Release", "kind:not StaticLib"}
 		os.mkdir("Build/Symbols")
-		linkoptions "/PDB:\"Symbols\\$(ProjectName).pdb\""
+		--linkoptions "/PDB:\"Symbols\\$(ProjectName).pdb\""
+        symbolspath "Build/Symbols/$(ProjectName).pdb"
         
     filter "system:windows"
         toolset "v140"
