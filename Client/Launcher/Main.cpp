@@ -11,19 +11,19 @@
 #include <windows.h>
 #include <VersionHelpers.h>
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR strCmdLine, int nCmdShow)
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCmdLine, int nCmdShow)
 {
     // Check Windows version
     if (!IsWindows7SP1OrGreater())
     {
-        MessageBox(0, "You need Windows 7 SP1 or greater to play San Andreas Online.", 0, 0);
+        MessageBoxA(0, "You need Windows 7 SP1 or greater to play San Andreas Online.", 0, 0);
         return 1;
     }
 
     // Check for safe mode
     if (GetSystemMetrics(SM_CLEANBOOT) != 0)
     {
-        MessageBox(0, "You cannot launch SAO in Safe Mode.", 0, 0);
+        MessageBoxA(0, "You cannot launch SAO in Safe Mode.", 0, 0);
         return 1;
     }
 
