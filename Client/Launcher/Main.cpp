@@ -9,8 +9,7 @@
 
 #pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
-#include <windows.h>
-#include <VersionHelpers.h>
+#include "Main.hpp"
 
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCmdLine, int nCmdShow)
 {
@@ -24,7 +23,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     // Check for safe mode
     if (GetSystemMetrics(SM_CLEANBOOT) != 0)
     {
-        MessageBoxA(NULL, "You cannot launch SAO in Safe Mode.", NULL, MB_ICONSTOP);
+        MessageBoxA(NULL, "You cannot play San Andreas Online in Safe Mode.", NULL, MB_ICONSTOP);
         return 1;
     }
 

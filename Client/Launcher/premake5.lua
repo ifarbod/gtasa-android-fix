@@ -8,9 +8,14 @@ project "Launcher"
 	--pchsource "StdH.cpp"
     
     flags { "WinMain" }
+	
+	includedirs {
+		"../../Shared/Utils/",
+		"../../Shared/Utils/Win32/"
+	}
     
     vpaths { 
-        ["Headers/*"] = "**.h",
+        ["Headers/*"] = "**.hpp",
         ["Sources/*"] = "**.cpp",
         ["Resources/*"] = {"**.rc", "**.ico"},
         ["*"] = "premake5.lua"
