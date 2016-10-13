@@ -2,6 +2,7 @@ project "RakNet"
     language "C++"
     kind "StaticLib"
     targetname "RakNet"
+	characterset "MBCS"
     
     vpaths { 
 		["Headers/*"] = "**.h",
