@@ -1,5 +1,6 @@
 // Client Launcher entry point
 // Author(s):       iFarbod <ifarbod@outlook.com>
+//                  AliAssassiN <ailsynthax@gmail.com>
 //
 // Copyright (c) 2015-2016 San Andreas Online
 //
@@ -11,19 +12,19 @@
 #include <windows.h>
 #include <VersionHelpers.h>
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCmdLine, int nCmdShow)
+int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCmdLine, int nCmdShow)
 {
     // Check Windows version
     if (!IsWindows7SP1OrGreater())
     {
-        MessageBoxA(0, "You need Windows 7 SP1 or greater to play San Andreas Online.", 0, 0);
+        MessageBoxA(NULL, "You need Windows 7 SP1 or greater to play San Andreas Online.", NULL, MB_ICONSTOP);
         return 1;
     }
 
     // Check for safe mode
     if (GetSystemMetrics(SM_CLEANBOOT) != 0)
     {
-        MessageBoxA(0, "You cannot launch SAO in Safe Mode.", 0, 0);
+        MessageBoxA(NULL, "You cannot launch SAO in Safe Mode.", NULL, MB_ICONSTOP);
         return 1;
     }
 
