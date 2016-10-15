@@ -6,7 +6,7 @@ project "Lua"
     defines { "_LIB" }
     
     vpaths {
-        ["Headers/*"] = "**.h",
+        ["Headers/*"] = { "**.h", "**.hpp" },
         ["Sources/*"] = "**.c",
         ["*"] = "premake5.lua"
     }
