@@ -97,4 +97,8 @@ workspace "SAO"
     end
 
     filter {}
+        group "ThirdParty"
+        include "ThirdParty/lua"
+
         group "Server"
+        --include "ServerLauncher"
