@@ -3,20 +3,20 @@ project "miniupnpc"
     language "C++"
     kind "StaticLib"
     targetname "miniupnpc"
-    
+
     includedirs { "." }
-	defines { "_LIB", "STATICLIB" }
-    
+    defines { "_LIB", "STATICLIB" }
+
     vpaths { 
-		["Headers/*"] = "**.h",
-		["Sources/*"] = "**.c",
-		["*"] = "premake5.lua"
-	}
-    
+        ["Headers/*"] = "**.h",
+        ["Sources/*"] = "**.c",
+        ["*"] = "premake5.lua"
+    }
+
     files {
-		"premake5.lua",
+        "premake5.lua",
         "connecthostport.c",
-		"minixml.c",
+        "minixml.c",
         "upnpc.c",
         "miniwget.c",
         "minisoap.c",
@@ -26,6 +26,4 @@ project "miniupnpc"
         "upnpreplyparse.c",
         "upnpcommands.c",
         "upnperrors.c"
-	}
-    
-    
+    }
