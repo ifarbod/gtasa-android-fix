@@ -63,7 +63,7 @@ enum eStringType
 };
 
 template<class AllocT>
-class SAOString
+class String
 {
 private:
 
@@ -73,9 +73,9 @@ private:
 
 public:
 
-    SAOString() : m_pData(nullptr), m_uiSize(0), m_uiLength(0) {}
+    String() : m_pData(nullptr), m_uiSize(0), m_uiLength(0) {}
     
-    SAOString(const char* szText)
+    String(const char* szText)
     {
         Resize(strlen(szText));
         
@@ -140,3 +140,6 @@ public:
         }
     }
 };
+
+using Str = String<char>;
+using WStr = String<wchar_t>;
