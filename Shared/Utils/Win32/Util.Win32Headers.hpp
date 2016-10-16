@@ -23,3 +23,6 @@
 
 // Headers
 #include <Windows.h>
+
+// Until custom implementation
+#include <cassert>
