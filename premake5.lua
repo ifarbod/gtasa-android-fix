@@ -102,6 +102,7 @@ workspace "SAO"
     filter {}
         group "ThirdParty"
         include "ThirdParty/lua"
+        include "ThirdParty/pugixml"
 
         group "Server"
         --include "ServerLauncher"
