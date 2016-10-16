@@ -14,7 +14,7 @@ project "Lua"
     files {
         "premake5.lua",
         "**.h",
-		"**.hpp"
+		"**.hpp",
         "**.c"
     }
     
