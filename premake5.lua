@@ -80,8 +80,8 @@ workspace "SAO"
             dxdir.."Lib/x86"
         }
 
-    filter {"system:windows", "kind:not StaticLib"}
-        linkoptions { "/DYNAMICBASE:NO" }
+    filter { "system:windows", "kind:StaticLib" }
+        defines { "_LIB" }
 
     -- Helper functions for output path 
     buildpath = function(p) return "%{wks.location}/../Bin/"..p.."/" end

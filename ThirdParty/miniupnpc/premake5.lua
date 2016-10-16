@@ -5,7 +5,7 @@ project "miniupnpc"
     targetname "miniupnpc"
 
     includedirs { "." }
-    defines { "_LIB", "STATICLIB" }
+    defines { "STATICLIB" }
 
     vpaths { 
         ["Headers/*"] = "**.h",
