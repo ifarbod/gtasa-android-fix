@@ -1,7 +1,7 @@
 project "Core"
     language "C++"
     kind "SharedLib"
-    targetname "SAO"
+    targetname "Core"
     targetdir(buildpath("."))
     
     --pchheader "StdH.hpp"

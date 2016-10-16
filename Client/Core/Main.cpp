@@ -7,3 +7,19 @@
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
 
+#include <Win32\Util.Win32Headers.hpp>
+
+BOOL WINAPI DllMain(HINSTANCE hDllInstance, DWORD dwReason, LPVOID lpvReserved)
+{
+    if (dwReason == DLL_PROCESS_ATTACH)
+    {
+        DisableThreadLibraryCalls(hDllInstance);
+        // initialize
+    }
+
+    else if (dwReason == DLL_PROCESS_DETACH)
+    {
+        // shut down
+    }
+    return TRUE;
+}

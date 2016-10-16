@@ -27,5 +27,18 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
         return 1;
     }
 
+    // Start San Andreas
+    STARTUPINFO si = { 0 };
+    PROCESS_INFORMATION pi = { 0 };
+    si.cb = sizeof(si);
+
+    // TODO: finish this asap
+    if (!CreateProcess(L"", L"", nullptr, nullptr, FALSE, CREATE_SUSPENDED, nullptr, L"", &si, &pi))
+    {
+        MessageBoxA(nullptr, "Failed to start San Andreas. Cannot launch SA:Online.", nullptr, MB_ICONSTOP);
+        return 1;
+    }
+
+
     return 0;
 }
