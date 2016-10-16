@@ -23,6 +23,7 @@ workspace "SAO"
     symbols "On"
     characterset "Unicode"
     pic "On"
+    startproject "Launcher"
 
     -- Disable deprecation warnings and errors
     defines { 
@@ -63,20 +64,21 @@ workspace "SAO"
 
     -- Generate PDB files at \Build\Symbols
     filter {"system:windows", "configurations:Release", "kind:not StaticLib"}
-        os.mkdir("Build/Symbols")
-        --linkoptions "/PDB:\"Symbols\\$(ProjectName).pdb\""
         symbolspath "Build/Symbols/$(ProjectName).pdb"
+
+    filter "system:linux"
+        vectorextensions "SSE2"
 
     filter "system:windows"
         toolset "v140"
-		defines { "WIN32", "_WIN32" }
-        
-		includedirs { 
-			dxdir.."Include"
-		}
-		libdirs {
-			dxdir.."Lib/x86"
-		}
+        defines { "WIN32", "_WIN32" }
+
+        includedirs { 
+            dxdir.."Include"
+        }
+        libdirs {
+            dxdir.."Lib/x86"
+        }
 
     filter {"system:windows", "kind:not StaticLib"}
         linkoptions { "/DYNAMICBASE:NO" }
@@ -89,6 +91,7 @@ workspace "SAO"
 
     if os.get() == "windows" then
         group "Client"
+        include "Client/Core"
         include "Client/Launcher"
 
         group "ThirdParty"
@@ -97,4 +100,8 @@ workspace "SAO"
     end
 
     filter {}
+        group "ThirdParty"
+        include "ThirdParty/lua"
+
         group "Server"
+        --include "ServerLauncher"

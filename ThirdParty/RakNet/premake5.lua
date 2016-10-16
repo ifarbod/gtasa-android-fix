@@ -5,16 +5,16 @@ project "RakNet"
     characterset "MBCS"
     
     vpaths { 
-		["Headers/*"] = "**.h",
-		["Sources"] = "**.cpp",
-		["*"] = "premake5.lua"
-	}
+        ["Headers/*"] = "**.h",
+        ["Sources"] = "**.cpp",
+        ["*"] = "premake5.lua"
+    }
     
     defines { "_RAKNET_LIB" }
     
     files {
         "premake5.lua",
-		"*.h",
-		"*.cpp"
+        "*.h",
+        "*.cpp"
     }
     

@@ -1,24 +1,16 @@
-project "Launcher"
+project "Core"
     language "C++"
-    kind "WindowedApp"
+    kind "SharedLib"
     targetname "SAO"
     targetdir(buildpath("."))
-    debugdir(buildpath("."))
     
     --pchheader "StdH.hpp"
     --pchsource "StdH.cpp"
     
-    flags { "WinMain" }
-    
-    includedirs {
-        "../../Shared/Utils/",
-        "../../Shared/Utils/Win32/"
-    }
-    
     vpaths { 
         ["Headers/*"] = "**.hpp",
         ["Sources/*"] = "**.cpp",
-        ["Resources/*"] = {"**.rc", "**.ico"},
+        ["Resources/*"] = "**.rc",
         ["*"] = "premake5.lua"
     }
     
@@ -26,8 +18,7 @@ project "Launcher"
         "premake5.lua",
         "*.hpp",
         "*.cpp",
-        "**.rc",
-        "**.ico"
+        "**.rc"
     }
     
     filter "architecture:x64"
