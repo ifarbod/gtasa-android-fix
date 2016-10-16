@@ -3,16 +3,17 @@ project "Launcher"
     kind "WindowedApp"
     targetname "SAO"
     targetdir(buildpath("."))
+    debugdir(buildpath("."))
     
     --pchheader "StdH.hpp"
-	--pchsource "StdH.cpp"
+    --pchsource "StdH.cpp"
     
     flags { "WinMain" }
-	
-	includedirs {
-		"../../Shared/Utils/",
-		"../../Shared/Utils/Win32/"
-	}
+    
+    includedirs {
+        "../../Shared/Utils/",
+        "../../Shared/Utils/Win32/"
+    }
     
     vpaths { 
         ["Headers/*"] = "**.hpp",

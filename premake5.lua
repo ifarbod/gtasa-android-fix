@@ -23,6 +23,7 @@ workspace "SAO"
     symbols "On"
     characterset "Unicode"
     pic "On"
+    startproject "Launcher"
 
     -- Disable deprecation warnings and errors
     defines { 
@@ -69,14 +70,14 @@ workspace "SAO"
 
     filter "system:windows"
         toolset "v140"
-		defines { "WIN32", "_WIN32" }
+        defines { "WIN32", "_WIN32" }
         
-		includedirs { 
-			dxdir.."Include"
-		}
-		libdirs {
-			dxdir.."Lib/x86"
-		}
+        includedirs { 
+            dxdir.."Include"
+        }
+        libdirs {
+            dxdir.."Lib/x86"
+        }
 
     filter {"system:windows", "kind:not StaticLib"}
         linkoptions { "/DYNAMICBASE:NO" }
