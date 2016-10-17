@@ -8,7 +8,7 @@ project "Core"
     --pchsource "StdH.cpp"
     
     vpaths { 
-        ["Headers/*"] = "**.hpp",
+        ["Headers/*"] = { "**.hpp", "**.h" },
         ["Sources/*"] = "**.cpp",
         ["Resources/*"] = "**.rc",
         ["*"] = "premake5.lua"
@@ -16,6 +16,7 @@ project "Core"
     
     files {
         "premake5.lua",
+		"*.h",
         "*.hpp",
         "*.cpp",
         "**.rc"
