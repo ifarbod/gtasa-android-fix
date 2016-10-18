@@ -5,8 +5,8 @@ project "Launcher"
     targetdir(buildpath("."))
     debugdir(buildpath("."))
     
-    --pchheader "StdH.hpp"
-    --pchsource "StdH.cpp"
+    --pchheader "pch.hpp"
+    --pchsource "pch.cpp"
     
     flags { "WinMain" }
     

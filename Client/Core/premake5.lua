@@ -4,8 +4,8 @@ project "Core"
     targetname "Core"
     targetdir(buildpath("."))
     
-    --pchheader "StdH.hpp"
-    --pchsource "StdH.cpp"
+    --pchheader "pch.hpp"
+    --pchsource "pch.cpp"
     
     vpaths { 
         ["Headers/*"] = { "**.hpp", "**.h" },
