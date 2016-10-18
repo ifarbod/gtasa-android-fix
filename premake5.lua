@@ -107,7 +107,7 @@ workspace "SAO"
         include "ThirdParty/zlib"
 
         group "Server"
-        --include "ServerLauncher"
+        include "Server"
         
         group "Shared"
         include "Shared/Utils"

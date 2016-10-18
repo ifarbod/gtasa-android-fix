@@ -18,6 +18,7 @@ project "miniupnpc"
         "premake5.lua",
         "connecthostport.c",
         "minixml.c",
+        "receivedata.c",
         "upnpc.c",
         "miniwget.c",
         "minisoap.c",

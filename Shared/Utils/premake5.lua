@@ -5,7 +5,7 @@ project "Utils"
     
     vpaths {
         ["Headers/*"] = "**.hpp",
-        ["Sources/*"] = "**.c",
+        ["Sources/*"] = "**.cpp",
         ["*"] = "premake5.lua"
     }
     
