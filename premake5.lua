@@ -103,6 +103,7 @@ workspace "SAO"
         group "ThirdParty"
         include "ThirdParty/lua"
         include "ThirdParty/pugixml"
+        include "ThirdParty/zlib"
 
         group "Server"
         --include "ServerLauncher"
