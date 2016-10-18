@@ -74,10 +74,10 @@ workspace "SAO"
         defines { "WIN32", "_WIN32" }
 
         includedirs { 
-            dxdir.."Include"
+            dxdir .. "Include"
         }
         libdirs {
-            dxdir.."Lib/x86"
+            dxdir .. "Lib/x86"
         }
 
     filter { "system:windows", "kind:StaticLib" }
@@ -85,7 +85,7 @@ workspace "SAO"
 
     -- Helper functions for output path 
     buildpath = function(p) return "%{wks.location}/../Bin/"..p.."/" end
-    copy = function(p) return "{COPY} %{cfg.buildtarget.abspath} %{wks.location}../Bin/"..p.."/" end 
+    copy = function(p) return "{COPY} %{cfg.buildtarget.abspath} %{wks.location}../Bin/" .. p .. "/" end 
 
     -- Include the projects we are going to build
 
@@ -108,3 +108,6 @@ workspace "SAO"
 
         group "Server"
         --include "ServerLauncher"
+        
+        group "Shared"
+        include "Shared/Utils"

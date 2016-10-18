@@ -1,22 +1,17 @@
-project "Lua"
+project "Utils"
     language "C++"
     kind "StaticLib"
-    targetname "Lua"
+    targetname "Utils"
     
     vpaths {
-        ["Headers/*"] = { "**.h", "**.hpp" },
+        ["Headers/*"] = "**.hpp",
         ["Sources/*"] = "**.c",
         ["*"] = "premake5.lua"
     }
     
     files {
         "premake5.lua",
-        "**.h",
 		"**.hpp",
-        "**.c"
+        "**.cpp"
     }
     
-    excludes {
-        "lua.c",
-        "luac.c"
-    }
