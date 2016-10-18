@@ -16,7 +16,7 @@ project "Core"
     
     files {
         "premake5.lua",
-		"**.h",
+        "**.h",
         "**.hpp",
         "**.cpp",
         "**.rc"
