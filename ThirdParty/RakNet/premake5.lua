@@ -17,4 +17,3 @@ project "RakNet"
         "*.h",
         "*.cpp"
     }
-    

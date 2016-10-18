@@ -101,6 +101,7 @@ workspace "SAO"
 
     filter {}
         group "ThirdParty"
+        include "ThirdParty/cryptopp"
         include "ThirdParty/lua"
         include "ThirdParty/pugixml"
         include "ThirdParty/zlib"
