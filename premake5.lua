@@ -64,7 +64,9 @@ workspace "SAO"
 
     -- Generate PDB files at \Build\Symbols
     filter {"system:windows", "configurations:Release", "kind:not StaticLib"}
-        symbolspath "Build/Symbols/$(ProjectName).pdb"
+        os.mkdir("Build/Symbols")
+        --symbolspath "Build/Symbols/$(ProjectName).pdb" -- will this get fixed?
+        linkoptions "/PDB:\"Symbols\\$(ProjectName).pdb\""
 
     filter "system:linux"
         vectorextensions "SSE2"
