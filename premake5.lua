@@ -99,6 +99,7 @@ workspace "SAO"
         group "ThirdParty"
         include "ThirdParty/miniupnpc"
         include "ThirdParty/RakNet"
+        include "ThirdParty/jpeg"
         include "ThirdParty/libpng"
     end
 
