@@ -32,7 +32,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     PROCESS_INFORMATION pi = { 0 };
     si.cb = sizeof(si);
 
-    // TODO: finish this asap
+
     if (!CreateProcess(L"gta_sa.exe", L"", nullptr, nullptr, FALSE, CREATE_SUSPENDED, nullptr, L"", &si, &pi))
     {
         MessageBoxA(nullptr, "Failed to start San Andreas. Cannot launch SA:Online.", nullptr, MB_ICONSTOP);
