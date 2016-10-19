@@ -522,15 +522,11 @@ public:
     MemPtr addr;
 
     // Saves @size bytes from @at
-    RestorablePatch(MemPtr at, size_t size = 1)
+    RestorablePatch(MemPtr at, size_t size = 1) :
+        addr(at),
+        num_bytes(size)
     {
-        // the address
-        addr = at;
-
-        // and size
-        num_bytes = size;
-
-        MemCpy(bytes, addr.get<void>(), size);
+        MemCpy(bytes, at.get<void>(), size);
     }
 
     // restore what was there on destruction
