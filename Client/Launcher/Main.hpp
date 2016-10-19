@@ -8,5 +8,4 @@
 
 #include <Util.Win32Headers.hpp>
 #include <Util.Preprocessors.hpp>
-#include <Util.String.hpp>
 #include <VersionHelpers.h>
