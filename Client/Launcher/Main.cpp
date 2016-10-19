@@ -33,12 +33,25 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     si.cb = sizeof(si);
 
     // TODO: finish this asap
-    if (!CreateProcess(L"", L"", nullptr, nullptr, FALSE, CREATE_SUSPENDED, nullptr, L"", &si, &pi))
+    if (!CreateProcess(L"gta_sa.exe", L"", nullptr, nullptr, FALSE, CREATE_SUSPENDED, nullptr, L"", &si, &pi))
     {
         MessageBoxA(nullptr, "Failed to start San Andreas. Cannot launch SA:Online.", nullptr, MB_ICONSTOP);
         return 1;
     }
 
+    const wchar_t* pszLibToInject = L"Core.dll";
+    unsigned long ulSize = 18ul /* (Length of pszLibToInject + 1) * 2 */, ulWrittenBytes;
+    void* pAllocedMem;
+    HANDLE hExternThread;
+    if(!(pAllocedMem = VirtualAllocEx(pi.hProcess, NULL, ulSize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE))) return 1; // TODO Error
+    if(!WriteProcessMemory(pi.hProcess, pAllocedMem, (void*)pszLibToInject, ulSize, &ulWrittenBytes)) return 1;
+    if(ulSize != ulWrittenBytes) return 1;
+    if(!(hExternThread = CreateRemoteThread(pi.hProcess, NULL, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(LoadLibraryW), pAllocedMem, 0, NULL))) return 1;
+    SetThreadPriority(hExternThread, THREAD_PRIORITY_HIGHEST);
+    WaitForSingleObject(hExternThread, 3000);
+    CloseHandle(hExternThread);
+    VirtualFreeEx(pi.hProcess, pAllocedMem, ulSize, MEM_RELEASE);
+    ResumeThread(pi.hThread); // TODO Prevent game's thread to be resumed before we say that!
 
     return 0;
 }
