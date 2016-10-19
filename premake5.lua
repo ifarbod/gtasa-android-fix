@@ -109,6 +109,7 @@ workspace "SAO"
         include "ThirdParty/lua"
         include "ThirdParty/pugixml"
         include "ThirdParty/zlib"
+        include "ThirdParty/zip"
 
         group "Server"
         include "Server"
