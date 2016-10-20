@@ -13,7 +13,26 @@ project "DedicatedServer"
     files {
         "premake5.lua",
         "**.hpp",
-        "**.cpp",
-        "**.rc",
-        "**.ico"
+        "**.cpp"
     }
+    
+    filter "system:windows"
+        targetname "SAOServer-Win32"
+        files {
+            "**.rc",
+            "res/sao_icon.ico"
+        }
+
+    filter {"system:windows", "platforms:x64"}
+        targetname "SAOServer-Win64"
+
+    filter "system:linux"
+        links { "dl" }
+
+    filter {"system:linux", "platforms:x86"}
+        targetname "sao-server"
+
+    filter {"system:linux", "platforms:x64"}
+        targetname "sao-server64"
+    
+    
