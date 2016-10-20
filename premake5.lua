@@ -73,7 +73,10 @@ workspace "SAO"
 
     filter "system:windows"
         toolset "v140"
+        
+    filter { "system:windows", "platforms:x86" }
         defines { "WIN32", "_WIN32" }
+        linkoptions "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\""
 
         includedirs { 
             dxdir .. "Include"
@@ -81,6 +84,10 @@ workspace "SAO"
         libdirs {
             dxdir .. "Lib/x86"
         }
+        
+    filter { "system:windows", "platforms:x64" }
+        defines { "WIN64", "_WIN64" }
+        linkoptions "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='amd64' publicKeyToken='6595b64144ccf1df' language='*'\""
 
     filter { "system:windows", "kind:StaticLib" }
         defines { "_LIB" }

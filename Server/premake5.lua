@@ -17,14 +17,14 @@ project "DedicatedServer"
     }
     
     filter "system:windows"
-        targetname "SAOServer-Win32"
+        targetname "SAOServer"
         files {
             "**.rc",
             "res/sao_icon.ico"
         }
 
     filter {"system:windows", "platforms:x64"}
-        targetname "SAOServer-Win64"
+        targetname "SAOServer64"
 
     filter "system:linux"
         links { "dl" }
