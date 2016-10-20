@@ -4,7 +4,7 @@
 //
 // Copyright (c) 2015-2016 The San Andreas Online Open Source Project
 //
-// Distributed under the MIT license (See accompanying file LICENSE or copy at
+// Distributed under the MIT license (See accompanying file LICENSE.md or copy at
 // https://opensource.org/licenses/MIT)
 
 #pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
