@@ -46,7 +46,6 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
 
     u32 ulSize = 18ul;
     SIZE_T ulWrittenBytes;
-
     void* pAllocedMem = nullptr;
     HANDLE hExternThread = nullptr;
 
@@ -56,26 +55,34 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     if(!(pAllocedMem))
         return 1;
 
+    // Write the DLL path to the remote process memory
     if(!WriteProcessMemory(pi.hProcess, pAllocedMem, (void*)pszLibToInject, ulSize, &ulWrittenBytes))
         return 1;
 
     if(ulSize != ulWrittenBytes)
         return 1;
 
+    // Create a remote thread at LoadLibraryW and pass the dll path to it
     hExternThread = CreateRemoteThread(pi.hProcess, NULL, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(LoadLibraryW), pAllocedMem, 0, NULL);
 
     if(!hExternThread)
         return 1;
 
+    // Set the thread's priority so we can be sure the DLL injects
     SetThreadPriority(hExternThread, THREAD_PRIORITY_HIGHEST);
 
+    // Wait for the thread to do its job
     WaitForSingleObject(hExternThread, 3000);
 
+    // Finally, close the thread's handle
     CloseHandle(hExternThread);
 
+    // Free the memory we allocated so we don't cause a memory leak
     VirtualFreeEx(pi.hProcess, pAllocedMem, ulSize, MEM_RELEASE);
 
+    // And resume the game's thread now
     ResumeThread(pi.hThread);
 
+    // Success
     return 0;
 }
