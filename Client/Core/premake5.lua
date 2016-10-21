@@ -2,7 +2,7 @@ project "Core"
     language "C++"
     kind "SharedLib"
     targetname "Core"
-    targetdir(buildpath("."))
+    targetdir(buildpath("SAO"))
     
     --pchheader "pch.hpp"
     --pchsource "pch.cpp"
