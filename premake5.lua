@@ -56,7 +56,7 @@ workspace "SAO"
     if not CI_BUILD then
         -- Only optimize outside of CI Builds
         filter "configurations:Release"
-            flags { "Optimize" }
+            optimize "Speed"
     else
         filter {}
             defines { "CI_BUILD=1" }

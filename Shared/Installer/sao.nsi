@@ -2,8 +2,8 @@ Name "San Andreas Online"
 
 AutoCloseWindow true
 
-!addplugindir nsis_plugins
-!include "nsis_includes/nsProcess.nsh"
+#!addplugindir nsis_plugins
+#!include "nsis_includes/nsProcess.nsh"
 
 # Use the modern ui
 !include MUI.nsh

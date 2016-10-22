@@ -6,7 +6,7 @@ project "DedicatedServer"
     vpaths { 
         ["Headers/*"] = { "**.h", "**.hpp" },
         ["Sources/*"] = "**.cpp",
-        ["Resources/*"] = {"*.rc", "res/sao_icon.ico"},
+        ["Resources/*"] = {"*.rc", "res/sao_server.ico"},
         ["*"] = "premake5.lua"
     }
 

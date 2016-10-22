@@ -18,7 +18,7 @@ project "Launcher"
     vpaths { 
         ["Headers/*"] = "**.hpp",
         ["Sources/*"] = "**.cpp",
-        ["Resources/*"] = {"**.rc", "res/sao_icon.ico"},
+        ["Resources/*"] = {"**.rc", "res/sao.ico"},
         ["*"] = "premake5.lua"
     }
     
