@@ -14,11 +14,17 @@ BOOL WINAPI DllMain(HINSTANCE hDllInstance, DWORD dwReason, LPVOID lpvReserved)
     if (dwReason == DLL_PROCESS_ATTACH)
     {
         DisableThreadLibraryCalls(hDllInstance);
+
+        //SetCurrentDirectory(gtaDir)
+        //SetDllDirectory(SAOPath("SAO"));
         // initialize
+        //SetCurrentDirectory(gtaDir)
     }
 
     else if (dwReason == DLL_PROCESS_DETACH)
     {
+        TerminateProcess(GetCurrentProcess(), 0);
+
         // shut down
     }
     return TRUE;

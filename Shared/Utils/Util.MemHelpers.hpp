@@ -17,6 +17,7 @@
 #include <functional>
 #include <type_traits>
 #include <utility>
+#include <forward_list>
 
 _UTILS_BEGIN
 
@@ -185,6 +186,55 @@ struct ScopedUnprotect
     {
         if (bUnprotected) ProtectMemory(this->addr.get(), this->size, this->dwOldProtect);
     }
+};
+
+class SectionUnprotect
+{
+public:
+    SectionUnprotect(HINSTANCE hInstance, const char *name)
+    {
+        IMAGE_NT_HEADERS* ntHeader = (IMAGE_NT_HEADERS*)((BYTE*)hInstance + ((IMAGE_DOS_HEADER*)hInstance)->e_lfanew);
+        IMAGE_SECTION_HEADER* pSection = IMAGE_FIRST_SECTION(ntHeader);
+
+        DWORD VirtualAddress = MAXDWORD;
+        SIZE_T VirtualSize = MAXDWORD;
+        for (SIZE_T i = 0, j = ntHeader->FileHeader.NumberOfSections; i < j; ++i, ++pSection)
+        {
+            if (strncmp((const char*)pSection->Name, name, IMAGE_SIZEOF_SHORT_NAME) == 0)
+            {
+                VirtualAddress = (DWORD)hInstance + pSection->VirtualAddress;
+                VirtualSize = pSection->Misc.VirtualSize;
+                break;
+            }
+        }
+
+        if (VirtualAddress == MAXDWORD)
+            return;
+
+        size_t QueriedSize = 0;
+        while (QueriedSize < VirtualSize)
+        {
+            MEMORY_BASIC_INFORMATION MemoryInf;
+            DWORD dwOldProtect;
+
+            VirtualQuery((LPCVOID)VirtualAddress, &MemoryInf, sizeof(MemoryInf));
+            VirtualProtect(MemoryInf.BaseAddress, MemoryInf.RegionSize, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+            m_queriedProtects.emplace_front(MemoryInf.BaseAddress, MemoryInf.RegionSize, MemoryInf.Protect);
+            QueriedSize += MemoryInf.RegionSize;
+        }
+    };
+
+    ~SectionUnprotect()
+    {
+        for (auto& it : m_queriedProtects)
+        {
+            DWORD dwOldProtect;
+            VirtualProtect(std::get<0>(it), std::get<1>(it), std::get<2>(it), &dwOldProtect);
+        }
+    }
+
+private:
+    std::forward_list<std::tuple<LPVOID, SIZE_T, DWORD>> m_queriedProtects;
 };
 
 /* Methods for reading/writing memory */
