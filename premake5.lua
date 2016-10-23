@@ -6,6 +6,10 @@
 -- Distributed under the MIT license (See accompanying file LICENSE or copy at
 -- https://opensource.org/licenses/MIT)
 
+-- Add buildactions to path
+premake.path = premake.path .. ";utils/buildactions"
+require "compose_files"
+
 -- Set CI Build global
 local ci = os.getenv("CI")
 if ci and ci:lower() == "true" then 
@@ -103,13 +107,13 @@ workspace "SAO"
 
     -- Include the projects we are going to build
 
-    filter {}
     if os.get() == "windows" then
         group "Client"
         include "Client/Core"
         include "Client/Launcher"
 
         group "ThirdParty"
+        include "ThirdParty/minhook"
         include "ThirdParty/miniupnpc"
         include "ThirdParty/RakNet"
         include "ThirdParty/jpeg"
