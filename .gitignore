@@ -339,8 +339,9 @@ Temporary Items
 #################################################################
 Build/
 Bin/
+InstallFiles/
 
-# vcxproj files
+# MSBuild files
 *.vcxproj
 *.vcxproj.filters
 *.sln
