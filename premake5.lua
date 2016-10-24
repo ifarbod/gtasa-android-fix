@@ -118,6 +118,7 @@ workspace "SAO"
         include "ThirdParty/RakNet"
         include "ThirdParty/jpeg"
         include "ThirdParty/libpng"
+        include "ThirdParty/yaml-cpp"
     end
 
     filter {}
