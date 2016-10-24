@@ -5,6 +5,11 @@ configuration: Release
   
 before_build:
   - utils\premake5 vs2015
+
+after_build:
+  - utils\premake5 compose_files
+  - for /f %%a in ('powershell -Command "Get-Date -format yyyyMMdd-HHmm"') do set datetime=%%a
+  - 7z a SAO-%datetime%-%APPVEYOR_BUILD_NUMBER%.zip InstallFiles
   
 clone_depth: 1
   
@@ -12,3 +17,7 @@ build:
   parallel: true
   project: Build/SAO.sln
   #verbosity: minimal
+
+artifacts:
+  - path: SAO-*-$(APPVEYOR_BUILD_NUMBER).zip
+    name: SAO
