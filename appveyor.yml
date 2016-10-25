@@ -2,7 +2,10 @@ version: '{build}'
 os: Visual Studio 2015
 
 configuration: Release
-  
+
+environment:
+  NSIS_ROOT: C:\NSIS
+
 before_build:
   - utils\premake5 vs2015
 
@@ -12,6 +15,9 @@ after_build:
   - for /f %%a in ('powershell -Command "Get-Date -format yyyyMMdd-HHmm"') do set datetime=%%a
   - 7z a ..\SAO.zip .
   # TODO: Build installer with NSIS' command line utilities
+  # install NSIS 3.0
+  - cinst nsis --version 3.0 -y -installArgs /D=%NSIS_ROOT%
+  - C:\NSIS Shared\Installer\sao.nsi
   
 clone_depth: 1
   
