@@ -17,7 +17,8 @@ after_build:
   # TODO: Build installer with NSIS' command line utilities
   # install NSIS 3.0
   - cinst nsis --version 3.0 -y -installArgs /D=%NSIS_ROOT%
-  - start /wait %NSIS_ROOT%\makensis.exe Shared\Installer\sao.nsi
+  - cd %NSIS_ROOT%
+  - makensis.exe Shared\Installer\sao.nsi
   
 clone_depth: 1
   
