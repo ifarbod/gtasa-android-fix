@@ -1,0 +1,36 @@
+language: cpp
+compiler: 
+  - gcc
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-6
+    - g++-6
+    - zip
+    env: COMPILER=g++-6
+
+before_script:
+  - wget https://github.com/sbx320/premake5-travis/blob/master/premake5?raw=true -O ./premake5
+  - chmod +x ./premake5
+  - ./premake5 gmake
+  - cd Build
+
+script: make -j 3 CXX=g++-6 CC=gcc-6 config=release_x64
+
+after_success:
+  - cd ..
+  #- ./premake5 install_data
+  - ./premake5 compose_files
+  - zip -r Artifact.zip InstallFiles/
+  - tar -xzvf Artifact.tar.gz InstallFiles/
+  - curl -i -F "branch_name=$TRAVIS_BRANCH" -F "commit_hash=$TRAVIS_COMMIT" -F "commit_title=$(git log -1 --pretty=%B)" -F build_type=linux64 -F "secret=$UPLOAD_SECRET" -F build_upload=@Artifact.zip https://nightlies.sanandreasonline.com/api/upload
+
+notifications:
+  irc:
+    channels:
+      - "irc.gtanet.com#sao.dev"
+    on_success: change
+    on_failure: always

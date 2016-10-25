@@ -1,4 +1,4 @@
-// Forwarding kernel32 functions for the sake of 'some' antivirus software
+// Forwarding kernel32 functions to avoid antiviruses
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
 // Copyright (c) 2015-2016 San Andreas Online
@@ -24,5 +24,5 @@ public:
 
 
 private:
-
+    VirtualAllocEx_t m_pfnVirtualAllocEx;
 };
