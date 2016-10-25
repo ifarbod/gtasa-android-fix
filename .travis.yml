@@ -14,8 +14,8 @@ addons:
 
 before_script:
   #- wget https://github.com/sbx320/premake5-travis/blob/master/premake5?raw=true -O ./premake5
-  - chmod +x ./utils/premake5
-  - ./utils/premake5 gmake
+  - chmod +x ./Utils/premake5
+  - ./Utils/premake5 gmake
   - cd Build
 
 script: make -j 3 CXX=g++-6 CC=gcc-6 config=release_x64
