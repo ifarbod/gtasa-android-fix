@@ -12,13 +12,12 @@ before_build:
 after_build:
   - utils\premake5 compose_files
   - cd InstallFiles
-  - for /f %%a in ('powershell -Command "Get-Date -format yyyyMMdd-HHmm"') do set datetime=%%a
+  #- for /f %%a in ('powershell -Command "Get-Date -format yyyyMMdd-HHmm"') do set datetime=%%a
   - 7z a ..\SAO.zip .
-  # TODO: Build installer with NSIS' command line utilities
   # install NSIS 3.0
   - cinst nsis --version 3.0 -y -installArgs /D=%NSIS_ROOT%
   - cd %NSIS_ROOT%
-  - makensis.exe Shared\Installer\sao.nsi
+  - makensis ..\sao.nsi
   
 clone_depth: 1
   
