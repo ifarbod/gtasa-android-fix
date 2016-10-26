@@ -1,130 +1,124 @@
+; SAO Install script for Windows, using NSIS
+; Author(s):       iFarbod <ifarbod@outlook.com>
+;
+; Copyright (c) 2015-2016 San Andreas Online
+;
+; Distributed under the MIT license (See accompanying file LICENSE or copy at
+; https://opensource.org/licenses/MIT)
+
+!ifndef OUTFILE
+  !define OUTFILE "sao-${VERSION}-setup.exe"
+!endif
+
 Name "San Andreas Online"
+OutFile "${OUTFILE}"
+Unicode true
+SetCompressor /SOLID lzma
+BrandingText "San Andreas Online"
+Caption "San Andreas Online ${VERSION}${NAMESUFFIX} Setup"
 
-AutoCloseWindow true
+InstType "Full"
+InstType "Lite"
+InstType "Minimal"
 
-#!addplugindir nsis_plugins
-#!include "nsis_includes/nsProcess.nsh"
+InstallDir "$PROGRAMFILES\San Andreas Online"
+InstallDirRegKey HKLM "Software\San Andreas Online" ""
 
-# Use the modern ui
-!include MUI.nsh
-!define MUI_ICON sao_icon.ico
+RequestExecutionLevel admin
 
-;Languages
-#!insertmacro MUI_LANGUAGE "Farsi"
+; ----------------------
+; Headers
+; ----------------------
+!include "MUI2.nsh"
+!include "Sections.nsh"
+!include "LogicLib.nsh"
+!include "Memento.nsh"
+!include "WordFunc.nsh"
+
+;--------------------------------
+; Installer's VersionInfo
+;--------------------------------
+
+; VIProductVersion                   "${VERSION_FULL}"
+; VIAddVersionKey "CompanyName"      "${PUBLISHER}"
+; VIAddVersionKey "ProductName"      "FileZilla"
+; VIAddVersionKey "ProductVersion"   "${VERSION}"
+; VIAddVersionKey "FileDescription"  "FileZilla FTP Client"
+; VIAddVersionKey "FileVersion"      "${VERSION}"
+; VIAddVersionKey "LegalCopyright"   "${PUBLISHER}"
+; VIAddVersionKey "OriginalFilename" "FileZilla_${VERSION}_win32-setup.exe"
+
+; ----------------------
+; Configuration
+; ----------------------
+
+!define REG_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\San Andreas Online"
+
+; Memento Settings
+!define MEMENTO_REGISTRY_ROOT HKLM
+!define MEMENTO_REGISTRY_KEY "${REG_UNINST_KEY}"
+
+; ----------------------
+; Interface Settings
+; ----------------------
+
+!define MUI_ICON "sao_installer.ico"
+!define MUI_UNICON "sao_uninstaller.ico"
+!define MUI_ABORTWARNING
+!define MUI_COMPONENTSPAGE_SMALLDESC
+!define MUI_HEADERIMAGE
+!define MUI_HEADERIMAGE_BITMAP "header.bmp"
+!define MUI_HEADERIMAGE_BITMAP_RTL "header-r.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP "header-uninstall.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP_RTL "header-uninstall.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "welcomefinish.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "welcomefinish-uninstall.bmp"
+
+; ----------------------
+; Pages
+; ----------------------
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE "..\..\LICENSE.md"
+!insertmacro MUI_PAGE_COMPONENTS
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+
+!define MUI_FINISHPAGE_LINK "Visit the San Andreas Online's wiki for the latest news, FAQs and support"
+!define MUI_FINISHPAGE_LINK_LOCATION "http://github.com/sanandreasonline/sao/wiki"
+
+!define MUI_FINISHPAGE_RUN "$INSTDIR\SAO.exe"
+!define MUI_FINISHPAGE_NOREBOOTSUPPORT
+
+!define MUI_FINISHPAGE_SHOWREADME
+!define MUI_FINISHPAGE_SHOWREADME_TEXT "Show release notes"
+;!define MUI_FINISHPAGE_SHOWREADME_FUNCTION ShowReleaseNotes
+
+!insertmacro MUI_PAGE_FINISH
+
+!insertmacro MUI_UNPAGE_WELCOME
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+!insertmacro MUI_UNPAGE_FINISH
+
+; ----------------------
+; Languages
+; ----------------------
 !insertmacro MUI_LANGUAGE "English"
-#!insertmacro MUI_LANGUAGE "Czech"
-#!insertmacro MUI_LANGUAGE "Dutch"
-#!insertmacro MUI_LANGUAGE "French"
-#!insertmacro MUI_LANGUAGE "German"
-#!insertmacro MUI_LANGUAGE "Korean"
-#!insertmacro MUI_LANGUAGE "Russian"
-#!insertmacro MUI_LANGUAGE "Spanish"
-#!insertmacro MUI_LANGUAGE "Swedish"
-#!insertmacro MUI_LANGUAGE "TradChinese"
-#!insertmacro MUI_LANGUAGE "SimpChinese"
-#!insertmacro MUI_LANGUAGE "Slovak"
 
-# define name of installer
-OutFile "sao-installer.exe"
-
-# define installation directory
-InstallDir $APPDATA\San Andreas Online
-
-# Request user permissions so that auto-updates will work with no prompt
-RequestExecutionLevel user
-
-# start default section
 Section
-    # Uninstall the previous version. This will also kill the process.
-    Call UninstallPrevious
-    ClearErrors
-    IfErrors 0 +2
-        Abort "Error stopping previous SAO version. Please stop it from the system tray and install again."
 
-    # set the installation directory as the destination for the following actions
-    SetOutPath $INSTDIR
-    SetOverwrite on
-
-    File sao.exe
-
-    # Store installation folder
-    WriteRegStr HKCU "Software\San Andreas Online" "" $INSTDIR
-
-    WriteUninstaller "$INSTDIR\uninstall.exe"
-
-    # Support uninstalling via Add/Remove programs
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\San Andreas Online" \
-                     "DisplayName" "San Andreas Online"
-
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\San Andreas Online" \
-                     "DisplayIcon" "$INSTDIR\sao.ico"
-
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\San Andreas Online" \
-                     "Publisher" "Brave New Software Project, Inc."
-
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\San Andreas Online" \
-                     "URLInfoAbout" "http://www.sanandreasonline.com"
-
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\San Andreas Online" \
-                     "DisplayVersion" "${VERSION}"
-
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\San Andreas Online" \
-                     "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
-
-    CreateDirectory "$SMPROGRAMS\San Andreas Online"
-    CreateShortCut "$SMPROGRAMS\San Andreas Online\San Andreas Online.lnk" "$INSTDIR\SAO.exe" "" "$INSTDIR\sao.ico" 0
-    CreateShortCut "$SMPROGRAMS\San Andreas Online\Uninstall San Andreas Online.lnk" "$INSTDIR\uninstall.exe"
-    CreateShortCut "$DESKTOP\San Andreas Online.lnk" "$INSTDIR\SAO.exe" "" "$INSTDIR\sao.ico" 0
-
-    # Launch San Andreas Online
-    ShellExecAsUser::ShellExecAsUser "" "$INSTDIR\SAO.exe"
-
+;Create uninstaller
+  WriteUninstaller "$INSTDIR\Uninstall.exe"
 SectionEnd
-# end default section
 
-# Uninstall previous versions before installing the new one
-Function UninstallPrevious
-    DetailPrint "Uninstalling previous version"
-    ReadRegStr $R0 HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\San Andreas Online" \
-						"UninstallString"
-    StrCmp $R0 "" noprevious
-
-    DetailPrint "Uninstalling $R0"
-    ClearErrors
-    ExecWait '$R0 /S _?=$INSTDIR' ;Do not copy the uninstaller to a temp file
-
-    IfErrors erroruninstalling done
-noprevious:
-	DetailPrint "No previous version to uninstall"
-        Goto end
-erroruninstalling:
-	DetailPrint "Error uninstalling previous at $R0"
-        Goto end
-done:
-	DetailPrint "Successfully uninstalled $R0"
-end:
+Function ShowReleaseNotes
+    ExecShell "" "http://nsis.sourceforge.net/Docs/AppendixF.html#F.1"
 FunctionEnd
 
-# start uninstaller section
-Section "uninstall"
-    # Stop SAO if necessary
-    ${nsProcess::CloseProcess} "sao.exe" $R0
-    # Sleep for 1 second to process a chance to die and file to become writable
-    Sleep 1000
+;--------------------------------
+;Uninstaller Section
 
-    RMDir /r "$SMPROGRAMS\San Andreas Online"
+Section Uninstall
 
-    Delete "$DESKTOP\San Andreas Online.lnk"
-
-    Delete "$INSTDIR\sao.exe"
-    Delete "$INSTDIR\uninstall.exe"
-    
-	# Remove uninstaller from Add/Remove programs
-    DeleteRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\San Andreas Online"
-
-    # Don't run San Andreas Online on startup.
-    DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "San Andreas Online"
-
-    ${nsProcess::Unload}
 SectionEnd
-# end uninstaller section
