@@ -8,10 +8,20 @@ os:
 compiler: 
   - gcc
 
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-6
+    - g++-6
+    - zip
+    env: COMPILER=g++-6
+
 before_script:
-  #- wget https://github.com/sbx320/premake5-travis/blob/master/premake5?raw=true -O ./premake5
-  - chmod +x ./Utils/premake5
-  - ./Utils/premake5 gmake
+  - wget https://github.com/sbx320/premake5-travis/blob/master/premake5?raw=true -O ./premake5
+  - chmod +x ./premake5
+  - ./premake5 gmake
   - cd Build
 
 script: make -j 3 CXX=g++-6 CC=gcc-6 config=release_x64
