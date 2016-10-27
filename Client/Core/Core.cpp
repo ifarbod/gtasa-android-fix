@@ -6,6 +6,7 @@
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
 
+#include "pch.hpp"
 #include "Core.hpp"
 
 Core::Core()
