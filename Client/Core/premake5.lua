@@ -4,8 +4,10 @@ project "Core"
     targetname "Core"
     targetdir(buildpath("SAO"))
     
-    --pchheader "pch.hpp"
-    --pchsource "pch.cpp"
+    pchheader "pch.hpp"
+    pchsource "pch.cpp"
+    
+    links { "RakNet", "Lua" }
     
     vpaths { 
         ["Headers/*"] = { "**.hpp", "**.h" },

@@ -6,16 +6,18 @@
 ; Distributed under the MIT license (See accompanying file LICENSE or copy at
 ; https://opensource.org/licenses/MIT)
 
-!ifndef OUTFILE
-  !define OUTFILE "sao-${VERSION}-setup.exe"
-!endif
+; ----------------------
+; Definitions
+; ----------------------
+!define VERSION "v${MAJOR}"
+!define OUTFILE "sao-${VERSION}-setup.exe"
 
 Name "San Andreas Online"
 OutFile "${OUTFILE}"
 Unicode true
 SetCompressor /SOLID lzma
-BrandingText "San Andreas Online"
-Caption "San Andreas Online ${VERSION}${NAMESUFFIX} Setup"
+BrandingText "San Andreas Online ${VERSION}"
+Caption "San Andreas Online ${VERSION} Setup"
 
 InstType "Full"
 InstType "Lite"
@@ -70,7 +72,7 @@ RequestExecutionLevel admin
 !define MUI_HEADERIMAGE_BITMAP "header.bmp"
 !define MUI_HEADERIMAGE_BITMAP_RTL "header-r.bmp"
 !define MUI_HEADERIMAGE_UNBITMAP "header-uninstall.bmp"
-!define MUI_HEADERIMAGE_UNBITMAP_RTL "header-uninstall.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP_RTL "header-uninstall-r.bmp"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "welcomefinish.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "welcomefinish-uninstall.bmp"
 
@@ -81,18 +83,13 @@ RequestExecutionLevel admin
 !insertmacro MUI_PAGE_LICENSE "..\..\LICENSE.md"
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
-!insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 
 !define MUI_FINISHPAGE_LINK "Visit the San Andreas Online's wiki for the latest news, FAQs and support"
-!define MUI_FINISHPAGE_LINK_LOCATION "http://github.com/sanandreasonline/sao/wiki"
+!define MUI_FINISHPAGE_LINK_LOCATION "https://github.com/sanandreasonline/sao/wiki"
 
 !define MUI_FINISHPAGE_RUN "$INSTDIR\SAO.exe"
 !define MUI_FINISHPAGE_NOREBOOTSUPPORT
-
-!define MUI_FINISHPAGE_SHOWREADME
-!define MUI_FINISHPAGE_SHOWREADME_TEXT "Show release notes"
-;!define MUI_FINISHPAGE_SHOWREADME_FUNCTION ShowReleaseNotes
 
 !insertmacro MUI_PAGE_FINISH
 
@@ -111,10 +108,6 @@ Section
 ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 SectionEnd
-
-Function ShowReleaseNotes
-    ExecShell "" "http://nsis.sourceforge.net/Docs/AppendixF.html#F.1"
-FunctionEnd
 
 ;--------------------------------
 ;Uninstaller Section

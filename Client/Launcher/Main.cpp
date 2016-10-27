@@ -8,6 +8,7 @@
 // https://opensource.org/licenses/MIT)
 
 #include "pch.hpp"
+#include <cassert>
 
 FARPROC GetProcedureAddress(HMODULE hModule, const char* pszProcName)
 {
@@ -72,14 +73,14 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     PROCESS_INFORMATION pi = { 0 };
     si.cb = sizeof(si);
 
-    if (!CreateProcess(L"D:\\SA\\gta_sa_compact.exe", L"", nullptr, nullptr, FALSE, CREATE_SUSPENDED, nullptr, L"", &si, &pi))
+    if (!CreateProcessW(L"D:\\SA\\gta_sa_compact.exe", L"", nullptr, nullptr, FALSE, CREATE_SUSPENDED, nullptr, L"D:\\SA\\", &si, &pi))
     {
         MessageBoxA(nullptr, "Failed to start San Andreas. Cannot launch SA:Online.", nullptr, MB_ICONSTOP);
         return 1;
     }
 
 #ifdef SAO_DEBUG
-    const wchar_t* pszLibToInject = L"Core-d.dll";
+    const wchar_t* pszLibToInject = L"Core_d.dll";
 #else
     const wchar_t* pszLibToInject = L"Core.dll";
 #endif

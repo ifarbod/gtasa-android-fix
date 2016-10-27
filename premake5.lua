@@ -55,25 +55,20 @@ workspace "SAO"
 
     filter "configurations:Debug"
         defines { "SAO_DEBUG" }
-        targetsuffix "-d"
-
-    if not CI_BUILD then
-        -- Only optimize outside of CI Builds
-        filter "configurations:Release"
-            optimize "Speed"
-    else
+        targetsuffix "_d"
+    
+    filter "configurations:Release"
+        optimize "Speed"
+    
+    if CI_BUILD then
         filter {}
             defines { "CI_BUILD=1" }
-    end
+    end 
 
     -- Generate PDB files at \Build\Symbols
     filter {"system:windows", "configurations:Release", "kind:not StaticLib"}
         os.mkdir("Build/Symbols")
-        --symbolspath "Build/Symbols/$(ProjectName).pdb" -- will this get fixed?
         linkoptions "/PDB:\"Symbols\\$(ProjectName).pdb\""
-
-    filter "system:linux"
-        vectorextensions "SSE2"
 
     filter "system:windows"
         toolset "v140"
@@ -106,31 +101,25 @@ workspace "SAO"
     copy = function(p) return "{COPY} %{cfg.buildtarget.abspath} %{wks.location}../Bin/" .. p .. "/" end 
 
     -- Include the projects we are going to build
+    group "Client"
+    include "Client/Core"
+    include "Client/Launcher"
 
-    if os.get() == "windows" then
-        group "Client"
-        include "Client/Core"
-        include "Client/Launcher"
+    group "ThirdParty"
+    include "ThirdParty/minhook"
+    include "ThirdParty/miniupnpc"
+    include "ThirdParty/RakNet"
+    include "ThirdParty/jpeg"
+    include "ThirdParty/libpng"
+    include "ThirdParty/yaml-cpp"
+    include "ThirdParty/cryptopp"
+    include "ThirdParty/lua"
+    include "ThirdParty/pugixml"
+    include "ThirdParty/zlib"
+    include "ThirdParty/zip"
 
-        group "ThirdParty"
-        include "ThirdParty/minhook"
-        include "ThirdParty/miniupnpc"
-        include "ThirdParty/RakNet"
-        include "ThirdParty/jpeg"
-        include "ThirdParty/libpng"
-        include "ThirdParty/yaml-cpp"
-    end
-
-    filter {}
-        group "ThirdParty"
-        include "ThirdParty/cryptopp"
-        include "ThirdParty/lua"
-        include "ThirdParty/pugixml"
-        include "ThirdParty/zlib"
-        include "ThirdParty/zip"
-
-        group "Server"
-        include "Server"
-        
-        group "Shared"
-        include "Shared/Utils"
+    group "Server"
+    include "Server"
+    
+    group "Shared"
+    include "Shared/Utils"

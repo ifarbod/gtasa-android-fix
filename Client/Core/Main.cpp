@@ -7,7 +7,10 @@
 // Distributed under the MIT license (See accompanying file LICENSE.md or copy at
 // https://opensource.org/licenses/MIT)
 
-#include <Win32\Util.Win32Headers.hpp>
+#include "pch.hpp"
+#include "Core.hpp"
+
+Core * g_pCore;
 
 BOOL WINAPI DllMain(HINSTANCE hDllInstance, DWORD dwReason, LPVOID lpvReserved)
 {
@@ -17,7 +20,7 @@ BOOL WINAPI DllMain(HINSTANCE hDllInstance, DWORD dwReason, LPVOID lpvReserved)
 
         //SetCurrentDirectory(gtaDir)
         //SetDllDirectory(SAOPath("SAO"));
-        // initialize
+        g_pCore = new Core();
         //SetCurrentDirectory(gtaDir)
     }
 
@@ -25,7 +28,8 @@ BOOL WINAPI DllMain(HINSTANCE hDllInstance, DWORD dwReason, LPVOID lpvReserved)
     {
         TerminateProcess(GetCurrentProcess(), 0);
 
-        // shut down
+        delete g_pCore;
+        g_pCore = nullptr;
     }
     return TRUE;
 }

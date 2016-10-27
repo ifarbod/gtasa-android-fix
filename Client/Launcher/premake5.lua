@@ -5,15 +5,10 @@ project "Launcher"
     targetdir(buildpath("."))
     debugdir(buildpath("."))
     
-    --pchheader "pch.hpp"
-    --pchsource "pch.cpp"
+    pchheader "pch.hpp"
+    pchsource "pch.cpp"
     
     flags { "WinMain" }
-    
-    includedirs {
-        "../../Shared/Utils/",
-        "../../Shared/Utils/Win32/"
-    }
     
     vpaths { 
         ["Headers/*"] = "**.hpp",

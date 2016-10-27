@@ -3,6 +3,8 @@ project "DedicatedServer"
     kind "ConsoleApp"
     targetdir(buildpath("Server"))
     
+    links { "Lua", "RakNet" }
+    
     vpaths { 
         ["Headers/*"] = { "**.h", "**.hpp" },
         ["Sources/*"] = "**.cpp",
