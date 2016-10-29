@@ -136,15 +136,15 @@ ${MementoSection} "Client core files (required)" SecCore
     SetOutPath $INSTDIR
     
     SetOutPath "$INSTDIR\${NAME2}"
-    File "${FILES_ROOT}\${NAME2}\Core_d.dll"
+    File "${FILES_ROOT}\${NAME2}\Core.dll"
     
     ; Create uninstaller
     WriteUninstaller "$INSTDIR\Uninstall.exe"
 ${MementoSectionEnd}
 
-SectionGroup "hhhh" SecTest
+SectionGroup "Server" SecServer
 
-${MementoSection} "test3" SecFu
+${MementoSection} "Test" SecTest
 
 ${MementoSectionEnd}
 
