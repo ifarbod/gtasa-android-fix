@@ -17,6 +17,7 @@ after_build:
   - makensis ..\sao.nsi
   - cd ..
   - ren SAO*Setup.exe SAO-Setup.exe
+  - move SAO-Setup.exe ..\..\
   
 clone_depth: 1
   
@@ -26,5 +27,5 @@ build:
   #verbosity: minimal
 
 artifacts:
-  - path: Shared/Installer/SAO-Setup.exe
+  - path: SAO-Setup.exe
     name: SAO
