@@ -340,6 +340,7 @@ Temporary Items
 Build/
 Bin/
 InstallFiles/
+Shared/Installer/*.exe
 
 # MSBuild files
 *.vcxproj

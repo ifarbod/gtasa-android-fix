@@ -7,17 +7,17 @@ environment:
   NSIS_ROOT: $(APPVEYOR_BUILD_FOLDER)\Shared\Installer\NSIS
 
 before_build:
+  - echo %CI%
   - utils\premake5 vs2015
+  - genversion
 
 after_build:
   - utils\premake5 compose_files
-  - cd InstallFiles
-  #- for /f %%a in ('powershell -Command "Get-Date -format yyyyMMdd-HHmm"') do set datetime=%%a
-  - 7z a ..\SAO.zip .
-  # install NSIS 3.0
   - cinst nsis --version 3.0 -y -installArgs /D=%NSIS_ROOT%
   - cd %NSIS_ROOT%
   - makensis ..\sao.nsi
+  - cd ..
+  - ren SAO*Setup.exe SAO-Setup.exe
   
 clone_depth: 1
   
@@ -27,5 +27,5 @@ build:
   #verbosity: minimal
 
 artifacts:
-  - path: SAO.zip
+  - path: Shared/Installer/NSIS/SAO-Setup.exe
     name: SAO

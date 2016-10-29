@@ -6,7 +6,6 @@ premake.modules.compose_files = {}
 local BIN_DIR = "Bin"
 local DATA_DIR = "Shared/Data"
 local OUTPUT_DIR = "InstallFiles"
-local WINDOWS = os.get() == "windows"
 
 newaction {
     trigger = "compose_files",
@@ -16,18 +15,11 @@ newaction {
         os.mkdir(OUTPUT_DIR)
         
         -- Copy data files
-        if WINDOWS then
-            os.copydir(DATA_DIR.."/SAO", OUTPUT_DIR.."/SAO")
-        end
+        os.copydir(DATA_DIR.."/SAO", OUTPUT_DIR.."/SAO")
         
         -- Copy the binaries
-        if WINDOWS then
-            os.copydir(BIN_DIR, OUTPUT_DIR, "**.exe")
-            os.copydir(BIN_DIR, OUTPUT_DIR, "**.dll")
-        else
-            os.copydir(BIN_DIR, OUTPUT_DIR, "**.so")
-            os.copydir(BIN_DIR, OUTPUT_DIR, "**sao-server*")
-        end
+        os.copydir(BIN_DIR, OUTPUT_DIR, "**.exe")
+        os.copydir(BIN_DIR, OUTPUT_DIR, "**.dll")
     end
 }
 
