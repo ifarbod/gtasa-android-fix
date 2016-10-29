@@ -7,7 +7,6 @@ environment:
   NSIS_ROOT: $(APPVEYOR_BUILD_FOLDER)\Shared\Installer\NSIS
 
 before_build:
-  - echo %CI%
   - utils\premake5 vs2015
   - genversion
 
@@ -27,5 +26,5 @@ build:
   #verbosity: minimal
 
 artifacts:
-  - path: Shared/Installer/NSIS/SAO-Setup.exe
+  - path: Shared/Installer/SAO-Setup.exe
     name: SAO
