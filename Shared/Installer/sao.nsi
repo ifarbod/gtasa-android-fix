@@ -7,6 +7,16 @@
 ; https://opensource.org/licenses/MIT)
 
 ; ----------------------
+; Headers
+; ----------------------
+!include "MUI2.nsh"
+!include "Sections.nsh"
+!include "LogicLib.nsh"
+!include "Memento.nsh"
+!include "WordFunc.nsh"
+!include "Version.nsh"
+
+; ----------------------
 ; Definitions
 ; ----------------------
 !define NAME "San Andreas Online"
@@ -18,8 +28,6 @@
 !define REGKEY "SOFTWARE\${NAME}"
 !define UNINST_KEY "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${NAME}"
 !define UNINST_ROOT_KEY "HKLM"
-
-!include "Version.nsh"
 
 !ifdef VERSION_PRE_RELEASE_TYPE
     !ifdef VERSION_PRE_RELEASE
@@ -59,20 +67,11 @@ InstallDirRegKey HKLM "${REGKEY}" "InstallLocation"
 
 RequestExecutionLevel admin
 
-; ----------------------
-; Headers
-; ----------------------
-!include "MUI2.nsh"
-!include "Sections.nsh"
-!include "LogicLib.nsh"
-!include "Memento.nsh"
-!include "WordFunc.nsh"
-
 !macro CHECK_ADMIN
 UserInfo::GetAccountType
 pop $0
 ${If} $0 != "admin"
-    MessageBox mb_iconstop "Please run this setup using administrator rights."
+    MessageBox MB_ICONSTOP "Please run this setup using administrator rights."
     SetErrorLevel 740
     Quit
 ${EndIf}
@@ -89,7 +88,7 @@ VIAddVersionKey "ProductVersion"   "${VERSION}"
 VIAddVersionKey "FileDescription"  "${NAME} Setup/Uninstaller"
 VIAddVersionKey "FileVersion"      "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.0"
 VIAddVersionKey "LegalCopyright"   "Copyright (c) 2015-${YEAR} The San Andreas Online Team"
-VIAddVersionKey "OriginalFilename" "${NAME}_${VERSION}_win32-setup.exe"
+VIAddVersionKey "OriginalFilename" "${NAME2}_${VERSION}-Setup.exe"
 
 ; ----------------------
 ; Interface Settings
@@ -106,11 +105,12 @@ VIAddVersionKey "OriginalFilename" "${NAME}_${VERSION}_win32-setup.exe"
 !define MUI_HEADERIMAGE_UNBITMAP_RTL "res\header-uninstall-r.bmp"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "res\welcomefinish.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "res\welcomefinish-uninstall.bmp"
+!define SHACF_FILESYSTEM 1
 
 ; ----------------------
 ; Pages
 ; ----------------------
-LangString INST_WELCOMEPAGE_TEXT ${LANG_ENGLISH} "This wizard will guide you through the installation of ${NAME} ${VERSION}, a modification for Grand Theft Auto: San Andreas which allows you to play over Internet or LAN.$\r$\n$\r$\n${NAME} is highly customizable, ranging from custom maps, weapons, vehicles to Lua scripts that change the entire game logic.$\r$\n$\r$\n$_CLICK"
+
 !define MUI_WELCOMEPAGE_TITLE_3LINES ; Extra space for the title area.
 !define MUI_WELCOMEPAGE_TITLE "Welcome to the ${NAME} ${VERSION} Setup Wizard"
 !define MUI_WELCOMEPAGE_TEXT "$(INST_WELCOMEPAGE_TEXT)"
@@ -174,7 +174,7 @@ ${MementoSectionDone}
 SectionGroupEnd
 
 ; ----------------------
-;Descriptions
+; Descriptions
 ; ----------------------
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
     !insertmacro MUI_DESCRIPTION_TEXT ${SecCore} "The core files required to use ${NAME}"
@@ -198,6 +198,10 @@ Function un.onInit
     !insertmacro CHECK_ADMIN
 FunctionEnd
 
+; ----------------------
+; Language strings
+; ----------------------
+LangString INST_WELCOMEPAGE_TEXT ${LANG_ENGLISH} "This wizard will guide you through the installation of ${NAME}, a modification for Grand Theft Auto: San Andreas which allows you to play over Internet or LAN.$\r$\n$\r$\n${NAME} is highly customizable, ranging from custom maps, weapons, vehicles to Lua scripts that change the entire game logic.$\r$\n$\r$\n$_CLICK"
 LangString INST_GAMEDIRPAGE_HEADER_TEXT ${LANG_ENGLISH} "Game directory"
 LangString INST_GAMEDIRPAGE_HEADER_SUBTITLE_TEXT ${LANG_ENGLISH} "Where is your game located?"
 LangString INST_GAMEDIRPAGE_INSTRUCTIONS ${LANG_ENGLISH} "Locate the directory in which Grand Theft Auto: San Andreas is installed.$\r$\nYou need GTA:SA v1.00 in order to play San Andreas Online.$\r$\nAny other versions will not work and may need to be downgraded.$\r$\nNOTE: Please use a clean install."
@@ -211,9 +215,6 @@ Var GameDirPage_drText
 Var GameDirPage_drButton
 
 Var GTA_DIR
-
-; Game dir shell auto-complete
-!define SHACF_FILESYSTEM 1
 
 Function PageGameDirectory
     !insertmacro MUI_HEADER_TEXT "$(INST_GAMEDIRPAGE_HEADER_TEXT)" "$(INST_GAMEDIRPAGE_HEADER_SUBTITLE_TEXT)"
