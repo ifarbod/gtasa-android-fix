@@ -113,7 +113,7 @@ VIAddVersionKey "OriginalFilename" "${NAME}_${VERSION}_win32-setup.exe"
 LangString INST_WELCOMEPAGE_TEXT ${LANG_ENGLISH} "This wizard will guide you through the installation of ${NAME} ${VERSION}, a modification for Grand Theft Auto: San Andreas which allows you to play over Internet or LAN.$\r$\n$\r$\n${NAME} is highly customizable, ranging from custom maps, weapons, vehicles to Lua scripts that change the entire game logic.$\r$\n$\r$\n$_CLICK"
 !define MUI_WELCOMEPAGE_TITLE_3LINES ; Extra space for the title area.
 !define MUI_WELCOMEPAGE_TITLE "Welcome to the ${NAME} ${VERSION} Setup Wizard"
-!define MUI_WELCOMEPAGE_TEXT "${INST_WELCOMEPAGE_TEXT}"
+!define MUI_WELCOMEPAGE_TEXT "$(INST_WELCOMEPAGE_TEXT)"
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "..\..\LICENSE.md"
