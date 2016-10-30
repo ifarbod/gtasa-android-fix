@@ -13,7 +13,8 @@
 !define NAME2 "SAO"
 !define NAME3 "SA:Online"
 !define PUBLISHER "The ${NAME} Team"
-!define WEBSITE_URL "http://sanandreasonline.com/"
+!define WEBSITE_URL "http://sanandreasonline.com"
+!define GITHUB_URL "https://github.com/sanandreasonline/sao"
 !define REGKEY "SOFTWARE\${NAME}"
 !define UNINST_KEY "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${NAME}"
 !define UNINST_ROOT_KEY "HKLM"
@@ -67,6 +68,16 @@ RequestExecutionLevel admin
 !include "Memento.nsh"
 !include "WordFunc.nsh"
 
+!macro CHECK_ADMIN
+UserInfo::GetAccountType
+pop $0
+${If} $0 != "admin"
+    MessageBox mb_iconstop "Please run this setup using administrator rights."
+    SetErrorLevel 740
+    Quit
+${EndIf}
+!macroend
+
 ;--------------------------------
 ; Installer's VersionInfo
 ;--------------------------------
@@ -99,6 +110,11 @@ VIAddVersionKey "OriginalFilename" "${NAME}_${VERSION}_win32-setup.exe"
 ; ----------------------
 ; Pages
 ; ----------------------
+LangString INST_WELCOMEPAGE_TEXT ${LANG_ENGLISH} "This wizard will guide you through the installation of ${NAME} ${VERSION}, a modification for Grand Theft Auto: San Andreas which allows you to play over Internet or LAN.$\r$\n$\r$\n${NAME} is highly customizable, ranging from custom maps, weapons, vehicles to Lua scripts that change the entire game logic.$\r$\n$\r$\n$_CLICK"
+!define MUI_WELCOMEPAGE_TITLE_3LINES ; Extra space for the title area.
+!define MUI_WELCOMEPAGE_TITLE "Welcome to the ${NAME} ${VERSION} Setup Wizard"
+!define MUI_WELCOMEPAGE_TEXT "${INST_WELCOMEPAGE_TEXT}"
+
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "..\..\LICENSE.md"
 !insertmacro MUI_PAGE_COMPONENTS
@@ -108,7 +124,7 @@ Page custom PageGameDirectory PageLeaveGameDirectory
 !insertmacro MUI_PAGE_INSTFILES
 
 !define MUI_FINISHPAGE_LINK "Visit the ${NAME}'s wiki for the latest news, FAQs and support"
-!define MUI_FINISHPAGE_LINK_LOCATION "https://github.com/sanandreasonline/sao/wiki"
+!define MUI_FINISHPAGE_LINK_LOCATION "${GITHUB_URL}/wiki"
 
 !define MUI_FINISHPAGE_RUN "$INSTDIR\${NAME2}.exe"
 !define MUI_FINISHPAGE_RUN_TEXT "&Start ${NAME} now"
@@ -116,7 +132,6 @@ Page custom PageGameDirectory PageLeaveGameDirectory
 
 !insertmacro MUI_PAGE_FINISH
 
-!insertmacro MUI_UNPAGE_WELCOME
 !insertmacro MUI_UNPAGE_CONFIRM
 !insertmacro MUI_UNPAGE_INSTFILES
 !insertmacro MUI_UNPAGE_FINISH
@@ -134,8 +149,14 @@ ${MementoSection} "Client core files (required)" SecCore
     SectionIn 1 2 RO
     
     SetOutPath $INSTDIR
+    File "${FILES_ROOT}\SAO.exe"
     
     SetOutPath "$INSTDIR\${NAME2}"
+    File "${FILES_ROOT}\${NAME2}\bass.dll"
+    File "${FILES_ROOT}\${NAME2}\sde.dll"
+    File "${FILES_ROOT}\${NAME2}\sdo.dll"
+    File "${FILES_ROOT}\${NAME2}\sdv.dll"
+    File "${FILES_ROOT}\${NAME2}\sdvf.dll"
     File "${FILES_ROOT}\${NAME2}\Core.dll"
     
     ; Create uninstaller
@@ -145,7 +166,7 @@ ${MementoSectionEnd}
 SectionGroup "Server" SecServer
 
 ${MementoSection} "Test" SecTest
-
+    SectionIn 1
 ${MementoSectionEnd}
 
 ${MementoSectionDone}
@@ -153,14 +174,28 @@ ${MementoSectionDone}
 SectionGroupEnd
 
 ; ----------------------
+;Descriptions
+; ----------------------
+!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecCore} "The core files required to use ${NAME}"
+!insertmacro MUI_FUNCTION_DESCRIPTION_END
+
+; ----------------------
 ; Installer sections
 ; ----------------------
 Function .onInit
+    !insertmacro CHECK_ADMIN
     ${MementoSectionRestore}
 FunctionEnd
 
 Function .onInstSuccess
     ${MementoSectionSave}
+    
+    WriteRegStr HKLM "${REGKEY}" "InstallLocation" $INSTDIR
+FunctionEnd
+
+Function un.onInit
+    !insertmacro CHECK_ADMIN
 FunctionEnd
 
 LangString INST_GAMEDIRPAGE_HEADER_TEXT ${LANG_ENGLISH} "Game directory"
@@ -271,6 +306,8 @@ FunctionEnd
 ; ----------------------
 
 Section "Uninstall"
+    DeleteRegKey ${UNINST_ROOT_KEY} "${UNINST_KEY}"
+    DeleteRegKey HKLM "${REGKEY}"
     Delete "$INSTDIR\uninstall.exe"
     RMDir $INSTDIR
 SectionEnd
