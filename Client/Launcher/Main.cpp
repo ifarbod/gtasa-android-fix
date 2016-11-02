@@ -11,19 +11,8 @@
 #include <cassert>
 #include <Registry.hpp>
 
-#define TEST
-
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCmdLine, int nCmdShow)
 {
-#ifdef TEST
-    using namespace Util;
-    //if (!WriteRegStr(HKLM, "SOFTWARE\\SAO Test", "hey", "meow"))
-        //MessageBox(0, 0, 0, 0);
-
-    MessageBoxW(0, WString(ReadRegStr(HKLM, "SOFTWARE\\SAO Test", "hey")).CString(), 0, 0);
-    return 1;
-#endif
-
     // Check Windows version
     if (!IsWindows7SP1OrGreater())
     {

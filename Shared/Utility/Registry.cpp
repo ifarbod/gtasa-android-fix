@@ -69,7 +69,7 @@ String ReadRegStr(KeyRoot keyRoot, const String& subKey, const String& keyName, 
     if (result != nullptr)
         *result = false;
 
-    if (RegOpenKeyExW((HKEY)keyRoot, wSubKey.CString(), 0, KEY_READ, &hKey) == ERROR_SUCCESS)
+    if (RegOpenKeyExW(reinterpret_cast<HKEY>(keyRoot), wSubKey.CString(), 0, KEY_READ, &hKey) == ERROR_SUCCESS)
     {
         DWORD bufferSize;
 
@@ -91,6 +91,45 @@ String ReadRegStr(KeyRoot keyRoot, const String& subKey, const String& keyName, 
     }
 
     return output;
+}
+
+bool DeleteRegKey(KeyRoot keyRoot, const String& subKey)
+{
+    return RegDeleteKeyW(reinterpret_cast<HKEY>(keyRoot), WString(subKey).CString()) == ERROR_SUCCESS;
+}
+
+bool DeleteRegValue(KeyRoot keyRoot, const String& subKey, const String& keyName)
+{
+    HKEY hKey;
+    WString wSubKey{ subKey };
+    WString wKeyName{ keyName };
+
+    // Try to open the reg key with all access
+    auto openKeyResult = RegOpenKeyExW(reinterpret_cast<HKEY>(keyRoot), wSubKey.CString(), 0, KEY_ALL_ACCESS, &hKey);
+
+    // Does it exists?
+    if (openKeyResult == ERROR_FILE_NOT_FOUND || openKeyResult == ERROR_NO_MATCH)
+    {
+        // Key doesn't exists
+        return false;
+    }
+
+    // Key exists
+    if (hKey)
+    {
+        // Try deleting the value
+        auto deleteValueRes = RegDeleteValueW(hKey, wKeyName.CString());
+
+        if (deleteValueRes != ERROR_SUCCESS)
+            return false;
+
+        auto closeKeyRes = RegCloseKey(hKey);
+
+        if (closeKeyRes != ERROR_SUCCESS)
+            return false;
+    }
+
+    return true;
 }
 
 }

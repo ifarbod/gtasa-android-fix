@@ -23,5 +23,7 @@ enum KeyRoot : unsigned
 
 bool WriteRegStr(KeyRoot keyRoot, const String& subKey, const String& keyName, const String& value, bool flush = false);
 String ReadRegStr(KeyRoot keyRoot, const String& subKey, const String& keyName, bool *result = nullptr);
+bool DeleteRegKey(KeyRoot keyRoot, const String& subKey);
+bool DeleteRegValue(KeyRoot keyRoot, const String& subKey, const String& keyName);
 
 }

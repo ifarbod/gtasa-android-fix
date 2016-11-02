@@ -8,4 +8,5 @@
 
 #pragma once
 
+#include "Types.hpp"
 #include "Str.hpp"
