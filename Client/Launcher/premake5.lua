@@ -5,10 +5,12 @@ project "Launcher"
     targetdir(buildpath("."))
     debugdir(buildpath("."))
     
-    pchheader "pch.hpp"
-    pchsource "pch.cpp"
+    pchheader "Precompiled.hpp"
+    pchsource "Precompiled.cpp"
     
     flags { "WinMain" }
+    
+    links { "Utility" }
     
     vpaths { 
         ["Headers/*"] = "**.hpp",

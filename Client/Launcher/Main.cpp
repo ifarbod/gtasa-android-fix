@@ -1,4 +1,4 @@
-// Client Launcher entry point
+﻿// Client Launcher entry point
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //                  AliAssassiN <ailsynthax@gmail.com>
 //
@@ -7,51 +7,23 @@
 // Distributed under the MIT license (See accompanying file LICENSE.md or copy at
 // https://opensource.org/licenses/MIT)
 
-#include "pch.hpp"
+#include "Precompiled.hpp"
 #include <cassert>
+#include <Registry.hpp>
 
-FARPROC GetProcedureAddress(HMODULE hModule, const char* pszProcName)
-{
-    void * pFunctionAddress = nullptr;
-
-    __try
-    {
-        PIMAGE_DOS_HEADER dos = (PIMAGE_DOS_HEADER)hModule;
-        PIMAGE_NT_HEADERS nt = (PIMAGE_NT_HEADERS)((ULONG)hModule + dos->e_lfanew);
-
-        PIMAGE_DATA_DIRECTORY expdir = (PIMAGE_DATA_DIRECTORY)(nt->OptionalHeader.DataDirectory + IMAGE_DIRECTORY_ENTRY_EXPORT);
-        ULONG addr = expdir->VirtualAddress;
-        PIMAGE_EXPORT_DIRECTORY exports = (PIMAGE_EXPORT_DIRECTORY)((ULONG)hModule + addr);
-        PULONG functions = (PULONG)((ULONG)hModule + exports->AddressOfFunctions);
-        PSHORT ordinals = (PSHORT)((ULONG)hModule + exports->AddressOfNameOrdinals);
-        PULONG names = (PULONG)((ULONG)hModule + exports->AddressOfNames);
-        ULONG max_name = exports->NumberOfNames;
-        ULONG max_func = exports->NumberOfFunctions;
-
-        for (ULONG i = 0; i < max_name; i++)
-        {
-            ULONG ord = ordinals[i];
-            if (i >= max_name || ord >= max_func) return NULL;
-            if (functions[ord] < addr || functions[ord] >= addr)
-            {
-                if (strcmp((PCHAR)hModule + names[i], pszProcName) == 0)
-                {
-                    pFunctionAddress = (PVOID)((PCHAR)hModule + functions[ord]);
-                    break;
-                }
-            }
-        }
-    }
-    __except (EXCEPTION_EXECUTE_HANDLER)
-    {
-        pFunctionAddress = NULL;
-    }
-
-    return (FARPROC)pFunctionAddress;
-}
+#define TEST
 
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCmdLine, int nCmdShow)
 {
+#ifdef TEST
+    using namespace Util;
+    if (!WriteRegStr(HKLM, "SOFTWARE\\SAO Test", "hey", "meow"))
+        MessageBox(0, 0, 0, 0);
+
+    MessageBoxW(0, WString(ReadRegStr(HKLM, "SOFTWARE\\SAO Test", "hey")).CString(), 0, 0);
+    return 1;
+#endif
+
     // Check Windows version
     if (!IsWindows7SP1OrGreater())
     {

@@ -1,4 +1,4 @@
-// Core module
+// Vector base
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
 // Copyright (c) 2015-2016 The San Andreas Online Open Source Project
@@ -7,12 +7,15 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
-#include "Core.hpp"
 
-Core::Core()
+#include "VectorBase.hpp"
+
+namespace Util
 {
+
+unsigned char* VectorBase::AllocateBuffer(unsigned size)
+{
+    return new unsigned char[size];
 }
 
-Core::~Core()
-{
 }

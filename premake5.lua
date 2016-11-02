@@ -45,7 +45,7 @@ workspace "SAO"
 
     includedirs {
         "ThirdParty",
-        "Shared/Utils"
+        "Shared/Utility"
     }
 
     filter "platforms:x86"
@@ -96,6 +96,9 @@ workspace "SAO"
     filter { "system:windows", "platforms:x64", "kind:not StaticLib" }
         linkoptions "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='amd64' publicKeyToken='6595b64144ccf1df' language='*'\""
 
+    filter { "system:windows", "kind:not StaticLib", "kind:not SharedLib" }
+        linkoptions "/MANIFESTUAC:\"level='requireAdministrator\'"
+
     -- Helper functions for output path 
     buildpath = function(p) return "%{wks.location}/../Bin/"..p.."/" end
     copy = function(p) return "{COPY} %{cfg.buildtarget.abspath} %{wks.location}../Bin/" .. p .. "/" end 
@@ -122,4 +125,4 @@ workspace "SAO"
     include "Server"
     
     group "Shared"
-    include "Shared/Utils"
+    include "Shared/Utility"

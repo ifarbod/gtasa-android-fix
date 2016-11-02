@@ -1,7 +1,10 @@
-project "Utils"
+project "Utility"
     language "C++"
     kind "StaticLib"
-    targetname "Utils"
+    targetname "Utility"
+    
+    pchheader "Precompiled.hpp"
+    pchsource "Precompiled.cpp"
     
     vpaths {
         ["Headers/*"] = "**.hpp",

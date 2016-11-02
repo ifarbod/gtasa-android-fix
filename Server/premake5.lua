@@ -3,7 +3,12 @@ project "DedicatedServer"
     kind "ConsoleApp"
     targetdir(buildpath("Server"))
     
+    targetname "SAOServer_%{cfg.platform}"
+    
     links { "Lua", "RakNet" }
+    
+    pchheader "Precompiled.hpp"
+    pchsource "Precompiled.cpp"
     
     vpaths { 
         ["Headers/*"] = { "**.h", "**.hpp" },
@@ -15,26 +20,7 @@ project "DedicatedServer"
     files {
         "premake5.lua",
         "**.hpp",
-        "**.cpp"
+        "**.cpp",
+        "**.rc",
+        "**.ico"
     }
-    
-    filter "system:windows"
-        targetname "SAOServer"
-        files {
-            "**.rc",
-            "res/sao_icon.ico"
-        }
-
-    filter {"system:windows", "platforms:x64"}
-        targetname "SAOServer64"
-
-    filter "system:linux"
-        links { "dl" }
-
-    filter {"system:linux", "platforms:x86"}
-        targetname "sao-server"
-
-    filter {"system:linux", "platforms:x64"}
-        targetname "sao-server64"
-    
-    

@@ -8,7 +8,7 @@
 
 #pragma once
 
-namespace Utils
+namespace Util
 {
 
 FARPROC GetProcAddr(HMODULE hModule, const char* pszProcName)

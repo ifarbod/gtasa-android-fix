@@ -1,4 +1,4 @@
-// Core module
+// Swaps two values
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
 // Copyright (c) 2015-2016 The San Andreas Online Open Source Project
@@ -7,12 +7,3 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
-#include "Core.hpp"
-
-Core::Core()
-{
-}
-
-Core::~Core()
-{
-}

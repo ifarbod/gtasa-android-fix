@@ -4,8 +4,8 @@ project "Core"
     targetname "Core"
     targetdir(buildpath("SAO"))
     
-    pchheader "pch.hpp"
-    pchsource "pch.cpp"
+    pchheader "Precompiled.hpp"
+    pchsource "Precompiled.cpp"
     
     links { "RakNet", "Lua" }
     
