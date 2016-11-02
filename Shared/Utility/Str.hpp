@@ -381,6 +381,10 @@ public:
     bool StartsWith(const String& str, bool caseSensitive = true) const;
     // Return whether ends with a string.
     bool EndsWith(const String& str, bool caseSensitive = true) const;
+    // Left most number of characters
+    String Left(unsigned count) const;
+    // Right most number of characters
+    String Right(unsigned count) const;
 
     // Return the C string.
     const char* CString() const { return buffer_; }

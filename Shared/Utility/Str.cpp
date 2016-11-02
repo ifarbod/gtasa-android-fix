@@ -698,6 +698,16 @@ bool String::EndsWith(const String& str, bool caseSensitive) const
     return pos != NPOS && pos == Length() - str.Length();
 }
 
+String String::Left(unsigned count) const
+{
+    return Substring(0, count);
+}
+
+String String::Right(unsigned count) const
+{
+    return Substring((unsigned)Length() - count, count);
+}
+
 int String::Compare(const String& str, bool caseSensitive) const
 {
     return Compare(CString(), str.CString(), caseSensitive);
