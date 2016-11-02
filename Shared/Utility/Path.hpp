@@ -8,10 +8,10 @@
 
 #pragma once
 
-#include "Str.hpp"
-
 namespace Util
 {
+
+class String;
 
 // Split a full path to path, filename and extension. The extension will be converted to lowercase by default.
 void
