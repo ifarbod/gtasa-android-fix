@@ -17,8 +17,8 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
 {
 #ifdef TEST
     using namespace Util;
-    if (!WriteRegStr(HKLM, "SOFTWARE\\SAO Test", "hey", "meow"))
-        MessageBox(0, 0, 0, 0);
+    //if (!WriteRegStr(HKLM, "SOFTWARE\\SAO Test", "hey", "meow"))
+        //MessageBox(0, 0, 0, 0);
 
     MessageBoxW(0, WString(ReadRegStr(HKLM, "SOFTWARE\\SAO Test", "hey")).CString(), 0, 0);
     return 1;

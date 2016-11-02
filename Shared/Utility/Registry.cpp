@@ -9,6 +9,7 @@
 #include "Precompiled.hpp"
 
 #include "Registry.hpp"
+#include "Buffer.hpp"
 
 #include <Windows.h>
 
@@ -72,19 +73,21 @@ String ReadRegStr(KeyRoot keyRoot, const String& subKey, const String& keyName, 
     {
         DWORD bufferSize;
 
-        //if (RegQueryValueExW(hKey, wKeyName.CString(), nullptr, nullptr, nullptr, &bufferSize) == ERROR_SUCCESS)
-        //{
-            wchar_t buffer[3000];
+        if (RegQueryValueExW(hKey, wKeyName.CString(), nullptr, nullptr, nullptr, &bufferSize) == ERROR_SUCCESS)
+        {
+            ScopedAlloc<wchar_t> buffer{ bufferSize + sizeof(wchar_t) };
+            //Vector<char> buffer;
+            //buffer.Resize(bufferSize + 2);
 
-            if (RegQueryValueExW(hKey, wKeyName.CString(), nullptr, nullptr, reinterpret_cast<LPBYTE>(&buffer), &bufferSize) == ERROR_SUCCESS)
+            if (RegQueryValueExW(hKey, wKeyName.CString(), nullptr, nullptr, reinterpret_cast<LPBYTE>(static_cast<wchar_t *>(buffer)), &bufferSize) == ERROR_SUCCESS)
             {
-                //buffer[bufferSize] = 0;
-                output = buffer;
+                buffer[bufferSize / sizeof(wchar_t)] = 0;
+                output = static_cast<wchar_t *>(buffer);
 
                 if (result != nullptr)
                     *result = true;
             }
-        //}
+        }
     }
 
     return output;
