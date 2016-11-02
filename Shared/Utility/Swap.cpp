@@ -7,3 +7,18 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
+
+namespace Util
+{
+
+template <> void Swap<String>(String& first, String& second)
+{
+    first.Swap(second);
+}
+
+template <> void Swap<VectorBase>(VectorBase& first, VectorBase& second)
+{
+    first.Swap(second);
+}
+
+}

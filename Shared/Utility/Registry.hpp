@@ -18,12 +18,13 @@ enum KeyRoot : unsigned
     HKCR = 0x80000000,
     HKCU = 0x80000001,
     HKLM = 0x80000002,
-    HKU = 0x80000003
+    HKU = 0x80000003,
+    HKCC = 0x80000005
 };
 
-bool WriteRegStr(KeyRoot keyRoot, const String& subKey, const String& keyName, const String& value, bool flush = false);
-String ReadRegStr(KeyRoot keyRoot, const String& subKey, const String& keyName, bool *result = nullptr);
-bool DeleteRegKey(KeyRoot keyRoot, const String& subKey);
-bool DeleteRegValue(KeyRoot keyRoot, const String& subKey, const String& keyName);
+bool WriteRegStr(KeyRoot rootKey, const String& subKey, const String& valueName, const String& value, bool flush = false);
+String ReadRegStr(KeyRoot rootKey, const String& subKey, const String& valueName, bool *result = nullptr);
+bool DeleteRegKey(KeyRoot rootKey, const String& subKey);
+bool DeleteRegValue(KeyRoot rootKey, const String& subKey, const String& valueName);
 
 }

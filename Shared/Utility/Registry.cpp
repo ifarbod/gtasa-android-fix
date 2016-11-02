@@ -16,11 +16,11 @@
 namespace Util
 {
 
-bool WriteRegStr(KeyRoot keyRoot, const String& subKey, const String& keyName, const String& value, bool flush)
+bool WriteRegStr(KeyRoot keyRoot, const String& subKey, const String& valueName, const String& value, bool flush)
 {
     HKEY hKey;
     WString wSubKey{ subKey };
-    WString wKeyName{ keyName };
+    WString wValueName{ valueName };
     WString wValue{ value };
 
     // Try to open the reg key with all access
@@ -37,7 +37,7 @@ bool WriteRegStr(KeyRoot keyRoot, const String& subKey, const String& keyName, c
 
     if (hKey)
     {
-        auto setValueRes = RegSetValueExW(hKey, wKeyName.CString(), 0, REG_SZ, (LPBYTE)wValue.CString(), (wValue.Length() + 1) * sizeof(wchar_t));
+        auto setValueRes = RegSetValueExW(hKey, wValueName.CString(), 0, REG_SZ, reinterpret_cast<LPBYTE>(const_cast<wchar_t *>(wValue.CString())), (wValue.Length() + 1) * sizeof(wchar_t));
 
         if (setValueRes != ERROR_SUCCESS)
             return false;
@@ -59,12 +59,12 @@ bool WriteRegStr(KeyRoot keyRoot, const String& subKey, const String& keyName, c
     return true;
 }
 
-String ReadRegStr(KeyRoot keyRoot, const String& subKey, const String& keyName, bool *result)
+String ReadRegStr(KeyRoot keyRoot, const String& subKey, const String& valueName, bool *result)
 {
     String output = "";
     HKEY hKey;
     WString wSubKey{ subKey };
-    WString wKeyName{ keyName };
+    WString wValueName{ valueName };
 
     if (result != nullptr)
         *result = false;
@@ -73,13 +73,13 @@ String ReadRegStr(KeyRoot keyRoot, const String& subKey, const String& keyName, 
     {
         DWORD bufferSize;
 
-        if (RegQueryValueExW(hKey, wKeyName.CString(), nullptr, nullptr, nullptr, &bufferSize) == ERROR_SUCCESS)
+        if (RegQueryValueExW(hKey, wValueName.CString(), nullptr, nullptr, nullptr, &bufferSize) == ERROR_SUCCESS)
         {
             ScopedAlloc<wchar_t> buffer{ bufferSize + sizeof(wchar_t) };
             //Vector<char> buffer;
             //buffer.Resize(bufferSize + 2);
 
-            if (RegQueryValueExW(hKey, wKeyName.CString(), nullptr, nullptr, reinterpret_cast<LPBYTE>(static_cast<wchar_t *>(buffer)), &bufferSize) == ERROR_SUCCESS)
+            if (RegQueryValueExW(hKey, wValueName.CString(), nullptr, nullptr, reinterpret_cast<LPBYTE>(static_cast<wchar_t *>(buffer)), &bufferSize) == ERROR_SUCCESS)
             {
                 buffer[bufferSize / sizeof(wchar_t)] = 0;
                 output = static_cast<wchar_t *>(buffer);
@@ -98,11 +98,11 @@ bool DeleteRegKey(KeyRoot keyRoot, const String& subKey)
     return RegDeleteKeyW(reinterpret_cast<HKEY>(keyRoot), WString(subKey).CString()) == ERROR_SUCCESS;
 }
 
-bool DeleteRegValue(KeyRoot keyRoot, const String& subKey, const String& keyName)
+bool DeleteRegValue(KeyRoot keyRoot, const String& subKey, const String& valueName)
 {
     HKEY hKey;
     WString wSubKey{ subKey };
-    WString wKeyName{ keyName };
+    WString wValueName{ valueName };
 
     // Try to open the reg key with all access
     auto openKeyResult = RegOpenKeyExW(reinterpret_cast<HKEY>(keyRoot), wSubKey.CString(), 0, KEY_ALL_ACCESS, &hKey);
@@ -118,7 +118,7 @@ bool DeleteRegValue(KeyRoot keyRoot, const String& subKey, const String& keyName
     if (hKey)
     {
         // Try deleting the value
-        auto deleteValueRes = RegDeleteValueW(hKey, wKeyName.CString());
+        auto deleteValueRes = RegDeleteValueW(hKey, wValueName.CString());
 
         if (deleteValueRes != ERROR_SUCCESS)
             return false;

@@ -11,6 +11,8 @@
 #include <cassert>
 #include <Registry.hpp>
 
+using namespace Util;
+
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCmdLine, int nCmdShow)
 {
     // Check Windows version
@@ -41,9 +43,9 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     }
 
 #ifdef SAO_DEBUG
-    const wchar_t* pszLibToInject = L"Core_d.dll";
+    const String libToInject = "D:\\Projects\\sao\\bin\\SAO\\Core_d.dll";
 #else
-    const wchar_t* pszLibToInject = L"Core.dll";
+    const String libToInject = "D:\\Projects\\sao\\bin\\SAO\\Core.dll";
 #endif
 
     SIZE_T ulWrittenBytes;
@@ -51,16 +53,16 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     HANDLE hExternThread = nullptr;
 
     // Allocate memory in the remote process
-    pAllocedMem = VirtualAllocEx(pi.hProcess, NULL, wcslen(pszLibToInject) * 2 + 1, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+    pAllocedMem = VirtualAllocEx(pi.hProcess, NULL, libToInject.Length() * 2 + 1, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
 
     if(!(pAllocedMem))
         return 1;
 
     // Write the DLL path to the remote process memory
-    if(!WriteProcessMemory(pi.hProcess, pAllocedMem, (void*)pszLibToInject, wcslen(pszLibToInject) * 2 + 1, &ulWrittenBytes))
+    if(!WriteProcessMemory(pi.hProcess, pAllocedMem, (void *)libToInject.CString(), libToInject.Length() * 2 + 1, &ulWrittenBytes))
         return 1;
 
-    if(wcslen(pszLibToInject) * 2 + 1 != ulWrittenBytes)
+    if(libToInject.Length() * 2 + 1 != ulWrittenBytes)
         return 1;
 
     // Create a remote thread at LoadLibraryW and pass the dll path to it
@@ -79,7 +81,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     CloseHandle(hExternThread);
 
     // Free the memory we allocated so we don't cause a memory leak
-    VirtualFreeEx(pi.hProcess, pAllocedMem, wcslen(pszLibToInject) * 2 + 1, MEM_RELEASE);
+    VirtualFreeEx(pi.hProcess, pAllocedMem, libToInject.Length() * 2 + 1, MEM_RELEASE);
 
     // And resume the game's thread now
     ResumeThread(pi.hThread);
