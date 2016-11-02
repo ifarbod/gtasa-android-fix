@@ -9,4 +9,5 @@
 #pragma once
 
 #include "Types.hpp"
+#include "Macros.hpp"
 #include "Str.hpp"
