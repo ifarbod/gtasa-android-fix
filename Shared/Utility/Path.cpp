@@ -9,6 +9,7 @@
 #include "Precompiled.hpp"
 
 #include "Path.hpp"
+#include "Registry.hpp"
 
 namespace Util
 {
@@ -207,6 +208,20 @@ String PathJoin(const String& str1, const String& str2, const String& str3, cons
     if (str5.Length())
         result += DIRECTORY_SEPARATOR_CHAR + str5;
     return PathConform(result);
+}
+
+String GetGTAPath()
+{
+    static String gtasaPath;
+    gtasaPath = RegReadStr("GTAInstallLocation");
+    return gtasaPath;
+}
+
+String GetSAOPath()
+{
+    static String saoPath;
+    saoPath = RegReadStr("InstallLocation");
+    return saoPath;
 }
 
 }

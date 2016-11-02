@@ -51,4 +51,9 @@ String PathJoin(const String& str1, const String& str2, const String& str3, cons
 // Join five paths
 String PathJoin(const String& str1, const String& str2, const String& str3, const String& str4, const String& str5);
 
+// Get GTA Path from our registry key
+String GetGTAPath();
+// Get SAO Path from our registry key
+String GetSAOPath();
+
 }

@@ -132,4 +132,20 @@ bool DeleteRegValue(KeyRoot keyRoot, const String& subKey, const String& valueNa
     return true;
 }
 
+// TODO: Make "SOFTWARE\\San Andreas Online" a constant
+bool RegWriteStr(const String& valueName, const String & value)
+{
+    return WriteRegStr(HKLM, "SOFTWARE\\San Andreas Online", valueName, value);
+}
+
+String RegReadStr(const String& valueName)
+{
+    return ReadRegStr(HKLM, "SOFTWARE\\San Andreas Online", valueName);
+}
+
+bool RegDeleteStr(const String& valueName)
+{
+    return DeleteRegValue(HKLM, "SOFTWARE\\San Andreas Online", valueName);
+}
+
 }
