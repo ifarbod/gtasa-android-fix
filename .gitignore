@@ -344,6 +344,7 @@ Shared/Installer/*.exe
 Shared/Installer/Version.nsh
 Client/Version.h
 Server/Version.h
+Shared/Utility/Version.h
 
 # MSBuild files
 *.vcxproj
