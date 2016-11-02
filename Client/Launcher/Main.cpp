@@ -27,7 +27,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     if (GetSystemMetrics(SM_CLEANBOOT) != 0)
     {
         // ERR_CLEANBOOT
-        MessageBoxA(NULL, "You cannot play San Andreas Online in Safe Mode.", NULL, MB_ICONSTOP);
+        MessageBoxW(NULL, L"You cannot play San Andreas Online in Safe Mode.", NULL, MB_ICONSTOP);
         return 1;
     }
 
@@ -36,16 +36,16 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     PROCESS_INFORMATION pi = { 0 };
     si.cb = sizeof(si);
 
-    if (!CreateProcessW(L"D:\\SA\\gta_sa_compact.exe", L"", nullptr, nullptr, FALSE, CREATE_SUSPENDED, nullptr, L"D:\\SA\\", &si, &pi))
+    if (!CreateProcessW(L"GTASA.exe", L"", nullptr, nullptr, FALSE, CREATE_SUSPENDED, nullptr, L"D:\\SA\\", &si, &pi))
     {
-        MessageBoxA(nullptr, "Failed to start San Andreas. Cannot launch SA:Online.", nullptr, MB_ICONSTOP);
+        MessageBoxW(nullptr, L"Failed to start San Andreas. Cannot launch SA:Online.", nullptr, MB_ICONSTOP);
         return 1;
     }
 
 #ifdef SAO_DEBUG
-    const String libToInject = "D:\\Projects\\sao\\bin\\SAO\\Core_d.dll";
+    const String libToInject = "Core_d.dll";
 #else
-    const String libToInject = "D:\\Projects\\sao\\bin\\SAO\\Core.dll";
+    const String libToInject = "Core.dll";
 #endif
 
     SIZE_T ulWrittenBytes;

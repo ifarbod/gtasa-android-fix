@@ -7,7 +7,6 @@
 // https://opensource.org/licenses/MIT)
 
 #pragma once
-#include <cstdint>
 
 // Types
 using s8 = signed char;
@@ -21,3 +20,25 @@ using u64 = unsigned long long;
 
 using f32 = float;
 using f64 = double;
+
+union Float32
+{
+    f32 f;
+    u32 i;
+    s32 s;
+
+    Float32(f32 n) { f = n; }
+    Float32(u32 n) { i = n; }
+    Float32(s32 n) { s = n; }
+};
+
+union Float64
+{
+    f64 f;
+    u64 i;
+    s64 s;
+
+    Float64(f64 n) { f = n; }
+    Float64(u64 n) { i = n; }
+    Float64(s64 n) { s = n; }
+};
