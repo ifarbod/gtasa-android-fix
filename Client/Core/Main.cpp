@@ -10,7 +10,12 @@
 #include "Precompiled.hpp"
 #include "Core.hpp"
 
+#include <Str.hpp>
+#include <Path.hpp>
+
 Core * g_pCore;
+
+using namespace Util;
 
 BOOL WINAPI DllMain(HINSTANCE hDllInstance, DWORD dwReason, LPVOID lpvReserved)
 {
@@ -18,11 +23,10 @@ BOOL WINAPI DllMain(HINSTANCE hDllInstance, DWORD dwReason, LPVOID lpvReserved)
     {
         DisableThreadLibraryCalls(hDllInstance);
 
-        //SetCurrentDirectoryW(gtaDir)
-        //SetDllDirectoryW(SAOPath("SAO"));
-        MessageBoxW(0, 0, 0, 0);
+        SetCurrentDirectoryW(WString{ GetGTAPath() }.CString());
+        SetDllDirectoryW(WString{ PathJoin(GetSAOPath(), "SAO") }.CString());
         g_pCore = new Core();
-        //SetCurrentDirectoryW(gtaDir)
+        SetCurrentDirectoryW(WString{ GetGTAPath() }.CString());
     }
 
     else if (dwReason == DLL_PROCESS_DETACH)

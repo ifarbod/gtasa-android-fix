@@ -1,11 +1,16 @@
 project "DedicatedServer"
     language "C++"
     kind "ConsoleApp"
-    targetdir(buildpath("Server"))
     
-    targetname "SAOServer_%{cfg.platform}"
+    filter { "system:windows", "platforms:x86" }
+        targetdir(buildpath("Server"))
+        targetname "SAOServer"
     
-    links { "Lua", "RakNet" }
+    filter { "system:windows", "platforms:x64" }
+        targetdir(buildpath("Server.x64"))
+        targetname "SAOServer.x64"
+    
+    links { "Lua" }
     
     pchheader "Precompiled.hpp"
     pchsource "Precompiled.cpp"

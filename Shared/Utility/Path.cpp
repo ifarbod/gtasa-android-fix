@@ -224,4 +224,14 @@ String GetSAOPath()
     return saoPath;
 }
 
+String GetGTAPath(const String& pathToJoin)
+{
+    return PathJoin(GetGTAPath(), pathToJoin);
+}
+
+String GetSAOPath(const String& pathToJoin)
+{
+    return PathJoin(GetSAOPath(), pathToJoin);
+}
+
 }

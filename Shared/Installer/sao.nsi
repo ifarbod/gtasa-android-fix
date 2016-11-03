@@ -221,7 +221,7 @@ Function PageGameDirectory
     
     ; Attempt to grab SA installation path from registry
     ; Try to get the path from a previous SAO installation
-    ReadRegStr $0 HKLM "${REGKEY}" "GTASAPath"
+    ReadRegStr $0 HKLM "${REGKEY}" "GTAInstallLocation"
     ${If} $0 == ""
         ; Try Steam
         ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 12120" "InstallLocation"

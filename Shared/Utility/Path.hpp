@@ -56,4 +56,7 @@ String GetGTAPath();
 // Get SAO Path from our registry key
 String GetSAOPath();
 
+String GetGTAPath(const String& pathToJoin);
+String GetSAOPath(const String& pathToJoin);
+
 }

@@ -7,7 +7,7 @@ project "Core"
     pchheader "Precompiled.hpp"
     pchsource "Precompiled.cpp"
     
-    links { "RakNet", "Lua" }
+    links { "Utility", "RakNet", "Lua" }
     
     vpaths { 
         ["Headers/*"] = { "**.hpp", "**.h" },
