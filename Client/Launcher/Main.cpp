@@ -32,6 +32,9 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
         return 1;
     }
 
+    // Generate command line
+    String commandLine = String(GetGTAPath("gta_sa.exe")) + " " + strCmdLine;
+
     // Try launching SA
     STARTUPINFO si = { 0 };
     PROCESS_INFORMATION pi = { 0 };
@@ -39,7 +42,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
 
     if (!CreateProcessW(
         WString{ GetGTAPath("gta_sa.exe") }.CString(),
-        nullptr,
+        const_cast<wchar_t *>(WString{ commandLine }.CString()),
         nullptr,
         nullptr,
         FALSE,
@@ -51,11 +54,13 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     ))
     {
         MessageBoxW(0, 0, 0, 0);
+        return 1;
     }
 
     if (!RemoteLoadLibrary(pi.hProcess, PathJoin(GetSAOPath("SAO"), "Core_d.dll")))
     {
         TerminateProcess(pi.hProcess, 0);
+        return 1;
     }
 
     // Resume the thread
