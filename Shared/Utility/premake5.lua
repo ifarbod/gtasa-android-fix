@@ -3,8 +3,8 @@ project "Utility"
     kind "StaticLib"
     targetname "Utility"
     
-    pchheader "Precompiled.hpp"
-    pchsource "Precompiled.cpp"
+    pchheader "PCH.hpp"
+    pchsource "PCH.cpp"
     
     vpaths {
         ["Headers/*"] = "**.hpp",
