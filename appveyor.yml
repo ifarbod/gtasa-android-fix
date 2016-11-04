@@ -31,7 +31,7 @@ build:
   project: Build/SAO.sln
   #verbosity: minimal
 
-deply: off
+deploy: off
 artifacts:
   - path: SAO-Setup.exe
     name: SAO
