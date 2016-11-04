@@ -8,9 +8,9 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
-#include <cassert>
 #include <Str.hpp>
 #include <Path.hpp>
+#include <ProcessUtils.hpp>
 
 using namespace Util;
 
@@ -50,9 +50,16 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
         &pi
     ))
     {
-        // shit happened!
         MessageBoxW(0, 0, 0, 0);
     }
+
+    if (!RemoteLoadLibrary(pi.hProcess, PathJoin(GetSAOPath("SAO"), "Core_d.dll")))
+    {
+        TerminateProcess(pi.hProcess, 0);
+    }
+
+    // Resume the thread
+    ResumeThread(pi.hThread);
 
     // Success
     return 0;
