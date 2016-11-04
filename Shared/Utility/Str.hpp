@@ -583,6 +583,12 @@ public:
     // Return character data.
     const wchar_t* CString() const { return buffer_; }
 
+    // Return string converted to String
+    String ToStr()
+    {
+        return *this;
+    }
+
 private:
     // String length.
     unsigned length_;
