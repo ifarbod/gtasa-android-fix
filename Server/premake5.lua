@@ -1,20 +1,13 @@
 project "DedicatedServer"
     language "C++"
     kind "ConsoleApp"
-    
-    filter { "system:windows", "platforms:x86" }
-        targetdir(buildpath("Server"))
-        targetname "SAOServer"
-    
-    filter { "system:windows", "platforms:x64" }
-        targetdir(buildpath("Server.x64"))
-        targetname "SAOServer.x64"
-    
+	targetdir(buildpath("Server"))
+
     links { "Lua" }
-    
+
     pchheader "Precompiled.hpp"
     pchsource "Precompiled.cpp"
-    
+
     vpaths { 
         ["Headers/*"] = { "**.h", "**.hpp" },
         ["Sources/*"] = "**.cpp",
@@ -29,3 +22,9 @@ project "DedicatedServer"
         "**.rc",
         "**.ico"
     }
+
+    filter { "system:windows", "platforms:x86" }
+        targetname "SAODS"
+    
+    filter { "system:windows", "platforms:x64" }
+        targetname "SAODS.x64"
