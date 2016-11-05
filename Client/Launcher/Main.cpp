@@ -34,7 +34,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     if (!IsWindows7SP1OrGreater())
     {
         // ERR_WINDOWS_NOT_SUPPORTED
-        MessageBoxA(NULL, "You need Windows 7 SP1 or greater to play San Andreas Online.", NULL, MB_ICONSTOP);
+        MessageBoxW(NULL, L"You need Windows 7 SP1 or greater to play San Andreas Online.", NULL, MB_ICONSTOP);
         return 1;
     }
 
