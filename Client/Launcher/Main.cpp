@@ -8,11 +8,25 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
+#include "Utils.hpp"
 #include <Str.hpp>
 #include <Path.hpp>
 #include <ProcessUtils.hpp>
 
 using namespace Util;
+
+// Check registry, prompt the user with folder select dialog and do user assisted search to detect GTASA path
+String GrabSAPath()
+{
+    // This will store the final path
+    String finalPath = "";
+
+    // Try HKLM "SOFTWARE\San Andreas Online" "GTAInstallLocation"
+    // Try HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 12120" "InstallLocation"
+    // Try HKLM "SOFTWARE\Rockstar Games\GTA San Andreas\Installation" "ExePath"
+
+    return finalPath;
+}
 
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCmdLine, int nCmdShow)
 {
@@ -32,8 +46,17 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
         return 1;
     }
 
+    // Store paths to GTA and SAO
+    const String gtaPath = GrabSAPath();
+    const String saoPath = GetSAOPath();
+    String saoDir = PathJoin(saoPath, "SAO");
+
+    // Set the current directory
+    SetDllDirectoryW(WString{ saoDir }.CString());
+    SetCurrentDirectoryW(WString{ gtaPath }.CString());
+
     // Generate command line
-    String commandLine = String(GetGTAPath("gta_sa.exe")) + " " + strCmdLine;
+    String commandLine = String(GetGTAPath("GTASA.exe")) + " " + strCmdLine;
 
     // Try launching SA
     STARTUPINFO si = { 0 };
@@ -41,19 +64,18 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     si.cb = sizeof(si);
 
     if (!CreateProcessW(
-        WString{ GetGTAPath("gta_sa.exe") }.CString(),
+        WString{ GetGTAPath("GTASA.exe") }.CString(),
         const_cast<wchar_t *>(WString{ commandLine }.CString()),
         nullptr,
         nullptr,
         FALSE,
         CREATE_SUSPENDED,
         nullptr,
-        WString{ GetGTAPath() }.CString(),
+        WString{ saoDir }.CString(),
         &si,
         &pi
     ))
     {
-        MessageBoxW(0, 0, 0, 0);
         return 1;
     }
 

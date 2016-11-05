@@ -13,6 +13,8 @@
 #include <Windows.h>
 #endif
 
+#include "Version.hpp"
 #include "Types.hpp"
 #include "Macros.hpp"
 #include "Str.hpp"
+
