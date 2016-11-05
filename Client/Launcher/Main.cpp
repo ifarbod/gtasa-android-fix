@@ -34,7 +34,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     if (!IsWindows7SP1OrGreater())
     {
         // ERR_WINDOWS_NOT_SUPPORTED
-        MessageBoxW(NULL, L"You need Windows 7 SP1 or greater to play San Andreas Online.", NULL, MB_ICONSTOP);
+        MessageBoxW(nullptr, L"You need Windows 7 SP1 or greater to play San Andreas Online.", NULL, MB_ICONSTOP);
         return 1;
     }
 
@@ -42,7 +42,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     if (GetSystemMetrics(SM_CLEANBOOT) != 0)
     {
         // ERR_CLEANBOOT
-        MessageBoxW(NULL, L"You cannot play San Andreas Online in Safe Mode.", NULL, MB_ICONSTOP);
+        MessageBoxW(nullptr, L"You cannot play San Andreas Online in Safe Mode.", NULL, MB_ICONSTOP);
         return 1;
     }
 
@@ -76,6 +76,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
         &pi
     ))
     {
+        MessageBoxW(nullptr, L"Failed to launch San Andreas", nullptr, MB_ICONSTOP);
         return 1;
     }
 
