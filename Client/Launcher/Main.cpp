@@ -12,6 +12,7 @@
 #include <Str.hpp>
 #include <Path.hpp>
 #include <ProcessUtils.hpp>
+#include <Registry.hpp>
 
 using namespace Util;
 
@@ -22,8 +23,18 @@ String GrabSAPath()
     String finalPath = GetGTAPath();
 
     // Try HKLM "SOFTWARE\San Andreas Online" "GTAInstallLocation"
-    // Try HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 12120" "InstallLocation"
-    // Try HKLM "SOFTWARE\Rockstar Games\GTA San Andreas\Installation" "ExePath"
+    String saoSaPath = GetGTAPath();
+
+    // Try Steam
+    String gtasaSteamPath = ReadRegStr(
+        HKLM, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 12120", "InstallLocation");
+
+    // Try retail SA (1.00/1.01/2.00)
+    // Returns "gtasaPath\gta_sa.exe"
+    // Remove the quotation marks and 'gta_sa.exe'
+    String gtasaRetailPath = ReadRegStr(HKLM, "SOFTWARE\\Rockstar Games\\GTA San Andreas\\Installation", "ExePath");
+    gtasaRetailPath.Replace('"', '\0');
+    gtasaRetailPath.Replace("gta_sa.exe", "");
 
     return finalPath;
 }
@@ -73,8 +84,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
         nullptr,
         WString{ saoDir }.CString(),
         &si,
-        &pi
-    ))
+        &pi))
     {
         MessageBoxW(nullptr, L"Failed to launch San Andreas", nullptr, MB_ICONSTOP);
         return 1;

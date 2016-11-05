@@ -77,6 +77,16 @@ ${If} $0 != "admin"
 ${EndIf}
 !macroend
 
+Var MODIFIED_STR
+!macro ReplaceSubStr OLD_STR SUB_STR REPLACEMENT_STR
+    Push "${OLD_STR}" ;String to do replacement in (haystack)
+    Push "${SUB_STR}" ;String to replace (needle)
+    Push "${REPLACEMENT_STR}" ; Replacement
+    Call StrRep
+    Pop $R0 ;result
+    StrCpy $MODIFIED_STR $R0
+!macroend
+
 ;--------------------------------
 ; Installer's VersionInfo
 ;--------------------------------
@@ -118,8 +128,12 @@ VIAddVersionKey "OriginalFilename" "${NAME2}_${VERSION}-Setup.exe"
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "..\..\LICENSE.md"
 !insertmacro MUI_PAGE_COMPONENTS
+
+!define MUI_PAGE_CUSTOMFUNCTION_LEAVE PageLeaveDirectory
 !insertmacro MUI_PAGE_DIRECTORY
+
 Page custom PageGameDirectory PageLeaveGameDirectory
+
 !define MUI_PAGE_CUSTOMFUNCTION_LEAVE PostInstPage
 !insertmacro MUI_PAGE_INSTFILES
 
@@ -142,6 +156,11 @@ Page custom PageGameDirectory PageLeaveGameDirectory
 !insertmacro MUI_LANGUAGE "English"
 
 ; ----------------------
+; Variables
+; ----------------------
+Var GTA_DIR
+
+; ----------------------
 ; Installer sections
 ; ----------------------
 
@@ -158,6 +177,8 @@ ${MementoSection} "Client core files (required)" SecCore
     File "${FILES_ROOT}\${NAME2}\sdv.dll"
     File "${FILES_ROOT}\${NAME2}\sdvf.dll"
     File "${FILES_ROOT}\${NAME2}\Core.dll"
+    
+    File "/oname=$GTA_DIR\GTASA.exe" "${FILES_ROOT}\${NAME2}\GTASA.dat"
     
     ; Create uninstaller
     WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -181,7 +202,7 @@ SectionGroupEnd
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ; ----------------------
-; Installer sections
+; Installer functions
 ; ----------------------
 Function .onInit
     !insertmacro CHECK_ADMIN
@@ -198,6 +219,59 @@ Function un.onInit
     !insertmacro CHECK_ADMIN
 FunctionEnd
 
+Function StrRep
+    Exch $R4 ; $R4 = Replacement String
+    Exch
+    Exch $R3 ; $R3 = String to replace (needle)
+    Exch 2
+    Exch $R1 ; $R1 = String to do replacement in (haystack)
+    Push $R2 ; Replaced haystack
+    Push $R5 ; Len (needle)
+    Push $R6 ; len (haystack)
+    Push $R7 ; Scratch reg
+    StrCpy $R2 ""
+    StrLen $R5 $R3
+    StrLen $R6 $R1
+loop:
+    StrCpy $R7 $R1 $R5
+    StrCmp $R7 $R3 found
+    StrCpy $R7 $R1 1 ; - optimization can be removed if U know len needle=1
+    StrCpy $R2 "$R2$R7"
+    StrCpy $R1 $R1 $R6 1
+    StrCmp $R1 "" done loop
+found:
+    StrCpy $R2 "$R2$R4"
+    StrCpy $R1 $R1 $R6 $R5
+    StrCmp $R1 "" done loop
+done:
+    StrCpy $R3 $R2
+    Pop $R7
+    Pop $R6
+    Pop $R5
+    Pop $R2
+    Pop $R1
+    Pop $R4
+    Exch $R3
+FunctionEnd
+
+Function IsGtaDirectory
+    Pop $0
+    StrCpy $1 "gta"
+
+    ; gta_sa.exe or gta-sa.exe should exist
+    IfFileExists "$0\gta_sa.exe" cont1
+        IfFileExists "$0\gta-sa.exe" cont1
+            StrCpy $1 ""
+    cont1:
+
+    ; data subdirectory should exist
+    IfFileExists "$0\data\*.*" cont2
+        StrCpy $1 ""
+    cont2:
+
+    Push $1
+FunctionEnd
+
 ; ----------------------
 ; Language strings
 ; ----------------------
@@ -207,14 +281,36 @@ LangString INST_GAMEDIRPAGE_HEADER_SUBTITLE_TEXT ${LANG_ENGLISH} "Where is your 
 LangString INST_GAMEDIRPAGE_INSTRUCTIONS ${LANG_ENGLISH} "Locate the directory in which Grand Theft Auto: San Andreas is installed.$\r$\nYou need GTA:SA v1.00 in order to play San Andreas Online.$\r$\nAny other versions will not work and may need to be downgraded.$\r$\nNOTE: Please use a clean install."
 LangString INST_GAMEDIRPAGE_GROUPBOX_TEXT ${LANG_ENGLISH} "Game Install Folder"
 LangString INST_GAMEDIRPAGE_BROWSEBTN_TEXT ${LANG_ENGLISH} "B&rowse..."
+LangString INST_GTA_CONFLICT ${LANG_ENGLISH} "${NAME2} cannot be installed into the same directory as Grand Theft Auto: San Andreas.$\n$\n\ 
+            Do you want to use the default install directory$\n\
+            $PROGRAMFILES\${NAME} ?"
+LangString INST_GTA_ERROR1 ${LANG_ENGLISH} "The selected directory does not exist.$\n$\n\
+            Please select the GTA:SA install directory"
+LangString INST_GTA_ERROR2 ${LANG_ENGLISH} "Could not find Grand Theft Auto: San Andreas installed at $GTA_DIR $\n\
+            You can still set your game's path after running ${NAME} for the first time$\n$\n\
+            Are you sure you want to continue ?"
 
+Function PageLeaveDirectory
+    ; Check if user is trying to install SAO into GTA directory
+    Push $INSTDIR 
+    Call IsGtaDirectory
+    Pop $0
+    ${If} $0 == "gta"
+        MessageBox MB_OKCANCEL|MB_ICONQUESTION|MB_TOPMOST|MB_SETFOREGROUND \
+            "$(INST_GTA_CONFLICT)" \
+            IDOK cont2
+            Abort
+        cont2:
+        StrCpy $INSTDIR "$PROGRAMFILES\${NAME}"
+    ${Endif}
+FunctionEnd
+
+; Custom dialog
 Var GameDirPage_Dialog
 Var GameDirPage_lblInstructions
 Var GameDirPage_gbDirSelect
 Var GameDirPage_drText
 Var GameDirPage_drButton
-
-Var GTA_DIR
 
 Function PageGameDirectory
     !insertmacro MUI_HEADER_TEXT "$(INST_GAMEDIRPAGE_HEADER_TEXT)" "$(INST_GAMEDIRPAGE_HEADER_SUBTITLE_TEXT)"
@@ -232,15 +328,14 @@ Function PageGameDirectory
     ${EndIf}
     
     ; Remove exe name from path
-    ;!insertmacro ReplaceSubStr $0 "gta_sa.exe" ""
+    !insertmacro ReplaceSubStr $0 "gta_sa.exe" ""
     ; Conform slash types
-    ;!insertmacro ReplaceSubStr $MODIFIED_STR "/" "\"
+    !insertmacro ReplaceSubStr $MODIFIED_STR "/" "\"
     ; Remove quotes
-    ;StrCpy $3 '"'
-    ;!insertmacro ReplaceSubStr $MODIFIED_STR $3 ""
+    StrCpy $3 '"'
+    !insertmacro ReplaceSubStr $MODIFIED_STR $3 ""
     ; Store result 
-    ;StrCpy $GTA_DIR $MODIFIED_STR
-    strcpy $GTA_DIR $0
+    StrCpy $GTA_DIR $MODIFIED_STR
 
     ; Default to standard path if nothing defined
     ${If} $GTA_DIR == "" 
@@ -274,21 +369,38 @@ Function PageGameDirectory
 FunctionEnd
 
 Function PageLeaveGameDirectory
+    ${NSD_GetText} $GameDirPage_drText $R0
+    StrCpy $GTA_DIR $R0
+    
+    ; Directory must exist
+    IfFileExists "$GTA_DIR\*.*" hasdir
+        MessageBox MB_ICONEXCLAMATION|MB_TOPMOST|MB_SETFOREGROUND \
+            "$(INST_GTA_ERROR1)"
+            Abort
+    hasdir:
 
+    ; data subdirectory should exist
+    IfFileExists "$GTA_DIR\data\*.*" cont
+        MessageBox MB_OKCANCEL|MB_ICONQUESTION|MB_TOPMOST|MB_SETFOREGROUND \
+            "$(INST_GTA_ERROR2)" \
+            IDOK cont1
+            Abort
+        cont1:
+    cont:
 FunctionEnd
 
 LangString INST_GAMEDIRPAGE_DIRSELECTDLG_TEXT ${LANG_ENGLISH} "Select your GTA:SA installation directory:"
 
 Function PageGameDirectoryDirRequestBtnClick
-	Pop $R0
-	${If} $R0 == $GameDirPage_drButton
-		${NSD_GetText} $GameDirPage_drText $R0
-		nsDialogs::SelectFolderDialog /NOUNLOAD "$(INST_GAMEDIRPAGE_DIRSELECTDLG_TEXT)" "$R0"
-		Pop $R0
-		${If} "$R0" != "error"
-			${NSD_SetText} $GameDirPage_drText "$R0"
-		${EndIf}
-	${EndIf}
+    Pop $R0
+    ${If} $R0 == $GameDirPage_drButton
+        ${NSD_GetText} $GameDirPage_drText $R0
+        nsDialogs::SelectFolderDialog /NOUNLOAD "$(INST_GAMEDIRPAGE_DIRSELECTDLG_TEXT)" "$R0"
+        Pop $R0
+        ${If} "$R0" != "error"
+            ${NSD_SetText} $GameDirPage_drText "$R0"
+        ${EndIf}
+    ${EndIf}
 FunctionEnd
 
 Function PostInstPage

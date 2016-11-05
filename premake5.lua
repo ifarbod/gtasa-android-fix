@@ -29,15 +29,19 @@ workspace "SAO"
     pic "On"
     startproject "Launcher"
 
-    -- Disable deprecation warnings and errors
-    defines { 
+    -- Preprocessor definitions
+    defines {
+        -- Disable deprecation warnings and errors
         "_CRT_SECURE_NO_WARNINGS",
         "_CRT_SECURE_NO_DEPRECATE",
         "_CRT_NONSTDC_NO_WARNINGS",
         "_CRT_NONSTDC_NO_DEPRECATE",
         "_SCL_SECURE_NO_WARNINGS",
         "_SCL_SECURE_NO_DEPRECATE",
-        "_WINSOCK_DEPRECATED_NO_WARNINGS"
+        "_WINSOCK_DEPRECATED_NO_WARNINGS",
+        
+        -- Enable wchar_t mode for pugixml
+        "PUGIXML_WCHAR_MODE"
     }
 
     -- Get DirectX SDK directory from environment variables
