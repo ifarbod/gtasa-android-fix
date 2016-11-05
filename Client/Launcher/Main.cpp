@@ -19,7 +19,7 @@ using namespace Util;
 String GrabSAPath()
 {
     // This will store the final path
-    String finalPath = "";
+    String finalPath = GetGTAPath();
 
     // Try HKLM "SOFTWARE\San Andreas Online" "GTAInstallLocation"
     // Try HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 12120" "InstallLocation"
