@@ -122,6 +122,7 @@ workspace "SAO"
     include "ThirdParty/cryptopp"
     include "ThirdParty/lua"
     include "ThirdParty/pugixml"
+    include "ThirdParty/sqlite"
     include "ThirdParty/zlib"
     include "ThirdParty/zip"
 
