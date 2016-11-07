@@ -28,7 +28,7 @@ project "Launcher"
     }
     
     filter "architecture:x64"
-        flags { "ExcludeFromBuild" } 
-        
+        flags { "ExcludeFromBuild" }
+
     filter "system:not windows"
-        flags { "ExcludeFromBuild" } 
+        flags { "ExcludeFromBuild" }

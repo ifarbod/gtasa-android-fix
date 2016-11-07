@@ -213,6 +213,7 @@ Function .onInstSuccess
     ${MementoSectionSave}
     
     WriteRegStr HKLM "${REGKEY}" "InstallLocation" $INSTDIR
+    WriteRegStr HKLM "${REGKEY}" "GTAInstallLocation" $GTA_DIR
 FunctionEnd
 
 Function un.onInit
