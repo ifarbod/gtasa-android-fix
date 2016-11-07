@@ -48,7 +48,7 @@ workspace "SAO"
     dxdir = os.getenv("DXSDK_DIR") or ""
 
     includedirs {
-        "ThirdParty",
+        "Vendor",
         "Shared/Utility"
     }
 
@@ -112,19 +112,19 @@ workspace "SAO"
     include "Client/Core"
     include "Client/Launcher"
 
-    group "ThirdParty"
-    include "ThirdParty/minhook"
-    include "ThirdParty/miniupnpc"
-    include "ThirdParty/RakNet"
-    include "ThirdParty/jpeg"
-    include "ThirdParty/libpng"
-    include "ThirdParty/yaml-cpp"
-    include "ThirdParty/cryptopp"
-    include "ThirdParty/lua"
-    include "ThirdParty/pugixml"
-    include "ThirdParty/sqlite"
-    include "ThirdParty/zlib"
-    include "ThirdParty/zip"
+    group "Vendor"
+    include "Vendor/minhook"
+    include "Vendor/miniupnpc"
+    include "Vendor/RakNet"
+    include "Vendor/jpeg"
+    include "Vendor/libpng"
+    include "Vendor/yaml-cpp"
+    include "Vendor/cryptopp"
+    include "Vendor/lua"
+    include "Vendor/pugixml"
+    include "Vendor/sqlite"
+    include "Vendor/zlib"
+    include "Vendor/zip"
 
     group "Server"
     include "Server"
