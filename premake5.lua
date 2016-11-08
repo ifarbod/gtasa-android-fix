@@ -116,6 +116,7 @@ workspace "SAO"
     include "Client/Launcher"
 
     group "Vendor"
+    include "Vendor/angelscript"
     include "Vendor/minhook"
     include "Vendor/miniupnpc"
     include "Vendor/RakNet"
