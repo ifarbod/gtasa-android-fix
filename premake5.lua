@@ -41,7 +41,10 @@ workspace "SAO"
         "_WINSOCK_DEPRECATED_NO_WARNINGS",
         
         -- Enable wchar_t mode for pugixml
-        "PUGIXML_WCHAR_MODE"
+        "PUGIXML_WCHAR_MODE",
+        
+        -- No windows.h min()/max() macros
+        "NOMINMAX"
     }
 
     -- Get DirectX SDK directory from environment variables

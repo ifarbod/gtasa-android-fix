@@ -16,29 +16,6 @@
 
 using namespace Util;
 
-// Check registry, prompt the user with folder select dialog and do user assisted search to detect GTASA path
-String GrabSAPath()
-{
-    // This will store the final path
-    String finalPath = GetGTAPath();
-
-    // Try HKLM "SOFTWARE\San Andreas Online" "GTAInstallLocation"
-    String saoSaPath = GetGTAPath();
-
-    // Try Steam
-    String gtasaSteamPath = ReadRegStr(
-        HKLM, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 12120", "InstallLocation");
-
-    // Try retail SA (1.00/1.01/2.00)
-    // Returns "gtasaPath\gta_sa.exe"
-    // Remove the quotation marks and 'gta_sa.exe'
-    String gtasaRetailPath = ReadRegStr(HKLM, "SOFTWARE\\Rockstar Games\\GTA San Andreas\\Installation", "ExePath");
-    gtasaRetailPath.Replace('"', '\0');
-    gtasaRetailPath.Replace("gta_sa.exe", "");
-
-    return finalPath;
-}
-
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCmdLine, int nCmdShow)
 {
     // Check Windows version

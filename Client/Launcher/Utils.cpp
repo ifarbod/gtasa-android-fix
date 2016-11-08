@@ -12,6 +12,8 @@
 
 #include <Shobjidl.h>
 #include <Str.hpp>
+#include <Path.hpp>
+#include <Registry.hpp>
 
 using namespace Util;
 
@@ -102,4 +104,53 @@ String BrowseForSAFolder()
     }
 
     return pathToSADir;
+}
+
+// Check registry or prompt the user with folder select dialog to detrmine the game's path
+String GrabSAPath()
+{
+    // This will store the final path
+    String finalPath;
+
+    // Try HKLM "SOFTWARE\San Andreas Online" "GTAInstallLocation"
+    String saoSaPath = GetGTAPath();
+
+    // Try Steam
+    String gtasaSteamPath = ReadRegStr(
+        HKLM, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 12120", "InstallLocation");
+
+    // Try retail SA (1.00/1.01/2.00)
+    // Returns "gtasaPath\gta_sa.exe"
+    // Remove the quotation marks and 'gta_sa.exe'
+    String gtasaRetailPath = ReadRegStr(HKLM, "SOFTWARE\\Rockstar Games\\GTA San Andreas\\Installation", "ExePath");
+    gtasaRetailPath.Replace('"', '\0');
+    gtasaRetailPath.Replace("gta_sa.exe", "");
+
+    finalPath = GetGTAPath();
+    if (saoSaPath.Empty())
+    {
+        finalPath = gtasaSteamPath;
+
+        if (gtasaSteamPath.Empty())
+        {
+            finalPath = gtasaRetailPath;
+
+            if (gtasaRetailPath.Empty())
+            {
+                if (MessageBoxW(nullptr,
+                    L"Failed to read game directory from registry. Would you like to specify your game path now?",
+                    L"SAO Error", MB_ICONERROR | MB_YESNO) == IDYES)
+                {
+                    String browseForFolderResult = BrowseForSAFolder();
+
+                    if (browseForFolderResult.Empty())
+                    {
+                        // error
+                    }
+                }
+            }
+        }
+    }
+
+    return finalPath;
 }

@@ -11,3 +11,4 @@
 #include "Str.hpp"
 
 Util::String BrowseForSAFolder();
+Util::String GrabSAPath();
