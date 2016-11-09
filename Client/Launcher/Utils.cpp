@@ -44,7 +44,7 @@ String BrowseForSAFolder()
     HRESULT hr = S_OK;
 
     // Initialize COM
-    hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED |COINIT_DISABLE_OLE1DDE);
+    hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
     // Did it succeeded?
     if (SUCCEEDED(hr))
