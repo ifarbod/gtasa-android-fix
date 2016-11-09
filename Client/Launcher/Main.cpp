@@ -13,7 +13,6 @@
 #include <Path.hpp>
 #include <ProcessUtils.hpp>
 #include <Registry.hpp>
-#include <Version.hpp>
 
 using namespace Util;
 
@@ -58,7 +57,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
         return 1;
     }
 
-    if (!RemoteLoadLibrary(pi.hProcess, PathJoin(GetSAOPath("SAO"), CLIENT_CORE_NAME DEBUG_SUFFIX LIB_EXTENSION)))
+    if (!RemoteLoadLibrary(pi.hProcess, PathJoin(GetSAOPath("SAO"), "Core_d.dll")))
     {
         TerminateProcess(pi.hProcess, 0);
         return 1;
