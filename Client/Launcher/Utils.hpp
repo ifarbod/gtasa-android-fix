@@ -10,5 +10,6 @@
 
 #include "Str.hpp"
 
+bool DoPreLaunchChecks();
 Util::String BrowseForSAFolder();
 Util::String GrabSAPath();

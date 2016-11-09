@@ -17,6 +17,27 @@
 
 using namespace Util;
 
+bool DoPreLaunchChecks()
+{
+    // Check Windows version
+    if (!IsWindows7SP1OrGreater())
+    {
+        // ERR_WINDOWS_NOT_SUPPORTED
+        MessageBoxW(nullptr, L"You need Windows 7 SP1 or greater to play San Andreas Online.", NULL, MB_ICONSTOP);
+        return false;
+    }
+
+    // Check for safe mode
+    if (GetSystemMetrics(SM_CLEANBOOT) != 0)
+    {
+        // ERR_CLEANBOOT
+        MessageBoxW(nullptr, L"You cannot play San Andreas Online in Safe Mode.", NULL, MB_ICONSTOP);
+        return false;
+    }
+
+    return true;
+}
+
 String BrowseForSAFolder()
 {
     String pathToSADir;
