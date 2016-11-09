@@ -11,8 +11,8 @@ environment:
   NSIS_ROOT: $(APPVEYOR_BUILD_FOLDER)\Shared\Installer\NSIS
 
 before_build:
-  - utils\premake5 vs2015
   - genversion
+  - utils\premake5 vs2015
 
 after_build:
   - utils\premake5 compose_files

@@ -18,6 +18,7 @@ using namespace Util;
 
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCmdLine, int nCmdShow)
 {
+    // Check some stuff before launching
     if (!DoPreLaunchChecks())
     {
         return 1;
