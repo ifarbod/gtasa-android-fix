@@ -8,4 +8,6 @@
 
 ## License
 
-MIT © 2015-2016 San Andreas Online
+[MIT](LICENSE.md) © 2015-2016 San Andreas Online
+
+[Click here for a TL;DR version of the license](https://www.tldrlegal.com/l/mit)
