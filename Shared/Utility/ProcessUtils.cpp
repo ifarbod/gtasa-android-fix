@@ -35,6 +35,23 @@ void OpenConsoleWindow()
     //freopen("CONOUT$", "w", stdout);
     //freopen("CONERR$", "w", stderr);
 
+    // If you have multiple monitors, this will automatically move the console to the 2nd
+    if (GetSystemMetrics(SM_CMONITORS) > 1)
+    {
+        // Console Window
+        HWND hConsole = GetConsoleWindow();
+        RECT rect;
+        GetWindowRect(hConsole, &rect);
+
+        // Desktop
+        HWND hDesktop = GetDesktopWindow();
+        RECT desktopRect;
+        GetWindowRect(hDesktop, &desktopRect);
+
+        // Update Position
+        SetWindowPos(hConsole, nullptr, desktopRect.right + 100, 50, rect.right - rect.left, rect.bottom - rect.top, 0);
+    }
+
     consoleOpened = true;
 }
 
