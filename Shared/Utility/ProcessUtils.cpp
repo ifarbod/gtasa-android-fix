@@ -12,8 +12,191 @@
 #include "ProcessUtils.hpp"
 #include "Path.hpp"
 
+#include <cstdio>
+#include <io.h>
+
 namespace Util
 {
+
+static bool consoleOpened = false;
+static String currentLine;
+static Vector<String> arguments;
+
+void OpenConsoleWindow()
+{
+    if (consoleOpened)
+        return;
+
+    AllocConsole();
+    AttachConsole(GetCurrentProcessId());
+
+    freopen("CON", "w", stdout);
+    freopen("CONIN$", "r", stdin);
+    //freopen("CONOUT$", "w", stdout);
+    //freopen("CONERR$", "w", stderr);
+
+    consoleOpened = true;
+}
+
+void PrintUnicode(const String& str, bool error)
+{
+    // If the output stream has been redirected, use fprintf instead of WriteConsoleW,
+    // though it means that proper Unicode output will not work
+    FILE* out = error ? stderr : stdout;
+    if (!_isatty(_fileno(out)))
+        fprintf(out, "%s", str.CString());
+    else
+    {
+        HANDLE stream = GetStdHandle(error ? STD_ERROR_HANDLE : STD_OUTPUT_HANDLE);
+        if (stream == INVALID_HANDLE_VALUE)
+            return;
+        WString strW(str);
+        DWORD charsWritten;
+        WriteConsoleW(stream, strW.CString(), strW.Length(), &charsWritten, 0);
+    }
+}
+
+void PrintUnicodeLine(const String& str, bool error)
+{
+    PrintUnicode(str + "\n", error);
+}
+
+void PrintLine(const String& str, bool error)
+{
+    fprintf(error ? stderr : stdout, "%s\n", str.CString());
+}
+
+const Vector<String>& ParseArguments(const String& cmdLine, bool skipFirstArgument)
+{
+    arguments.Clear();
+
+    unsigned cmdStart = 0, cmdEnd = 0;
+    bool inCmd = false;
+    bool inQuote = false;
+
+    for (unsigned i = 0; i < cmdLine.Length(); ++i)
+    {
+        if (cmdLine[i] == '\"')
+            inQuote = !inQuote;
+        if (cmdLine[i] == ' ' && !inQuote)
+        {
+            if (inCmd)
+            {
+                inCmd = false;
+                cmdEnd = i;
+                // Do not store the first argument (executable name)
+                if (!skipFirstArgument)
+                    arguments.Push(cmdLine.Substring(cmdStart, cmdEnd - cmdStart));
+                skipFirstArgument = false;
+            }
+        }
+        else
+        {
+            if (!inCmd)
+            {
+                inCmd = true;
+                cmdStart = i;
+            }
+        }
+    }
+    if (inCmd)
+    {
+        cmdEnd = cmdLine.Length();
+        if (!skipFirstArgument)
+            arguments.Push(cmdLine.Substring(cmdStart, cmdEnd - cmdStart));
+    }
+
+    // Strip double quotes from the arguments
+    for (unsigned i = 0; i < arguments.Size(); ++i)
+        arguments[i].Replace("\"", "");
+
+    return arguments;
+}
+
+const Vector<String>& ParseArguments(const char* cmdLine)
+{
+    return ParseArguments(String(cmdLine));
+}
+
+const Vector<String>& ParseArguments(const WString& cmdLine)
+{
+    return ParseArguments(String(cmdLine));
+}
+
+const Vector<String>& ParseArguments(const wchar_t* cmdLine)
+{
+    return ParseArguments(String(cmdLine));
+}
+
+const Vector<String>& ParseArguments(int argc, char** argv)
+{
+    String cmdLine;
+
+    for (int i = 0; i < argc; ++i)
+        cmdLine.AppendWithFormat("\"%s\" ", (const char*)argv[i]);
+
+    return ParseArguments(cmdLine);
+}
+
+const Vector<String>& GetArguments()
+{
+    return arguments;
+}
+
+String GetConsoleInput()
+{
+    String ret;
+    HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
+    HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (input == INVALID_HANDLE_VALUE || output == INVALID_HANDLE_VALUE)
+        return ret;
+
+    // Use char-based input
+    SetConsoleMode(input, ENABLE_PROCESSED_INPUT);
+
+    INPUT_RECORD record;
+    DWORD events = 0;
+    DWORD readEvents = 0;
+
+    if (!GetNumberOfConsoleInputEvents(input, &events))
+        return ret;
+
+    while (events--)
+    {
+        ReadConsoleInputW(input, &record, 1, &readEvents);
+        if (record.EventType == KEY_EVENT && record.Event.KeyEvent.bKeyDown)
+        {
+            unsigned c = record.Event.KeyEvent.uChar.UnicodeChar;
+            if (c)
+            {
+                if (c == '\b')
+                {
+                    PrintUnicode("\b \b");
+                    int length = currentLine.LengthUTF8();
+                    if (length)
+                        currentLine = currentLine.SubstringUTF8(0, length - 1);
+                }
+                else if (c == '\r')
+                {
+                    PrintUnicode("\n");
+                    ret = currentLine;
+                    currentLine.Clear();
+                    return ret;
+                }
+                else
+                {
+                    // We have disabled echo, so echo manually
+                    wchar_t out = c;
+                    DWORD charsWritten;
+                    WriteConsoleW(output, &out, 1, &charsWritten, 0);
+                    currentLine.AppendUTF8(c);
+                }
+            }
+        }
+    }
+
+    return ret;
+}
 
 // TODO: Reformat this function
 FARPROC GetProcedureAddress(HMODULE hModule, const String& procName)
