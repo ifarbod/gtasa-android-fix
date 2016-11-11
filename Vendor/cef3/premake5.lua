@@ -23,14 +23,6 @@ project "CEF"
 
     local path = buildpath(".")
     local cef_path = "%{wks.location}/../Vendor/cef3/"
-    
-    postbuildcommands {
-        "{COPY} " .. cef_path .. "Release/*.dll " .. path .. "SAO",
-        "{COPY} " .. cef_path .. "Release/*.bin " .. path .. "SAO",
-        "{COPY} " .. cef_path .. "Resources/icudtl.dat " .. path .. "SAO",
-        "{COPY} " .. cef_path .. "Resources/*.pak " .. path .. "SAO/cef",
-        "{COPY} " .. cef_path .. "Resources/locales/en-US.pak " .. path .. "SAO/cef/locales"
-    }
 
     filter "architecture:x64"
         flags { "ExcludeFromBuild" }
