@@ -5,7 +5,6 @@ premake.modules.compose_files = {}
 -- Config variables
 local BIN_DIR = "Bin"
 local DATA_DIR = "Shared/Data"
-local CEF_DIR = "Vendor/cef3"
 local OUTPUT_DIR = "InstallFiles"
 
 newaction {
@@ -21,13 +20,9 @@ newaction {
         -- Copy the binaries
         os.copydir(BIN_DIR, OUTPUT_DIR, "**.exe")
         os.copydir(BIN_DIR, OUTPUT_DIR, "**.dll")
-        
-        -- Copy cef3 data files
-        os.copydir(CEF_DIR .. "/Release", OUTPUT_DIR .. "/SAO", "*.dll")
-        os.copydir(CEF_DIR .. "/Release", OUTPUT_DIR .. "/SAO", "*.bin")
-        os.copydir(CEF_DIR .. "/Resources", OUTPUT_DIR .. "/SAO", "icudtl.dat")
-        os.copydir(CEF_DIR .. "/Resources", OUTPUT_DIR .. "/SAO/cef", "*.pak")
-        os.copydir(CEF_DIR .. "/Resources/locales", OUTPUT_DIR .. "/SAO/cef/locales", "en-US.pak")
+        os.copydir(BIN_DIR, OUTPUT_DIR, "**.pak")
+        os.copydir(BIN_DIR, OUTPUT_DIR, "**.bin")
+        os.copydir(BIN_DIR, OUTPUT_DIR, "**.dat")
     end
 }
 
