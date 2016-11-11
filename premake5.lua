@@ -10,6 +10,7 @@
 premake.path = premake.path .. ";utils/buildactions"
 require "compose_files"
 require "install_cef"
+require "install_data"
 
 -- Set CI Build global
 local ci = os.getenv("CI")
