@@ -9,6 +9,7 @@
 -- Add buildactions to path
 premake.path = premake.path .. ";utils/buildactions"
 require "compose_files"
+require "install_cef"
 
 -- Set CI Build global
 local ci = os.getenv("CI")
@@ -118,6 +119,7 @@ workspace "SAO"
     group "Vendor"
     include "Vendor/angelscript"
     include "Vendor/bzip2"
+    include "Vendor/cef3"
     include "Vendor/minhook"
     include "Vendor/miniupnpc"
     include "Vendor/RakNet"

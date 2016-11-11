@@ -82,6 +82,15 @@ function os.md5_file(path)
     end
 end
 
+function os.sha1_file(path)
+    if os.get() == "windows" then
+        local s = os.outputof(string.format("CertUtil -hashfile \"%s\" SHA1", path))
+        return (s:match("\n(.*)\n(.*)") or ""):gsub(" ", "")
+    --else
+        --return os.outputof(string.format("sha1sum \"%s\" | awk '{ print $1 }'", path))
+    end
+end
+
 function os.extract_archive(archive_path, target_path, override)
     local flags = override and "-aoa" or "-aos"
 
