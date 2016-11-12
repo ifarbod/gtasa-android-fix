@@ -160,6 +160,17 @@ const Vector<String>& GetArguments()
     return arguments;
 }
 
+void QuoteArguments(Vector<String>& args)
+{
+    for (unsigned i = 0; i < args.Size(); i++)
+    {
+        if (args[i].Contains(' ') && !args[i].Contains('"'))
+        {
+            args[i] = "\"" + args[i] + "\"";
+        }
+    }
+}
+
 String GetConsoleInput()
 {
     String ret;

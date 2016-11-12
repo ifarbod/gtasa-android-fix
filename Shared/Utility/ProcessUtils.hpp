@@ -36,6 +36,8 @@ const Vector<String>& ParseArguments(const wchar_t* cmdLine);
 const Vector<String>& ParseArguments(int argc, char** argv);
 // Return previously parsed arguments.
 const Vector<String>& GetArguments();
+// Encloses arguments that contain space in quotes
+void QuoteArguments(Vector<String>& args);
 // Read input from the console window. Return empty if no input.
 String GetConsoleInput();
 // AV friendly version of GetProcAddress
