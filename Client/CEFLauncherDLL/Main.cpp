@@ -20,8 +20,8 @@ int __declspec(dllexport) InitCEF ()
 
     // Extract SAO path and set DLL directory
     size_t pos = currentFileName.find_last_of(L'\\');
-    std::wstring saoPath = currentFileName.substr( 0, pos - 3 ); // Strip "CEF"
-    SetDllDirectoryW(saoPath.c_str ());
+    std::wstring saoPath = currentFileName.substr(0, pos - 3); // Strip "CEF"
+    SetDllDirectoryW(saoPath.c_str());
 
     // Load CEF
     CefMainArgs mainArgs(GetModuleHandleW(nullptr));
