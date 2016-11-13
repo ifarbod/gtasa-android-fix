@@ -114,6 +114,8 @@ workspace "SAO"
 
     -- Include the projects we are going to build
     group "Client"
+    include "Client/CEFLauncher"
+    include "Client/CEFLauncherDLL"
     include "Client/Core"
     include "Client/Launcher"
 
