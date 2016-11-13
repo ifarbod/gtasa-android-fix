@@ -18,33 +18,33 @@ namespace V8Helpers
 class V8Handler : public CefV8Handler
 {
 public:
-    V8Handler(CefRefPtr<CefFrame> frame) : m_pFrame(frame)
+    V8Handler(CefRefPtr<CefFrame> frame) : frame_(frame)
     {
     }
     void Bind(const std::string& name, JavascriptCallback callback)
     {
-        m_FunctionMap[name] = callback;
+        functionMap_[name] = callback;
     }
     virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
     {
-        std::map<std::string, JavascriptCallback>::iterator iter = m_FunctionMap.find(std::string(name));
-        if (iter != m_FunctionMap.end())
+        std::map<std::string, JavascriptCallback>::iterator iter = functionMap_.find(std::string(name));
+        if (iter != functionMap_.end())
         {
-            iter->second(m_pFrame, arguments);
+            iter->second(frame_, arguments);
             return true;
         }
         return false;
     }
     void Clear()
     {
-        m_FunctionMap.clear();
+        functionMap_.clear();
     }
 
     IMPLEMENT_REFCOUNTING(V8Handler);
 
 private:
-    CefRefPtr<CefFrame> m_pFrame;
-    std::map<std::string, JavascriptCallback> m_FunctionMap;
+    CefRefPtr<CefFrame> frame_;
+    std::map<std::string, JavascriptCallback> functionMap_;
 };
 
 std::stringstream conversionStream;
