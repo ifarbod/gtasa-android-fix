@@ -168,15 +168,28 @@ ${MementoSection} "Client core files (required)" SecCore
     SectionIn 1 2 RO
     
     SetOutPath $INSTDIR
-    File "${FILES_ROOT}\SAO.exe"
+    File "${FILES_ROOT}\SAO*.exe"
     
     SetOutPath "$INSTDIR\${NAME2}"
     File "${FILES_ROOT}\${NAME2}\bass.dll"
+    File "${FILES_ROOT}\${NAME2}\tags.dll"
     File "${FILES_ROOT}\${NAME2}\sde.dll"
     File "${FILES_ROOT}\${NAME2}\sdo.dll"
     File "${FILES_ROOT}\${NAME2}\sdv.dll"
     File "${FILES_ROOT}\${NAME2}\sdvf.dll"
-    File "${FILES_ROOT}\${NAME2}\Core.dll"
+    File "${FILES_ROOT}\${NAME2}\Core*.dll"
+    
+    ; CEF Files
+    SetOutPath "$INSTDIR\${NAME2}"
+    File "${FILES_ROOT}\${NAME2}\d3dcompiler_43.dll"
+    File "${FILES_ROOT}\${NAME2}\d3dcompiler_47.dll"
+    File "${FILES_ROOT}\${NAME2}\icudtl.dat"
+    File "${FILES_ROOT}\${NAME2}\libcef.dll"
+    File "${FILES_ROOT}\${NAME2}\libEGL.dll"
+    File "${FILES_ROOT}\${NAME2}\libGLESv2.dll"
+    File "${FILES_ROOT}\${NAME2}\natives_blob.bin"
+    File "${FILES_ROOT}\${NAME2}\snapshot_blob.bin"
+    File "${FILES_ROOT}\${NAME2}\widevinecdmadapter.dll"
     
     File "/oname=$GTA_DIR\GTASA.exe" "${FILES_ROOT}\${NAME2}\GTASA.dat"
     
