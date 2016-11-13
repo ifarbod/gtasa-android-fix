@@ -31,3 +31,8 @@
 #else
 #define DIRECTORY_SEPARATOR_CHAR "/"
 #endif
+
+// Declspec
+#define DLLEXPORT __declspec(dllexport)
+#define DLLIMPORT __declspec(dllimport)
+#define NAKED __declspec(naked)
