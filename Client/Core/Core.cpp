@@ -45,6 +45,34 @@ Core::Core()
 
     // Disable audio tune from loading screen
     MakeNOP(0x748CF6, 5);
+
+    // Disable re-initialization of DirectInput mouse device by the game - not needed as we disabled the menu
+    // And we handle the mouse using RawInput
+    MakeJMP(0x576CCC);
+    MakeJMP(0x576EBA);
+    MakeJMP(0x576F8A);
+
+    // Make sure DirectInput mouse device is set non-exclusive (may not be needed?)
+    MemPatch<u32>(0x7469A0, 0x9090C030);
+
+    // Fixed stuck strafing with 2-handed weapons with [FPS > 45]
+    static const float fStrafeCheck = 0.1f;
+    MemPatch<const void *>(0x61E0C2, &fStrafeCheck);
+    MakeNOP(0x61E0CA, 6);
+
+    // Unlocked widescreen resolutions
+    //MemPatch<u32>(0x745B71, 0x9090687D);
+    MemPatch<u32>(0x745B81, 0x9090587D);
+    MemPatch<u32>(0x74596C, 0x9090127D);
+    MakeNOP(0x745970, 2);
+    //MakeNOP(0x745B75, 2);
+    MakeNOP(0x745B85, 2);
+    MakeNOP(0x7459E1, 2);
+
+    // No framedelay
+    MemPatch<u16>(0x53E923, 0x43EB);
+    MemPatch<u8>(0x53E99F, 0x10);
+    MakeNOP(0x53E9A5);
 }
 
 Core::~Core()
