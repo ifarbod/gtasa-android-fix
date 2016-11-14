@@ -131,7 +131,7 @@ String BrowseForSAFolder()
 String GrabSAPath()
 {
     // This will store the final path
-    String finalPath;
+    String finalPath = GetGTAPath();
 
     // Try HKLM "SOFTWARE\San Andreas Online" "GTAInstallLocation"
     String saoSaPath = GetGTAPath();
