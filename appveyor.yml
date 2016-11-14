@@ -24,6 +24,7 @@ after_build:
   - cd ..
   - ren SAO*Setup.exe SAO-Setup.exe
   - move SAO-Setup.exe ..\..\
+  - - ps: Invoke-WebRequest -UseBasicParsing https://integram.org/cg0Esxl0vuC -ContentType "application/json" -Method POST -Body "{ 'text':'Build $APPVEYOR_BUILD_NUMBER passed.' }"
 
 skip_tags: true
 clone_depth: 1
