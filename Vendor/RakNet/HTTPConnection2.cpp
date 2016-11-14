@@ -156,7 +156,7 @@ void ReadChunkBlock( size_t &currentChunkSize, size_t &bytesReadSoFar, char *txt
 		sLen = strlen(txtIn);
 		if (sLen < bytesToRead)
 			bytesToRead = sLen;
-		txtOut.AppendBytes(txtIn, bytesToRead);
+		txtOut.AppendBytes(txtIn, (unsigned)bytesToRead);
 		txtIn += bytesToRead;
 		bytesReadSoFar += bytesToRead;
 		if (*txtIn == 0)
@@ -335,7 +335,7 @@ PluginReceiveResult HTTPConnection2::OnReceive(Packet *packet)
 							//RakAssert(slen <= (size_t) sentRequest->contentLength);
 							if (slen >= (size_t) sentRequest->contentLength)
 							{
-								sentRequest->contentOffset = body_header - sentRequest->stringReceived.C_String();
+								sentRequest->contentOffset = (int)(body_header - sentRequest->stringReceived.C_String());
 								completedRequestsMutex.Lock();
 								completedRequests.Push(sentRequest, _FILE_AND_LINE_);
 								completedRequestsMutex.Unlock();
@@ -374,7 +374,7 @@ PluginReceiveResult HTTPConnection2::OnReceive(Packet *packet)
 					const char *firstNewlineSet = strstr(sentRequest->stringReceived.C_String(), "\r\n\r\n");
 					if (firstNewlineSet!=0)
 					{
-						int offset = firstNewlineSet - sentRequest->stringReceived.C_String();
+						int offset = (int)(firstNewlineSet - sentRequest->stringReceived.C_String());
 						if (sentRequest->stringReceived.C_String()[offset+4]==0)
 							sentRequest->contentOffset=-1;
 						else
@@ -569,7 +569,7 @@ void HTTPConnection2::OnClosedConnection(const SystemAddress &systemAddress, Rak
 					if (body_header)
 					{
 						body_header += 4; // strlen("\r\n\r\n");
-						sentRequest->contentOffset = body_header - sentRequest->stringReceived.C_String();
+						sentRequest->contentOffset = int(body_header - sentRequest->stringReceived.C_String());
 					}
 					else
 					{

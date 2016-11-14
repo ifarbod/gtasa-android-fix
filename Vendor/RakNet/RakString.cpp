@@ -468,7 +468,7 @@ WCHAR * RakString::ToWideChar(void)
 		CP_UTF8,                // convert from UTF-8
 		0,						// Flags
 		sharedString->c_str,            // source UTF-8 string
-		GetLength()+1,                 // total length of source UTF-8 string,
+		(int)GetLength()+1,                 // total length of source UTF-8 string,
 		// in CHAR's (= bytes), including end-of-string \0
 		NULL,                   // unused - no conversion done in this step
 		0                       // request size of destination buffer, in WCHAR's
@@ -492,7 +492,7 @@ WCHAR * RakString::ToWideChar(void)
 		CP_UTF8,                // convert from UTF-8
 		0,						// Buffer
 		sharedString->c_str,            // source UTF-8 string
-		GetLength()+1,                 // total length of source UTF-8 string,
+		(int)GetLength()+1,                 // total length of source UTF-8 string,
 		// in CHAR's (= bytes), including end-of-string \0
 		pszUTF16,               // destination buffer
 		cchUTF16                // size of destination buffer, in WCHAR's
@@ -513,7 +513,7 @@ void RakString::DeallocWideChar(WCHAR * w)
 void RakString::FromWideChar(const wchar_t *source)
 {
 	Clear();
-	int bufSize = wcslen(source)*4;
+	int bufSize = (int)wcslen(source)*4;
 	Allocate(bufSize);
 	WideCharToMultiByte ( CP_ACP,                // ANSI code page
 
@@ -662,7 +662,7 @@ void RakString::StartAfterLastCharacter(char c)
 			++i;
 			if (i < len)
 			{
-				*this = SubStr(i,GetLength()-i);
+				*this = SubStr(i, (int)GetLength() - i);
 			}
 			return;
 		}
@@ -693,7 +693,7 @@ void RakString::StartAfterFirstCharacter(char c)
 			++i;
 			if (i < len)
 			{
-				*this = SubStr(i,GetLength()-i);
+				*this = SubStr(i, (int)GetLength() - i);
 			}
 			return;
 		}

@@ -10,7 +10,9 @@
 #include "Core.hpp"
 
 #include <Hook.hpp>
+
 using namespace Util;
+
 void SimulateCopyrightScreen()
 {
     // Simulate that the copyright screen happened

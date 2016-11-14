@@ -245,7 +245,7 @@ PluginReceiveResult NatPunchthroughServer::OnReceive(Packet *packet)
 				rakPeerInterface->GetSockets(sockets);
 				for (size_t i=0; i < sockets.Size() && i < MAXIMUM_NUMBER_OF_INTERNAL_IDS; i++)
 				{
-					boundAddresses[i]=sockets[i]->GetBoundAddress();
+					boundAddresses[(const unsigned)i]=sockets[i]->GetBoundAddress();
 					boundAddressCount++;
 				}
 			}

@@ -472,7 +472,7 @@ StartupResult RakPeer::Startup( unsigned int maxConnections, SocketDescriptor *s
 		*/
 
 		RakNetSocket2 *r2 = RakNetSocket2Allocator::AllocRNS2();
-		r2->SetUserConnectionSocketIndex(i);
+		r2->SetUserConnectionSocketIndex((unsigned)i);
 		#if defined(__native_client__)
 		NativeClientBindParameters ncbp;
 		RNS2_NativeClient * nativeClientSocket = (RNS2_NativeClient*) r2;
@@ -576,8 +576,8 @@ StartupResult RakPeer::Startup( unsigned int maxConnections, SocketDescriptor *s
 #if !defined(__native_client__) && !defined(WINDOWS_STORE_RT)
 	for (i=0; i<socketDescriptorCount; i++)
 	{
-		if (socketList[i]->IsBerkleySocket())
-			((RNS2_Berkley*) socketList[i])->CreateRecvPollingThread(threadPriority);
+		if (socketList[(const unsigned)i]->IsBerkleySocket())
+			((RNS2_Berkley*) socketList[(const unsigned)i])->CreateRecvPollingThread(threadPriority);
 	}
 #endif
 
@@ -727,12 +727,12 @@ StartupResult RakPeer::Startup( unsigned int maxConnections, SocketDescriptor *s
 
 	for (i=0; i < pluginListTS.Size(); i++)
 	{
-		pluginListTS[i]->OnRakPeerStartup();
+		pluginListTS[(const unsigned)i]->OnRakPeerStartup();
 	}
 
 	for (i=0; i < pluginListNTS.Size(); i++)
 	{
-		pluginListNTS[i]->OnRakPeerStartup();
+		pluginListNTS[(const unsigned)i]->OnRakPeerStartup();
 	}
 
 #ifdef USE_THREADED_SEND
