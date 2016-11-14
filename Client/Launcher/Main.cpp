@@ -60,6 +60,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     if (!RemoteLoadLibrary(pi.hProcess, PathJoin(GetSAOPath("SAO"), CLIENT_CORE_NAME DEBUG_SUFFIX LIB_EXTENSION)))
     {
         TerminateProcess(pi.hProcess, 0);
+        MessageBoxW(nullptr, L"Failed to inject the DLL", nullptr, MB_ICONSTOP);
         return 1;
     }
 
