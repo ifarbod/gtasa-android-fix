@@ -16,7 +16,7 @@ namespace Util
 struct AllocatorBlock;
 struct AllocatorNode;
 
-// %Allocator memory block.
+// Allocator memory block.
 struct AllocatorBlock
 {
     // Size of a node.
@@ -30,7 +30,7 @@ struct AllocatorBlock
     // Nodes follow.
 };
 
-// %Allocator node.
+// Allocator node.
 struct AllocatorNode
 {
     // Next free node.
@@ -47,7 +47,7 @@ void* AllocatorReserve(AllocatorBlock* allocator);
 // Free a node. Does not free any blocks.
 void AllocatorFree(AllocatorBlock* allocator, void* ptr);
 
-// %Allocator template class. Allocates objects of a specific class.
+// Allocator template class. Allocates objects of a specific class.
 template <class T> class Allocator
 {
 public:

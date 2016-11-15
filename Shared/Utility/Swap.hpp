@@ -25,9 +25,9 @@ inline void Swap(T& first, T& second)
     second = temp;
 }
 
-template<> void Swap<String>(String& first, String& second);
-template<> void Swap<VectorBase>(VectorBase& first, VectorBase& second);
-template<> void Swap<ListBase>(ListBase& first, ListBase& second);
-//template<> void Swap<HashBase>(HashBase& first, HashBase& second);
+template <> void Swap<String>(String& first, String& second);
+template <> void Swap<VectorBase>(VectorBase& first, VectorBase& second);
+template <> void Swap<ListBase>(ListBase& first, ListBase& second);
+//template <> void Swap<HashBase>(HashBase& first, HashBase& second);
 
 }

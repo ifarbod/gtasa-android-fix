@@ -14,7 +14,7 @@ namespace Util
 {
 
 // Random access iterator.
-template<class T>
+template <class T>
 struct RandomAccessIterator
 {
     // Construct.

@@ -37,7 +37,7 @@ public:
     MemPtr(void* x) : p(x) {}
     MemPtr(uintptr_t x) : a(x) {}
 
-    template<class T>
+    template <class T>
     MemPtr(T* x) : p((void *)x) {}
     /* End of Constructors */
 
@@ -47,10 +47,10 @@ public:
     explicit operator bool() const { return is_null(); }
 
     MemPtr get() const { return *this; }
-    template<class T> T* get() const { return get(); }
-    template<class T> T* get_raw() { return get(); }
+    template <class T> T* get() const { return get(); }
+    template <class T> T* get_raw() { return get(); }
 
-    template<class T>
+    template <class T>
     operator T*() const { return reinterpret_cast<T*>(p); }
 
     /* Comparision */
@@ -127,7 +127,7 @@ public:
     }
 };
 
-template<uintptr_t addr>
+template <uintptr_t addr>
 struct LazyPointer
 {
 public:
@@ -137,7 +137,7 @@ public:
         return xget().get();
     }
 
-    template<class T>
+    template <class T>
     static T* get()
     {
         return get().get<T>();
@@ -153,7 +153,7 @@ private:
     }
 };
 
-template<uintptr_t addr>
+template <uintptr_t addr>
 inline MemPtr LazyPtr()
 {
     return LazyPointer<addr>::get();
@@ -242,14 +242,14 @@ private:
 /* Methods for reading/writing memory */
 
 // Gets contents from a memory address
-template<class T>
+template <class T>
 inline T MemRead(MemPtr addr)
 {
     //return *(T *)addr.as_int();
     return *addr.get<T>();
 }
 
-template<class T = void> // "= void" (not needed?!) who cares..
+template <class T = void> // "= void" (not needed?!) who cares..
 inline T& ReadOffset(MemPtr ptr, size_t offset)
 {
     return *(ptr + offset).get<T>();
@@ -270,7 +270,7 @@ inline void MemCpy(MemPtr addr, void const* src, size_t size)
 }
 
 // MemWrite
-template<class T>
+template <class T>
 inline void MemWrite(MemPtr addr, T value)
 {
     ScopedUnprotect xprotect(addr, sizeof(T));
@@ -282,7 +282,7 @@ inline void MemWrite(MemPtr addr, T value)
 }
 
 // MemPatch
-template<class T>
+template <class T>
 inline void MemPatch(MemPtr addr, T value)
 {
     ScopedUnprotect xprotect(addr, sizeof(T));
@@ -505,38 +505,38 @@ inline MemPtr GetVF(MemPtr self, size_t index)
 // Calling Functions of GTASA exe
 // Call function at @p returning @Ret with args @Args
 // compiler's default calling convention
-template<class Ret, class ...Args>
+template <class Ret, class ...Args>
 inline Ret Call(MemPtr p, Args... a)
 {
     auto fn = (Ret(*)(Args...)) p.get<void>();
     return fn(std::forward<Args>(a)...);
 }
 
-template<class Ret, class ...Args>
+template <class Ret, class ...Args>
 inline Ret Cdecl(MemPtr p, Args... a)
 {
     auto fn = (Ret(__cdecl *)(Args...)) p.get<void>();
     return fn(std::forward<Args>(a)...);
 }
 
-template<class Ret, class ...Args>
+template <class Ret, class ...Args>
 inline Ret StdCall(MemPtr p, Args... a)
 {
     auto fn = (Ret(__stdcall *)(Args...)) p.get<void>();
     return fn(std::forward<Args>(a)...);
 }
 
-template<class Ret, class ...Args>
+template <class Ret, class ...Args>
 inline Ret ThisCall(MemPtr p, Args... a)
 {
     auto fn = (Ret(__thiscall *)(Args...)) p.get<void>();
     return fn(std::forward<Args>(a)...);
 }
 
-template<size_t index>
+template <size_t index>
 struct Vtbl
 {
-    template<class Ret, class ...Args>
+    template <class Ret, class ...Args>
     static Ret Call(Args... a)
     {
         auto obj = MemPtr(std::get<0>(std::forward_as_tuple(a...)));
@@ -545,7 +545,7 @@ struct Vtbl
     }
 };
 
-template<class Ret, class ...Args>
+template <class Ret, class ...Args>
 inline Ret FastCall(MemPtr p, Args... a)
 {
     auto fn = (Ret(__fastcall *)(Args...)) p.get<void>();

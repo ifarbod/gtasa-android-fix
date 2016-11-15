@@ -12,7 +12,7 @@ namespace Util
 {
 
 // Heap memory which is auto-deleted on RAII scope exit
-template<class T>
+template <class T>
 class ScopedAlloc
 {
     Vector<char> buffer;

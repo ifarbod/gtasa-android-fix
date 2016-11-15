@@ -19,7 +19,7 @@ namespace Util
 {
 
 // Vector template class.
-template<class T>
+template <class T>
 class Vector : public VectorBase
 {
 public:
