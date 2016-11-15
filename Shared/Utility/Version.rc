@@ -1,0 +1,48 @@
+// SAO Version
+// Author(s):       AliAssassiN <ailsynthax@gmail.com>
+//
+// Copyright (c) 2015-2016 The San Andreas Online Open Source Project
+//
+// Distributed under the MIT license (See accompanying file LICENSE or copy at
+// https://opensource.org/licenses/MIT)
+
+#include "VersionHelper.h"
+
+#ifdef SAO_DEBUG
+	#define OURFILEFLAG 0x1L
+#else
+	#define OURFILEFLAG 0x0L
+#endif
+
+#define RCVersionInfo(fileType, intName, origName) \
+VS_VERSION_INFO VERSIONINFO \
+ FILEVERSION SAO_VERSION_COMMA \
+ PRODUCTVERSION SAO_VERSION_COMMA \
+ FILEFLAGSMASK 0x3fL \
+ FILEFLAGS OURFILEFLAG \
+ FILEOS 0x40004L \
+ FILETYPE fileType \
+ FILESUBTYPE 0x0L \
+BEGIN \
+    BLOCK "StringFileInfo" \
+    BEGIN \
+        BLOCK "040904b0" \
+        BEGIN \
+            VALUE "CompanyName", "San Andreas Online" \
+            VALUE "FileDescription", "San Andreas Online Component" \
+            VALUE "FileVersion", SAO_STRINGVERSION_DOT \
+            VALUE "InternalName", intName \
+            VALUE "LegalCopyright", "Copyright (C) 2015-2016 The SAO Open Source Project" \
+            VALUE "OriginalFilename", origName \
+            VALUE "ProductName", "San Andreas Online" \
+            VALUE "ProductVersion", SAO_STRINGVERSION_DOT \
+        END \
+    END \
+    BLOCK "VarFileInfo" \
+    BEGIN \
+        VALUE "Translation", 0x409, 1200 \
+    END \
+END
+
+#define SAOVersionApp(intName) RCVersionInfo(0x00000001L, intName, intName ".exe")
+#define SAOVersionDLL(intName) RCVersionInfo(0x00000002L, intName, intName ".dll")
