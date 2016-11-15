@@ -28,9 +28,7 @@ public:
     using ConstIterator = RandomAccessConstIterator<T>;
 
     // Construct empty.
-    Vector()
-    {
-    }
+    Vector() = default;
 
     // Construct with initial size.
     explicit Vector(unsigned size)
