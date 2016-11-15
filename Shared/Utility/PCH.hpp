@@ -13,8 +13,13 @@
 #include <Windows.h>
 #endif
 
+// Macros and types
 #include "Version.hpp"
 #include "Types.hpp"
 #include "Macros.hpp"
-#include "Str.hpp"
 
+// Actual headers
+#include "HashMap.hpp"
+#include "HashSet.hpp"
+#include "Sort.hpp"
+#include "Str.hpp"

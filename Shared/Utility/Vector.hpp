@@ -553,9 +553,9 @@ private:
 template <class T> class PODVector : public VectorBase
 {
 public:
-    typedef T ValueType;
-    typedef RandomAccessIterator<T> Iterator;
-    typedef RandomAccessConstIterator<T> ConstIterator;
+    using ValueType = T;
+    using Iterator = RandomAccessIterator<T>;
+    using ConstIterator = RandomAccessConstIterator<T>;
 
     // Construct empty.
     PODVector()
