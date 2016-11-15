@@ -18,7 +18,7 @@ namespace Util
 template <class T> class List : public ListBase
 {
 public:
-    // %List node.
+    // List node.
     struct Node : public ListNodeBase
     {
         // Construct undefined.
@@ -40,7 +40,7 @@ public:
         Node* Prev() { return static_cast<Node*>(prev_); }
     };
 
-    // %List iterator.
+    // List iterator.
     struct Iterator : public ListIteratorBase
     {
         // Construct.
@@ -89,7 +89,7 @@ public:
         T& operator *() const { return (static_cast<Node*>(ptr_))->value_; }
     };
 
-    // %List const iterator.
+    // List const iterator.
     struct ConstIterator : public ListIteratorBase
     {
         // Construct.
