@@ -11,4 +11,9 @@
 namespace Util
 {
 
+String MakeVersionStr(bool includeV)
+{
+	return (includeV) ? SAO_VERSION_STR : SAO_VERSION_STR_NOV;
+}
+
 }
