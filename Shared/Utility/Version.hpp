@@ -63,11 +63,3 @@
 #endif
 
 #define SAO_VERSION_STR_RC SAO_STRINGIZE(SAO_VERSION_DOT)
-
-namespace Util
-{
-
-// Make a version string
-String MakeVersionStr(bool includeV = true);
-
-}
