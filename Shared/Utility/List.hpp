@@ -9,6 +9,7 @@
 #pragma once
 
 #include "ListBase.hpp"
+
 #include <initializer_list>
 
 namespace Util

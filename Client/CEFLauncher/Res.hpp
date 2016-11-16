@@ -6,3 +6,4 @@
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
 
+#define IDI_ICON1 101

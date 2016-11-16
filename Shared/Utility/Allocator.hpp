@@ -98,7 +98,7 @@ private:
     // Prevent copy construction.
     Allocator(const Allocator<T>& rhs);
     // Prevent assignment.
-    Allocator<T>& operator =(const Allocator<T>& rhs);
+	Allocator<T>& operator =(const Allocator<T>& rhs) = default; // delete?
 
     // Allocator block.
     AllocatorBlock* allocator_;

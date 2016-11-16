@@ -7,13 +7,14 @@ project "Utility"
     pchsource "PCH.cpp"
     
     vpaths {
-        ["Headers/*"] = "**.hpp",
+        ["Headers/*"] = { "**.hpp", "**.h" },
         ["Sources/*"] = "**.cpp",
         ["*"] = "premake5.lua"
     }
     
     files {
         "premake5.lua",
+        "**.h",
 		"**.hpp",
         "**.cpp"
     }

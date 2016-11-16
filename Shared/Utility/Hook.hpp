@@ -26,7 +26,7 @@ namespace Util
 union MemPtr
 {
 protected:
-    void*	 p;
+    void* p;
     uintptr_t a;
 
 public:
@@ -39,7 +39,6 @@ public:
 
     template <class T>
     MemPtr(T* x) : p((void *)x) {}
-    /* End of Constructors */
 
     bool is_null() const { return this->p != nullptr; }
     uintptr_t as_int() const { return this->a; }

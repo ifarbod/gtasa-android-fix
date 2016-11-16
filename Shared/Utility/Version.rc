@@ -6,20 +6,20 @@
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
 
-#include "VersionHelper.h"
+#include "Version.hpp"
 
 #ifdef SAO_DEBUG
-	#define OURFILEFLAG 0x1L
+	#define SAO_FILEFLAGS 0x1L
 #else
-	#define OURFILEFLAG 0x0L
+	#define SAO_FILEFLAGS 0x0L
 #endif
 
 #define RCVersionInfo(fileType, intName, origName) \
 VS_VERSION_INFO VERSIONINFO \
- FILEVERSION SAO_VERSION_COMMA \
- PRODUCTVERSION SAO_VERSION_COMMA \
- FILEFLAGSMASK 0x3fL \
- FILEFLAGS OURFILEFLAG \
+ FILEVERSION SAO_VERSION_COMMA_RC \
+ PRODUCTVERSION SAO_VERSION_COMMA_RC \
+ FILEFLAGSMASK 0x3FL \
+ FILEFLAGS SAO_FILEFLAGS \
  FILEOS 0x40004L \
  FILETYPE fileType \
  FILESUBTYPE 0x0L \
@@ -30,12 +30,12 @@ BEGIN \
         BEGIN \
             VALUE "CompanyName", "San Andreas Online" \
             VALUE "FileDescription", "San Andreas Online Component" \
-            VALUE "FileVersion", SAO_STRINGVERSION_DOT \
+            VALUE "FileVersion", SAO_VERSION_STR_RC \
             VALUE "InternalName", intName \
-            VALUE "LegalCopyright", "Copyright (C) 2015-2016 The SAO Open Source Project" \
+            VALUE "LegalCopyright", "Copyright (C) 2015-2016 The San Andreas Online Open Source Project" \
             VALUE "OriginalFilename", origName \
             VALUE "ProductName", "San Andreas Online" \
-            VALUE "ProductVersion", SAO_STRINGVERSION_DOT \
+            VALUE "ProductVersion", SAO_VERSION_STR_RC \
         END \
     END \
     BLOCK "VarFileInfo" \
@@ -44,5 +44,5 @@ BEGIN \
     END \
 END
 
-#define SAOVersionApp(intName) RCVersionInfo(0x00000001L, intName, intName ".exe")
-#define SAOVersionDLL(intName) RCVersionInfo(0x00000002L, intName, intName ".dll")
+#define SAOVersionEXE(intName) RCVersionInfo(0x1L, intName, intName ".exe")
+#define SAOVersionDLL(intName) RCVersionInfo(0x2L, intName, intName ".dll")

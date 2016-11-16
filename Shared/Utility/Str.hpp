@@ -13,7 +13,7 @@
 #include <cstdarg>
 #include <cstring>
 #include <cctype>
-#include <cassert> // until our custom implementation ;)
+#include <cassert>
 
 namespace Util
 {
@@ -27,7 +27,7 @@ class WString;
 class String
 {
 public:
-    using Iterator = RandomAccessIterator<char> ;
+    using Iterator = RandomAccessIterator<char>;
     using ConstIterator = RandomAccessConstIterator<char>;
 
     // Construct empty.

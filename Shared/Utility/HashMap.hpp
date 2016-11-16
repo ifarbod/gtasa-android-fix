@@ -63,7 +63,7 @@ public:
 
     private:
         // Prevent assignment.
-        KeyValue& operator =(const KeyValue& rhs);
+        KeyValue& operator =(const KeyValue& rhs) = default; // delete?
     };
 
     // Hash map node.
