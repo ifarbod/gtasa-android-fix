@@ -5,7 +5,7 @@ project "CEFLauncherDLL"
     targetdir(buildpath("SAO/cef"))
     
     includedirs { 
-		"../../Vendor/cef" 
+		"../../Vendor/cef3" 
 	}
     
     vpaths { 
@@ -22,7 +22,7 @@ project "CEFLauncherDLL"
         "**.rc"
     }
     
-    links { "CEF",  "../../Vendor/cef/Release/libcef.lib" }
+    links { "CEF",  "../../Vendor/cef3/Release/libcef.lib" }
     
     filter "architecture:x64"
         flags { "ExcludeFromBuild" }

@@ -15,14 +15,14 @@ project "Core"
     }
 
     libdirs {
-		"../../Vendor/cef/Release"
+		"../../Vendor/cef3/Release"
 	}
     
     includedirs {
         ".",
         "../../Vendor/bass",
         "../../Vendor/lua",
-        "../../Vendor/cef"
+        "../../Vendor/cef3"
     }
     
     links {
