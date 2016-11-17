@@ -5,7 +5,7 @@ premake.modules.install_data = {}
 -- Config variables
 local BIN_DIR = "Bin"
 local DATA_DIR = "Shared/Data"
-local CEF_DIR = "Vendor/cef3"
+local CEF_DIR = "Vendor/cef"
 
 newaction {
     trigger = "install_data",

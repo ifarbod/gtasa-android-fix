@@ -3,7 +3,7 @@ require 'utils'
 premake.modules.install_cef = {}
 
 -- Config variables
-local CEF_PATH = "Vendor/cef3/"
+local CEF_PATH = "Vendor/cef/"
 local CEF_URL = "https://saocef.000webhostapp.com"
 local CEF_URL_SHA1 = "https://saocef.000webhostapp.com/sha.php"
 
