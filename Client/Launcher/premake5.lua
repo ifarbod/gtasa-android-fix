@@ -10,7 +10,10 @@ project "Launcher"
     
     flags { "WinMain" }
     
-    links { "Utility" }
+    links {
+        "Utility",
+        "../../Vendor/nvapi/x86/nvapi.lib"
+    }
     
     vpaths { 
         ["Headers/*"] = "**.hpp",

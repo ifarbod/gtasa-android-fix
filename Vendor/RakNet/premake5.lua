@@ -1,7 +1,6 @@
-project "RakNet"
+project "raknet"
     language "C++"
     kind "StaticLib"
-    targetname "RakNet"
     characterset "MBCS"
     
     vpaths { 

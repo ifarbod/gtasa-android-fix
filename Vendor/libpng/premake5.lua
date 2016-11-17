@@ -1,7 +1,6 @@
 project "libpng"
     language "C++"
     kind "StaticLib"
-    targetname "libpng"
     
     includedirs {
         "../zlib"

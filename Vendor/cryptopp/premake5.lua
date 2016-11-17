@@ -1,7 +1,6 @@
 project "cryptopp"
     language "C++"
     kind "StaticLib"
-    targetname "cryptopp"
     characterset "MBCS"
     
     vpaths { 

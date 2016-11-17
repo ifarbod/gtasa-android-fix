@@ -1,7 +1,6 @@
-project "Lua"
+project "lua"
     language "C++"
     kind "StaticLib"
-    targetname "Lua"
     
     vpaths {
         ["Headers/*"] = { "**.h", "**.hpp" },

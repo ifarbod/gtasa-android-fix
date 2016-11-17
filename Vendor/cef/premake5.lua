@@ -1,5 +1,4 @@
-project "CEF"
-    targetname "CEF"
+project "cef"
     language "C++"
     kind "StaticLib"
 
@@ -22,7 +21,6 @@ project "CEF"
     }
 
     local path = buildpath(".")
-    local cef_path = "%{wks.location}/../Vendor/cef3/"
 
     filter "architecture:x64"
         flags { "ExcludeFromBuild" }

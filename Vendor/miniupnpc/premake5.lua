@@ -3,7 +3,6 @@
 project "miniupnpc"
     language "C++"
     kind "StaticLib"
-    targetname "miniupnpc"
 
     includedirs { "." }
     defines { "STATICLIB" }

@@ -1,7 +1,6 @@
 project "jpeg"
     language "C++"
     kind "StaticLib"
-    targetname "jpeg"
     
     vpaths {
         ["Headers/*"] = "**.h",

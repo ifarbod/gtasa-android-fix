@@ -1,7 +1,6 @@
 project "lz4"
     language "C++"
     kind "StaticLib"
-    targetname "lz4"
     
     vpaths {
         ["Headers/*"] = "**.h",

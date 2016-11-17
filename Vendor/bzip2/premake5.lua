@@ -1,7 +1,6 @@
 project "bzip2"
     language "C++"
     kind "StaticLib"
-    targetname "bzip2"
     
     vpaths {
         ["Headers/*"] = "**.h",

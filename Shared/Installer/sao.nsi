@@ -172,6 +172,8 @@ ${MementoSection} "Client core files (required)" SecCore
     
     SetOutPath "$INSTDIR\${NAME2}"
     File "${FILES_ROOT}\${NAME2}\bass.dll"
+    File "${FILES_ROOT}\${NAME2}\bass_fx.dll"
+    File "${FILES_ROOT}\${NAME2}\bassmix.dll"
     File "${FILES_ROOT}\${NAME2}\tags.dll"
     File "${FILES_ROOT}\${NAME2}\sde.dll"
     File "${FILES_ROOT}\${NAME2}\sdo.dll"

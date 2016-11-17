@@ -1,7 +1,6 @@
 project "pugixml"
     kind "StaticLib"
     language "C++"
-    targetname "pugixml"
     
     
     vpaths { 

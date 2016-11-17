@@ -15,18 +15,18 @@ project "Core"
     }
 
     libdirs {
-		"../../Vendor/cef3/Release"
+		"../../Vendor/cef/Release"
 	}
     
     includedirs {
         ".",
         "../../Vendor/bass",
         "../../Vendor/lua",
-        "../../Vendor/cef3"
+        "../../Vendor/cef"
     }
     
     links {
-        "Utility", "RakNet", "Lua",
+        "Utility", "RakNet", "AngelScript", "Lua",
         "../../Vendor/bass/lib/bass",
 		"../../Vendor/bass/lib/bass_fx",
 		"../../Vendor/bass/lib/bassmix",
