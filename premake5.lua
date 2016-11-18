@@ -138,7 +138,7 @@ workspace "SAO"
     include "Vendor/zip"
 
     group "Server"
-    include "Server"
+    include "Server/DS"
     
     group "Shared"
     include "Shared/Utility"

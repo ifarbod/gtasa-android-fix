@@ -19,7 +19,7 @@
 #include "Macros.hpp"
 
 // Actual headers
-#include "HashMap.hpp"
-#include "HashSet.hpp"
-#include "Sort.hpp"
-#include "Str.hpp"
+#include "Container/HashMap.hpp"
+#include "Container/HashSet.hpp"
+#include "Container/Sort.hpp"
+#include "Container/Str.hpp"

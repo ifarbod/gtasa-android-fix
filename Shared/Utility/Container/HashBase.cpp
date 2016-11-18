@@ -6,7 +6,7 @@
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
 
-#include "PCH.hpp"
+#include <PCH.hpp>
 #include "HashBase.hpp"
 
 namespace Util

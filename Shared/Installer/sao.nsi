@@ -193,7 +193,7 @@ ${MementoSection} "Client core files (required)" SecCore
     File "${FILES_ROOT}\${NAME2}\snapshot_blob.bin"
     File "${FILES_ROOT}\${NAME2}\widevinecdmadapter.dll"
     
-    File "/oname=$GTA_DIR\GTASA.exe" "${FILES_ROOT}\${NAME2}\GTASA.dat"
+    File "/oname=$GTA_DIR\SA.exe" "${FILES_ROOT}\${NAME2}\SA.dat"
     
     ; Create uninstaller
     WriteUninstaller "$INSTDIR\Uninstall.exe"

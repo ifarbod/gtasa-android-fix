@@ -10,7 +10,7 @@
 #include "Precompiled.hpp"
 #include "Core.hpp"
 
-#include <Str.hpp>
+#include <Container/Str.hpp>
 #include <Path.hpp>
 
 Core * g_pCore;

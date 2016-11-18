@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Str.hpp"
+#include <Container/Str.hpp>
 
 bool DoPreLaunchChecks();
 Util::String BrowseForSAFolder();

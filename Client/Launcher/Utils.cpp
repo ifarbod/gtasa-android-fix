@@ -11,7 +11,7 @@
 #include "Utils.hpp"
 
 #include <Shobjidl.h>
-#include <Str.hpp>
+#include <Container/Str.hpp>
 #include <Path.hpp>
 #include <Registry.hpp>
 

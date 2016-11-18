@@ -9,7 +9,7 @@
 
 #include "Precompiled.hpp"
 #include "Utils.hpp"
-#include <Str.hpp>
+#include <Container/Str.hpp>
 #include <Path.hpp>
 #include <ProcessUtils.hpp>
 #include <Registry.hpp>
@@ -34,7 +34,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     SetCurrentDirectoryW(WString{ gtaPath }.CString());
 
     // Generate command line
-    String commandLine = String(GetGTAPath("GTASA.exe")) + " " + strCmdLine;
+    String commandLine = String(GetGTAPath("SA.exe")) + " " + strCmdLine;
 
     // Try launching SA
     STARTUPINFO si = { 0 };
@@ -42,7 +42,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
     si.cb = sizeof(si);
 
     if (!CreateProcessW(
-        WString{ GetGTAPath("GTASA.exe") }.CString(),
+        WString{ GetGTAPath("SA.exe") }.CString(),
         const_cast<wchar_t *>(WString{ commandLine }.CString()),
         nullptr,
         nullptr,

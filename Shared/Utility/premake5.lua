@@ -6,6 +6,8 @@ project "Utility"
     pchheader "PCH.hpp"
     pchsource "PCH.cpp"
     
+    includedirs { "." }
+    
     vpaths {
         ["Headers/*"] = { "**.hpp", "**.h" },
         ["Sources/*"] = "**.cpp",
