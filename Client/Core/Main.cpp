@@ -13,9 +13,9 @@
 #include <Container/Str.hpp>
 #include <Path.hpp>
 
-Core * g_pCore;
-
 using namespace Util;
+
+Core * g_pCore;
 
 BOOL WINAPI DllMain(HINSTANCE hDllInstance, DWORD dwReason, LPVOID lpvReserved)
 {

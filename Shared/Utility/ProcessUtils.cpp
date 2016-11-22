@@ -30,9 +30,10 @@ void OpenConsoleWindow()
     AllocConsole();
     AttachConsole(GetCurrentProcessId());
 
-    freopen("CON", "w", stdout);
+    //freopen("CON", "w", stdout);
     freopen("CONIN$", "r", stdin);
-    //freopen("CONOUT$", "w", stdout);
+    freopen("CONOUT$", "w", stdout);
+	freopen("CONOUT$", "w", stderr);
     //freopen("CONERR$", "w", stderr);
 
     // If you have multiple monitors, this will automatically move the console to the 2nd

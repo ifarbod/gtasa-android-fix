@@ -22,7 +22,7 @@ end
 
 workspace "SAO"
     location "Build"
-    platforms { "x86", "x64"}
+    platforms { "x86", "x64" }
     targetprefix ("")
     configurations {"Debug", "Release"}
     flags { "C++14" }
@@ -100,10 +100,7 @@ workspace "SAO"
         
     -- Enable visual styles
     filter { "system:windows", "platforms:x86", "kind:not StaticLib" }
-        linkoptions "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\""
-
-    filter { "system:windows", "platforms:x64", "kind:not StaticLib" }
-        linkoptions "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='amd64' publicKeyToken='6595b64144ccf1df' language='*'\""
+        linkoptions "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\""
 
     filter { "system:windows", "kind:not StaticLib", "kind:not SharedLib" }
         linkoptions "/MANIFESTUAC:\"level='requireAdministrator\'"

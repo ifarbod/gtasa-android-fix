@@ -28,8 +28,8 @@ BEGIN \
     BEGIN \
         BLOCK "040904b0" \
         BEGIN \
-            VALUE "CompanyName", "San Andreas Online" \
-            VALUE "FileDescription", "San Andreas Online Component" \
+            VALUE "CompanyName", "The San Andreas Online Team" \
+            VALUE "FileDescription", "San Andreas Online" \
             VALUE "FileVersion", SAO_VERSION_STR_RC \
             VALUE "InternalName", intName \
             VALUE "LegalCopyright", "Copyright (C) 2015-2016 The San Andreas Online Open Source Project" \
