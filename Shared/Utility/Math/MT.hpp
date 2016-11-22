@@ -21,7 +21,7 @@ template<class UIntType,
 class MersenneTwister
 {
 public:
-	using ResultType = UIntType;
+    using ResultType = UIntType;
 
     static constexpr size_t wordSize_ = w;
     static constexpr size_t stateSize_ = n;
@@ -56,7 +56,7 @@ public:
         const UIntType mask = (Max)();
         x[0] = value & mask;
         for (i = 1; i < n; i++)
-		{
+        {
             x[i] = (f * (x[i - 1] ^ (x[i - 1] >> (w - 2))) + i) & mask;
         }
 
@@ -64,9 +64,9 @@ public:
     }
 
     void Seed()
-	{
-		Seed(defaultSeed_);
-	}
+    {
+        Seed(defaultSeed_);
+    }
 
     // Returns the smallest value that the generator can produce.
     static ResultType Min()
@@ -97,7 +97,7 @@ public:
     void Discard(uintmax_t z)
     {
         for (uintmax_t j = 0; j < z; ++j)
-		{
+        {
             (*this)();
         }
     }
@@ -112,31 +112,31 @@ private:
         const size_t unrollExtra2 = (m - 1) % unrollFactor;
 
         // Split loop to avoid costly modulo operations
-		// Extra scope for MSVC brokenness w.r.t. for scope
+        // Extra scope for MSVC brokenness w.r.t. for scope
         {
             for (size_t j = 0; j < n - m - unrollExtra1; j++)
-			{
+            {
                 UIntType y = (x[j] & upperMask) | (x[j + 1] & lowerMask);
                 x[j] = x[j + m] ^ (y >> 1) ^ ((x[j + 1] & 1) * a);
             }
         }
         {
             for (size_t j = n - m - unrollExtra1; j < n - m; j++)
-			{
+            {
                 UIntType y = (x[j] & upperMask) | (x[j + 1] & lowerMask);
                 x[j] = x[j + m] ^ (y >> 1) ^ ((x[j + 1] & 1) * a);
             }
         }
         {
             for (size_t j = n - m; j < n - 1 - unrollExtra2; j++)
-			{
+            {
                 UIntType y = (x[j] & upperMask) | (x[j + 1] & lowerMask);
                 x[j] = x[j - (n - m)] ^ (y >> 1) ^ ((x[j + 1] & 1) * a);
             }
         }
         {
             for (size_t j = n - 1 - unrollExtra2; j < n - 1; j++)
-			{
+            {
                 UIntType y = (x[j] & upperMask) | (x[j + 1] & lowerMask);
                 x[j] = x[j - (n - m)] ^ (y >> 1) ^ ((x[j + 1] & 1) * a);
             }
@@ -153,18 +153,18 @@ private:
         const UIntType lowerMask = ~upperMask;
         UIntType y0 = x[m - 1] ^ x[n - 1];
         if (y0 & (static_cast<UIntType>(1) << (w - 1)))
-		{
+        {
             y0 = ((y0 ^ a) << 1) | 1;
         }
         else
-		{
+        {
             y0 = y0 << 1;
         }
         x[0] = (x[0] & upperMask) | (y0 & lowerMask);
 
         // Fix up the state if it's all zeroes.
         for (size_t j = 0; j < n; ++j)
-		{
+        {
             if (x[j] != 0) return;
         }
 
