@@ -467,6 +467,15 @@ public:
     // Append to string using variable arguments.
     String& AppendWithFormatArgs(const char* formatString, va_list args);
 
+	// String format as a static function.
+	template <class... Args>
+	static String Format(const String& formatString, const Args&... args)
+	{
+		String temp;
+		temp.AppendWithFormat(formatString.CString(), args...);
+		return temp;
+	}
+
     // Compare two C strings.
     static int Compare(const char* str1, const char* str2, bool caseSensitive);
 
@@ -595,5 +604,9 @@ private:
     // String buffer, null if not allocated.
     wchar_t* buffer_;
 };
+
+// For easier converting between String <-> WString.
+inline String ToStr(const WString& string) { return String(string); }
+inline WString ToWStr(const String& string) { return WString(string); }
 
 }
