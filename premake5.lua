@@ -81,6 +81,7 @@ workspace "SAO"
 
     filter "system:windows"
         toolset "v140"
+        flags { "StaticRuntime" }
         
     filter { "system:windows", "platforms:x86" }
         defines { "WIN32", "_WIN32" }
