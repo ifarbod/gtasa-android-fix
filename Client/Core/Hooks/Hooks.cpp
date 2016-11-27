@@ -67,4 +67,10 @@ static Util::HookFunction hookFunction([]()
     MakeRET(0x4629E0);
     // Disable CRoadBlocks::GenerateRoadBlockPedsForCar
     MakeRET(0x461170);
+
+	// Disable CGameLogic::Update
+	MakeRET(0x442AD0);
+
+	// Disable CPlayerInfo::MakePlayerSafe
+	MakeRET(0x56E870, 8);
 });
