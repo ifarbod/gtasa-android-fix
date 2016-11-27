@@ -1,4 +1,4 @@
-project "cef"
+project "libcef_dll_wrapper"
     language "C++"
     kind "StaticLib"
 

@@ -22,7 +22,7 @@ project "CEFLauncherDLL"
         "**.rc"
     }
     
-    links { "CEF",  "../../Vendor/cef3/Release/libcef.lib" }
+    links { "libcef_dll_wrapper",  "../../Vendor/cef3/Release/libcef.lib" }
     
     filter "architecture:x64"
         flags { "ExcludeFromBuild" }
