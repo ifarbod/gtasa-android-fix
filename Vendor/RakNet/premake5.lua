@@ -1,4 +1,4 @@
-project "raknet"
+project "RakNet"
     language "C++"
     kind "StaticLib"
     characterset "MBCS"

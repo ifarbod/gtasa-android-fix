@@ -1,4 +1,4 @@
-project "pugixml"
+project "PugiXML"
     kind "StaticLib"
     language "C++"
     

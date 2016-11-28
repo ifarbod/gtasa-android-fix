@@ -1,4 +1,4 @@
-project "minhook"
+project "MinHook"
     language "C++"
     kind "StaticLib"
     

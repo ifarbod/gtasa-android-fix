@@ -1,4 +1,4 @@
-project "duktape"
+project "Duktape"
     language "C++"
     kind "StaticLib"
 

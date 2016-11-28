@@ -1,4 +1,4 @@
-project "sqlite"
+project "SQlite"
     language "C++"
     kind "StaticLib"
     

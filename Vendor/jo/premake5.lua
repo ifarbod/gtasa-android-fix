@@ -1,4 +1,4 @@
-project "jo"
+project "JO"
     language "C++"
     kind "StaticLib"
     

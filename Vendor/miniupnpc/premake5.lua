@@ -1,6 +1,5 @@
--- multi-threaded /mt
--- Link ws2_32.lib IPHlpApi.Lib
-project "miniupnpc"
+-- Link ws2_32.lib IPHlpApi.Lib before using this
+project "MiniUPnPc"
     language "C++"
     kind "StaticLib"
 

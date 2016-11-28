@@ -1,4 +1,4 @@
-project "angelscript"
+project "AngelScript"
     language "C++"
     kind "StaticLib"
     

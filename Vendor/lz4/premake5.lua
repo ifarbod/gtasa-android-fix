@@ -1,4 +1,4 @@
-project "lz4"
+project "LZ4"
     language "C++"
     kind "StaticLib"
     
@@ -13,6 +13,4 @@ project "lz4"
         "**.h",
         "**.c"
     }
-    
-    --excludes {
-    --}
+

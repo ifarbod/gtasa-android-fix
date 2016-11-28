@@ -15,4 +15,3 @@ project "yaml-cpp"
         "**.h",
         "premake5.lua"
     }
-    

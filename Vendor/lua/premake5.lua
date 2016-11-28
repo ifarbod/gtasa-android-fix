@@ -1,4 +1,4 @@
-project "lua"
+project "Lua"
     language "C++"
     kind "StaticLib"
     

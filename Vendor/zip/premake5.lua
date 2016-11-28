@@ -1,4 +1,4 @@
-project "zip"
+project "Zip"
     language "C"
     kind "StaticLib"
     targetname "zip"
