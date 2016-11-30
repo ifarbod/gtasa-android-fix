@@ -1,15 +1,15 @@
 project "MinHook"
     language "C++"
     kind "StaticLib"
-    
+
     includedirs { "include" }
-    
+
     vpaths {
         ["Headers/*"] = "**.h",
         ["Sources/*"] = "**.c",
         ["*"] = "premake5.lua"
     }
-    
+
     files {
         "premake5.lua",
         "**.h",
@@ -18,7 +18,7 @@ project "MinHook"
         "trampoline.c",
         "HDE/hde32.c"
     }
-    
+
     filter "architecture:x64"
         flags { "ExcludeFromBuild" }
 

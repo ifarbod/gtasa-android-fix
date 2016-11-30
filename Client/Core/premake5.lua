@@ -7,7 +7,7 @@ project "Core"
     pchheader "Precompiled.hpp"
     pchsource "Precompiled.cpp"
 
-    vpaths { 
+    vpaths {
         ["Headers/*"] = { "**.hpp", "**.h" },
         ["Sources/*"] = "**.cpp",
         ["Resources/*"] = "**.rc",
@@ -17,14 +17,14 @@ project "Core"
     libdirs {
         "../../Vendor/cef3/Release"
     }
-    
+
     includedirs {
         ".",
         "../../Vendor/bass",
         "../../Vendor/lua",
         "../../Vendor/cef3"
     }
-    
+
     links {
         "Utility", "raknet", "angelscript", "lua",
         "../../Vendor/bass/lib/bass",
@@ -32,7 +32,7 @@ project "Core"
         "../../Vendor/bass/lib/bassmix",
         "../../Vendor/bass/lib/tags"
     }
-    
+
     files {
         "premake5.lua",
         "**.h",

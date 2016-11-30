@@ -8,7 +8,7 @@ project "DedicatedServer"
     pchheader "Precompiled.hpp"
     pchsource "Precompiled.cpp"
 
-    vpaths { 
+    vpaths {
         ["Headers/*"] = { "**.h", "**.hpp" },
         ["Sources/*"] = "**.cpp",
         ["Resources/*"] = {"*.rc", "res/sao_server.ico"},
@@ -25,6 +25,6 @@ project "DedicatedServer"
 
     filter { "system:windows", "platforms:x86" }
         targetname "SAODS"
-    
+
     filter { "system:windows", "platforms:x64" }
         targetname "SAODS.x64"

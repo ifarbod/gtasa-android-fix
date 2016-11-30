@@ -1,0 +1,21 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+Language: Cpp
+PointerAlignment: Left
+AlignAfterOpenBracket: DontAlign
+AlignConsecutiveAssignments: false
+AlwaysBreakTemplateDeclarations: true
+BreakBeforeBraces: Allman
+ColumnLimit: 0
+NamespaceIndentation: None
+SpaceAfterTemplateKeyword: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesInAngles: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+
+
+UseTab: Never
+
+

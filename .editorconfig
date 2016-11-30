@@ -1,0 +1,24 @@
+# top-most EditorConfig file
+root = true
+
+# Windows-style newlines with a newline ending every file
+[*]
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# 4 space indentation for C++ files
+[*.{h,hh,hpp,hxx,h++,c,cc,cpp,cxx,c++}]
+charset = utf-8
+indent_style = space
+indent_size = 4
+
+# Script files and configuration files
+[*.{as,angelscript,lua,cs,ts,js,xml,json}]
+indent_style = space
+indent_size = 4
+
+# YAML files use 2space indentation
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2

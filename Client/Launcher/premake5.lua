@@ -4,24 +4,24 @@ project "Launcher"
     targetname "SAO"
     targetdir(buildpath("."))
     debugdir(buildpath("."))
-    
+
     pchheader "Precompiled.hpp"
     pchsource "Precompiled.cpp"
-    
+
     flags { "WinMain" }
-    
+
     links {
         "Utility",
         "../../Vendor/nvapi/x86/nvapi.lib"
     }
-    
-    vpaths { 
+
+    vpaths {
         ["Headers/*"] = "**.hpp",
         ["Sources/*"] = "**.cpp",
         ["Resources/*"] = {"**.rc", "res/sao.ico"},
         ["*"] = "premake5.lua"
     }
-    
+
     files {
         "premake5.lua",
         "*.hpp",
@@ -29,7 +29,7 @@ project "Launcher"
         "**.rc",
         "**.ico"
     }
-    
+
     filter "architecture:x64"
         flags { "ExcludeFromBuild" }
 

@@ -6,7 +6,7 @@ project "MiniUPnPc"
     includedirs { "." }
     defines { "STATICLIB" }
 
-    vpaths { 
+    vpaths {
         ["Headers/*"] = "**.h",
         ["Sources/*"] = "**.c",
         ["*"] = "premake5.lua"

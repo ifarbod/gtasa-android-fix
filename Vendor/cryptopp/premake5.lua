@@ -2,14 +2,14 @@ project "cryptopp"
     language "C++"
     kind "StaticLib"
     characterset "MBCS"
-    
-    vpaths { 
+
+    vpaths {
         ["Headers/*"] = "**.h",
         ["Sources/*"] = "**.cpp",
         ["Assembly/*"] = "**.asm",
         ["*"] = "premake5.lua"
     }
-    
+
     files {
         "premake5.lua",
         "*.h",
@@ -135,13 +135,13 @@ project "cryptopp"
         "zinflate.cpp",
         "zlib.cpp"
     }
-    
+
     filter "platforms:x64"
         files {
             "x64dll.asm",
             "x64masm.asm"
         }
-    
+
     filter {"system:windows"}
         linkoptions { "/ignore:4221" }
         disablewarnings { "4005" }

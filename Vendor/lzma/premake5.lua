@@ -1,13 +1,13 @@
 project "LZMA"
     language "C++"
     kind "StaticLib"
-    
-    vpaths { 
+
+    vpaths {
         ["Headers/*"] = "**.h",
         ["Sources/*"] = "**.c",
         ["*"] = "premake5.lua"
     }
-    
+
     files {
         "premake5.lua",
         "*.h",

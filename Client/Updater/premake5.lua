@@ -3,24 +3,24 @@ project "Updater"
     kind "WindowedApp"
     targetname "Updater"
     targetdir(buildpath("."))
-    
+
     pchheader "Precompiled.hpp"
     pchsource "Precompiled.cpp"
-    
+
     flags { "WinMain" }
-    
+
     links {
         "Utility",
         "comctl32"
     }
-    
-    vpaths { 
+
+    vpaths {
         ["Headers/*"] = "**.hpp",
         ["Sources/*"] = "**.cpp",
         ["Resources/*"] = {"**.rc", "res/sao.ico"},
         ["*"] = "premake5.lua"
     }
-    
+
     files {
         "premake5.lua",
         "*.hpp",
@@ -28,7 +28,7 @@ project "Updater"
         "**.rc",
         "**.ico"
     }
-    
+
     filter "architecture:x64"
         flags { "ExcludeFromBuild" }
 
