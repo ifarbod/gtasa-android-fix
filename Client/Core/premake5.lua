@@ -15,8 +15,8 @@ project "Core"
     }
 
     libdirs {
-		"../../Vendor/cef3/Release"
-	}
+        "../../Vendor/cef3/Release"
+    }
     
     includedirs {
         ".",
@@ -28,9 +28,9 @@ project "Core"
     links {
         "Utility", "raknet", "angelscript", "lua",
         "../../Vendor/bass/lib/bass",
-		"../../Vendor/bass/lib/bass_fx",
-		"../../Vendor/bass/lib/bassmix",
-		"../../Vendor/bass/lib/tags"
+        "../../Vendor/bass/lib/bass_fx",
+        "../../Vendor/bass/lib/bassmix",
+        "../../Vendor/bass/lib/tags"
     }
     
     files {

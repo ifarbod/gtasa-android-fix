@@ -15,7 +15,7 @@ using namespace Util;
 
 Core::Core()
 {
-	HookFunction::RunAll();
+    HookFunction::RunAll();
 }
 
 Core::~Core()

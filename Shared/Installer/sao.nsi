@@ -126,6 +126,7 @@ VIAddVersionKey "OriginalFilename" "${NAME2}_${VERSION}-Setup.exe"
 !define MUI_WELCOMEPAGE_TEXT "$(INST_WELCOMEPAGE_TEXT)"
 
 !insertmacro MUI_PAGE_WELCOME
+!define MUI_LICENSEPAGE_CHECKBOX
 !insertmacro MUI_PAGE_LICENSE "..\..\LICENSE.md"
 !insertmacro MUI_PAGE_COMPONENTS
 

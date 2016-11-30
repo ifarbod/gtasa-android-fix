@@ -17,9 +17,9 @@ void SimulateCopyrightScreen()
 {
     // Previous splash index = copyright notice
     *MemPtr(0x8D093C).get<s32>() = 0;
-	// Decrease timeSinceLastScreen, so it will change immediately
+    // Decrease timeSinceLastScreen, so it will change immediately
     *MemPtr(0xBAB340).get<f32>() -= 1000.f;
-	// First Loading Splash
+    // First Loading Splash
     *MemPtr(0xBAB31E).get<s8>() = 1;
 }
 

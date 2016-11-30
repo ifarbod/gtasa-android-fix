@@ -15,22 +15,22 @@ using namespace Util;
 static bool menuFirstProcessed = false;
 void ProcessFrontEndMenu()
 {
-	if (!menuFirstProcessed)
-	{
-		// Start the game now - unpause the timers
-		MemPatch<u8>(0xB7CB49, 0);
-		MemPatch<u8>(0xBA67A4, 0);
-		MemPatch<u32>(0xC8D4C0, 8); // gGameState
-		menuFirstProcessed = true;
-	}
+    if (!menuFirstProcessed)
+    {
+        // Start the game now - unpause the timers
+        MemPatch<u8>(0xB7CB49, 0);
+        MemPatch<u8>(0xBA67A4, 0);
+        MemPatch<u32>(0xC8D4C0, 8); // gGameState
+        menuFirstProcessed = true;
+    }
 
-	ThisCall<void>(0x573A60); // Call original - Sets Render States
+    ThisCall<void>(0x573A60); // Call original - Sets Render States
 }
 
 static Util::HookFunction hookFunction([]()
 {
-	// Hook menu process
-	MakeCALL(0x57C2BC, ProcessFrontEndMenu);
+    // Hook menu process
+    MakeCALL(0x57C2BC, ProcessFrontEndMenu);
 
     // Better than SetWindowText
     MemPatch(0x619608, "San Andreas Online");
@@ -61,7 +61,7 @@ static Util::HookFunction hookFunction([]()
     MakeNOP(0x53E9A5);
 
     // Disable ValidateVersion
-	// Contains a stupid check for 'grandtheftauto3' string in peds.col
+    // Contains a stupid check for 'grandtheftauto3' string in peds.col
     MakeRET(0x5BA060);
 
     // Disable CLoadingScreen::LoadSplashes
@@ -86,9 +86,9 @@ static Util::HookFunction hookFunction([]()
     // Disable CRoadBlocks::GenerateRoadBlockPedsForCar
     MakeRET(0x461170);
 
-	// Disable CGameLogic::Update
-	MakeRET(0x442AD0);
+    // Disable CGameLogic::Update
+    MakeRET(0x442AD0);
 
-	// Disable CPlayerInfo::MakePlayerSafe
-	MakeRET(0x56E870, 8);
+    // Disable CPlayerInfo::MakePlayerSafe
+    MakeRET(0x56E870, 8);
 });

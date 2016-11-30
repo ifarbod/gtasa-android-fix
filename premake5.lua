@@ -81,6 +81,7 @@ workspace "SAO"
 
     filter "system:windows"
         toolset "v140"
+        --linkoptions "/DYNAMICBASE:NO"
         flags { "StaticRuntime" }
         
     filter { "system:windows", "platforms:x86" }
@@ -116,6 +117,7 @@ workspace "SAO"
     --include "Client/CEFLauncherDLL"
     include "Client/Core"
     include "Client/Launcher"
+    include "Client/Updater"
 
     group "Vendor"
     include "Vendor/angelscript"
@@ -128,6 +130,7 @@ workspace "SAO"
     include "Vendor/jo"
     include "Vendor/yaml-cpp"
     include "Vendor/cryptopp"
+    include "Vendor/libcurl"
     include "Vendor/lua"
     include "Vendor/lz4"
     include "Vendor/lzma"
@@ -141,4 +144,5 @@ workspace "SAO"
     include "Server/DS"
     
     group "Shared"
+    include "Shared/TinyUI"
     include "Shared/Utility"
