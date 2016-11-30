@@ -5,8 +5,16 @@ PointerAlignment: Left
 AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: false
 AlwaysBreakTemplateDeclarations: true
-BreakBeforeBraces: Allman
-ColumnLimit: 0
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: true
+  AfterControlStatement: true
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+  AfterUnion: true
+ColumnLimit: 120
 NamespaceIndentation: None
 SpaceAfterTemplateKeyword: true
 SpaceBeforeParens: ControlStatements
@@ -14,8 +22,6 @@ SpaceInEmptyParentheses: false
 SpacesInAngles: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-
-
+IndentCaseLabels: true
 UseTab: Never
-
-
+AccessModifierOffset: -4
