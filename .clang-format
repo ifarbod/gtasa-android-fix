@@ -4,7 +4,8 @@ Language: Cpp
 PointerAlignment: Left
 AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: false
-AlwaysBreakTemplateDeclarations: true
+AlwaysBreakTemplateDeclarations: false
+AllowShortFunctionsOnASingleLine: true
 BreakBeforeBraces: Custom
 BraceWrapping:
   AfterClass: true

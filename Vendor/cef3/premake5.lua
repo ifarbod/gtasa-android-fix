@@ -19,6 +19,11 @@ project "libcef_dll_wrapper"
         "**.cc",
         "**.h",
     }
+    
+    excludes {
+        "libcef_dll/base/cef_string16.cc"
+    }
+    
 
     local path = buildpath(".")
 

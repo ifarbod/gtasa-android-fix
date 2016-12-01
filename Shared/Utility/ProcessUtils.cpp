@@ -227,53 +227,54 @@ String GetConsoleInput()
     return ret;
 }
 
-// TODO: Reformat this function
 FARPROC GetProcedureAddress(HMODULE hModule, const String& procName)
 {
-    PVOID pFunctionAddress = nullptr;
+    PVOID functionAddress = nullptr;
 
     __try
     {
         PIMAGE_DOS_HEADER dos = reinterpret_cast<PIMAGE_DOS_HEADER>(hModule);
         PIMAGE_NT_HEADERS nt = reinterpret_cast<PIMAGE_NT_HEADERS>(reinterpret_cast<ULONG>(hModule) + dos->e_lfanew);
 
-        PIMAGE_DATA_DIRECTORY expdir = (PIMAGE_DATA_DIRECTORY)(nt->OptionalHeader.DataDirectory + IMAGE_DIRECTORY_ENTRY_EXPORT);
+        PIMAGE_DATA_DIRECTORY expdir =
+            reinterpret_cast<PIMAGE_DATA_DIRECTORY>(nt->OptionalHeader.DataDirectory + IMAGE_DIRECTORY_ENTRY_EXPORT);
         ULONG addr = expdir->VirtualAddress;
-        PIMAGE_EXPORT_DIRECTORY exports = (PIMAGE_EXPORT_DIRECTORY)((ULONG)hModule + addr);
-        PULONG functions = (PULONG)((ULONG)hModule + exports->AddressOfFunctions);
-        PSHORT ordinals = (PSHORT)((ULONG)hModule + exports->AddressOfNameOrdinals);
-        PULONG names = (PULONG)((ULONG)hModule + exports->AddressOfNames);
-        ULONG max_name = exports->NumberOfNames;
-        ULONG max_func = exports->NumberOfFunctions;
+        PIMAGE_EXPORT_DIRECTORY exports =
+            reinterpret_cast<PIMAGE_EXPORT_DIRECTORY>(reinterpret_cast<ULONG>(hModule) + addr);
+        PULONG functions = reinterpret_cast<PULONG>(reinterpret_cast<ULONG>(hModule) + exports->AddressOfFunctions);
+        PSHORT ordinals = reinterpret_cast<PSHORT>(reinterpret_cast<ULONG>(hModule) + exports->AddressOfNameOrdinals);
+        PULONG names = reinterpret_cast<PULONG>(reinterpret_cast<ULONG>(hModule) + exports->AddressOfNames);
+        ULONG maxName = exports->NumberOfNames;
+        ULONG maxFunc = exports->NumberOfFunctions;
 
-        for (ULONG i = 0; i < max_name; i++)
+        for (ULONG i = 0; i < maxName; i++)
         {
             ULONG ord = ordinals[i];
-            if (i >= max_name || ord >= max_func) return nullptr;
+            if (i >= maxName || ord >= maxFunc)
+                return nullptr;
             if (functions[ord] < addr || functions[ord] >= addr)
             {
-                if (strcmp((PCHAR)hModule + names[i], procName.CString()) == 0)
+                if (strcmp(reinterpret_cast<PCHAR>(hModule) + names[i], procName.CString()) == 0)
                 {
-                    pFunctionAddress = (PVOID)((PCHAR)hModule + functions[ord]);
+                    functionAddress = reinterpret_cast<PVOID>((PCHAR)hModule + functions[ord]);
                     break;
                 }
             }
         }
-    }
-    __except (EXCEPTION_EXECUTE_HANDLER)
+    } __except (EXCEPTION_EXECUTE_HANDLER)
     {
-        pFunctionAddress = nullptr;
+        functionAddress = nullptr;
     }
 
-    return (FARPROC)pFunctionAddress;
+    return reinterpret_cast<FARPROC>(functionAddress);
 }
 
 bool CallRemoteFunction(HANDLE hProcess, const String& functionName, const String& fileName)
 {
     // Store the path as wchar_t
-    WString libPath = WString{ fileName }.CString();
+    WString libPath = WString{fileName}.CString();
     unsigned libPathLength = libPath.Length();
-    
+
     // Store kernel32 handle
     HMODULE hKernel32 = GetModuleHandleW(L"KERNEL32");
 
@@ -281,7 +282,7 @@ bool CallRemoteFunction(HANDLE hProcess, const String& functionName, const Strin
     HANDLE hThread = nullptr;
 
     // Allocate memory in the remote process
-    void * libPathRemote = nullptr;
+    void* libPathRemote = nullptr;
     unsigned libPathSize = (libPathLength + 1) * sizeof(wchar_t);
     libPathRemote = VirtualAllocEx(hProcess, nullptr, libPathSize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
 
@@ -302,7 +303,8 @@ bool CallRemoteFunction(HANDLE hProcess, const String& functionName, const Strin
     }
 
     // Get the function's address
-    LPTHREAD_START_ROUTINE functionPtr = reinterpret_cast<LPTHREAD_START_ROUTINE>(GetProcedureAddress(hKernel32, functionName));
+    LPTHREAD_START_ROUTINE functionPtr =
+        reinterpret_cast<LPTHREAD_START_ROUTINE>(GetProcedureAddress(hKernel32, functionName));
 
     // Does the function exist?
     if (functionPtr == nullptr)
@@ -314,14 +316,7 @@ bool CallRemoteFunction(HANDLE hProcess, const String& functionName, const Strin
     }
 
     // Start a remote thread calling the desired function with the parameter
-    hThread = CreateRemoteThread(
-        hProcess,
-        nullptr,
-        0,
-        functionPtr,
-        libPathRemote,
-        0,
-        nullptr);
+    hThread = CreateRemoteThread(hProcess, nullptr, 0, functionPtr, libPathRemote, 0, nullptr);
 
     if (hThread == nullptr)
     {
@@ -336,8 +331,7 @@ bool CallRemoteFunction(HANDLE hProcess, const String& functionName, const Strin
     // 5 seconds which is way longer than this should take to prevent this application
     // from deadlocking if something goes really wrong allowing us to kill the injected
     // game executable and avoid user inconvenience.
-    //WaitForObject(hProcess, hThread, INFINITE, NULL);
-
+    // WaitForObject(hProcess, hThread, INFINITE, NULL);
 
     // Get the handle of the remotely loaded DLL module
     DWORD hLibModule = 0;

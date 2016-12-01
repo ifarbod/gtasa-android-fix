@@ -192,7 +192,7 @@ struct ScopedUnprotect
 class SectionUnprotect
 {
 public:
-    SectionUnprotect(HINSTANCE hInstance, const char *name)
+    SectionUnprotect(HINSTANCE hInstance, const char* name)
     {
         IMAGE_NT_HEADERS* ntHeader = (IMAGE_NT_HEADERS*)((BYTE*)hInstance + ((IMAGE_DOS_HEADER*)hInstance)->e_lfanew);
         IMAGE_SECTION_HEADER* pSection = IMAGE_FIRST_SECTION(ntHeader);
@@ -298,18 +298,17 @@ inline void MemPatch(MemPtr addr, T value)
 //  searches in the range [@addr, @addr + @max_search] for a pointer in the range [@default_base, @default_end] and replaces
 //  it with the proper offset in the pointer @replacement_base.
 //  does memory unprotection if @vp is true.
-inline MemPtr AdjustPointer(MemPtr addr,
-    MemPtr replacement_base, MemPtr default_base, MemPtr default_end,
-    size_t max_search = 8)
+inline MemPtr AdjustPointer(
+    MemPtr addr, MemPtr replacement_base, MemPtr default_base, MemPtr default_end, size_t max_search = 8)
 {
     ScopedUnprotect xprotect(addr, max_search + sizeof(void*));
     for (size_t i = 0; i < max_search; ++i)
     {
-        MemPtr ptr = MemRead<void *>(addr + i);
+        MemPtr ptr = MemRead<void*>(addr + i);
         if (ptr >= default_base.get() && ptr <= default_end.get())
         {
             auto result = replacement_base + (ptr - default_base.get());
-            MemPatch<void *>(addr + i, result.get());
+            MemPatch<void*>(addr + i, result.get());
             return result;
         }
     }
@@ -392,9 +391,12 @@ inline MemPtr ReadRelativeOffset(MemPtr at, size_t sizeof_addr = 4)
 {
     switch (sizeof_addr)
     {
-        case 1: return (GetAbsoluteOffset(MemRead<s8>(at), at + sizeof_addr));
-        case 2: return (GetAbsoluteOffset(MemRead<s16>(at), at + sizeof_addr));
-        case 4: return (GetAbsoluteOffset(MemRead<s32>(at), at + sizeof_addr));
+        case 1:
+            return (GetAbsoluteOffset(MemRead<s8>(at), at + sizeof_addr));
+        case 2:
+            return (GetAbsoluteOffset(MemRead<s16>(at), at + sizeof_addr));
+        case 4:
+            return (GetAbsoluteOffset(MemRead<s32>(at), at + sizeof_addr));
     }
     return nullptr;
 }
@@ -403,9 +405,12 @@ inline void MakeRelativeOffset(MemPtr at, MemPtr dest, size_t sizeof_addr = 4)
 {
     switch (sizeof_addr)
     {
-        case 1: MemWrite<s8>(at, static_cast<s8> (GetRelativeOffset(dest, at + sizeof_addr)));
-        case 2: MemWrite<s16>(at, static_cast<s16>(GetRelativeOffset(dest, at + sizeof_addr)));
-        case 4: MemWrite<s32>(at, static_cast<s32>(GetRelativeOffset(dest, at + sizeof_addr)));
+        case 1:
+            MemWrite<s8>(at, static_cast<s8>(GetRelativeOffset(dest, at + sizeof_addr)));
+        case 2:
+            MemWrite<s16>(at, static_cast<s16>(GetRelativeOffset(dest, at + sizeof_addr)));
+        case 4:
+            MemWrite<s32>(at, static_cast<s32>(GetRelativeOffset(dest, at + sizeof_addr)));
     }
 }
 
@@ -414,16 +419,16 @@ inline MemPtr GetBranchDestination(MemPtr at)
     switch (MemRead<u8>(at))
     {
         // We need to handle other instructions (and prefixes) later...
-        case 0xE8:	// call rel
-        case 0xE9:	// jmp rel
+        case 0xE8: // call rel
+        case 0xE9: // jmp rel
             return ReadRelativeOffset(at + 1, 4);
 
         case 0xFF:
         {
             switch (MemRead<u8>(at + 1))
             {
-                case 0x15:  // call dword ptr [addr]
-                case 0x25:  // jmp dword ptr [addr]
+                case 0x15: // call dword ptr [addr]
+                case 0x25: // jmp dword ptr [addr]
                     return *(MemRead<uintptr_t*>(at + 2));
             }
             break;
@@ -504,38 +509,38 @@ inline MemPtr GetVF(MemPtr self, size_t index)
 // Calling Functions of GTASA exe
 // Call function at @p returning @Ret with args @Args
 // compiler's default calling convention
-template <class Ret, class ...Args>
+template <class Ret, class... Args>
 inline Ret Call(MemPtr p, Args... a)
 {
     auto fn = (Ret(*)(Args...)) p.get<void>();
     return fn(std::forward<Args>(a)...);
 }
 
-template <class Ret, class ...Args>
+template <class Ret, class... Args>
 inline Ret Cdecl(MemPtr p, Args... a)
 {
-    auto fn = (Ret(__cdecl *)(Args...)) p.get<void>();
+    auto fn = (Ret(__cdecl*)(Args...))p.get<void>();
     return fn(std::forward<Args>(a)...);
 }
 
 template <class Ret, class ...Args>
 inline Ret StdCall(MemPtr p, Args... a)
 {
-    auto fn = (Ret(__stdcall *)(Args...)) p.get<void>();
+    auto fn = (Ret(__stdcall*)(Args...))p.get<void>();
     return fn(std::forward<Args>(a)...);
 }
 
 template <class Ret, class ...Args>
 inline Ret ThisCall(MemPtr p, Args... a)
 {
-    auto fn = (Ret(__thiscall *)(Args...)) p.get<void>();
+    auto fn = (Ret(__thiscall*)(Args...))p.get<void>();
     return fn(std::forward<Args>(a)...);
 }
 
 template <size_t index>
 struct Vtbl
 {
-    template <class Ret, class ...Args>
+    template <class Ret, class... Args>
     static Ret Call(Args... a)
     {
         auto obj = MemPtr(std::get<0>(std::forward_as_tuple(a...)));
@@ -544,10 +549,10 @@ struct Vtbl
     }
 };
 
-template <class Ret, class ...Args>
+template <class Ret, class... Args>
 inline Ret FastCall(MemPtr p, Args... a)
 {
-    auto fn = (Ret(__fastcall *)(Args...)) p.get<void>();
+    auto fn = (Ret(__fastcall*)(Args...))p.get<void>();
     return fn(std::forward<Args>(a)...);
 }
 
@@ -556,36 +561,22 @@ inline Ret FastCall(MemPtr p, Args... a)
 struct RestorablePatch
 {
 protected:
-    u8 * bytes;
+    u8* bytes;
     size_t num_bytes;
 
 public:
     MemPtr addr;
 
     // Saves @size bytes from @at
-    RestorablePatch(MemPtr at, size_t size = 1) :
-        addr(at),
-        num_bytes(size)
-    {
-        MemCpy(bytes, at.get<void>(), size);
-    }
+    RestorablePatch(MemPtr at, size_t size = 1) : addr(at), num_bytes(size) { MemCpy(bytes, at.get<void>(), size); }
 
     // restore what was there on destruction
-    ~RestorablePatch()
-    {
-        MemCpy(addr, bytes, num_bytes);
-    }
+    ~RestorablePatch() { MemCpy(addr, bytes, num_bytes); }
 
-    void Write(size_t offset, u8 value)
-    {
-        MemWrite<u8>(addr + offset, value);
-    }
+    void Write(size_t offset, u8 value) { MemWrite<u8>(addr + offset, value); }
 
     // without destructing it
-    void Restore()
-    {
-        MemCpy(addr, bytes, num_bytes);
-    }
+    void Restore() { MemCpy(addr, bytes, num_bytes); }
 };
 
 }

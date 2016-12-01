@@ -18,10 +18,7 @@ private:
     HookFunctionBase* next_;
 
 public:
-    HookFunctionBase()
-    {
-        Register();
-    }
+    HookFunctionBase() { Register(); }
 
     virtual void Run() = 0;
 
@@ -32,18 +29,12 @@ public:
 class HookFunction : public HookFunctionBase
 {
 private:
-    void(*function_)();
+    void (*function_)();
 
 public:
-    HookFunction(void(*function)())
-    {
-        function_ = function;
-    }
+    HookFunction(void (*function)()) { function_ = function; }
 
-    virtual void Run()
-    {
-        function_();
-    }
+    virtual void Run() { function_(); }
 };
 
 }

@@ -1,4 +1,4 @@
-﻿// Client Launcher entry point
+// Client Launcher entry point
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //                  AliAssassiN <ailsynthax@gmail.com>
 //
@@ -24,48 +24,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCm
         return 1;
     }
 
-    // Store paths to GTA and SAO
-    const String gtaPath = GrabSAPath();
-    const String saoPath = GetSAOPath();
-    String saoDir = PathJoin(saoPath, "SAO");
-
-    // Set the current directory
-    SetDllDirectoryW(WString{ saoDir }.CString());
-    SetCurrentDirectoryW(WString{ gtaPath }.CString());
-
-    // Generate command line
-    String commandLine = String(GetGTAPath("SA.exe")) + " " + strCmdLine;
-
-    // Try launching SA
-    STARTUPINFO si = { 0 };
-    PROCESS_INFORMATION pi = { 0 };
-    si.cb = sizeof(si);
-
-    if (!CreateProcessW(
-        WString{ GetGTAPath("SA.exe") }.CString(),
-        const_cast<wchar_t *>(WString{ commandLine }.CString()),
-        nullptr,
-        nullptr,
-        FALSE,
-        CREATE_SUSPENDED,
-        nullptr,
-        WString{ saoDir }.CString(),
-        &si,
-        &pi))
-    {
-        MessageBoxW(nullptr, L"Failed to launch San Andreas", nullptr, MB_ICONSTOP);
-        return 1;
-    }
-
-    if (!RemoteLoadLibrary(pi.hProcess, PathJoin(GetSAOPath("SAO"), CLIENT_CORE_NAME DEBUG_SUFFIX LIB_EXTENSION)))
-    {
-        TerminateProcess(pi.hProcess, 0);
-        MessageBoxW(nullptr, L"Failed to inject the DLL", nullptr, MB_ICONSTOP);
-        return 1;
-    }
-
-    // Resume the thread
-    ResumeThread(pi.hThread);
+    // Launch SA
 
     // Success
     return 0;

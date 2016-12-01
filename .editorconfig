@@ -3,13 +3,13 @@ root = true
 
 # Windows-style newlines with a newline ending every file
 [*]
+charset = utf-8
 end_of_line = crlf
 insert_final_newline = true
 trim_trailing_whitespace = true
 
 # 4 space indentation for C++ files
 [*.{h,hh,hpp,hxx,h++,c,cc,cpp,cxx,c++}]
-charset = utf-8
 indent_style = space
 indent_size = 4
 
