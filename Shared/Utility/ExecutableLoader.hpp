@@ -1,4 +1,4 @@
-// <desc>
+// PE32 loader for GTASA
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
 // Copyright (c) 2015-2016 The San Andreas Online Open Source Project
@@ -12,6 +12,9 @@
 #include <Windows.h>
 #include <winnt.h>
 
+namespace Util
+{
+
 class ExecutableLoader
 {
 private:
@@ -21,8 +24,8 @@ private:
 
     void* entryPoint_;
 
-    HMODULE (*libraryLoader_)(const char*);
-    LPVOID (*functionResolver_)(HMODULE, const char*);
+    HMODULE(*libraryLoader_)(const char*);
+    LPVOID(*functionResolver_)(HMODULE, const char*);
 
 private:
     void LoadSection(IMAGE_SECTION_HEADER* section);
@@ -41,9 +44,9 @@ public:
 
     inline void SetLoadLimit(uintptr_t loadLimit) { loadLimit_ = loadLimit; }
 
-    inline void SetLibraryLoader(HMODULE (*loader)(const char*)) { libraryLoader_ = loader; }
+    inline void SetLibraryLoader(HMODULE(*loader)(const char*)) { libraryLoader_ = loader; }
 
-    inline void SetFunctionResolver(LPVOID (*functionResolver)(HMODULE, const char*))
+    inline void SetFunctionResolver(LPVOID(*functionResolver)(HMODULE, const char*))
     {
         functionResolver_ = functionResolver;
     }
@@ -52,3 +55,5 @@ public:
 
     void LoadIntoModule(HMODULE module);
 };
+
+}

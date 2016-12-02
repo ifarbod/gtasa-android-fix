@@ -1,4 +1,4 @@
-// <desc>
+// PE32 loader for GTASA
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
 // Copyright (c) 2015-2016 The San Andreas Online Open Source Project
@@ -10,7 +10,11 @@
 
 #include "ExecutableLoader.hpp"
 #include <Container/Str.hpp>
+#include <Math/MathDefs.hpp>
 #include <ProcessUtils.hpp>
+
+namespace Util
+{
 
 ExecutableLoader::ExecutableLoader(const u8* origBinary)
 {
@@ -22,10 +26,10 @@ ExecutableLoader::ExecutableLoader(const u8* origBinary)
         return LoadLibraryA(name);
     });
 
-	SetFunctionResolver([](HMODULE module, const char* name)
-	{
-		return (LPVOID)Util::GetProcedureAddress(module, name);
-	});
+    SetFunctionResolver([](HMODULE module, const char* name)
+    {
+        return (LPVOID)Util::GetProcedureAddress(module, name);
+    });
 }
 
 void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
@@ -70,7 +74,7 @@ void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
             if (IMAGE_SNAP_BY_ORDINAL(*nameTableEntry))
             {
                 function = GetProcAddress(module, MAKEINTRESOURCEA(IMAGE_ORDINAL(*nameTableEntry)));
-				Util::String temp;
+                Util::String temp;
                 functionName = temp.AppendWithFormat("#%d", IMAGE_ORDINAL(*nameTableEntry)).CString();
             }
             else
@@ -111,8 +115,7 @@ void ExecutableLoader::LoadSection(IMAGE_SECTION_HEADER* section)
 
     if (section->SizeOfRawData > 0)
     {
-		// TODO: Replace with 'Util::Min'
-        u32 sizeOfData = section->SizeOfRawData < section->Misc.VirtualSize ? section->SizeOfRawData : section->Misc.VirtualSize;
+        u32 sizeOfData = Min(section->SizeOfRawData, section->Misc.VirtualSize);
 
         memcpy(targetAddress, sourceAddress, sizeOfData);
 
@@ -171,4 +174,6 @@ void ExecutableLoader::LoadIntoModule(HMODULE module)
 HMODULE ExecutableLoader::ResolveLibrary(const char* name)
 {
     return libraryLoader_(name);
+}
+
 }

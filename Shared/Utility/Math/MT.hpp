@@ -13,11 +13,8 @@
 namespace Util
 {
 
-template<class UIntType,
-    size_t w, size_t n, size_t m, size_t r,
-    UIntType a, size_t u, UIntType d, size_t s,
-    UIntType b, size_t t,
-    UIntType c, size_t l, UIntType f>
+template <class UIntType, size_t w, size_t n, size_t m, size_t r, UIntType a, size_t u, UIntType d, size_t s,
+    UIntType b, size_t t, UIntType c, size_t l, UIntType f>
 class MersenneTwister
 {
 public:
@@ -38,10 +35,7 @@ public:
     static constexpr UIntType initializationMultiplier_ = f;
     static constexpr UIntType defaultSeed_ = 5489u;
 
-    MersenneTwister(UIntType _Seed = defaultSeed_)
-    {
-        Seed(_Seed);
-    }
+    MersenneTwister(UIntType _Seed = defaultSeed_) { Seed(_Seed); }
 
     // Sets the state x(0) to v mod 2w. Then, iteratively,
     // sets x(i) to
@@ -63,22 +57,13 @@ public:
         NormalizeState();
     }
 
-    void Seed()
-    {
-        Seed(defaultSeed_);
-    }
+    void Seed() { Seed(defaultSeed_); }
 
     // Returns the smallest value that the generator can produce.
-    static ResultType Min()
-    {
-        return 0;
-    }
+    static ResultType Min() { return 0; }
 
     // Returns the largest value that the generator can produce.
-    static ResultType Max()
-    {
-        return WMSK_;
-    }
+    static ResultType Max() { return WMSK_; }
 
     ResultType operator()()
     {
@@ -101,6 +86,7 @@ public:
             (*this)();
         }
     }
+
 private:
     void Twist()
     {
@@ -165,7 +151,8 @@ private:
         // Fix up the state if it's all zeroes.
         for (size_t j = 0; j < n; ++j)
         {
-            if (x[j] != 0) return;
+            if (x[j] != 0)
+                return;
         }
 
         x[0] = static_cast<UIntType>(1) << (w - 1);
@@ -180,18 +167,17 @@ private:
 };
 
 // Memory usage:
-// mt11213b   : 352 * sizeof(uint32_t) = 352 * 4 = 1408 bytes = ~1 KB
+// mt11213b   :Â 352 * sizeof(uint32_t) = 352 * 4 = 1408 bytes = ~1 KB
 // mt19937    : 625 * sizeof(uint32_t) = 625 * 4 = 2500 bytes = ~2 KB
 // mt19937_64 : 312 * sizeof(uint64_t) = 312 * 8 = 2496 bytes = ~2 KB
-using MT11213b = MersenneTwister<uint32_t, 32, 351, 175, 19, 0xCCAB8EE7,
-    11, 0xFFFFFFFF, 7, 0x31B6AB00, 15, 0xFFE50000, 17, 1812433253>;
+using MT11213b = MersenneTwister<uint32_t, 32, 351, 175, 19, 0xCCAB8EE7, 11, 0xFFFFFFFF, 7, 0x31B6AB00, 15, 0xFFE50000,
+    17, 1812433253>;
 
-using MT19937 = MersenneTwister<uint32_t, 32, 624, 397, 31, 0x9908B0DF,
-    11, 0xFFFFFFFF, 7, 0x9D2C5680, 15, 0xEFC60000, 18, 1812433253>;
+using MT19937 = MersenneTwister<uint32_t, 32, 624, 397, 31, 0x9908B0DF, 11, 0xFFFFFFFF, 7, 0x9D2C5680, 15, 0xEFC60000,
+    18, 1812433253>;
 
-using MT19937_64 = MersenneTwister<uint64_t, 64, 312, 156, 31,
-    UINT64_C(0xB5026F5AA96619E9), 29, UINT64_C(0x5555555555555555), 17,
-    UINT64_C(0x71D67FFFEDA60000), 37, UINT64_C(0xFFF7EEE000000000), 43,
-    UINT64_C(6364136223846793005)>;
+using MT19937_64 =
+    MersenneTwister<uint64_t, 64, 312, 156, 31, UINT64_C(0xB5026F5AA96619E9), 29, UINT64_C(0x5555555555555555), 17,
+        UINT64_C(0x71D67FFFEDA60000), 37, UINT64_C(0xFFF7EEE000000000), 43, UINT64_C(6364136223846793005)>;
 
 }

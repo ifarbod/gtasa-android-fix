@@ -67,8 +67,7 @@ static HookFunction hookFunction([]()
     // CCrime::reportCrime
     MakeRET(0x532010);
 
-    // Stop CTaskSimpleCarDrive::ProcessPed from exiting passengers with CTaskComplexSequence (some timer check)
-    // TODO: Check what happens without this
+    // Stop CTaskSimpleCarDrive::ProcessPed from exiting passengers with CTaskComplexSequence
     MakeNOP(0x644C18);
     MemPatch<u8>(0x644C19, 0xE9);
 
