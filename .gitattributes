@@ -2,13 +2,3 @@
 # Set default behavior to automatically normalize line endings.
 ###############################################################################
 * text=auto
-
-#*.cs     diff=csharp
-
-#*.rtf   diff=astextplain
-
-*.rc diff=astextplain linguist-language=C++
-*.RC diff=astextplain linguist-language=C++
-*.Rc diff=astextplain linguist-language=C++
-*.rC diff=astextplain linguist-language=C++
-
