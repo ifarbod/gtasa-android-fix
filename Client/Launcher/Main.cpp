@@ -1,4 +1,4 @@
-// Client Launcher entry point
+// Client launcher entry point
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //                  AliAssassiN <ailsynthax@gmail.com>
 //
@@ -8,24 +8,8 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
-#include "Utils.hpp"
-#include <Container/Str.hpp>
-#include <Path.hpp>
-#include <ProcessUtils.hpp>
-#include <Registry.hpp>
 
-using namespace Util;
-
-int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR strCmdLine, int nCmdShow)
+void main()
 {
-    // Check some stuff before launching
-    if (!DoPreLaunchChecks())
-    {
-        return 1;
-    }
 
-    // Launch SA
-
-    // Success
-    return 0;
 }

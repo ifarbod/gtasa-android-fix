@@ -17,28 +17,6 @@ namespace Util
 
 class ExecutableLoader
 {
-private:
-    const u8* origBinary_;
-    HMODULE module_;
-    uintptr_t loadLimit_;
-
-    void* entryPoint_;
-
-    HMODULE(*libraryLoader_)(const char*);
-    LPVOID(*functionResolver_)(HMODULE, const char*);
-
-private:
-    void LoadSection(IMAGE_SECTION_HEADER* section);
-    void LoadSections(IMAGE_NT_HEADERS* ntHeader);
-
-    void LoadImports(IMAGE_NT_HEADERS* ntHeader);
-
-    HMODULE ResolveLibrary(const char* name);
-
-    template <typename T> inline const T* GetRVA(u32 rva) { return (T*)(origBinary_ + rva); }
-
-    template <typename T> inline T* GetTargetRVA(u32 rva) { return (T*)((u8*)module_ + rva); }
-
 public:
     ExecutableLoader(const u8* origBinary);
 
@@ -54,6 +32,27 @@ public:
     inline void* GetEntryPoint() { return entryPoint_; }
 
     void LoadIntoModule(HMODULE module);
+
+private:
+    void LoadSection(IMAGE_SECTION_HEADER* section);
+    void LoadSections(IMAGE_NT_HEADERS* ntHeader);
+
+    bool LoadImports(IMAGE_NT_HEADERS* ntHeader);
+
+    HMODULE ResolveLibrary(const char* name);
+
+    template <class T> const T* GetRVA(u32 rva) { return (T*)(origBinary_ + rva); }
+
+    template <class T> T* GetTargetRVA(u32 rva) { return (T*)((u8*)module_ + rva); }
+
+    const u8* origBinary_;
+    HMODULE module_;
+    uintptr_t loadLimit_;
+
+    void* entryPoint_;
+
+    HMODULE(*libraryLoader_)(const char*);
+    LPVOID(*functionResolver_)(HMODULE, const char*);
 };
 
 }

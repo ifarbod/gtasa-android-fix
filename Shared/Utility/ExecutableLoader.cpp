@@ -32,7 +32,7 @@ ExecutableLoader::ExecutableLoader(const u8* origBinary)
     });
 }
 
-void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
+bool ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
 {
     IMAGE_DATA_DIRECTORY* importDirectory = &ntHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT];
 
@@ -47,9 +47,10 @@ void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
         if (!module)
         {
             //FatalError("Could not load dependent module %s. Error code was %i.\n", name, GetLastError());
+            return false;
         }
 
-        // "don't load"
+        // "Don't load"
         if (reinterpret_cast<u32>(module) == 0xFFFFFFFF)
         {
             descriptor++;
@@ -74,8 +75,7 @@ void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
             if (IMAGE_SNAP_BY_ORDINAL(*nameTableEntry))
             {
                 function = GetProcAddress(module, MAKEINTRESOURCEA(IMAGE_ORDINAL(*nameTableEntry)));
-                Util::String temp;
-                functionName = temp.AppendWithFormat("#%d", IMAGE_ORDINAL(*nameTableEntry)).CString();
+                functionName = Util::String::Format("#%d", IMAGE_ORDINAL(*nameTableEntry)).CString();
             }
             else
             {
@@ -91,9 +91,10 @@ void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
                 GetModuleFileNameA(module, pathName, sizeof(pathName));
 
                 //FatalError("Could not load function %s in dependent module %s (%s).\n", functionName, name, pathName);
+                return false;
             }
 
-            *addressTableEntry = (u32)function;
+            *addressTableEntry = reinterpret_cast<u32>(function);
 
             nameTableEntry++;
             addressTableEntry++;
@@ -101,6 +102,8 @@ void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
 
         descriptor++;
     }
+
+    return true;
 }
 
 void ExecutableLoader::LoadSection(IMAGE_SECTION_HEADER* section)
@@ -108,7 +111,7 @@ void ExecutableLoader::LoadSection(IMAGE_SECTION_HEADER* section)
     void* targetAddress = GetTargetRVA<u8>(section->VirtualAddress);
     const void* sourceAddress = origBinary_ + section->PointerToRawData;
 
-    if ((uintptr_t)targetAddress >= loadLimit_)
+    if (reinterpret_cast<uintptr_t>(targetAddress) >= loadLimit_)
     {
         return;
     }
@@ -117,10 +120,10 @@ void ExecutableLoader::LoadSection(IMAGE_SECTION_HEADER* section)
     {
         u32 sizeOfData = Min(section->SizeOfRawData, section->Misc.VirtualSize);
 
-        memcpy(targetAddress, sourceAddress, sizeOfData);
-
         DWORD oldProtect;
         VirtualProtect(targetAddress, sizeOfData, PAGE_EXECUTE_READWRITE, &oldProtect);
+
+        memcpy(targetAddress, sourceAddress, sizeOfData);
     }
 }
 
@@ -140,26 +143,20 @@ void ExecutableLoader::LoadIntoModule(HMODULE module)
 {
     module_ = module;
 
-    IMAGE_DOS_HEADER* header = (IMAGE_DOS_HEADER*)origBinary_;
+    const IMAGE_DOS_HEADER* header = reinterpret_cast<const IMAGE_DOS_HEADER*>(origBinary_);
 
     if (header->e_magic != IMAGE_DOS_SIGNATURE)
     {
         return;
     }
 
-    IMAGE_DOS_HEADER* sourceHeader = (IMAGE_DOS_HEADER*)module;
+    IMAGE_DOS_HEADER* sourceHeader = reinterpret_cast<IMAGE_DOS_HEADER*>(module);
     IMAGE_NT_HEADERS* sourceNtHeader = GetTargetRVA<IMAGE_NT_HEADERS>(sourceHeader->e_lfanew);
 
     IMAGE_NT_HEADERS* ntHeader = (IMAGE_NT_HEADERS*)(origBinary_ + header->e_lfanew);
 
     LoadSections(ntHeader);
     LoadImports(ntHeader);
-
-    // Copy over TLS index (source in this case indicates the TLS data to copy from, which is the launcher app itself)
-    const IMAGE_TLS_DIRECTORY* targetTls = GetRVA<IMAGE_TLS_DIRECTORY>(ntHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS].VirtualAddress);
-    const IMAGE_TLS_DIRECTORY* sourceTls = GetTargetRVA<IMAGE_TLS_DIRECTORY>(sourceNtHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS].VirtualAddress);
-
-    *(DWORD*)(targetTls->AddressOfIndex) = *(DWORD*)(sourceTls->AddressOfIndex);
 
     // Store the entry point
     entryPoint_ = GetTargetRVA<void>(ntHeader->OptionalHeader.AddressOfEntryPoint);

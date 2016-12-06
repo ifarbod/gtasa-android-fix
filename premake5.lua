@@ -81,7 +81,6 @@ workspace "SAO"
 
     filter "system:windows"
         toolset "v140"
-        --linkoptions "/DYNAMICBASE:NO"
         flags { "StaticRuntime" }
         
     filter { "system:windows", "platforms:x86" }
@@ -104,8 +103,8 @@ workspace "SAO"
     filter { "system:windows", "platforms:x86", "kind:not StaticLib" }
         linkoptions "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\""
 
-    filter { "system:windows", "kind:not StaticLib", "kind:not SharedLib" }
-        linkoptions "/MANIFESTUAC:\"level='requireAdministrator\'"
+    --filter { "system:windows", "kind:not StaticLib", "kind:not SharedLib" }
+        --linkoptions "/MANIFESTUAC:\"level='requireAdministrator\'"
 
     -- Helper functions for output path 
     buildpath = function(p) return "%{wks.location}/../Bin/"..p.."/" end

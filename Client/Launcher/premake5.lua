@@ -8,11 +8,14 @@ project "Launcher"
     pchheader "Precompiled.hpp"
     pchsource "Precompiled.cpp"
 
-    flags { "WinMain" }
+    --flags { "WinMain" }
+    --flags { "NoIncrementalLink", "NoEditAndContinue" }
+    linkoptions "/IGNORE:4254 /SAFESEH:NO /DYNAMICBASE:NO /LARGEADDRESSAWARE /LAST:.zdata"
 
     links {
         "Utility",
-        "../../Vendor/nvapi/x86/nvapi.lib"
+        "../../Vendor/nvapi/x86/nvapi.lib",
+        "dbghelp", "psapi", "comctl32", "wininet", "winhttp"
     }
 
     vpaths {
