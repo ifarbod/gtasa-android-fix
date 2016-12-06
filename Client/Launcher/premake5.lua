@@ -8,9 +8,8 @@ project "Launcher"
     pchheader "Precompiled.hpp"
     pchsource "Precompiled.cpp"
 
-    --flags { "WinMain" }
-    --flags { "NoIncrementalLink", "NoEditAndContinue" }
-    linkoptions "/IGNORE:4254 /SAFESEH:NO /DYNAMICBASE:NO /LARGEADDRESSAWARE /LAST:.zdata"
+    flags { "NoIncrementalLink", "NoEditAndContinue" }
+    linkoptions "/IGNORE:4254 /ENTRY:main /SAFESEH:NO /DYNAMICBASE:NO /LARGEADDRESSAWARE /LAST:.zdata"
 
     links {
         "Utility",
