@@ -1,4 +1,4 @@
-// SCM disabling hook
+// ScriptEngine hooks
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
 // Copyright (c) 2015-2016 The San Andreas Online Open Source Project
@@ -20,13 +20,13 @@ void Hook_CRunningScript__Process()
     if (!scriptProcessed)
     {
         // RequestModel
-        Call<void>(0x4087E0, 21, 2);
+        Call<void>(0x4087E0, 106, 2);
 
         // LoadAllRequestedModels
         Call<void>(0x40EA10, false);
 
         // skin
-        MemPatch<u8>(0x60D5FF + 1, 21);
+        MemPatch<u8>(0x60D5FF + 1, 106);
 
         // CPlayerPed::SetupPlayerPed
         Call<void>(0x60D790, 0);
@@ -43,8 +43,13 @@ void Hook_CRunningScript__Process()
         MemPatch<u32>(0x438B3E + 1, 348); // silenced pistol model load
         MemPatch<u32>(0x438D07 + 1, 348); // silenced pistol model unload
         MemPatch<u8>(0x438BCF + 1, 24); // silenced pistol weapon id
-        Call<void>(0x438B30); // weapon cheat 3
+
         Call<void>(0x439940); // weapon skills cheat
+
+        for (int i = 0; i < 30; i++)
+        {
+            Call<void>(0x438B30); // weapon cheat 3
+        }
 
         // First tick processed here, now don't repeat it
         scriptProcessed = true;

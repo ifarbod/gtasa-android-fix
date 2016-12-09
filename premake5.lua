@@ -14,11 +14,11 @@ require "install_data"
 
 -- Set CI Build global
 local ci = os.getenv("CI")
-if ci and ci:lower() == "true" then 
-    CI_BUILD = true 
-else 
+if ci and ci:lower() == "true" then
+    CI_BUILD = true
+else
     CI_BUILD = false
-end 
+end
 
 workspace "SAO"
     location "Build"
@@ -41,10 +41,10 @@ workspace "SAO"
         "_SCL_SECURE_NO_WARNINGS",
         "_SCL_SECURE_NO_DEPRECATE",
         "_WINSOCK_DEPRECATED_NO_WARNINGS",
-        
+
         -- Enable wchar_t mode for pugixml
         "PUGIXML_WCHAR_MODE",
-        
+
         -- No windows.h min()/max() macros
         "NOMINMAX"
     }
@@ -65,14 +65,14 @@ workspace "SAO"
     filter "configurations:Debug"
         defines { "SAO_DEBUG" }
         targetsuffix "_d"
-    
+
     filter "configurations:Release"
         optimize "Speed"
-    
+
     if CI_BUILD then
         filter {}
             defines { "CI_BUILD=1" }
-    end 
+    end
 
     -- Generate PDB files at \Build\Symbols
     filter {"system:windows", "configurations:Release", "kind:not StaticLib"}
@@ -82,23 +82,23 @@ workspace "SAO"
     filter "system:windows"
         toolset "v140"
         flags { "StaticRuntime" }
-        
+
     filter { "system:windows", "platforms:x86" }
         defines { "WIN32", "_WIN32" }
 
-        includedirs { 
+        includedirs {
             dxdir .. "Include"
         }
         libdirs {
             dxdir .. "Lib/x86"
         }
-        
+
     filter { "system:windows", "platforms:x64" }
         defines { "WIN64", "_WIN64" }
 
     filter { "system:windows", "kind:StaticLib" }
         defines { "_LIB" }
-        
+
     -- Enable visual styles
     filter { "system:windows", "platforms:x86", "kind:not StaticLib" }
         linkoptions "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\""
@@ -106,9 +106,9 @@ workspace "SAO"
     --filter { "system:windows", "kind:not StaticLib", "kind:not SharedLib" }
         --linkoptions "/MANIFESTUAC:\"level='requireAdministrator\'"
 
-    -- Helper functions for output path 
+    -- Helper functions for output path
     buildpath = function(p) return "%{wks.location}/../Bin/"..p.."/" end
-    copy = function(p) return "{COPY} %{cfg.buildtarget.abspath} %{wks.location}../Bin/" .. p .. "/" end 
+    copy = function(p) return "{COPY} %{cfg.buildtarget.abspath} %{wks.location}../Bin/" .. p .. "/" end
 
     -- Include the projects we are going to build
     group "Client"
@@ -119,30 +119,30 @@ workspace "SAO"
     include "Client/Updater"
 
     group "Vendor"
-    include "Vendor/angelscript"
-    include "Vendor/bzip2"
-    include "Vendor/cef3"
-    include "Vendor/duktape"
-    include "Vendor/freetype"
-    include "Vendor/minhook"
-    include "Vendor/miniupnpc"
-    include "Vendor/RakNet"
-    include "Vendor/jo"
-    include "Vendor/yaml-cpp"
-    include "Vendor/cryptopp"
-    include "Vendor/libcurl"
-    include "Vendor/lua"
-    include "Vendor/lz4"
-    include "Vendor/lzma"
+    --include "Vendor/angelscript"
+    --include "Vendor/bzip2"
+    --include "Vendor/cef3"
+    --include "Vendor/duktape"
+    --include "Vendor/freetype"
+    --include "Vendor/minhook"
+    --include "Vendor/miniupnpc"
+    --include "Vendor/RakNet"
+    --include "Vendor/jo"
+    --include "Vendor/yaml-cpp"
+    --include "Vendor/cryptopp"
+    --include "Vendor/libcurl"
+    --include "Vendor/lua"
+    --include "Vendor/lz4"
+    --include "Vendor/lzma"
     include "Vendor/pugixml"
     include "Vendor/stb"
-    include "Vendor/sqlite"
-    include "Vendor/zlib"
-    include "Vendor/zip"
+    --include "Vendor/sqlite"
+    --include "Vendor/zlib"
+    --include "Vendor/zip"
 
     group "Server"
     include "Server/DS"
-    
+
     group "Shared"
     include "Shared/TinyUI"
     include "Shared/Utility"

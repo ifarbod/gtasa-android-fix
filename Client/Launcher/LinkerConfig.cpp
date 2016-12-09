@@ -6,8 +6,6 @@
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
 
-#include "Precompiled.hpp"
-
 #pragma comment(linker, "/merge:.data=.cld")
 #pragma comment(linker, "/merge:.rdata=.clr")
 #pragma comment(linker, "/merge:.cl=.zdata")

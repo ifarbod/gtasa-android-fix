@@ -363,6 +363,13 @@ inline void MakeRET(MemPtr at, u16 pop /*= 0*/)
     MemWrite<u16>(at + 1, pop);
 }
 
+inline void MakeRETEx(MemPtr at, u8 ret = 1)
+{
+    MemPatch<u8>(at, 0xB0); // mov al, @ret
+    MemPatch<u8>(0x5DF8F0 + 1, ret);
+    MakeRET(0x5DF8F0 + 2, 4);
+}
+
 // for making functions return 0
 inline void MakeRET0(MemPtr at)
 {

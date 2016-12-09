@@ -4,17 +4,14 @@ project "Launcher"
     targetname "SAO"
     targetdir(buildpath("."))
     debugdir(buildpath("."))
-
-    pchheader "Precompiled.hpp"
-    pchsource "Precompiled.cpp"
+    
+    characterset "MBCS"
 
     flags { "NoIncrementalLink", "NoEditAndContinue" }
-    linkoptions "/IGNORE:4254 /ENTRY:main /SAFESEH:NO /DYNAMICBASE:NO /LARGEADDRESSAWARE /LAST:.zdata"
+    linkoptions "/IGNORE:4254 /ENTRY:wmainCRTStartup /SAFESEH:NO /DYNAMICBASE:NO /LARGEADDRESSAWARE /LAST:.zdata"
 
     links {
-        "Utility",
-        "../../Vendor/nvapi/x86/nvapi.lib",
-        "dbghelp", "psapi", "comctl32", "wininet", "winhttp"
+        "dbghelp", "psapi", "comctl32", "wininet", "winhttp", "Shlwapi"
     }
 
     vpaths {

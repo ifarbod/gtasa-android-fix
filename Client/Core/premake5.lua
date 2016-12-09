@@ -2,7 +2,7 @@ project "Core"
     language "C++"
     kind "SharedLib"
     targetname "Core"
-    targetdir(buildpath("SAO"))
+    targetdir(buildpath("."))
 
     pchheader "Precompiled.hpp"
     pchsource "Precompiled.cpp"
@@ -26,7 +26,7 @@ project "Core"
     }
 
     links {
-        "Utility", "raknet", "angelscript", "lua",
+        "Utility",
         "../../Vendor/bass/lib/bass",
         "../../Vendor/bass/lib/bass_fx",
         "../../Vendor/bass/lib/bassmix",

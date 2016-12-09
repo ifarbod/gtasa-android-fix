@@ -184,6 +184,7 @@ ${MementoSection} "Client core files (required)" SecCore
     
     ; CEF Files
     SetOutPath "$INSTDIR\${NAME2}"
+    File "${FILES_ROOT}\${NAME2}\chrome_elf.dll"
     File "${FILES_ROOT}\${NAME2}\d3dcompiler_43.dll"
     File "${FILES_ROOT}\${NAME2}\d3dcompiler_47.dll"
     File "${FILES_ROOT}\${NAME2}\icudtl.dat"

@@ -15,7 +15,7 @@ newaction {
         os.mkdir(OUTPUT_DIR)
         
         -- Copy data files
-        os.copydir(DATA_DIR .. "/SAO", OUTPUT_DIR .. "/SAO")
+        os.copydir(DATA_DIR, OUTPUT_DIR)
         
         -- Copy the binaries
         os.copydir(BIN_DIR, OUTPUT_DIR, "**.exe")

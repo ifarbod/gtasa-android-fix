@@ -1,6 +1,5 @@
 // Timer system fixes
 // Author(s):       iFarbod <ifarbod@outlook.com>
-//                  LINK/2012 <dma2012@gmail.com>
 //
 // Copyright (c) 2015-2016 The San Andreas Online Open Source Project
 //

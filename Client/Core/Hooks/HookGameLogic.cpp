@@ -109,4 +109,7 @@ static HookFunction hookFunction([]()
     MakeJMP(0x6D16D6 + 1, 0x6D17D5);
     MakeNOP(0x6D1999);
     MakeJMP(0x6D1999 + 1, 0x6D1A36);
+
+    // One hit kill for players getting knocked down
+    //MakeRETEx(0x5DF8F0, 0);
 });

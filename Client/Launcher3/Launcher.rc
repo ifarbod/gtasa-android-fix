@@ -1,0 +1,29 @@
+// Resource file
+// Author(s):       AliAssassiN <ailsynthax@gmail.com>
+//
+// Copyright (c) 2015-2016 The San Andreas Online Open Source Project
+//
+// Distributed under the MIT license (See accompanying file LICENSE or copy at
+// https://opensource.org/licenses/MIT)
+
+#include "Res.hpp"
+#include <Version.rc>
+
+#define APSTUDIO_READONLY_SYMBOLS
+#include "winres.h"
+#undef APSTUDIO_READONLY_SYMBOLS
+
+// English (US) Resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+
+// Language
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+// VersionInfo
+SAOVersionEXE("SAO")
+
+// Icon
+IDI_MAIN_ICON ICON "res\\sao.ico"
+
+#endif

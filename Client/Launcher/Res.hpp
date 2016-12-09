@@ -1,5 +1,6 @@
-// res.hpp
+// Res.hpp
 // Author(s):       AliAssassiN <ailsynthax@gmail.com>
+//                  iFarbod <ifarbod@outlook.com>
 //
 // Copyright (c) 2015-2016 The San Andreas Online Open Source Project
 //

@@ -1,4 +1,4 @@
-// SCM disabling hook
+// Loading screen hooks
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //                  LINK/2012 <dma2012@gmail.com>
 //
