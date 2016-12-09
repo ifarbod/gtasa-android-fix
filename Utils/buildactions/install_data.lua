@@ -14,17 +14,16 @@ newaction {
     execute = function()
         -- Make Bin directory if it doesn't exists
         os.mkdir(BIN_DIR)
-        os.mkdir(BIN_DIR .. "/SAO")
 
         -- Copy data files
         os.copydir(DATA_DIR, BIN_DIR)
         
         -- Copy cef3 data files
-        os.copydir(CEF_DIR .. "/Release", BIN_DIR .. "/SAO", "*.dll")
-        os.copydir(CEF_DIR .. "/Release", BIN_DIR .. "/SAO", "*.bin")
-        os.copydir(CEF_DIR .. "/Resources", BIN_DIR .. "/SAO", "icudtl.dat")
-        os.copydir(CEF_DIR .. "/Resources", BIN_DIR .. "/SAO/cef", "*.pak")
-        os.copydir(CEF_DIR .. "/Resources/locales", BIN_DIR .. "/SAO/cef/locales", "en-US.pak")
+        os.copydir(CEF_DIR .. "/Release", BIN_DIR, "*.dll")
+        os.copydir(CEF_DIR .. "/Release", BIN_DIR, "*.bin")
+        os.copydir(CEF_DIR .. "/Resources", BIN_DIR, "icudtl.dat")
+        os.copydir(CEF_DIR .. "/Resources", BIN_DIR .. "/cef", "*.pak")
+        os.copydir(CEF_DIR .. "/Resources/locales", BIN_DIR .. "/cef/locales", "en-US.pak")
     end
 }
 

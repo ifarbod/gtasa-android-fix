@@ -169,33 +169,33 @@ ${MementoSection} "Client core files (required)" SecCore
     SectionIn 1 2 RO
     
     SetOutPath $INSTDIR
+    ; Launcher
     File "${FILES_ROOT}\SAO*.exe"
     
-    SetOutPath "$INSTDIR\${NAME2}"
-    File "${FILES_ROOT}\${NAME2}\bass.dll"
-    File "${FILES_ROOT}\${NAME2}\bass_fx.dll"
-    File "${FILES_ROOT}\${NAME2}\bassmix.dll"
-    File "${FILES_ROOT}\${NAME2}\tags.dll"
-    File "${FILES_ROOT}\${NAME2}\sde.dll"
-    File "${FILES_ROOT}\${NAME2}\sdo.dll"
-    File "${FILES_ROOT}\${NAME2}\sdv.dll"
-    File "${FILES_ROOT}\${NAME2}\sdvf.dll"
-    File "${FILES_ROOT}\${NAME2}\Core*.dll"
+    ; BASS library
+    File "${FILES_ROOT}\bass.dll"
+    File "${FILES_ROOT}\bass_fx.dll"
+    File "${FILES_ROOT}\bassmix.dll"
+    File "${FILES_ROOT}\tags.dll"
+    
+    ; Core files
+    File "${FILES_ROOT}\Core*.dll"
+    File "${FILES_ROOT}\sde.dll"
+    File "${FILES_ROOT}\sdo.dll"
+    File "${FILES_ROOT}\sdv.dll"
+    File "${FILES_ROOT}\sdvf.dll"
     
     ; CEF Files
-    SetOutPath "$INSTDIR\${NAME2}"
-    File "${FILES_ROOT}\${NAME2}\chrome_elf.dll"
-    File "${FILES_ROOT}\${NAME2}\d3dcompiler_43.dll"
-    File "${FILES_ROOT}\${NAME2}\d3dcompiler_47.dll"
-    File "${FILES_ROOT}\${NAME2}\icudtl.dat"
-    File "${FILES_ROOT}\${NAME2}\libcef.dll"
-    File "${FILES_ROOT}\${NAME2}\libEGL.dll"
-    File "${FILES_ROOT}\${NAME2}\libGLESv2.dll"
-    File "${FILES_ROOT}\${NAME2}\natives_blob.bin"
-    File "${FILES_ROOT}\${NAME2}\snapshot_blob.bin"
-    File "${FILES_ROOT}\${NAME2}\widevinecdmadapter.dll"
-    
-    File "/oname=$GTA_DIR\SA.exe" "${FILES_ROOT}\${NAME2}\SA.dat"
+    File "${FILES_ROOT}\chrome_elf.dll"
+    File "${FILES_ROOT}\d3dcompiler_43.dll"
+    File "${FILES_ROOT}\d3dcompiler_47.dll"
+    File "${FILES_ROOT}\icudtl.dat"
+    File "${FILES_ROOT}\libcef.dll"
+    File "${FILES_ROOT}\libEGL.dll"
+    File "${FILES_ROOT}\libGLESv2.dll"
+    File "${FILES_ROOT}\natives_blob.bin"
+    File "${FILES_ROOT}\snapshot_blob.bin"
+    File "${FILES_ROOT}\widevinecdmadapter.dll"
     
     ; Create uninstaller
     WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -203,7 +203,7 @@ ${MementoSectionEnd}
 
 SectionGroup "Server" SecServer
 
-${MementoSection} "Test" SecTest
+${MementoSection} "Binaries" SecTest
     SectionIn 1
 ${MementoSectionEnd}
 
