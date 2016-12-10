@@ -89,7 +89,7 @@ static HookFunction hookFunction([]()
     CopyStr(0x866C94, "$%d");
     CopyStr(0x866C8C, "$-%d");
 
-    // Increase Streaming_rwObjectInstancesList limit
-    MemPatch<s32>(0x5B8E55, 90000);
-    MemPatch<s32>(0x5B8EB0, 90000);
+    // Increase Streaming_rwObjectInstancesList limit (disables flicker)
+    MemPatch<s32>(0x5B8E55, 7500 * 0xC);
+    MemPatch<s32>(0x5B8EB0, 7500 * 0xC);
 });
