@@ -5,12 +5,14 @@ project "Launcher"
     targetdir(buildpath("."))
     debugdir(buildpath("."))
     
-    characterset "MBCS"
+    pchheader "Precompiled.hpp"
+    pchsource "Precompiled.cpp"
 
     flags { "NoIncrementalLink", "NoEditAndContinue" }
-    linkoptions "/IGNORE:4254 /ENTRY:wmainCRTStartup /SAFESEH:NO /DYNAMICBASE:NO /LARGEADDRESSAWARE /LAST:.zdata"
+    linkoptions "/IGNORE:4254 /ENTRY:wmainCRTStartup /OPT:NOLBR /SAFESEH:NO /DYNAMICBASE:NO /LARGEADDRESSAWARE /LAST:.zdata"
 
     links {
+        "Utility",
         "dbghelp", "psapi", "comctl32", "wininet", "winhttp", "Shlwapi"
     }
 

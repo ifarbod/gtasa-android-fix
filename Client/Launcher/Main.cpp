@@ -7,7 +7,10 @@
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
 
-#include "Main.h"
+#include "Precompiled.hpp"
+#include "Main.hpp"
+
+#include <Container/Str.hpp>
 
 char g_szGamePath[MAX_PATH];
 char g_szGameExecutable[MAX_PATH]; // "D:\\GTA San Andreas Online\\SA4g.exe"
@@ -30,5 +33,5 @@ void wmain()
 	SetDllDirectoryA(g_szGamePath);
 	SetCurrentDirectoryA(g_szGamePath);
 
-	Game::Launch(g_szGameExecutable);
+	GTASALauncher::Launch(g_szGameExecutable);
 }

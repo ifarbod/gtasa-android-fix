@@ -7,8 +7,10 @@
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
 
-#include "Main.h"
+#include "Precompiled.hpp"
+#include "Main.hpp"
 #include <winternl.h>
+#include <Hooking/HookingUtils.hpp>
 
 static LONG NTAPI HandleVariant(PEXCEPTION_POINTERS exceptionInfo)
 {
@@ -16,7 +18,7 @@ static LONG NTAPI HandleVariant(PEXCEPTION_POINTERS exceptionInfo)
     return (exceptionInfo->ExceptionRecord->ExceptionCode == STATUS_INVALID_HANDLE) ? EXCEPTION_CONTINUE_EXECUTION : EXCEPTION_CONTINUE_SEARCH;
 }
 
-void Game::InvokeEntryPoint(void(*entryPoint)())
+void GTASALauncher::InvokeEntryPoint(void(*entryPoint)())
 {
 	// SEH call to prevent STATUS_INVALID_HANDLE
 	__try
@@ -30,7 +32,7 @@ void Game::InvokeEntryPoint(void(*entryPoint)())
 	}
 }
 
-void Game::Launch(const char* gamePath)
+void GTASALauncher::Launch(const char* gamePath)
 {
 	wchar_t temp[MAX_PATH];
 	mbstowcs(temp, gamePath, MAX_PATH);
@@ -75,9 +77,7 @@ void Game::Launch(const char* gamePath)
 	// free the old binary
 	delete[] data;
 
-	DWORD
-		oldProtect,
-		oldProtect2;
+    DWORD oldProtect;
 
 	// apply memory protection
 	VirtualProtect((void*)0x401000, 0x456000, PAGE_EXECUTE_READ, &oldProtect); // .text
@@ -85,20 +85,17 @@ void Game::Launch(const char* gamePath)
 	VirtualProtect((void*)0x858000, 0x4C000, PAGE_READONLY, &oldProtect); // .idata/.rdata
 	VirtualProtect((void*)0x8A4000, 0x40C000, PAGE_READWRITE, &oldProtect); // .data/.idata/.data/_rwdseg
 	VirtualProtect((void*)0xCB0000, 0x1000, PAGE_READWRITE, &oldProtect); // .rsrc
-	VirtualProtect((void*)0xCB1000, 0x8C6000, PAGE_EXECUTE_READWRITE, &oldProtect); // .text/.init/.data/.HOODLUM
 
-	// use our icon
-	Unprotect(0x7486A5, 1);
-	*(BYTE *)0x7486A5 = 1;
+	// Use our icon
+    Util::MemPatch<u8>(0x7486A5, 1);
 
-	// patch IsAlreadyRunning
-	VirtualProtect((void*)0x7468E0, 3, PAGE_READWRITE, &oldProtect);
-	memcpy((void*)0x7468E0, "\x33\xC0\xC3", 3);
-	VirtualProtect((void*)0x7468E0, 3, oldProtect, &oldProtect2);
+	// Patch IsAlreadyRunning
+	Util::MakeRET0(0x7468E0);
+    Util::StrCpy_(0x858AD4, "shit");
 
-	LoadLibrary("Core_d.dll");
+    LoadLibraryA("Core_d.dll");
 
-	// get the entry point
+    // get the entry point
 	void(*entryPoint)();
 	entryPoint = (void(*)())exeLoader.GetEntryPoint();
 

@@ -20,10 +20,10 @@
 #include <Commdlg.h>
 #include <Shlwapi.h>
 
-#include "Utils.h"
-#include "ExecutableLoader.h"
+#include "Utils.hpp"
+#include "ExecutableLoader.hpp"
 
-#include "Game.h"
+#include "GTASALauncher.hpp"
 
 #define SAO_REG_KEY HKEY_CURRENT_USER
 #define SAO_REG_SUBKEY "SOFTWARE\\San Andreas Online"

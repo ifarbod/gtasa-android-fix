@@ -8,7 +8,7 @@
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
 
-#include "Main.h"
+#include "Precompiled.hpp"
 
 #pragma bss_seg(".cdummy")
 char dummy_seg[0x2500000];

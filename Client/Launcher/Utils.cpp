@@ -6,7 +6,8 @@
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
 
-#include "Main.h"
+#include "Precompiled.hpp"
+#include "Main.hpp"
 
 bool CheckRegistryIntegrity()
 {
@@ -17,7 +18,7 @@ bool CheckRegistryIntegrity()
 	// Game path
 	if(!ReadRegistryString(SAO_REG_KEY, SAO_REG_SUBKEY, "GamePath", "", g_szGamePath, MAX_PATH) || strlen(g_szGamePath) < 1)
 	{
-		OPENFILENAME ofn = { 0 };
+		OPENFILENAMEA ofn = { 0 };
 
 		ofn.lStructSize = sizeof(ofn);
 		ofn.lpstrFile = g_szGameExecutable;
@@ -32,7 +33,7 @@ bool CheckRegistryIntegrity()
 
 		ofn.lpstrTitle = "Please select your GTA San Andreas executable!";
 
-		if(GetOpenFileName(&ofn))
+		if(GetOpenFileNameA(&ofn))
 		{
 			if(CheckNameOfExecutableFromPath(GAME_EXECUTABLE_NAME, strlen(GAME_EXECUTABLE_NAME), ofn.lpstrFile, strlen(ofn.lpstrFile)))
 			{
@@ -61,7 +62,7 @@ bool CheckRegistryIntegrity()
 
 			if(_access(g_szGameExecutable, 0) == -1)
 			{
-				RegDeleteKeyValue(SAO_REG_KEY, SAO_REG_SUBKEY, "GamePath");
+				RegDeleteKeyValueA(SAO_REG_KEY, SAO_REG_SUBKEY, "GamePath");
 				Error("Can't find the game's executable.\nPlease restart GTA Underground and specify the location again.");
 				return false;
 			}
@@ -70,7 +71,7 @@ bool CheckRegistryIntegrity()
 		}
 		else
 		{
-			RegDeleteKeyValue(SAO_REG_KEY, SAO_REG_SUBKEY, "GamePath");
+			RegDeleteKeyValueA(SAO_REG_KEY, SAO_REG_SUBKEY, "GamePath");
 			Error("The path to the game's executable is corrupted.\nPlease restart GTA Underground and specify the location again.");
 			return false;
 		}
@@ -81,12 +82,12 @@ bool CheckRegistryIntegrity()
 
 void Error(const char *pszErrorMessage)
 {
-	MessageBox(NULL, pszErrorMessage, "Error!", MB_ICONERROR | MB_OK);
+	MessageBoxA(NULL, pszErrorMessage, "Error!", MB_ICONERROR | MB_OK);
 }
 
 void FatalError(const char *pszErrorMessage)
 {
-	MessageBox(NULL, pszErrorMessage, "Fatal error!", MB_ICONERROR | MB_OK);
+	MessageBoxA(NULL, pszErrorMessage, "Fatal error!", MB_ICONERROR | MB_OK);
 
 	ExitProcess(1);
 }
@@ -144,8 +145,8 @@ const char * GetAppPath()
 	static unsigned int nDummy;
 	HMODULE hModuleHandle;
 
-	GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)&nDummy, &hModuleHandle);
-	GetModuleFileName(hModuleHandle, szAppPath, MAX_PATH);
+	GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)&nDummy, &hModuleHandle);
+	GetModuleFileNameA(hModuleHandle, szAppPath, MAX_PATH);
 
 	StripPath1(szAppPath);
 	return szAppPath;
@@ -155,7 +156,7 @@ const char * GetExePath()
 {
 	static char szExePath[MAX_PATH];
 
-	GetModuleFileName(GetModuleHandle(NULL), szExePath, MAX_PATH);
+	GetModuleFileNameA(GetModuleHandle(NULL), szExePath, MAX_PATH);
 	StripPath1(szExePath);
 
 	return szExePath;
@@ -261,10 +262,10 @@ bool ReadRegistryString(HKEY hKeyLocation, const char * szSubKey, const char * s
 {
 	HKEY hKey = NULL;
 
-	if(RegOpenKeyEx(hKeyLocation, szSubKey, NULL, KEY_READ, &hKey) == ERROR_SUCCESS)
+	if(RegOpenKeyExA(hKeyLocation, szSubKey, NULL, KEY_READ, &hKey) == ERROR_SUCCESS)
 	{
 		DWORD dwType = REG_SZ;
-		LONG lStatus = RegQueryValueEx(hKey, szKey, NULL, &dwType, (BYTE *)szData, &dwSize);
+		LONG lStatus = RegQueryValueExA(hKey, szKey, NULL, &dwType, (BYTE *)szData, &dwSize);
 		RegCloseKey(hKey);
 		return (lStatus == ERROR_SUCCESS);
 	}
@@ -278,15 +279,15 @@ bool ReadRegistryString(HKEY hKeyLocation, const char * szSubKey, const char * s
 bool WriteRegistryString(HKEY hKeyLocation, const char * szSubKey, const char * szKey, char * szData, DWORD dwSize)
 {
 	HKEY hKey = NULL;
-	RegOpenKeyEx(hKeyLocation, szSubKey, NULL, KEY_WRITE, &hKey);
+	RegOpenKeyExA(hKeyLocation, szSubKey, NULL, KEY_WRITE, &hKey);
 
 	if(!hKey)
-		RegCreateKey(hKeyLocation, szSubKey, &hKey);
+		RegCreateKeyA(hKeyLocation, szSubKey, &hKey);
 
 	if(hKey)
 	{
 		DWORD dwType = REG_SZ;
-		RegSetValueEx(hKey, szKey, NULL, dwType, (BYTE *)szData, dwSize);
+		RegSetValueExA(hKey, szKey, NULL, dwType, (BYTE *)szData, dwSize);
 		RegCloseKey(hKey);
 		return true;
 	}
