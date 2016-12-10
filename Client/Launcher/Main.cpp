@@ -18,20 +18,20 @@ char g_szExecutablePath[MAX_PATH]; // "C:\\Users\\iFarbod\\Desktop\\uglaunch\\De
 
 void wmain()
 {
-	if(!CheckRegistryIntegrity())
-	{
-		ExitProcess(1);
-		return;
-	}
+    if(!CheckRegistryIntegrity())
+    {
+        ExitProcess(1);
+        return;
+    }
 
-	if(GetFileAttributesA(g_szGameExecutable) == INVALID_FILE_ATTRIBUTES)
-	{
-		FatalError("Could not find the game executable at the configured path.");
-		return;
-	}
+    if(GetFileAttributesA(g_szGameExecutable) == INVALID_FILE_ATTRIBUTES)
+    {
+        FatalError("Could not find the game executable at the configured path.");
+        return;
+    }
 
-	SetDllDirectoryA(g_szGamePath);
-	SetCurrentDirectoryA(g_szGamePath);
+    SetDllDirectoryA(g_szGamePath);
+    SetCurrentDirectoryA(g_szGamePath);
 
-	GTASALauncher::Launch(g_szGameExecutable);
+    GTASALauncher::Launch(g_szGameExecutable);
 }

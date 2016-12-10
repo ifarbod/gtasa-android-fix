@@ -11,8 +11,8 @@
 class GTASALauncher
 {
 public:
-	static void Launch(const char* gamePath);
+    static void Launch(const char* gamePath);
 
 private:
-	static void InvokeEntryPoint(void(*)());
+    static void InvokeEntryPoint(void(*)());
 };

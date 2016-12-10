@@ -30,7 +30,7 @@ protected:
     uintptr_t a;
 
 public:
-    /* Constructors */
+    // Constructors
     MemPtr() : p(0) {}
     MemPtr(std::nullptr_t) : p(nullptr) {}
     MemPtr(const MemPtr& x) : p(x.p) {}
@@ -52,75 +52,75 @@ public:
     template <class T>
     operator T*() const { return reinterpret_cast<T*>(p); }
 
-    /* Comparision */
-    bool operator==(const MemPtr& rhs) const
+    // Comparison
+    bool operator ==(const MemPtr& rhs) const
     {
         return this->a == rhs.a;
     }
 
-    bool operator!=(const MemPtr& rhs) const
+    bool operator !=(const MemPtr& rhs) const
     {
         return this->a != rhs.a;
     }
 
-    bool operator<(const MemPtr& rhs) const
+    bool operator <(const MemPtr& rhs) const
     {
         return this->a < rhs.a;
     }
 
-    bool operator<=(const MemPtr& rhs) const
+    bool operator <=(const MemPtr& rhs) const
     {
         return this->a <= rhs.a;
     }
 
-    bool operator>(const MemPtr& rhs) const
+    bool operator >(const MemPtr& rhs) const
     {
         return this->a > rhs.a;
     }
 
-    bool operator>=(const MemPtr& rhs) const
+    bool operator >=(const MemPtr& rhs) const
     {
         return this->a >= rhs.a;
     }
 
-    /* Operators */
-    MemPtr operator+(const MemPtr& rhs) const
+    // Operators
+    MemPtr operator +(const MemPtr& rhs) const
     {
         return MemPtr(this->a + rhs.a);
     }
 
-    MemPtr operator-(const MemPtr& rhs) const
+    MemPtr operator -(const MemPtr& rhs) const
     {
         return MemPtr(this->a - rhs.a);
     }
 
-    MemPtr operator*(const MemPtr& rhs) const
+    MemPtr operator *(const MemPtr& rhs) const
     {
         return MemPtr(this->a * rhs.a);
     }
 
-    MemPtr operator/(const MemPtr& rhs) const
+    MemPtr operator /(const MemPtr& rhs) const
     {
         return MemPtr(this->a / rhs.a);
     }
 
     // ..=
-    MemPtr operator+=(const MemPtr& rhs) const
+    MemPtr operator +=(const MemPtr& rhs) const
     {
         return MemPtr(this->a + rhs.a);
     }
 
-    MemPtr operator-=(const MemPtr& rhs) const
+    MemPtr operator -=(const MemPtr& rhs) const
     {
         return MemPtr(this->a - rhs.a);
     }
 
-    MemPtr operator*=(const MemPtr& rhs) const
+    MemPtr operator *=(const MemPtr& rhs) const
     {
         return MemPtr(this->a * rhs.a);
     }
 
-    MemPtr operator/=(const MemPtr& rhs) const
+    MemPtr operator /=(const MemPtr& rhs) const
     {
         return MemPtr(this->a / rhs.a);
     }
@@ -238,7 +238,7 @@ private:
     std::forward_list<std::tuple<LPVOID, SIZE_T, DWORD>> m_queriedProtects;
 };
 
-/* Methods for reading/writing memory */
+// Methods for reading/writing memory */
 
 // Gets contents from a memory address
 template <class T>
@@ -318,7 +318,7 @@ inline MemPtr AdjustPointer(
 // And some utilities :)
 inline void MemFill(MemPtr addr, u8 value, size_t size = 1)
 {
-    //ScopedUnprotect xprotect(addr, size); -- not needed, MemSet will do the job ;)
+    //ScopedUnprotect xprotect(addr, size);
     MemSet(addr, value, size);
 }
 
@@ -357,7 +357,7 @@ inline void MakeRET(MemPtr at)
 }
 
 // C2 RET (2Bytes)
-inline void MakeRET(MemPtr at, u16 pop /*= 0*/)
+inline void MakeRET(MemPtr at, u16 pop)
 {
     MemWrite<u8>(at, 0xC2);
     MemWrite<u16>(at + 1, pop);
@@ -500,7 +500,6 @@ inline void** GetVMT(const void* self)
     return *(void ***)(self);
 }
 
-// FFS
 inline void** GetVFT(const void* self) { return GetVMT(self); } // Virtual Function Table
 inline void** GetVCT(const void* self) { return GetVMT(self); } // Virtual Call Table
 inline void** GetVTable(const void* self) { return GetVMT(self); } // vtable
@@ -510,8 +509,6 @@ inline MemPtr GetVF(MemPtr self, size_t index)
 {
     return GetVMT(self.get<void>())[index];
 }
-
-// END OF MEM UTILS
 
 // Calling Functions of GTASA exe
 // Call function at @p returning @Ret with args @Args
@@ -567,23 +564,21 @@ inline Ret FastCall(MemPtr p, Args... a)
 // Saves some memory contents for changes, after done, you can restore this later..
 struct RestorablePatch
 {
-protected:
-    u8* bytes;
-    size_t num_bytes;
-
-public:
-    MemPtr addr;
-
     // Saves @size bytes from @at
-    RestorablePatch(MemPtr at, size_t size = 1) : addr(at), num_bytes(size) { MemCpy(bytes, at.get<void>(), size); }
+    RestorablePatch(MemPtr at, size_t size = 1) : addr_(at), numBytes_(size) { MemCpy(bytes_, at.get<void>(), size); }
 
-    // restore what was there on destruction
-    ~RestorablePatch() { MemCpy(addr, bytes, num_bytes); }
+    // Restore what was there on destruction
+    ~RestorablePatch() { MemCpy(addr_, bytes_, numBytes_); }
 
-    void Write(size_t offset, u8 value) { MemWrite<u8>(addr + offset, value); }
+    void Write(size_t offset, u8 value) { MemWrite<u8>(addr_ + offset, value); }
 
     // without destructing it
-    void Restore() { MemCpy(addr, bytes, num_bytes); }
+    void Restore() { MemCpy(addr_, bytes_, numBytes_); }
+
+protected:
+    u8* bytes_;
+    size_t numBytes_;
+    MemPtr addr_;
 };
 
 }

@@ -4,7 +4,7 @@ project "Launcher"
     targetname "SAO"
     targetdir(buildpath("."))
     debugdir(buildpath("."))
-    
+
     pchheader "Precompiled.hpp"
     pchsource "Precompiled.cpp"
 
