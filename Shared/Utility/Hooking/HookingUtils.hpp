@@ -323,13 +323,13 @@ inline void MemFill(MemPtr addr, u8 value, size_t size = 1)
 }
 
 // string copy
-inline void StrCpy_(MemPtr addr, char const* value)
+inline void CopyStr(MemPtr addr, char const* value)
 {
     ScopedUnprotect xprotect(addr, 1);
     strcpy(addr, value);
 }
 
-inline void StrNCpy_(MemPtr addr, char const* value, size_t count)
+inline void CopyStrEx(MemPtr addr, char const* value, size_t count)
 {
     ScopedUnprotect xprotect(addr, count);
     strncpy(addr, value, count);

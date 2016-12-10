@@ -49,24 +49,6 @@ static HookFunction hookFunction([]()
     // Disable CStats::CheckForStatsMessage
     MakeRET(0x559760);
 
-    // Disable Police Mavericks and News choppers at 3+ wanted stars
-    // by making CWanted::NumOfHelisRequired always return 0
-    //MakeNOP(0x561FA4, 2);
-    MakeRET0(0x561FA0);
-
-    // Disable CWanted::UpdateEachFrame
-    MakeNOP(0x53BFF6, 5);
-
-    // Disable the call to CWanted::Update in CPlayerPed::ProcessControl
-    //MakeNOP(0x60EBCC, 5);
-    // Or completely return it out:
-    MakeRET(0x562C90);
-
-    // Return out more wanted level related functions
-    // Just to make sure player doesn't get a wanted level
-    // CCrime::reportCrime
-    MakeRET(0x532010);
-
     // Stop CTaskSimpleCarDrive::ProcessPed from exiting passengers with CTaskComplexSequence
     MakeNOP(0x644C18);
     MemPatch<u8>(0x644C19, 0xE9);
@@ -84,13 +66,6 @@ static HookFunction hookFunction([]()
 
     // Disable CGridRef::Init
     MakeRET(0x71D4E0);
-
-    // Disable CRoadBlocks::Init
-    MakeRET(0x461100);
-    // Disable CRoadBlocks::GenerateRoadBlocks
-    MakeRET(0x4629E0);
-    // Disable CRoadBlocks::GenerateRoadBlockPedsForCar
-    MakeRET(0x461170);
 
     // Don't change velocity when colliding with peds in a vehicle
     MemPatch<u32>(0x5F12CA, 0x901CC483);
@@ -110,6 +85,11 @@ static HookFunction hookFunction([]()
     MakeNOP(0x6D1999);
     MakeJMP(0x6D1999 + 1, 0x6D1A36);
 
-    // One hit kill for players getting knocked down
-    //MakeRETEx(0x5DF8F0, 0);
+    // Money counter format
+    CopyStr(0x866C94, "$%d");
+    CopyStr(0x866C8C, "$-%d");
+
+    // Increase Streaming_rwObjectInstancesList limit
+    MemPatch<s32>(0x5B8E55, 90000);
+    MemPatch<s32>(0x5B8EB0, 90000);
 });
