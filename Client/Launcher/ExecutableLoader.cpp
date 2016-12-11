@@ -19,6 +19,11 @@ ExecutableLoader::ExecutableLoader(const uint8_t* origBinary)
     {
         return LoadLibraryA(name);
     });
+
+    SetFunctionResolver([](HMODULE module, const char* name)
+    {
+        return (LPVOID)GetProcAddress(module, name);
+    });
 }
 
 void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
@@ -54,14 +59,15 @@ void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
 
             if (IMAGE_SNAP_BY_ORDINAL(*nameTableEntry))
             {
-                function = GetProcAddress(module, MAKEINTRESOURCEA(IMAGE_ORDINAL(*nameTableEntry)));
+                function = reinterpret_cast<FARPROC>(
+                    ResolveLibraryFunction(module, MAKEINTRESOURCEA(IMAGE_ORDINAL(*nameTableEntry))));
                 functionName = va("#%d", IMAGE_ORDINAL(*nameTableEntry));
             }
             else
             {
                 auto import = GetTargetRVA<IMAGE_IMPORT_BY_NAME>(*nameTableEntry);
 
-                function = GetProcAddress(module, (const char*)import->Name);
+                function = reinterpret_cast<FARPROC>(ResolveLibraryFunction(module, (const char*)import->Name));
                 functionName = (const char*)import->Name;
             }
 
@@ -118,7 +124,7 @@ void ExecutableLoader::LoadSections(IMAGE_NT_HEADERS* ntHeader)
 
 void ExecutableLoader::LoadIntoModule(HMODULE module)
 {
-    module_ = module;
+    executableHandle_ = module;
 
     IMAGE_DOS_HEADER* header = (IMAGE_DOS_HEADER*)origBinary_;
 
@@ -146,4 +152,9 @@ void ExecutableLoader::LoadIntoModule(HMODULE module)
 HMODULE ExecutableLoader::ResolveLibrary(const char* name)
 {
     return libraryLoader_(name);
+}
+
+LPVOID ExecutableLoader::ResolveLibraryFunction(HMODULE module, const char* name)
+{
+    return functionResolver_(module, name);
 }

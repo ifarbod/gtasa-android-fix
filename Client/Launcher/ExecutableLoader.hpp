@@ -18,18 +18,21 @@ public:
 
     void SetLoadLimit(uintptr_t loadLimit) { loadLimit_ = loadLimit; }
 
-    void SetLibraryLoader(HMODULE (*loader)(const char*)) { libraryLoader_ = loader; }
-
     void* GetEntryPoint() { return entryPoint_; }
 
     void LoadIntoModule(HMODULE module);
 
+    void SetLibraryLoader(HMODULE(*loader)(const char*)) { libraryLoader_ = loader; }
+
+    void SetFunctionResolver(LPVOID (*functionResolver)(HMODULE, const char*)) { functionResolver_ = functionResolver; }
+
 private:
     const uint8_t* origBinary_;
-    HMODULE module_;
+    HMODULE executableHandle_;
     uintptr_t loadLimit_;
     void* entryPoint_;
     HMODULE(*libraryLoader_)(const char*);
+    LPVOID(*functionResolver_)(HMODULE, const char*);
 
     void LoadSection(IMAGE_SECTION_HEADER* section);
     void LoadSections(IMAGE_NT_HEADERS* ntHeader);
@@ -38,7 +41,9 @@ private:
 
     HMODULE ResolveLibrary(const char* name);
 
+    LPVOID ResolveLibraryFunction(HMODULE module, const char* name);
+
     template <class T> inline const T* GetRVA(uint32_t rva) { return (T*)(origBinary_ + rva); }
 
-    template <class T> inline T* GetTargetRVA(uint32_t rva) { return (T*)((uint8_t*)module_ + rva); }
+    template <class T> inline T* GetTargetRVA(uint32_t rva) { return (T*)((uint8_t*)executableHandle_ + rva); }
 };

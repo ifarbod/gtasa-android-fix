@@ -28,6 +28,11 @@ void ProcessFrontEndMenu()
     ThisCall<void>(0x573A60);
 }
 
+void SetMultiSamplingLevels(u32 level)
+{
+    Call<void>(0x7F84F0, 1 << (level - 1)); // _RwD3D9EngineSetMultiSamplingLevels
+}
+
 static Util::HookFunction hookFunction([]()
 {
     // Allow widescreen resolutions
@@ -51,4 +56,10 @@ static Util::HookFunction hookFunction([]()
     // Disable GTA Setting g_bIsForegroundApp to false on focus lost
     MakeNOP(0x747FFE, 6);
     MakeNOP(0x748054, 10);
+
+    // Anti-Aliasing
+    MakeJMP(0x7F6C9B);
+    MakeJMP(0x7F60C6);
+    MemPatch<u16>(0x7F6683, 0xE990);
+    MakeCALL(0x746350, SetMultiSamplingLevels);
 });

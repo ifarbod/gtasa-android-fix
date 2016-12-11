@@ -85,7 +85,7 @@ static HookFunction hookFunction([]()
     MakeNOP(0x6D1999);
     MakeJMP(0x6D1999 + 1, 0x6D1A36);
 
-    // Money counter format
+    // Change money counter format to mobile's one
     CopyStr(0x866C94, "$%d");
     CopyStr(0x866C8C, "$-%d");
 

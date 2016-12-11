@@ -19,19 +19,20 @@ void __declspec(naked) CarDamageFix()
     {
         fldz;
         fcomp[esp + 20h + 10h];
-        fnstsw  ax;
-        test    ah, 5;
-        jp		FixedCarDamage_Negative;
-        movzx   eax, byte ptr[edi + 21h];
+        fnstsw ax;
+        test ah, 5;
+        jp FixedCarDamage_Negative;
+        movzx eax, byte ptr[edi + 21h];
         retn;
 
     FixedCarDamage_Negative:
-        movzx   eax, byte ptr[edi + 24h];
+        movzx eax, byte ptr[edi + 24h];
         retn;
     }
 }
 
 static HookFunction hookFunction([]()
 {
+    // Fix car damage bug
     MakeCALL(0x5428EA, CarDamageFix);
 });
