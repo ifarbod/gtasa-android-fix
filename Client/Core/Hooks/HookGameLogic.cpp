@@ -92,4 +92,7 @@ static HookFunction hookFunction([]()
     // Increase Streaming_rwObjectInstancesList limit (disables flicker)
     MemPatch<s32>(0x5B8E55, 7500 * 0xC);
     MemPatch<s32>(0x5B8EB0, 7500 * 0xC);
+
+    // SetWindowText
+    MemPatch(0x619608, "San Andreas Online");
 });
