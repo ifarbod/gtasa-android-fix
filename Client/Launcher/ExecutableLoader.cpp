@@ -21,7 +21,7 @@ ExecutableLoader::ExecutableLoader(const uint8_t* origBinary, size_t binarySize)
     private:
         struct nullBufferManager
         {
-            inline void EstablishBufferView( const void*& memPtr, pe_file_ptr_t& bufSize, long long reqSize )
+            inline void EstablishBufferView(const void*& memPtr, pe_file_ptr_t& bufSize, long long reqSize)
             {
                 // Nothing to do.
                 return;
@@ -33,42 +33,42 @@ ExecutableLoader::ExecutableLoader(const uint8_t* origBinary, size_t binarySize)
         memoryBufferStream <pe_file_ptr_t, nullBufferManager, true, false> memStream;
 
     public:
-        inline memstr( const char *origBinary, size_t binarySize )
-            : memStream( origBinary, binarySize, allocMan )
+        inline memstr(const char *origBinary, size_t binarySize)
+            : memStream(origBinary, binarySize, allocMan)
         {
             return;
         }
 
-        size_t Read( void *buf, size_t readCount ) override
+        size_t Read(void *buf, size_t readCount) override
         {
-            return this->memStream.Read( buf, readCount );
+            return this->memStream.Read(buf, readCount);
         }
 
-        bool Write( const void *buf, size_t writeCount ) override
+        bool Write(const void *buf, size_t writeCount) override
         {
             return false;
         }
 
-        bool Seek( pe_file_ptr_t ptr ) override
+        bool Seek(pe_file_ptr_t ptr) override
         {
             this->memStream.Seek( ptr );
 
             return true;
         }
 
-        pe_file_ptr_t Tell( void ) const override
+        pe_file_ptr_t Tell() const override
         {
             return this->memStream.Tell();
         }
     };
 
-    memstr memstr( (const char*)origBinary, binarySize );
+    memstr memstr((const char*)origBinary, binarySize);
 
     // TODO: handle exceptions.
 
     try
     {
-        this->binary.LoadFromDisk( &memstr );
+        this->binary.LoadFromDisk(&memstr);
     }
     catch( ... )
     {
@@ -90,7 +90,7 @@ ExecutableLoader::ExecutableLoader(const uint8_t* origBinary, size_t binarySize)
     });
 }
 
-void ExecutableLoader::LoadImports( void )
+void ExecutableLoader::LoadImports()
 {
     for ( const PEFile::PEImportDesc& impDesc : this->binary.imports )
     {
@@ -108,7 +108,7 @@ void ExecutableLoader::LoadImports( void )
             continue;
         }
 
-        auto addressTableEntry = GetTargetRVA<uint32_t>( impDesc.firstThunkRef.GetRVA() );
+        auto addressTableEntry = GetTargetRVA<uint32_t>(impDesc.firstThunkRef.GetRVA());
 
         for ( const PEFile::PEImportDesc::importFunc& impFunc : impDesc.funcs )
         {
@@ -145,9 +145,9 @@ void ExecutableLoader::LoadImports( void )
     }
 }
 
-void ExecutableLoader::LoadSection( PEFile::PESection& sect )
+void ExecutableLoader::LoadSection(PEFile::PESection& sect)
 {
-    void* targetAddress = GetTargetRVA<uint8_t>( sect.GetVirtualAddress() );
+    void* targetAddress = GetTargetRVA<uint8_t>(sect.GetVirtualAddress());
 
     if ((uintptr_t)targetAddress >= loadLimit_)
     {
@@ -160,14 +160,14 @@ void ExecutableLoader::LoadSection( PEFile::PESection& sect )
         // TODO: maybe set correct protection status, not required of course.
 
         DWORD oldProtect;
-        VirtualProtect( targetAddress, sect.GetVirtualSize(), PAGE_EXECUTE_READWRITE, &oldProtect );
+        VirtualProtect(targetAddress, sect.GetVirtualSize(), PAGE_EXECUTE_READWRITE, &oldProtect);
 
         sect.stream.Seek( 0 );
         sect.stream.Read( targetAddress, rawSize );
     }
 }
 
-void ExecutableLoader::LoadSections( void )
+void ExecutableLoader::LoadSections()
 {
     this->binary.ForAllSections(
         [&]( PEFile::PESection *sect )
@@ -184,7 +184,7 @@ void ExecutableLoader::LoadIntoModule(HMODULE module)
     LoadSections();
     LoadImports();
 
-    entryPoint_ = GetTargetRVA<void>( this->binary.peOptHeader.addressOfEntryPoint );
+    entryPoint_ = GetTargetRVA<void>(this->binary.peOptHeader.addressOfEntryPoint);
 
     // Implement this following code if you want to support packers crackers hackers meow.
 #if 0
