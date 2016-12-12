@@ -94,7 +94,7 @@ void GTASALauncher::Launch(const char* gamePath)
     // Change CdStream semaphore to allow more than 2 SA instances
     //Util::StrCpy_(0x858AD4, "semaphore");
 
-    LoadLibraryA("Core_d.dll");
+    LoadLibraryA(CLIENT_CORE_NAME LIB_EXTENSION DEBUG_SUFFIX);
 
     // get the entry point
     void(*entryPoint)();
