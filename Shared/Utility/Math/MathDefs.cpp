@@ -8,7 +8,7 @@
 
 #include <PCH.hpp>
 
-#include "MathDefs.hpp"
+#include <Math/MathDefs.hpp>
 
 namespace Util
 {

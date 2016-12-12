@@ -7,7 +7,8 @@
 // https://opensource.org/licenses/MIT)
 
 #include "PCH.hpp"
-#include "HookFunction.hpp"
+
+#include <Hooking/HookFunction.hpp>
 
 namespace Util
 {

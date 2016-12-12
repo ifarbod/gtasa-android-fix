@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Version.h"
+#include <Version.h>
 
 // Some definitions
 #define MOD_NAME "San Andreas Online"

@@ -9,8 +9,8 @@
 
 #include <PCH.hpp>
 
-#include "ProcessUtils.hpp"
-#include "Path.hpp"
+#include <Foundation/ProcessUtils.hpp>
+#include <Path.hpp>
 
 #include <cstdio>
 #include <io.h>

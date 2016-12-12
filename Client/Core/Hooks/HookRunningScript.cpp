@@ -43,6 +43,9 @@ void Hook_CRunningScript__Process()
         MemPatch<u32>(0x438B3E + 1, 348); // Silenced pistol model load
         MemPatch<u32>(0x438D07 + 1, 348); // Silenced pistol model unload
         MemPatch<u8>(0x438BCF + 1, 24); // Silenced pistol weapon id
+        MemPatch<u32>(0x438B6E + 1, 358); // Heat seeker model load
+        MemPatch<u32>(0x438D2F + 1, 358); // Heat seeker model unload
+        MemPatch<u8>(0x438C31 + 1, 34); // Heat seeker model load
 
         Call<void>(0x439940); // Weapon skills cheat
         Call<void>(0x4399D0); // Vehicle skills cheat

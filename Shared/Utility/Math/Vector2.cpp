@@ -8,7 +8,7 @@
 
 #include <PCH.hpp>
 
-#include "Vector2.hpp"
+#include <Math/Vector2.hpp>
 
 namespace Util
 {

@@ -12,9 +12,9 @@
 
 using namespace Util;
 
-u32 RETURN_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit = 0x6485B2;
-u32 RETURN_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit_Invalid = 0x6485E1;
-void OnMY_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit()
+u32 Return_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit = 0x6485B2;
+u32 Return_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit_Invalid = 0x6485E1;
+void CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit_Custom()
 {
     //SAO_LOGWARNING("CTaskComplexCarSlowBeDraggedOut race condition");
 }
@@ -27,13 +27,13 @@ void __declspec(naked) Hook_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPe
         jz InvalidVehicle;
 
         mov ecx, [eax + 460h];
-        jmp RETURN_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit;
+        jmp Return_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit;
 
     InvalidVehicle:
         pushad;
-        call OnMY_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit;
+        call CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit_Custom;
         popad;
-        jmp RETURN_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit_Invalid;
+        jmp Return_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit_Invalid;
     }
 }
 
@@ -44,11 +44,12 @@ static Util::HookFunction hookFunction([]()
     // It's because on CPlayerPed contstruction, it actually creates a CPedGroup for that player
     // And CPedGroups limit is 8. (There's an array with size 8 - CPedGroups g_pPedGroups[8])
     // Skip the code which creates ped group, so we can create more than 8 players with ease
+    // TODO: Proper CPlayerPed creation
     MakeNOP(0x60D64D);
     MemPatch<u8>(0x60D64E, 0xE9);
 
-    // Disable call to FxSystem_c::GetCompositeMatrix in CAEFireAudioEntity::UpdateParameters 
-    // Which was causing a crash. The crash happens if you create 40 or 
+    // Disable call to FxSystem_c::GetCompositeMatrix in CAEFireAudioEntity::UpdateParameters
+    // Which was causing a crash. The crash happens if you create 40 or
     // so vehicles that catch fire (upside down) then delete them, repeating a few times.
     MakeNOP(0x4DCF87, 6);
 
@@ -56,7 +57,7 @@ static Util::HookFunction hookFunction([]()
     MakeNOP(0x6485AC, 6);
     MakeJMP(0x6485AC, Hook_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit);
 
-    // Mirror crash fixed
+    // Fix mirror crash
     MemPatch<u8>(0x7271CB + 0, 0x85); // test eax, eax
     MemPatch<u8>(0x7271CB + 1, 0xC0);
     MemPatch<u8>(0x7271CB + 2, 0x74); // je 0x727203

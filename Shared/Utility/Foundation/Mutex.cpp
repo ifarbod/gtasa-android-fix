@@ -8,7 +8,7 @@
 
 #include <PCH.hpp>
 
-#include "Mutex.hpp"
+#include <Foundation/Mutex.hpp>
 
 #ifdef _WIN32
 #include <Windows.h>

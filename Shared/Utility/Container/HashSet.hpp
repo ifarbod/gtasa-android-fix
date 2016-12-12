@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "HashBase.hpp"
-#include "Sort.hpp"
+#include <Container/HashBase.hpp>
+#include <Container/Sort.hpp>
 
 #include <cassert>
 #include <initializer_list>

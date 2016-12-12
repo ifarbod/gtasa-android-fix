@@ -1,4 +1,4 @@
-// Two-dimensional vector
+// Four-dimensional vector
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
 // Copyright (c) 2015-2016 The San Andreas Online Open Source Project
@@ -8,7 +8,7 @@
 
 #include <PCH.hpp>
 
-#include "Vector4.hpp"
+#include <Math/Vector4.hpp>
 
 namespace Util
 {

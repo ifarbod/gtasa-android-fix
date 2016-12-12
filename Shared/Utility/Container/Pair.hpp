@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Hash.hpp"
+#include <Container/Hash.hpp>
 
 namespace Util
 {

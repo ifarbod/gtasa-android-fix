@@ -8,7 +8,7 @@
 
 #include <PCH.hpp>
 
-#include "Thread.hpp"
+#include <Foundation/Thread.hpp>
 
 #ifdef _WIN32
 #include <Windows.h>
