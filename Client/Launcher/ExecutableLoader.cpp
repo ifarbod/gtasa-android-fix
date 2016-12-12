@@ -10,9 +10,73 @@
 #include "Precompiled.hpp"
 #include "Main.hpp"
 
-ExecutableLoader::ExecutableLoader(const uint8_t* origBinary)
+#include <sdk/MemoryUtils.stream.h>
+
+#include <sstream>
+
+ExecutableLoader::ExecutableLoader(const uint8_t* origBinary, size_t binarySize)
 {
-    origBinary_ = origBinary;
+    struct memstr : public PEStream
+    {
+    private:
+        struct nullBufferManager
+        {
+            inline void EstablishBufferView( const void*& memPtr, pe_file_ptr_t& bufSize, long long reqSize )
+            {
+                // Nothing to do.
+                return;
+            }
+        };
+
+        nullBufferManager allocMan;
+
+        memoryBufferStream <pe_file_ptr_t, nullBufferManager, true, false> memStream;
+
+    public:
+        inline memstr( const char *origBinary, size_t binarySize )
+            : memStream( origBinary, binarySize, allocMan )
+        {
+            return;
+        }
+
+        size_t Read( void *buf, size_t readCount ) override
+        {
+            return this->memStream.Read( buf, readCount );
+        }
+
+        bool Write( const void *buf, size_t writeCount ) override
+        {
+            return false;
+        }
+
+        bool Seek( pe_file_ptr_t ptr ) override
+        {
+            this->memStream.Seek( ptr );
+
+            return true;
+        }
+
+        pe_file_ptr_t Tell( void ) const override
+        {
+            return this->memStream.Tell();
+        }
+    };
+
+    memstr memstr( (const char*)origBinary, binarySize );
+
+    // TODO: handle exceptions.
+
+    try
+    {
+        this->binary.LoadFromDisk( &memstr );
+    }
+    catch( ... )
+    {
+        // PEFramework could throw exceptions, if EXE invalid.
+
+        throw;
+    }
+
     loadLimit_ = UINT_MAX;
 
     SetLibraryLoader([] (const char* name)
@@ -26,15 +90,11 @@ ExecutableLoader::ExecutableLoader(const uint8_t* origBinary)
     });
 }
 
-void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
+void ExecutableLoader::LoadImports( void )
 {
-    IMAGE_DATA_DIRECTORY* importDirectory = &ntHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT];
-
-    IMAGE_IMPORT_DESCRIPTOR* descriptor = GetTargetRVA<IMAGE_IMPORT_DESCRIPTOR>(importDirectory->VirtualAddress);
-
-    while (descriptor->Name)
+    for ( const PEFile::PEImportDesc& impDesc : this->binary.imports )
     {
-        const char* name = GetTargetRVA<char>(descriptor->Name);
+        const char* name = impDesc.DLLName.c_str();
 
         HMODULE module = ResolveLibrary(name);
 
@@ -45,30 +105,29 @@ void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
 
         if (reinterpret_cast<uint32_t>(module) == 0xFFFFFFFF)
         {
-            descriptor++;
             continue;
         }
 
-        auto nameTableEntry = GetTargetRVA<uint32_t>(descriptor->OriginalFirstThunk);
-        auto addressTableEntry = GetTargetRVA<uint32_t>(descriptor->FirstThunk);
+        auto addressTableEntry = GetTargetRVA<uint32_t>( impDesc.firstThunkRef.GetRVA() );
 
-        while (*nameTableEntry)
+        for ( const PEFile::PEImportDesc::importFunc& impFunc : impDesc.funcs )
         {
             FARPROC function;
             const char* functionName;
 
-            if (IMAGE_SNAP_BY_ORDINAL(*nameTableEntry))
+            if ( impFunc.isOrdinalImport )
             {
                 function = reinterpret_cast<FARPROC>(
-                    ResolveLibraryFunction(module, MAKEINTRESOURCEA(IMAGE_ORDINAL(*nameTableEntry))));
-                functionName = va("#%d", IMAGE_ORDINAL(*nameTableEntry));
+                    ResolveLibraryFunction(module,
+                        MAKEINTRESOURCEA(impFunc.ordinal_hint)
+                    )
+                );
+                functionName = va("#%d", impFunc.ordinal_hint);
             }
             else
             {
-                auto import = GetTargetRVA<IMAGE_IMPORT_BY_NAME>(*nameTableEntry);
-
-                function = reinterpret_cast<FARPROC>(ResolveLibraryFunction(module, (const char*)import->Name));
-                functionName = (const char*)import->Name;
+                function = reinterpret_cast<FARPROC>(ResolveLibraryFunction(module, impFunc.name.c_str()));
+                functionName = (const char*)impFunc.name.c_str();
             }
 
             if (!function)
@@ -81,18 +140,14 @@ void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
 
             *addressTableEntry = (uint32_t)function;
 
-            nameTableEntry++;
             addressTableEntry++;
         }
-
-        descriptor++;
     }
 }
 
-void ExecutableLoader::LoadSection(IMAGE_SECTION_HEADER* section)
+void ExecutableLoader::LoadSection( PEFile::PESection& sect )
 {
-    void* targetAddress = GetTargetRVA<uint8_t>(section->VirtualAddress);
-    const void* sourceAddress = origBinary_ + section->PointerToRawData;
+    void* targetAddress = GetTargetRVA<uint8_t>( sect.GetVirtualAddress() );
 
     if ((uintptr_t)targetAddress >= loadLimit_)
     {
@@ -100,53 +155,47 @@ void ExecutableLoader::LoadSection(IMAGE_SECTION_HEADER* section)
         return;
     }
 
-    if (section->SizeOfRawData > 0)
+    if ( std::int32_t rawSize = sect.stream.Size() )
     {
-        DWORD oldProtect;
-        uint32_t sizeOfData = M_MIN(section->SizeOfRawData, section->Misc.VirtualSize);
+        // TODO: maybe set correct protection status, not required of course.
 
-        VirtualProtect(targetAddress, sizeOfData, PAGE_EXECUTE_READWRITE, &oldProtect);
-        memcpy(targetAddress, sourceAddress, sizeOfData);
+        DWORD oldProtect;
+        VirtualProtect( targetAddress, sect.GetVirtualSize(), PAGE_EXECUTE_READWRITE, &oldProtect );
+
+        sect.stream.Seek( 0 );
+        sect.stream.Read( targetAddress, rawSize );
     }
 }
 
-void ExecutableLoader::LoadSections(IMAGE_NT_HEADERS* ntHeader)
+void ExecutableLoader::LoadSections( void )
 {
-    IMAGE_SECTION_HEADER* section = IMAGE_FIRST_SECTION(ntHeader);
-
-    for (int i = 0; i < ntHeader->FileHeader.NumberOfSections; i++)
-    {
-        LoadSection(section);
-
-        section++;
-    }
+    this->binary.ForAllSections(
+        [&]( PEFile::PESection *sect )
+        {
+            LoadSection( *sect );
+        }
+    );
 }
 
 void ExecutableLoader::LoadIntoModule(HMODULE module)
 {
     executableHandle_ = module;
 
-    IMAGE_DOS_HEADER* header = (IMAGE_DOS_HEADER*)origBinary_;
+    LoadSections();
+    LoadImports();
 
-    if (header->e_magic != IMAGE_DOS_SIGNATURE)
-    {
-        return;
-    }
+    entryPoint_ = GetTargetRVA<void>( this->binary.peOptHeader.addressOfEntryPoint );
 
+    // Implement this following code if you want to support packers crackers hackers meow.
+#if 0
     IMAGE_DOS_HEADER* sourceHeader = (IMAGE_DOS_HEADER*)module;
     IMAGE_NT_HEADERS* sourceNtHeader = GetTargetRVA<IMAGE_NT_HEADERS>(sourceHeader->e_lfanew);
-
-    IMAGE_NT_HEADERS* ntHeader = (IMAGE_NT_HEADERS*)(origBinary_ + header->e_lfanew);
-
-    LoadSections(ntHeader);
-    LoadImports(ntHeader);
-
-    entryPoint_ = GetTargetRVA<void>(ntHeader->OptionalHeader.AddressOfEntryPoint);
 
     DWORD oldProtect;
     VirtualProtect(sourceNtHeader, 0x1000, PAGE_EXECUTE_READWRITE, &oldProtect);
 
     sourceNtHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT] = ntHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT];
+#endif
 }
 
 HMODULE ExecutableLoader::ResolveLibrary(const char* name)

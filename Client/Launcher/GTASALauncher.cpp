@@ -63,7 +63,7 @@ void GTASALauncher::Launch(const char* gamePath)
     // load the executable into our module context
     HMODULE exeModule = GetModuleHandle(nullptr);
 
-    ExecutableLoader exeLoader(data);
+    ExecutableLoader exeLoader(data, length);
 
     exeLoader.SetLibraryLoader([] (const char* libName)
     {

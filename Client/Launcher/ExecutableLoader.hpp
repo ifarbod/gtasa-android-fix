@@ -9,12 +9,15 @@
 
 #pragma once
 
-#include <winnt.h>
+// Fix because of intrusive Win32 macros.
+#undef ABSOLUTE
+
+#include <peframework/include/peframework.h>
 
 class ExecutableLoader
 {
 public:
-    ExecutableLoader(const uint8_t* origBinary);
+    ExecutableLoader(const uint8_t* origBinary, size_t binarySize);
 
     void SetLoadLimit(uintptr_t loadLimit) { loadLimit_ = loadLimit; }
 
@@ -27,17 +30,17 @@ public:
     void SetFunctionResolver(LPVOID (*functionResolver)(HMODULE, const char*)) { functionResolver_ = functionResolver; }
 
 private:
-    const uint8_t* origBinary_;
+    PEFile binary;
     HMODULE executableHandle_;
     uintptr_t loadLimit_;
     void* entryPoint_;
     HMODULE(*libraryLoader_)(const char*);
     LPVOID(*functionResolver_)(HMODULE, const char*);
 
-    void LoadSection(IMAGE_SECTION_HEADER* section);
-    void LoadSections(IMAGE_NT_HEADERS* ntHeader);
+    void LoadSection(PEFile::PESection& sect);
+    void LoadSections(void);
 
-    void LoadImports(IMAGE_NT_HEADERS* ntHeader);
+    void LoadImports(void);
 
     HMODULE ResolveLibrary(const char* name);
 

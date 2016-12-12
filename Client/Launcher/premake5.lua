@@ -13,9 +13,14 @@ project "Launcher"
 
     links {
         "Utility",
-        "dbghelp", "psapi", "comctl32", "wininet", "winhttp", "Shlwapi"
+        "dbghelp", "psapi", "comctl32", "wininet", "winhttp", "Shlwapi",
+        "PEFramework"
     }
-
+    
+    includedirs {
+        "../../Vendor/eirrepo/"
+    }
+    
     vpaths {
         ["Headers/*"] = "**.hpp",
         ["Sources/*"] = "**.cpp",
