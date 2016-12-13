@@ -161,11 +161,21 @@ public:
 
     virtual bool IsObject() const { return true; }
 
-    /// Unsubscribe from event for specific receiver (where the event handler isn't necessarily in the subscribed object)
+    // Unsubscribe from event for specific receiver (where the event handler isn't necessarily in the subscribed object)
     void UnsubscribeFromEventReceiver(Object* receiver);
 
-    static ClassID GetClassIDStatic() { static const int typeID = 0; return (ClassID)&typeID; }
-    static const Util::String& GetTypeNameStatic() { static const Util::String typeNameStatic("Object"); return typeNameStatic; }
+    // Get ClassID
+    static ClassID GetClassIDStatic()
+    {
+        static const int typeID = 0;
+        return (ClassID)&typeID;
+    }
+    // Get type name as a string
+    static const Util::String& GetTypeNameStatic()
+    {
+        static const Util::String typeNameStatic("Object");
+        return typeNameStatic;
+    }
 
 protected:
     // Execution context.
@@ -359,13 +369,15 @@ struct EventNameRegistrar
 };
 
 // Describe an event's hash ID and begin a namespace in which to define its parameters.
-#define SAO_EVENT(eventID, eventName) static const Util::StringHash eventID(Util::EventNameRegistrar::RegisterEventName(#eventName)); namespace eventName
+#define SAO_EVENT(eventID, eventName)                                                                                  \
+    static const Util::StringHash eventID(Util::EventNameRegistrar::RegisterEventName(#eventName));                    \
+    namespace eventName
 // Describe an event's parameter hash ID. Should be used inside an event namespace.
 #define SAO_PARAM(paramID, paramName) static const Util::StringHash paramID(#paramName)
 // Convenience macro to construct an EventHandler that points to a receiver object and its member function.
 #define SAO_HANDLER(className, function) (new Util::EventHandlerImpl<className>(this, &className::function))
-// Convenience macro to construct an EventHandler that points to a receiver object and its member function, and also defines a userdata pointer.
-#define SAO_HANDLER_USERDATA(className, function, userData) (new Util::EventHandlerImpl<className>(this, &className::function, userData))
-
-
+// Convenience macro to construct an EventHandler that points to a receiver object and its member function, and also
+// defines a userdata pointer.
+#define SAO_HANDLER_USERDATA(className, function, userData)                                                            \
+    (new Util::EventHandlerImpl<className>(this, &className::function, userData))
 }
