@@ -63,7 +63,7 @@ bool CheckRegistryIntegrity()
             if(_access(g_szGameExecutable, 0) == -1)
             {
                 RegDeleteKeyValueA(SAO_REG_KEY, SAO_REG_SUBKEY, "GamePath");
-                Error("Can't find the game's executable.\nPlease restart GTA Underground and specify the location again.");
+                Error("Can't find the game's executable.\nPlease restart San Andreas Online and specify the location again.");
                 return false;
             }
 
@@ -72,7 +72,7 @@ bool CheckRegistryIntegrity()
         else
         {
             RegDeleteKeyValueA(SAO_REG_KEY, SAO_REG_SUBKEY, "GamePath");
-            Error("The path to the game's executable is corrupted.\nPlease restart GTA Underground and specify the location again.");
+            Error("The path to the game's executable is corrupted.\nPlease restart San Andreas Online and specify the location again.");
             return false;
         }
     }
