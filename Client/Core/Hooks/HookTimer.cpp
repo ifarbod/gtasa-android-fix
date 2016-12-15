@@ -1,7 +1,7 @@
 // Timer system fixes
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2016 The San Andreas Online Open Source Project
+// Copyright (c) 2015-2017 The San Andreas Online Open Source Project
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -14,7 +14,7 @@ using namespace Util;
 
 static HookFunction hookFunction([]()
 {
-    // No 14ms wait (which prevents the frame limiter to work properly)
+    // No 14ms delay
     MemPatch<u16>(0x53E923, 0x43EB);
     MemPatch<u8>(0x53E99F, 0x10);
     MakeNOP(0x53E9A5);

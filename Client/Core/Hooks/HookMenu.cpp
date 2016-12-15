@@ -1,7 +1,7 @@
 // Menu hooks
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2016 The San Andreas Online Open Source Project
+// Copyright (c) 2015-2017 The San Andreas Online Open Source Project
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -33,6 +33,16 @@ void SetMultiSamplingLevels(u32 level)
     Call<void>(0x7F84F0, 1 << (level - 1)); // _RwD3D9EngineSetMultiSamplingLevels
 }
 
+void ChangeMultiSamplingLevels(u32 level)
+{
+    Call<void>(0x7F8A90, 1 << (level - 1)); // _RwD3D9ChangeMultiSamplingLevels
+}
+
+int GetMaxMultiSamplingLevels()
+{
+    return Call<int>(0x7F84E0); // _RwD3D9EngineGetMaxMultiSamplingLevels
+}
+
 static Util::HookFunction hookFunction([]()
 {
     // Allow widescreen resolutions
@@ -62,4 +72,8 @@ static Util::HookFunction hookFunction([]()
     MakeJMP(0x7F60C6);
     MemPatch<u16>(0x7F6683, 0xE990);
     MakeCALL(0x746350, SetMultiSamplingLevels);
+    // Menu
+    //MakeCALL(0x5744FE, ChangeMultiSamplingLevels);
+    //MakeCALL(0x57D163, ChangeMultiSamplingLevels);
+    //MakeCALL(0x57D2A7, ChangeMultiSamplingLevels);
 });

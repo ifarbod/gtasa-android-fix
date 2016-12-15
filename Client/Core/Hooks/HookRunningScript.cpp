@@ -1,7 +1,7 @@
 // ScriptEngine hooks
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2016 The San Andreas Online Open Source Project
+// Copyright (c) 2015-2017 The San Andreas Online Open Source Project
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -54,6 +54,15 @@ void Hook_CRunningScript__Process()
         {
             Call<void>(0x438B30); // Weapon cheat 3
         }
+
+        // Spawn a car
+        Call<void>(0x43A0B0, 411);
+
+        // Force extra sunny weather
+        Call<void>(0x72A4F0, 0);
+
+        // Freeze clock on 12AM (CCheat::MidnightCheat)
+        Call<void>(0x439510);
 
         // First tick processed
         scriptProcessed = true;
