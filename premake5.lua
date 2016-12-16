@@ -46,7 +46,10 @@ workspace "SAO"
         "PUGIXML_WCHAR_MODE",
 
         -- No windows.h min()/max() macros
-        "NOMINMAX"
+        "NOMINMAX",
+        
+        -- Enable SSE
+        "SAO_SSE"
     }
 
     -- Get DirectX SDK directory from environment variables
@@ -131,7 +134,7 @@ workspace "SAO"
     --include "Vendor/yaml-cpp"
     --include "Vendor/cryptopp"
     include "Vendor/libcpuid"
-    --include "Vendor/libcurl"
+    include "Vendor/libcurl"
     --include "Vendor/lua"
     --include "Vendor/lz4"
     --include "Vendor/lzma"

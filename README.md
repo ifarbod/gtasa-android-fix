@@ -16,7 +16,7 @@ As this game doesn't have a _built-in_ network play functionality, many attempts
   - The old school way of finding that perfect game. Set up your filters and you're ready to go.
   - Custom rules? No problem. You can fine-tune the game logic using the power of our scripting system to achieve your perfect game mode. Wheather it's an advanced roleplaying or a classic deathmatch mode.
 * Peer to peer
-  - Can't be bothered to host a server? Well, with our P2P networking layer you don't have to worry about hosting a server at all. Either jump in a quick match or create a lobby with your friends (and foes?), then change the game's rules to what you prefer, then play the game as you wish!
+  - Can't be bothered to host a server? Well, with our P2P networking layer you don't have to worry about hosting a server at all. Either jump in a quick match or create a lobby with your friends (and foes?), change the game's rules to your wish, then play the game as you wish!
 * Server content streaming
   - You want to stream modifications or content from the server? No problem. Just hook up your preferred CDN system or use the integrated HTTP server for streaming content in our dedicated server.
 * Limit adjuster

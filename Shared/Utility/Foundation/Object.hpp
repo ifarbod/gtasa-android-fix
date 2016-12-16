@@ -9,7 +9,7 @@
 #pragma once
 
 #include <Container/LinkedList.hpp>
-//#include "Variant.h"
+#include <Foundation/Variant.hpp>
 #include <functional>
 
 namespace Util
