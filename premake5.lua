@@ -23,8 +23,8 @@ end
 workspace "SAO"
     location "Build"
     platforms { "x86", "x64" }
-    targetprefix ("")
-    configurations {"Debug", "Release"}
+    targetprefix ""
+    configurations { "Debug", "Release" }
     flags { "C++14" }
     symbols "On"
     characterset "Unicode"
