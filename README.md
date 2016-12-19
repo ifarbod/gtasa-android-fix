@@ -4,9 +4,9 @@
 | :---: | :---: | :---: |
 | [![Windows Build status](https://ci.appveyor.com/api/projects/status/8sm6rvql5e9trkar/branch/master?svg=true)](https://ci.appveyor.com/project/ctnorth/ctnorth/branch/master) | [![Latest Release](https://img.shields.io/github/downloads/sanandreasonline/sao/latest/total.svg)](https://github.com/sanandreasonline/sao/releases/latest) | [![All Releases](https://img.shields.io/github/downloads/sanandreasonline/sao/total.svg)](https://github.com/sanandreasonline/sao/releases) |
 
-San Andreas Online is an online multiplayer modification for Rockstar North's Game; Grand Theft Auto: San Andreas.
+CtNorth is an online multiplayer modification for Rockstar North's Game; Grand Theft Auto: San Andreas.
 
-As this game doesn't have a _built-in_ network play functionality, many attempts have been made since its PC release and only some of them succeeded. San Andreas Online has a goal of being unique by implementation of artifical intelligence synchronization which will add a unique co-operative based gameplay type, and being _completely_ customizable, ranging from custom maps, weapons, vehicles to Lua scripts that change the entire game logic.
+As this game doesn't have a _built-in_ network play functionality, many attempts have been made since its PC release and only some of them succeeded. CtNorth has a goal of being unique by implementation of artifical intelligence synchronization which will add a unique co-operative based gameplay type, and being _completely_ customizable, ranging from custom maps, weapons, vehicles to Lua scripts that change the entire game logic.
 
 -------------------------------------------------
 ## Key Features (Planned)
@@ -24,12 +24,12 @@ As this game doesn't have a _built-in_ network play functionality, many attempts
 * 4 scripting languages (Lua, AngelScript, JavaScript and C#)
   - Script your custom missions, mods and game logic in either Lua, AS, JS or C#, or even, all of them! Select them based on your taste and which suits you the most.
 * Client-side scripting
-  - You may need to do something hacky on a specific player, with client-side scripting, It's possible to do so. Your script will be downloaded to the target client and it will be executed. Communication between server-side scripts and client-side ones is also possible.
+  - You may need to do something hacky on a specific player, with client-side scripting, It's possible to do so! Your script will be downloaded to the target client and it will be executed. Communication between server-side scripts and client-side ones is also possible.
 * Integrated CEF (Chromium Embedded Framework) for rich HTML5+CSS3 powered user interfaces
-  - Did you find the stock user interface boring? Using CEF, It's possible to bring powerful modern web technologies to San Andreas Online! Use your web developing skills to create that decent GUI!
+  - Did you find the stock user interface boring? Using CEF, It's possible to bring powerful modern web technologies to CtNorth! Use your web developing skills to create that decent GUI!
 
 ## License
 
-[MIT](LICENSE.md) © 2015-2016 San Andreas Online
+[MIT](LICENSE.md) © 2015-2016 Project CtNorth
 
 [Click here for a TL;DR version of the license](https://www.tldrlegal.com/l/mit)
