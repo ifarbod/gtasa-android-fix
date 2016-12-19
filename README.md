@@ -1,4 +1,4 @@
-<img src="https://cdn.pbrd.co/images/cX4GNpEQn.png" width="70%" height="70%" alt="SAO Logo" />
+
 
 | Build Status | Latest Release | Total Downloads |
 | :---: | :---: | :---: |
