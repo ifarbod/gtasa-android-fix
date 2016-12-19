@@ -28,7 +28,7 @@
 #define SAO_REG_KEY HKEY_CURRENT_USER
 #define SAO_REG_SUBKEY "SOFTWARE\\San Andreas Online"
 
-#define GAME_EXECUTABLE_NAME "SA4g.exe"
+#define GAME_EXECUTABLE_NAME "gta_sa.exe"
 
 extern char g_szGamePath[MAX_PATH];
 extern char g_szGameExecutable[MAX_PATH];

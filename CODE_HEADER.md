@@ -5,7 +5,7 @@
 // *Purpose of this file, a brief description of what is it supposed to do*
 // Author(s):       *AuthorName* <*AuthorEmail*>
 //
-// Copyright (c) 2015-*CurrentYear* The San Andreas Online Open Source Project
+// Copyright (c) 2015-*CurrentYear* Project CtNorth
 //
 // Distributed under the MIT license (See accompanying file LICENSE.md or copy at
 // https://opensource.org/licenses/MIT)
@@ -21,7 +21,7 @@
 //                  *AuthorName2* <*AuthorEmail2*>
 //                  *AuthorName3* <*AuthorEmail2*>
 //
-// Copyright (c) 2015-*CurrentYear* The San Andreas Online Open Source Project
+// Copyright (c) 2015-*CurrentYear* Project CtNorth
 //
 // Distributed under the MIT license (See accompanying file LICENSE.md or copy at
 // https://opensource.org/licenses/MIT)
@@ -36,7 +36,7 @@
 // Main Cat syncing code
 // Author(s):       John <john@mywebsite.net>
 //
-// Copyright (c) 2015-2017 The San Andreas Online Open Source Project
+// Copyright (c) 2015-2017 Project CtNorth
 //
 // Distributed under the MIT license (See accompanying file LICENSE.md or copy at
 // https://opensource.org/licenses/MIT)
@@ -49,7 +49,7 @@
 // Author(s):       James <james@gmail.com>
 //                  Mike23 <mike23@test.eu>
 //
-// Copyright (c) 2015-2017 The San Andreas Online Open Source Project
+// Copyright (c) 2015-2017 Project CtNorth
 //
 // Distributed under the MIT license (See accompanying file LICENSE.md or copy at
 // https://opensource.org/licenses/MIT)

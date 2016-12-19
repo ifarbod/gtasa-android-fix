@@ -2,7 +2,7 @@
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //                  LINK/2012
 //
-// Copyright (c) 2015-2017 The San Andreas Online Open Source Project
+// Copyright (c) 2015-2017 Project CtNorth
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -59,12 +59,12 @@ struct RegPack
     const uint32_t& operator[](size_t i) const { return this->arr[i]; }
 
     template <uint32_t bit> // bit starts from 0, use ef_flag enum
-    bool flag()
+    bool Flag()
     {
         return (this->ef & (1 << bit)) != 0;
     }
 
-    bool jnb() { return flag<carry_flag>() == false; }
+    bool jnb() { return Flag<carry_flag>() == false; }
 };
 
 // Lowest level stuff (actual assembly) goes on the following namespace
@@ -73,10 +73,10 @@ namespace HookAsm
 {
 
 // Wrapper functor, so the assembly can use some templating
-template<class T>
-struct wrapper
+template <class T>
+struct Wrapper
 {
-    static void call(RegPack* regs)
+    static void Call(RegPack* regs)
     {
         T fun;
         fun(*regs);
@@ -99,7 +99,7 @@ inline void __declspec(naked) MakeRegPackAndCall()
 
         // Call wrapper sending RegPack as parameter
         push esp;
-        call W::call;
+        Call W::Call;
         add esp, 4;
 
         // Destructs the RegPack from the stack
@@ -124,9 +124,9 @@ inline void __declspec(naked) MakeRegPackAndCall()
 template <class FuncT>
 void MakeInline(MemPtr at)
 {
-    using functor = HookAsm::wrapper<FuncT>;
+    using functor = HookAsm::Wrapper<FuncT>;
     if (false)
-        functor::call(nullptr); // To instantiate the template, if not done __asm will fail
+        functor::Call(nullptr); // To instantiate the template, if not done __asm will fail
     MakeCALL(at, HookAsm::MakeRegPackAndCall<functor>);
 }
 
@@ -156,7 +156,7 @@ void MakeInline(FuncT func)
     };
 
     // Does the actual MakeInline
-    return MakeInline<Caps>(lazy_pointer<at>::get(), lazy_pointer<end>::get());
+    return MakeInline<Caps>(LazyPointer<at>::get(), LazyPointer<end>::get());
 }
 
 

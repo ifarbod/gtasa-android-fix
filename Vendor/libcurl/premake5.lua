@@ -7,6 +7,25 @@ project "libcurl"
         "lib"
     }
 
+    defines {
+        -- We are building libcurl
+        "BUILDING_LIBCURL",
+        -- Build as a static library
+        "CURL_STATICLIB",
+        
+        -- Enable IPV6 support
+        "USE_IPV6",
+        
+        -- Enable Windows SSPI support
+        "USE_WINDOWS_SSPI",
+        "USE_SCHANNEL",
+        
+        -- Enable WinIDN support
+        --"USE_WIN32_IDN",
+        --"WANT_IDN_PROTOTYPES",
+        
+    }
+    
     vpaths {
         ["Headers/*"] = { "include/curl/**.h", "lib/**.h" },
         ["Sources/*"] = "lib/**.c",
@@ -258,14 +277,4 @@ project "libcurl"
         
         -- Premake script
         "premake5.lua"
-    }
-
-    defines {
-        "BUILDING_LIBCURL",
-        "USE_IPV6",
-        "USE_WINDOWS_SSPI",
-        "USE_SCHANNEL",
-        --"USE_WIN32_IDN",
-        --"WANT_IDN_PROTOTYPES",
-        "CURL_STATICLIB"
     }

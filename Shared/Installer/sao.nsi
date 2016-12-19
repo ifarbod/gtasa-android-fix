@@ -1,7 +1,7 @@
-; SAO Install script for Windows, using NSIS
+; CtNorth Install script for Windows, using NSIS
 ; Author(s):       iFarbod <ifarbod@outlook.com>
 ;
-; Copyright (c) 2015-2016 The San Andreas Online Open Source Project
+; Copyright (c) 2015-2016 Project CtNorth
 ;
 ; Distributed under the MIT license (See accompanying file LICENSE or copy at
 ; https://opensource.org/licenses/MIT)
@@ -19,12 +19,11 @@
 ; ----------------------
 ; Definitions
 ; ----------------------
-!define NAME "San Andreas Online"
-!define NAME2 "SAO"
-!define NAME3 "SA:Online"
+!define NAME "CtNorth"
+!define NAME2 "CTN"
 !define PUBLISHER "The ${NAME} Team"
-!define WEBSITE_URL "http://sanandreasonline.com"
-!define GITHUB_URL "https://github.com/sanandreasonline/sao"
+!define WEBSITE_URL "http://projectctn.com"
+!define GITHUB_URL "https://github.com/ctnorth/ctnorth"
 !define REGKEY "SOFTWARE\${NAME}"
 !define UNINST_KEY "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${NAME}"
 !define UNINST_ROOT_KEY "HKLM"
@@ -97,15 +96,15 @@ VIAddVersionKey "ProductName"      "${NAME}"
 VIAddVersionKey "ProductVersion"   "${VERSION}"
 VIAddVersionKey "FileDescription"  "${NAME} Setup/Uninstaller"
 VIAddVersionKey "FileVersion"      "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.0"
-VIAddVersionKey "LegalCopyright"   "Copyright (c) 2015-${YEAR} The San Andreas Online Team"
+VIAddVersionKey "LegalCopyright"   "Copyright (c) 2015-${YEAR} Project CtNorth"
 VIAddVersionKey "OriginalFilename" "${NAME2}_${VERSION}-Setup.exe"
 
 ; ----------------------
 ; Interface Settings
 ; ----------------------
 
-!define MUI_ICON "res\sao_installer.ico"
-!define MUI_UNICON "res\sao_uninstaller.ico"
+!define MUI_ICON "res\ctn_installer.ico"
+!define MUI_UNICON "res\ctn_uninstaller.ico"
 !define MUI_ABORTWARNING
 !define MUI_COMPONENTSPAGE_SMALLDESC
 !define MUI_HEADERIMAGE
@@ -138,10 +137,10 @@ Page custom PageGameDirectory PageLeaveGameDirectory
 !define MUI_PAGE_CUSTOMFUNCTION_LEAVE PostInstPage
 !insertmacro MUI_PAGE_INSTFILES
 
-!define MUI_FINISHPAGE_LINK "Visit the ${NAME}'s wiki for the latest news, FAQs and support"
+!define MUI_FINISHPAGE_LINK "Visit ${NAME}'s wiki for the latest news, FAQs and support"
 !define MUI_FINISHPAGE_LINK_LOCATION "${GITHUB_URL}/wiki"
 
-!define MUI_FINISHPAGE_RUN "$INSTDIR\${NAME2}.exe"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\${NAME}.exe"
 !define MUI_FINISHPAGE_RUN_TEXT "&Start ${NAME} now"
 !define MUI_FINISHPAGE_NOREBOOTSUPPORT
 
@@ -170,7 +169,7 @@ ${MementoSection} "Client core files (required)" SecCore
     
     SetOutPath $INSTDIR
     ; Launcher
-    File "${FILES_ROOT}\SAO*.exe"
+    File "${FILES_ROOT}\CtNorth*.exe"
     
     ; BASS library
     File "${FILES_ROOT}\bass.dll"

@@ -1,7 +1,7 @@
 -- Premake5 script
 -- Author(s):       iFarbod <ifarbod@outlook.com>
 --
--- Copyright (c) 2015-2017 The San Andreas Online Open Source Project
+-- Copyright (c) 2015-2017 Project CtNorth
 --
 -- Distributed under the MIT license (See accompanying file LICENSE or copy at
 -- https://opensource.org/licenses/MIT)
@@ -20,7 +20,7 @@ else
     CI_BUILD = false
 end
 
-workspace "SAO"
+workspace "CtNorth"
     location "Build"
     platforms { "x86", "x64" }
     targetprefix ""
@@ -49,7 +49,7 @@ workspace "SAO"
         "NOMINMAX",
         
         -- Enable SSE
-        "SAO_SSE"
+        "CTN_SSE"
     }
 
     -- Get DirectX SDK directory from environment variables
@@ -66,7 +66,7 @@ workspace "SAO"
         architecture "x86_64"
 
     filter "configurations:Debug"
-        defines { "SAO_DEBUG" }
+        defines { "CTN_DEBUG" }
         targetsuffix "_d"
 
     filter "configurations:Release"
@@ -83,7 +83,7 @@ workspace "SAO"
         linkoptions "/PDB:\"Symbols\\$(ProjectName).pdb\""
 
     filter "system:windows"
-        toolset "v140"
+        toolset "v140" -- TODO: Change to v141 after VS2017 RTM release
         flags { "StaticRuntime" }
 
     filter { "system:windows", "platforms:x86" }
@@ -115,8 +115,6 @@ workspace "SAO"
 
     -- Include the projects we are going to build
     group "Client"
-    --include "Client/CEFLauncher"
-    --include "Client/CEFLauncherDLL"
     include "Client/Core"
     include "Client/Launcher"
     include "Client/Updater"
@@ -125,22 +123,22 @@ workspace "SAO"
     --include "Vendor/angelscript"
     --include "Vendor/bzip2"
     --include "Vendor/cef3"
+    --include "Vendor/cryptopp"
     --include "Vendor/duktape"
     --include "Vendor/freetype"
-    --include "Vendor/minhook"
-    --include "Vendor/miniupnpc"
-    --include "Vendor/RakNet"
     --include "Vendor/jo"
-    --include "Vendor/yaml-cpp"
-    --include "Vendor/cryptopp"
     include "Vendor/libcpuid"
     include "Vendor/libcurl"
     --include "Vendor/lua"
     --include "Vendor/lz4"
     --include "Vendor/lzma"
+    --include "Vendor/minhook"
+    --include "Vendor/miniupnpc"
     include "Vendor/pugixml"
+    --include "Vendor/RakNet"
     include "Vendor/stb"
     --include "Vendor/sqlite"
+    --include "Vendor/yaml-cpp"
     --include "Vendor/zlib"
     --include "Vendor/zip"
 

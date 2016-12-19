@@ -1,7 +1,7 @@
 // Variable that supports a fixed set of types
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 The San Andreas Online Open Source Project
+// Copyright (c) 2015-2017 Project CtNorth
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -89,13 +89,13 @@ class Variant;
 class VectorBuffer;
 
 // Vector of variants.
-typedef Vector<Variant> VariantVector;
+using VariantVector = Vector<Variant>;
 
 // Vector of strings.
-typedef Vector<String> StringVector;
+using StringVector = Vector<String>;
 
 // Map of variants.
-typedef HashMap<StringHash, Variant> VariantMap;
+using VariantMap = HashMap<StringHash, Variant>;
 
 // Typed resource reference.
 struct ResourceRef

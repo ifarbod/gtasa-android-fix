@@ -11,6 +11,9 @@
 #include "Main.hpp"
 #include <winternl.h>
 #include <Hooking/HookingUtils.hpp>
+#include <Container/Str.hpp>
+
+using namespace Util;
 
 static LONG NTAPI HandleVariant(PEXCEPTION_POINTERS exceptionInfo)
 {
@@ -33,10 +36,8 @@ void GTASALauncher::InvokeEntryPoint(void(*entryPoint)())
 
 void GTASALauncher::Launch(const char* gamePath)
 {
-    wchar_t temp[MAX_PATH];
-    mbstowcs(temp, gamePath, MAX_PATH);
     // load the game executable data in temporary memory
-    FILE* gameFile = _wfopen(temp, L"rb");
+    FILE* gameFile = _wfopen(WString{ gamePath }.CString(), L"rb");
 
     if (!gameFile)
     {
