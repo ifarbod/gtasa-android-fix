@@ -1,8 +1,8 @@
 <img src="https://cdn.pbrd.co/images/cX4GNpEQn.png" width="70%" height="70%" alt="SAO Logo" />
 
-| Gitter chat | AppVeyor | Latest Release | Total Downloads |
-| :---: | :---: | :---: | :---: |
-| [![Gitter](https://badges.gitter.im/sanandreasonline/sao.svg)](https://gitter.im/sanandreasonline/sao?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) | [![Windows Build status](https://ci.appveyor.com/api/projects/status/by4y444pfbjhuuim/branch/master?svg=true)](https://ci.appveyor.com/project/sanandreasonline/sao/branch/master) | [![Latest Release](https://img.shields.io/github/downloads/sanandreasonline/sao/latest/total.svg)](https://github.com/sanandreasonline/sao/releases/latest) | [![All Releases](https://img.shields.io/github/downloads/sanandreasonline/sao/total.svg)](https://github.com/sanandreasonline/sao/releases) |
+| Build Status | Latest Release | Total Downloads |
+| :---: | :---: | :---: |
+| [![Windows Build status](https://ci.appveyor.com/api/projects/status/8sm6rvql5e9trkar/branch/master?svg=true)](https://ci.appveyor.com/project/ctnorth/ctnorth/branch/master) | [![Latest Release](https://img.shields.io/github/downloads/sanandreasonline/sao/latest/total.svg)](https://github.com/sanandreasonline/sao/releases/latest) | [![All Releases](https://img.shields.io/github/downloads/sanandreasonline/sao/total.svg)](https://github.com/sanandreasonline/sao/releases) |
 
 San Andreas Online is an online multiplayer modification for Rockstar North's Game; Grand Theft Auto: San Andreas.
 
