@@ -52,17 +52,17 @@ after_build:
   - utils\premake5 compose_files
   - cinst nsis --version 3.0 -y -installArgs /D=%NSIS_ROOT%
   - cd %NSIS_ROOT%
-  - makensis ..\sao.nsi
+  - makensis ..\ctn.nsi
   - cd ..
-  - ren SAO*Setup.exe SAO-Setup.exe
-  - move SAO-Setup.exe ..\..\
+  - ren CtNorth*Setup.exe CtNorth-Setup.exe
+  - move CtNorth-Setup.exe ..\..\
 
 #---------------------------------#
 #      artifacts configuration    #
 #---------------------------------#
 artifacts:
-  - path: SAO-Setup.exe
-    name: SAO
+  - path: CtNorth-Setup.exe
+    name: CtNorth
 
 #---------------------------------#
 #     deployment configuration    #
