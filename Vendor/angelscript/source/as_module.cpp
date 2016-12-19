@@ -467,7 +467,7 @@ void asCModule::CallExit()
 			void **obj = (void**)(*it)->GetAddressOfValue();
 			if( *obj )
 			{
-				asCObjectType *ot = (*it)->type.GetTypeInfo()->CastToObjectType();
+				asCObjectType *ot = CastToObjectType((*it)->type.GetTypeInfo());
 
 				if( ot->flags & asOBJ_REF )
 				{
@@ -723,7 +723,8 @@ void asCModule::InternalReset()
 	for( n = 0; n < funcDefs.GetLength(); n++ )
 	{
 		asCFuncdefType *func = funcDefs[n];
-		if( func->funcdef->IsShared() )
+		asASSERT(func);
+		if( func->funcdef && func->funcdef->IsShared() )
 		{
 			// The funcdef is shared, so transfer ownership to another module that also uses it
 			if( engine->FindNewOwnerForSharedType(func, this) != this )
@@ -1065,7 +1066,7 @@ asITypeInfo *asCModule::GetObjectTypeByIndex(asUINT index) const
 asITypeInfo *asCModule::GetObjectTypeByName(const char *in_name) const
 {
 	asITypeInfo *ti = GetTypeInfoByName(in_name);
-	return reinterpret_cast<asCTypeInfo*>(ti)->CastToObjectType();
+	return CastToObjectType(reinterpret_cast<asCTypeInfo*>(ti));
 }
 #endif
 
@@ -1130,7 +1131,7 @@ int asCModule::GetTypeIdByDecl(const char *decl) const
 asITypeInfo *asCModule::GetObjectTypeByDecl(const char *decl) const
 {
 	asITypeInfo *ti = GetTypeInfoByDecl(decl);
-	return reinterpret_cast<asCTypeInfo*>(ti)->CastToObjectType();
+	return CastToObjectType(reinterpret_cast<asCTypeInfo*>(ti));
 }
 #endif
 
@@ -1173,7 +1174,7 @@ asITypeInfo *asCModule::GetEnumByIndex(asUINT index) const
 int asCModule::GetEnumValueCount(int enumTypeId) const
 {
 	asITypeInfo *ti = engine->GetTypeInfoById(enumTypeId);
-	asCEnumType *e = reinterpret_cast<asCTypeInfo*>(ti)->CastToEnumType();
+	asCEnumType *e = CastToEnumType(reinterpret_cast<asCTypeInfo*>(ti));
 	if (e == 0)
 		return asINVALID_TYPE;
 
@@ -1187,7 +1188,7 @@ int asCModule::GetEnumValueCount(int enumTypeId) const
 const char *asCModule::GetEnumValueByIndex(int enumTypeId, asUINT index, int *outValue) const
 {
 	asITypeInfo *ti = engine->GetTypeInfoById(enumTypeId);
-	asCEnumType *e = reinterpret_cast<asCTypeInfo*>(ti)->CastToEnumType();
+	asCEnumType *e = CastToEnumType(reinterpret_cast<asCTypeInfo*>(ti));
 	if (e == 0)
 		return 0;
 
