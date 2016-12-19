@@ -78,16 +78,3 @@ notifications:
     on_build_success: true
     on_build_failure: true
     on_build_status_changed: true
-  # Webhook
-  - provider: Webhook
-    url:
-      secure: hJnDftoFJ8Y3VMd1+WbIatNw/0g0obj2zoTpUl7/wD38kCoXPZnDImGUij6nsNjB
-    method: POST
-    headers:
-      User-Agent:
-        secure: mHZnOSogybs+z9aEU2ayo9n2+1nqLdUnu+HxgHaQP9/PoyfzxfbFJdjzha509tv/lHIrk9LaFfidBuRD4t9vePV8BvRCeMlxfdy19+Un9E//Qp79W4SQxHHsStUAjK3D2/GrCZJX9zn/kn4rYPfC2Qlk6aYWLz+KaS6F6xxelQ4=
-    content_type: application/json
-    body: "{'text':'test'}"
-    on_build_success: true
-    on_build_failure: true
-    on_build_status_changed: true
