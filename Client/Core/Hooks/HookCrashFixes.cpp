@@ -16,7 +16,7 @@ u32 Return_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit = 0x6485B2;
 u32 Return_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit_Invalid = 0x6485E1;
 void CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit_Custom()
 {
-    //SAO_LOGWARNING("CTaskComplexCarSlowBeDraggedOut race condition");
+    //CTN_LOGWARNING("CTaskComplexCarSlowBeDraggedOut race condition");
 }
 
 void __declspec(naked) Hook_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit()

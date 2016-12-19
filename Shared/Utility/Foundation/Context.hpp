@@ -1,7 +1,7 @@
 // Execution context
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 The San Andreas Online Open Source Project
+// Copyright (c) 2015-2017 Project CtNorth
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -48,13 +48,13 @@ private:
     bool dirty_;
 };
 
-// San Andreas Online execution context. Provides access to subsystems, object factories and attributes, and event
+// CtNorth execution context. Provides access to subsystems, object factories and attributes, and event
 // receivers.
 class Context : public RefCounted
 {
     friend class Object;
 
-    SAO_REFCOUNTED(Context)
+    CTN_REFCOUNTED(Context)
 
 public:
     // Construct.

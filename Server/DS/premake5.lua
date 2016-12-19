@@ -11,7 +11,7 @@ project "DedicatedServer"
     vpaths {
         ["Headers/*"] = { "**.h", "**.hpp" },
         ["Sources/*"] = "**.cpp",
-        ["Resources/*"] = {"*.rc", "res/sao_server.ico"},
+        ["Resources/*"] = {"*.rc", "res/ctn_server.ico"},
         ["*"] = "premake5.lua"
     }
 
@@ -24,7 +24,7 @@ project "DedicatedServer"
     }
 
     filter { "system:windows", "platforms:x86" }
-        targetname "SAODS"
+        targetname "CTNDS"
 
     filter { "system:windows", "platforms:x64" }
-        targetname "SAODS.x64"
+        targetname "CTNDS.x64"

@@ -2,7 +2,7 @@
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //                  AliAssassiN <ailsynthax@gmail.com>
 //
-// Copyright (c) 2015-2016 San Andreas Online
+// Copyright (c) 2015-2016 Project CtNorth
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -33,7 +33,7 @@ void OpenConsoleWindow()
     //freopen("CON", "w", stdout);
     freopen("CONIN$", "r", stdin);
     freopen("CONOUT$", "w", stdout);
-	freopen("CONOUT$", "w", stderr);
+    freopen("CONOUT$", "w", stderr);
     //freopen("CONERR$", "w", stderr);
 
     // If you have multiple monitors, this will automatically move the console to the 2nd

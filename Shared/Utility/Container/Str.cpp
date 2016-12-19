@@ -1168,7 +1168,7 @@ String& String::AppendWithFormatArgs(const char* formatString, va_list args)
             }
 
             default:
-                //SAO_LOGWARNINGF("Unsupported format specifier: '%c'", format);
+                //CTN_LOGWARNINGF("Unsupported format specifier: '%c'", format);
                 break;
         }
     }

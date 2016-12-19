@@ -13,8 +13,8 @@
 #include <Container/Str.hpp>
 
 char g_szGamePath[MAX_PATH];
-char g_szGameExecutable[MAX_PATH]; // "D:\\GTA San Andreas Online\\SA4g.exe"
-char g_szExecutablePath[MAX_PATH]; // "C:\\Users\\iFarbod\\Desktop\\uglaunch\\Debug\\"
+char g_szGameExecutable[MAX_PATH]; // "D:\\GTA San Andreas Online\\gta_sa.exe"
+char g_szExecutablePath[MAX_PATH];
 
 void wmain()
 {

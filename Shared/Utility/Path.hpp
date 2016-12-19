@@ -53,10 +53,10 @@ String PathJoin(const String& str1, const String& str2, const String& str3, cons
 
 // Get GTA Path from our registry key
 String GetGTAPath();
-// Get SAO Path from our registry key
-String GetSAOPath();
+// Get CTN Path from our registry key
+String GetCTNPath();
 
 String GetGTAPath(const String& pathToJoin);
-String GetSAOPath(const String& pathToJoin);
+String GetCTNPath(const String& pathToJoin);
 
 }

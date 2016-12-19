@@ -94,5 +94,5 @@ static HookFunction hookFunction([]()
     MemPatch<s32>(0x5B8EB0, 7500 * 0xC);
 
     // SetWindowText
-    MemPatch(0x619608, "San Andreas Online");
+    MemPatch(0x619608, MOD_NAME);
 });

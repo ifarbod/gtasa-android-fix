@@ -24,12 +24,12 @@ const IntVector2 IntVector2::ZERO;
 
 String Vector2::ToString() const
 {
-	return String::Format("%g %g", x_, y_);
+    return String::Format("%g %g", x_, y_);
 }
 
 String IntVector2::ToString() const
 {
-	return String::Format("%d %d", x_, y_);
+    return String::Format("%d %d", x_, y_);
 }
 
 }

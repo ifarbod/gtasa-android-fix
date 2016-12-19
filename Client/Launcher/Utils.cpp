@@ -13,10 +13,10 @@ bool CheckRegistryIntegrity()
 {
     // Own app-path
     strcpy_s(g_szExecutablePath, MAX_PATH, GetAppPath());
-    WriteRegistryString(SAO_REG_KEY, SAO_REG_SUBKEY, "LauncherPath", g_szExecutablePath, MAX_PATH);
+    WriteRegistryString(CTN_REG_KEY, CTN_REG_SUBKEY, "LauncherPath", g_szExecutablePath, MAX_PATH);
 
     // Game path
-    if(!ReadRegistryString(SAO_REG_KEY, SAO_REG_SUBKEY, "GamePath", "", g_szGamePath, MAX_PATH) || strlen(g_szGamePath) < 1)
+    if(!ReadRegistryString(CTN_REG_KEY, CTN_REG_SUBKEY, "GamePath", "", g_szGamePath, MAX_PATH) || strlen(g_szGamePath) < 1)
     {
         OPENFILENAMEA ofn = { 0 };
 
@@ -38,7 +38,7 @@ bool CheckRegistryIntegrity()
             if(CheckNameOfExecutableFromPath(GAME_EXECUTABLE_NAME, strlen(GAME_EXECUTABLE_NAME), ofn.lpstrFile, strlen(ofn.lpstrFile)))
             {
                 RemoveExecutableNameFromPath(ofn.lpstrFile, strlen(ofn.lpstrFile), g_szGamePath, MAX_PATH);
-                WriteRegistryString(SAO_REG_KEY, SAO_REG_SUBKEY, "GamePath", g_szGamePath, MAX_PATH);
+                WriteRegistryString(CTN_REG_KEY, CTN_REG_SUBKEY, "GamePath", g_szGamePath, MAX_PATH);
                 strcpy_s(g_szGameExecutable, MAX_PATH, ofn.lpstrFile);
                 return true;
             }
@@ -62,8 +62,8 @@ bool CheckRegistryIntegrity()
 
             if(_access(g_szGameExecutable, 0) == -1)
             {
-                RegDeleteKeyValueA(SAO_REG_KEY, SAO_REG_SUBKEY, "GamePath");
-                Error("Can't find the game's executable.\nPlease restart San Andreas Online and specify the location again.");
+                RegDeleteKeyValueA(CTN_REG_KEY, CTN_REG_SUBKEY, "GamePath");
+                Error("Can't find the game's executable.\nPlease restart " MOD_NAME " and specify the location again.");
                 return false;
             }
 
@@ -71,8 +71,8 @@ bool CheckRegistryIntegrity()
         }
         else
         {
-            RegDeleteKeyValueA(SAO_REG_KEY, SAO_REG_SUBKEY, "GamePath");
-            Error("The path to the game's executable is corrupted.\nPlease restart San Andreas Online and specify the location again.");
+            RegDeleteKeyValueA(CTN_REG_KEY, CTN_REG_SUBKEY, "GamePath");
+            Error("The path to the game's executable is corrupted.\nPlease restart " MOD_NAME " and specify the location again.");
             return false;
         }
     }

@@ -136,7 +136,7 @@ public:
     void Reset() { ReleaseRef(); }
 
     // Detach without destroying the object even if the refcount goes zero.
-	// To be used for scripting language interoperation.
+    // To be used for scripting language interoperation.
     T* Detach()
     {
         T* ptr = ptr_;

@@ -1,7 +1,7 @@
 project "Launcher"
     language "C++"
     kind "WindowedApp"
-    targetname "SAO"
+    targetname "CTN"
     targetdir(buildpath("."))
     debugdir(buildpath("."))
 
@@ -19,7 +19,7 @@ project "Launcher"
     vpaths {
         ["Headers/*"] = "**.hpp",
         ["Sources/*"] = "**.cpp",
-        ["Resources/*"] = {"**.rc", "res/sao.ico"},
+        ["Resources/*"] = {"**.rc", "res/ctn.ico"},
         ["*"] = "premake5.lua"
     }
 

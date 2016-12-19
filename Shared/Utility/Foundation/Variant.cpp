@@ -9,7 +9,7 @@
 #include <PCH.hpp>
 
 #include <Foundation/StringUtils.hpp>
-//#include <IO/VectorBuffer.hpp>
+#include <IO/VectorBuffer.hpp>
 
 #include <cstring>
 

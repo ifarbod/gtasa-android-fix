@@ -36,9 +36,9 @@ static const float M_RADTODEG = 1.0f / M_DEGTORAD;
 // Intersection test result.
 enum Intersection
 {
-	OUTSIDE,
-	INTERSECTS,
-	INSIDE
+    OUTSIDE,
+    INTERSECTS,
+    INSIDE
 };
 
 // Check whether two floating point values are equal within accuracy.
@@ -76,20 +76,20 @@ inline bool IsNaN(float value) { return value != value; }
 template <class T>
 inline T Clamp(T value, T min, T max)
 {
-	if (value < min)
-		return min;
-	else if (value > max)
-		return max;
-	else
-		return value;
+    if (value < min)
+        return min;
+    else if (value > max)
+        return max;
+    else
+        return value;
 }
 
 // Smoothly damp between values.
 template <class T>
 inline T SmoothStep(T lhs, T rhs, T t)
 {
-	t = Clamp((t - lhs) / (rhs - lhs), T(0.0), T(1.0)); // Saturate t
-	return t * t * (3.0 - 2.0 * t);
+    t = Clamp((t - lhs) / (rhs - lhs), T(0.0), T(1.0)); // Saturate t
+    return t * t * (3.0 - 2.0 * t);
 }
 
 // Return sine of an angle in degrees. Uses sinf() for floats, sin() for
@@ -170,28 +170,28 @@ template <class T> int CeilToInt(T x) { return static_cast<int>(ceil(x)); }
 // Check whether an unsigned integer is a power of two.
 inline bool IsPowerOfTwo(unsigned value)
 {
-	return !(value & (value - 1));
+    return !(value & (value - 1));
 }
 
 // Round up to next power of two.
 inline unsigned NextPowerOfTwo(unsigned value)
 {
-	--value;
-	value |= value >> 1;
-	value |= value >> 2;
-	value |= value >> 4;
-	value |= value >> 8;
-	value |= value >> 16;
-	return ++value;
+    --value;
+    value |= value >> 1;
+    value |= value >> 2;
+    value |= value >> 4;
+    value |= value >> 8;
+    value |= value >> 16;
+    return ++value;
 }
 
 // Count the number of set bits in a mask.
 inline unsigned CountSetBits(unsigned value)
 {
-	unsigned count = 0;
-	for (count = 0; value; count++)
-		value &= value - 1;
-	return count;
+    unsigned count = 0;
+    for (count = 0; value; count++)
+        value &= value - 1;
+    return count;
 }
 
 // Update a hash with the given 8-bit value using the SDBM algorithm.
@@ -200,44 +200,44 @@ inline unsigned SDBMHash(unsigned hash, unsigned char c) { return c + (hash << 6
 // Convert float to half float.
 inline unsigned short FloatToHalf(float value)
 {
-	unsigned inu = *((unsigned*)&value);
-	unsigned t1 = inu & 0x7fffffff;         // Non-sign bits
-	unsigned t2 = inu & 0x80000000;         // Sign bit
-	unsigned t3 = inu & 0x7f800000;         // Exponent
+    unsigned inu = *((unsigned*)&value);
+    unsigned t1 = inu & 0x7fffffff;         // Non-sign bits
+    unsigned t2 = inu & 0x80000000;         // Sign bit
+    unsigned t3 = inu & 0x7f800000;         // Exponent
 
-	t1 >>= 13;                              // Align mantissa on MSB
-	t2 >>= 16;                              // Shift sign bit into position
+    t1 >>= 13;                              // Align mantissa on MSB
+    t2 >>= 16;                              // Shift sign bit into position
 
-	t1 -= 0x1c000;                          // Adjust bias
+    t1 -= 0x1c000;                          // Adjust bias
 
-	t1 = (t3 < 0x38800000) ? 0 : t1;        // Flush-to-zero
-	t1 = (t3 > 0x47000000) ? 0x7bff : t1;   // Clamp-to-max
-	t1 = (t3 == 0 ? 0 : t1);                // Denormals-as-zero
+    t1 = (t3 < 0x38800000) ? 0 : t1;        // Flush-to-zero
+    t1 = (t3 > 0x47000000) ? 0x7bff : t1;   // Clamp-to-max
+    t1 = (t3 == 0 ? 0 : t1);                // Denormals-as-zero
 
-	t1 |= t2;                               // Re-insert sign bit
+    t1 |= t2;                               // Re-insert sign bit
 
-	return (unsigned short)t1;
+    return (unsigned short)t1;
 }
 
 // Convert half float to float.
 inline float HalfToFloat(unsigned short value)
 {
-	unsigned t1 = value & 0x7fff;           // Non-sign bits
-	unsigned t2 = value & 0x8000;           // Sign bit
-	unsigned t3 = value & 0x7c00;           // Exponent
+    unsigned t1 = value & 0x7fff;           // Non-sign bits
+    unsigned t2 = value & 0x8000;           // Sign bit
+    unsigned t3 = value & 0x7c00;           // Exponent
 
-	t1 <<= 13;                              // Align mantissa on MSB
-	t2 <<= 16;                              // Shift sign bit into position
+    t1 <<= 13;                              // Align mantissa on MSB
+    t2 <<= 16;                              // Shift sign bit into position
 
-	t1 += 0x38000000;                       // Adjust bias
+    t1 += 0x38000000;                       // Adjust bias
 
-	t1 = (t3 == 0 ? 0 : t1);                // Denormals-as-zero
+    t1 = (t3 == 0 ? 0 : t1);                // Denormals-as-zero
 
-	t1 |= t2;                               // Re-insert sign bit
+    t1 |= t2;                               // Re-insert sign bit
 
-	float out;
-	*((unsigned*)&out) = t1;
-	return out;
+    float out;
+    *((unsigned*)&out) = t1;
+    return out;
 }
 
 // Calculate both sine and cosine, with angle in degrees.

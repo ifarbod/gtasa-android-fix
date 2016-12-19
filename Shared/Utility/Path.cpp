@@ -217,11 +217,11 @@ String GetGTAPath()
     return gtasaPath;
 }
 
-String GetSAOPath()
+String GetCTNPath()
 {
-    static String saoPath;
-    saoPath = RegReadStr("InstallLocation");
-    return saoPath;
+    static String ctnPath;
+    ctnPath = RegReadStr("InstallLocation");
+    return ctnPath;
 }
 
 String GetGTAPath(const String& pathToJoin)
@@ -229,9 +229,9 @@ String GetGTAPath(const String& pathToJoin)
     return PathJoin(GetGTAPath(), pathToJoin);
 }
 
-String GetSAOPath(const String& pathToJoin)
+String GetCTNPath(const String& pathToJoin)
 {
-    return PathJoin(GetSAOPath(), pathToJoin);
+    return PathJoin(GetCTNPath(), pathToJoin);
 }
 
 }

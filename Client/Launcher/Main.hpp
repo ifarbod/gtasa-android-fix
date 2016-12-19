@@ -1,7 +1,7 @@
 // Linker configuration
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 The San Andreas Online Open Source Project
+// Copyright (c) 2015-2017 Project CtNorth
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -25,8 +25,8 @@
 
 #include "GTASALauncher.hpp"
 
-#define SAO_REG_KEY HKEY_CURRENT_USER
-#define SAO_REG_SUBKEY "SOFTWARE\\San Andreas Online"
+#define CTN_REG_KEY HKEY_CURRENT_USER
+#define CTN_REG_SUBKEY "SOFTWARE\\CtNorth"
 
 #define GAME_EXECUTABLE_NAME "gta_sa.exe"
 

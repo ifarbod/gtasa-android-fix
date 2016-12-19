@@ -32,7 +32,7 @@ typedef void(*RefCountedDeletedFunction)(RefCounted*);
 typedef const void* ClassID;
 
 // Macro to be included in RefCounted derived classes for efficient RTTI
-#define SAO_REFCOUNTED(typeName) \
+#define CTN_REFCOUNTED(typeName) \
     public: \
         virtual Util::ClassID GetClassID() const { return GetClassIDStatic(); } \
         static Util::ClassID GetClassIDStatic() { static const int typeID = 0; return (Util::ClassID) &typeID; }

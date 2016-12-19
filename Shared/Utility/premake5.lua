@@ -17,7 +17,7 @@ project "Utility"
     files {
         "premake5.lua",
         "**.h",
-		"**.hpp",
+        "**.hpp",
         "**.cpp"
     }
 

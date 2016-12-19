@@ -27,7 +27,7 @@ String ReadRegStr(KeyRoot rootKey, const String& subKey, const String& valueName
 bool DeleteRegKey(KeyRoot rootKey, const String& subKey);
 bool DeleteRegValue(KeyRoot rootKey, const String& subKey, const String& valueName);
 
-// These functions read from SAO's registry area
+// These functions read from our registry area
 bool RegWriteStr(const String& valueName, const String& value);
 String RegReadStr(const String& valueName);
 bool RegDeleteStr(const String& valueName);

@@ -1,25 +1,25 @@
-// SAO Version
+// Version info utils
 // Author(s):       AliAssassiN <ailsynthax@gmail.com>
 //
-// Copyright (c) 2015-2016 The San Andreas Online Open Source Project
+// Copyright (c) 2015-2017 Project CtNorth
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
 
 #include "Version.hpp"
 
-#ifdef SAO_DEBUG
-	#define SAO_FILEFLAGS 0x1L
+#ifdef CTN_DEBUG
+	#define CTN_FILEFLAGS 0x1L
 #else
-	#define SAO_FILEFLAGS 0x0L
+	#define CTN_FILEFLAGS 0x0L
 #endif
 
 #define RCVersionInfo(fileType, intName, origName) \
 VS_VERSION_INFO VERSIONINFO \
- FILEVERSION SAO_VERSION_COMMA_RC \
- PRODUCTVERSION SAO_VERSION_COMMA_RC \
+ FILEVERSION CTN_VERSION_COMMA_RC \
+ PRODUCTVERSION CTN_VERSION_COMMA_RC \
  FILEFLAGSMASK 0x3FL \
- FILEFLAGS SAO_FILEFLAGS \
+ FILEFLAGS CTN_FILEFLAGS \
  FILEOS 0x40004L \
  FILETYPE fileType \
  FILESUBTYPE 0x0L \
@@ -28,14 +28,14 @@ BEGIN \
     BEGIN \
         BLOCK "040904b0" \
         BEGIN \
-            VALUE "CompanyName", "The San Andreas Online Team" \
-            VALUE "FileDescription", "San Andreas Online" \
-            VALUE "FileVersion", SAO_VERSION_STR_RC \
+            VALUE "CompanyName", "Project CtNorth" \
+            VALUE "FileDescription", "CtNorth" \
+            VALUE "FileVersion", CTN_VERSION_STR_RC \
             VALUE "InternalName", intName \
-            VALUE "LegalCopyright", "Copyright (C) 2015-2016 The San Andreas Online Open Source Project" \
+            VALUE "LegalCopyright", "Copyright (C) 2015-2017 Project CtNorth" \
             VALUE "OriginalFilename", origName \
-            VALUE "ProductName", "San Andreas Online" \
-            VALUE "ProductVersion", SAO_VERSION_STR_RC \
+            VALUE "ProductName", "CtNorth" \
+            VALUE "ProductVersion", CTN_VERSION_STR_RC \
         END \
     END \
     BLOCK "VarFileInfo" \
@@ -44,5 +44,5 @@ BEGIN \
     END \
 END
 
-#define SAOVersionEXE(intName) RCVersionInfo(0x1L, intName, intName ".exe")
-#define SAOVersionDLL(intName) RCVersionInfo(0x2L, intName, intName ".dll")
+#define CTN_VersionEXE(intName) RCVersionInfo(0x1L, intName, intName ".exe")
+#define CTN_VersionDLL(intName) RCVersionInfo(0x2L, intName, intName ".dll")

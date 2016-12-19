@@ -21,9 +21,9 @@
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 // VersionInfo
-SAOVersionEXE("SAODS")
+CTN_VersionEXE("CTNDS")
 
 // Icon
-IDI_MAIN_ICON ICON "res\\sao_server.ico"
+IDI_MAIN_ICON ICON "res\\ctn_server.ico"
 
 #endif

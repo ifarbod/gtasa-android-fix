@@ -6,22 +6,46 @@
 # Distributed under the MIT license (See accompanying file LICENSE or copy at
 # https://opensource.org/licenses/MIT)
 
+
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
 version: '{build}'
+
+branches:
+  only:
+    - master
+
+skip_tags: true
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
 image: Visual Studio 2017 RC
 
-configuration: Release
+clone_depth: 1
 
+environment:
+  NSIS_ROOT: $(APPVEYOR_BUILD_FOLDER)\Shared\Installer\NSIS
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
 platform:
   - Win32
   #- x64
 
-environment:
-  NSIS_ROOT: $(APPVEYOR_BUILD_FOLDER)\Shared\Installer\NSIS
+configuration: Release
 
 before_build:
   - genversion
   - utils\premake5 install_cef
   - utils\premake5 vs2017
+
+build:
+  parallel: true
+  project: Build/CtNorth.sln
+  verbosity: minimal
 
 after_build:
   - utils\premake5 install_data
@@ -33,15 +57,40 @@ after_build:
   - ren SAO*Setup.exe SAO-Setup.exe
   - move SAO-Setup.exe ..\..\
 
-skip_tags: true
-clone_depth: 1
-  
-build:
-  parallel: true
-  project: Build/SAO.sln
-  verbosity: minimal
-
-deploy: off
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
 artifacts:
   - path: SAO-Setup.exe
     name: SAO
+
+#---------------------------------#
+#     deployment configuration    #
+#---------------------------------#
+deploy: off
+
+#---------------------------------#
+#         notifications           #
+#---------------------------------#
+notifications:
+  # GitHub PR comment
+  - provider: GitHubPullRequest
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true
+  # Webhook
+  - provider: Webhook
+    url:
+      secure: hJnDftoFJ8Y3VMd1+WbIatNw/0g0obj2zoTpUl7/wD38kCoXPZnDImGUij6nsNjB
+    method: POST
+    headers:
+      User-Agent:
+        secure: mHZnOSogybs+z9aEU2ayo9n2+1nqLdUnu+HxgHaQP9/PoyfzxfbFJdjzha509tv/lHIrk9LaFfidBuRD4t9vePV8BvRCeMlxfdy19+Un9E//Qp79W4SQxHHsStUAjK3D2/GrCZJX9zn/kn4rYPfC2Qlk6aYWLz+KaS6F6xxelQ4=
+    content_type: application/json
+    body: >-
+    {
+        "text":  "build status"
+    }
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true

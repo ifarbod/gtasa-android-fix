@@ -23,10 +23,7 @@ BOOL WINAPI DllMain(HINSTANCE hDllInstance, DWORD dwReason, LPVOID lpvReserved)
     {
         DisableThreadLibraryCalls(hDllInstance);
 
-        SetCurrentDirectoryW(WString{ GetGTAPath() }.CString());
-        SetDllDirectoryW(WString{ PathJoin(GetSAOPath(), "SAO") }.CString());
         g_pCore = new Core();
-        SetCurrentDirectoryW(WString{ GetGTAPath() }.CString());
     }
 
     else if (dwReason == DLL_PROCESS_DETACH)

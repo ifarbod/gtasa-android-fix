@@ -50,7 +50,7 @@ private:
     const TypeInfo* baseTypeInfo_;
 };
 
-#define SAO_OBJECT(typeName, baseTypeName) \
+#define CTN_OBJECT(typeName, baseTypeName) \
     public: \
         using ClassName = typeName; \
         using BaseClassName = baseTypeName; \
@@ -89,12 +89,6 @@ public:
     static bool IsTypeOf(const TypeInfo* typeInfo);
     // Check current type is type of specified class.
     template<typename T> static bool IsTypeOf() { return IsTypeOf(T::GetTypeInfoStatic()); }
-    // Check current instance is type of specified type.
-    bool IsInstanceOf(StringHash type) const;
-    // Check current instance is type of specified type.
-    bool IsInstanceOf(const TypeInfo* typeInfo) const;
-    // Check current instance is type of specified class.
-    template<typename T> bool IsInstanceOf() const { return IsInstanceOf(T::GetTypeInfoStatic()); }
     // Check current instance is type of specified type.
     bool IsInstanceOf(StringHash type) const;
     // Check current instance is type of specified type.
@@ -369,15 +363,15 @@ struct EventNameRegistrar
 };
 
 // Describe an event's hash ID and begin a namespace in which to define its parameters.
-#define SAO_EVENT(eventID, eventName)                                                                                  \
+#define CTN_EVENT(eventID, eventName)                                                                                  \
     static const Util::StringHash eventID(Util::EventNameRegistrar::RegisterEventName(#eventName));                    \
     namespace eventName
 // Describe an event's parameter hash ID. Should be used inside an event namespace.
-#define SAO_PARAM(paramID, paramName) static const Util::StringHash paramID(#paramName)
+#define CTN_PARAM(paramID, paramName) static const Util::StringHash paramID(#paramName)
 // Convenience macro to construct an EventHandler that points to a receiver object and its member function.
-#define SAO_HANDLER(className, function) (new Util::EventHandlerImpl<className>(this, &className::function))
+#define CTN_HANDLER(className, function) (new Util::EventHandlerImpl<className>(this, &className::function))
 // Convenience macro to construct an EventHandler that points to a receiver object and its member function, and also
 // defines a userdata pointer.
-#define SAO_HANDLER_USERDATA(className, function, userData)                                                            \
+#define CTN_HANDLER_USERDATA(className, function, userData)                                                            \
     (new Util::EventHandlerImpl<className>(this, &className::function, userData))
 }

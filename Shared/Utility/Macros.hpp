@@ -18,9 +18,9 @@
 #define CALC_BITMASK16(n) (u16(1 << n))
 
 #define ARRAY_LENGTH(arr) (sizeof(arr) / sizeof(arr[0]))
-#define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(*arr))
-#define	SAFE_DELETE(memory)	{ delete memory; memory = nullptr; }
-#define	SAFE_RELEASE(p)	{ if ( (p) ) { (p)->Release(); (p) = nullptr; } }
+#define ARRAY_SIZE(arr)    (sizeof(arr) / sizeof(*arr))
+#define    SAFE_DELETE(memory)    { delete memory; memory = nullptr; }
+#define    SAFE_RELEASE(p)    { if ( (p) ) { (p)->Release(); (p) = nullptr; } }
 #define SAFE_DELETE_ARRAY(memory) { if(memory) { delete [] memory; memory = nullptr; }
 #define SAFE_FREE(memory) { if (memory) { free(memory); memory = nullptr; } }
 
