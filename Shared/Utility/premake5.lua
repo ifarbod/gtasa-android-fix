@@ -20,4 +20,8 @@ project "Utility"
         "**.hpp",
         "**.cpp"
     }
+    
+    excludes {
+        "Foundation/Variant.cpp"
+    }
 
