@@ -54,15 +54,15 @@ after_build:
   - cd %NSIS_ROOT%
   - makensis ..\ctn.nsi
   - cd ..
-  - ren CtNorth*Setup.exe CtNorth-Setup.exe
-  - move CtNorth-Setup.exe ..\..\
+  - ren CTN*Setup.exe CTN-Setup.exe
+  - move CTN-Setup.exe ..\..\
 
 #---------------------------------#
 #      artifacts configuration    #
 #---------------------------------#
 artifacts:
-  - path: CtNorth-Setup.exe
-    name: CtNorth
+  - path: CTN-Setup.exe
+    name: CTN
 
 #---------------------------------#
 #     deployment configuration    #
