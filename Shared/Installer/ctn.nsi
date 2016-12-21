@@ -169,7 +169,7 @@ ${MementoSection} "Client core files (required)" SecCore
     
     SetOutPath $INSTDIR
     ; Launcher
-    File "${FILES_ROOT}\CtNorth*.exe"
+    File "${FILES_ROOT}\CTN*.exe"
     
     ; BASS library
     File "${FILES_ROOT}\bass.dll"
@@ -308,7 +308,7 @@ LangString INST_GTA_ERROR2 ${LANG_ENGLISH} "Could not find Grand Theft Auto: San
             Are you sure you want to continue ?"
 
 Function PageLeaveDirectory
-    ; Check if user is trying to install SAO into GTA directory
+    ; Check if user is trying to install CTN into GTA directory
     Push $INSTDIR 
     Call IsGtaDirectory
     Pop $0
@@ -333,7 +333,7 @@ Function PageGameDirectory
     !insertmacro MUI_HEADER_TEXT "$(INST_GAMEDIRPAGE_HEADER_TEXT)" "$(INST_GAMEDIRPAGE_HEADER_SUBTITLE_TEXT)"
     
     ; Attempt to grab SA installation path from registry
-    ; Try to get the path from a previous SAO installation
+    ; Try to get the path from a previous CTN installation
     ReadRegStr $0 HKLM "${REGKEY}" "GTAInstallLocation"
     ${If} $0 == ""
         ; Try Steam
