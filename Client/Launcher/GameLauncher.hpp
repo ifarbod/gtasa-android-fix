@@ -8,7 +8,7 @@
 
 #pragma once
 
-class GTASALauncher
+class GameLauncher
 {
 public:
     static void Launch(const char* gamePath);

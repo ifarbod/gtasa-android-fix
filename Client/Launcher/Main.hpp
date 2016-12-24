@@ -23,7 +23,7 @@
 #include "Utils.hpp"
 #include "ExecutableLoader.hpp"
 
-#include "GTASALauncher.hpp"
+#include "GameLauncher.hpp"
 
 #define CTN_REG_KEY HKEY_CURRENT_USER
 #define CTN_REG_SUBKEY "SOFTWARE\\CtNorth"

@@ -30,6 +30,6 @@ As this game doesn't have a _built-in_ network play functionality, many attempts
 
 ## License
 
-[MIT](LICENSE.md) © 2015-2016 Project CtNorth
+[MIT](LICENSE.md) © 2015-2017 Project CtNorth
 
 [Click here for a TL;DR version of the license](https://www.tldrlegal.com/l/mit)

@@ -33,5 +33,5 @@ void wmain()
     SetDllDirectoryA(g_szGamePath);
     SetCurrentDirectoryA(g_szGamePath);
 
-    GTASALauncher::Launch(g_szGameExecutable);
+    GameLauncher::Launch(g_szGameExecutable);
 }

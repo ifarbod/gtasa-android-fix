@@ -21,7 +21,7 @@ static LONG NTAPI HandleVariant(PEXCEPTION_POINTERS exceptionInfo)
     return (exceptionInfo->ExceptionRecord->ExceptionCode == STATUS_INVALID_HANDLE) ? EXCEPTION_CONTINUE_EXECUTION : EXCEPTION_CONTINUE_SEARCH;
 }
 
-void GTASALauncher::InvokeEntryPoint(void(*entryPoint)())
+void GameLauncher::InvokeEntryPoint(void(*entryPoint)())
 {
     // SEH call to prevent STATUS_INVALID_HANDLE
     __try
@@ -34,7 +34,7 @@ void GTASALauncher::InvokeEntryPoint(void(*entryPoint)())
     }
 }
 
-void GTASALauncher::Launch(const char* gamePath)
+void GameLauncher::Launch(const char* gamePath)
 {
     // load the game executable data in temporary memory
     FILE* gameFile = _wfopen(WString{ gamePath }.CString(), L"rb");
