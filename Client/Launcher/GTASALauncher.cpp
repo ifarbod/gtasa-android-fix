@@ -63,7 +63,7 @@ void GTASALauncher::Launch(const char* gamePath)
     // load the executable into our module context
     HMODULE exeModule = GetModuleHandle(nullptr);
 
-    ExecutableLoader exeLoader(data);
+    ExecutableLoader exeLoader(data, length);
 
     exeLoader.SetLibraryLoader([] (const char* libName)
     {
@@ -94,7 +94,7 @@ void GTASALauncher::Launch(const char* gamePath)
     // Change CdStream semaphore to allow more than 2 SA instances
     //Util::StrCpy_(0x858AD4, "semaphore");
 
-    LoadLibraryA("Core_d.dll");
+    LoadLibraryA(CLIENT_CORE_NAME DEBUG_SUFFIX LIB_EXTENSION);
 
     // get the entry point
     void(*entryPoint)();
