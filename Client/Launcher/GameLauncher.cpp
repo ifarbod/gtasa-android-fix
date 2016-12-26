@@ -45,13 +45,13 @@ void GameLauncher::Launch(const char* gamePath)
     }
 
     // find the file length and allocate a related buffer
-    uint32_t length;
-    uint8_t* data;
+    u32 length;
+    u8* data;
 
     fseek(gameFile, 0, SEEK_END);
     length = ftell(gameFile);
 
-    data = new uint8_t[length];
+    data = new u8[length];
 
     // seek back to the start and read the file
     fseek(gameFile, 0, SEEK_SET);
@@ -61,13 +61,23 @@ void GameLauncher::Launch(const char* gamePath)
     fclose(gameFile);
 
     // load the executable into our module context
-    HMODULE exeModule = GetModuleHandle(nullptr);
+    HMODULE exeModule = GetModuleHandleW(nullptr);
 
     ExecutableLoader exeLoader(data);
 
     exeLoader.SetLibraryLoader([] (const char* libName)
     {
         OutputDebugStringA(va("[LibraryLoader] %s\n", libName));
+
+        if (String(libName).ToLower() == "vorbisfile.dll")
+        {
+            return LoadLibraryW(L"sdvf.dll");
+        }
+
+        if (String(libName).ToLower() == "eax.dll")
+        {
+            return LoadLibraryW(L"sde.dll");
+        }
 
         return LoadLibraryA(libName);
     });
