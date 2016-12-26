@@ -61,7 +61,7 @@ Caption "${NAME} ${VERSION} Setup"
 InstType "Server and client"
 InstType "Client only"
 
-InstallDir "$PROGRAMFILES\${NAME}"
+InstallDir "$APPDATA\${NAME}"
 InstallDirRegKey HKLM "${REGKEY}" "InstallLocation"
 
 RequestExecutionLevel admin
@@ -300,7 +300,7 @@ LangString INST_GAMEDIRPAGE_GROUPBOX_TEXT ${LANG_ENGLISH} "Game Install Folder"
 LangString INST_GAMEDIRPAGE_BROWSEBTN_TEXT ${LANG_ENGLISH} "B&rowse..."
 LangString INST_GTA_CONFLICT ${LANG_ENGLISH} "${NAME2} cannot be installed into the same directory as Grand Theft Auto: San Andreas.$\n$\n\ 
             Do you want to use the default install directory$\n\
-            $PROGRAMFILES\${NAME} ?"
+            $APPDATA\${NAME} ?"
 LangString INST_GTA_ERROR1 ${LANG_ENGLISH} "The selected directory does not exist.$\n$\n\
             Please select the GTA:SA install directory"
 LangString INST_GTA_ERROR2 ${LANG_ENGLISH} "Could not find Grand Theft Auto: San Andreas installed at $GTA_DIR $\n\
@@ -318,7 +318,7 @@ Function PageLeaveDirectory
             IDOK cont2
             Abort
         cont2:
-        StrCpy $INSTDIR "$PROGRAMFILES\${NAME}"
+        StrCpy $INSTDIR "$APPDATA\${NAME}"
     ${Endif}
 FunctionEnd
 

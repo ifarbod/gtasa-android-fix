@@ -6,6 +6,7 @@ project "Utility"
     pchheader "PCH.hpp"
     pchsource "PCH.cpp"
 
+    flags { "NoIncrementalLink", "NoEditAndContinue" }
     includedirs { "." }
 
     vpaths {
