@@ -143,17 +143,16 @@ bool IsAbsolutePath(const String& pathName)
     return false;
 }
 
-// Join two paths, adding slashes when appropriate
 String PathConform(const String& strPath)
 {
     // Make slashes the right way and remove duplicates, except for UNC type indicators
-#if WIN32
+#ifdef WIN32
     String strTemp = strPath.Replaced("/", DIRECTORY_SEPARATOR_CHAR);
 #else
     String strTemp = strPath.Replaced("\\", DIRECTORY_SEPARATOR_CHAR);
 #endif
     // Remove slash duplicates
-    size_t iFirstDoubleSlash = strTemp.Find(DIRECTORY_SEPARATOR_CHAR DIRECTORY_SEPARATOR_CHAR);
+    unsigned iFirstDoubleSlash = strTemp.Find(DIRECTORY_SEPARATOR_CHAR DIRECTORY_SEPARATOR_CHAR);
     if (iFirstDoubleSlash == String::NPOS)
     {
         // No duplicates present
