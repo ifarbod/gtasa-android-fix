@@ -24,4 +24,9 @@ static HookFunction hookFunction([]()
 
     // No DirectInput gamepad
     MakeNOP(0x748813, 5);
+
+    // No more mouse Y-axis lock during fade-ins
+    MemPatch<u16>(0x50FBB4, 0x27EB);
+    MemPatch<u16>(0x510512, 0xE990);
+    MakeJMP(0x524071, 0x524139);
 });

@@ -15,13 +15,37 @@ using namespace Util;
 
 static HookFunction hookFunction([]()
 {
+    // No DirectPlay dependency - Better compatibility for Windows 8+
+    MemPatch<u8>(0x74754A, 0xB8);
+    MemPatch<u32>(0x74754B, 0x900);
+
     // Disable CGameLogic::Update
     MakeRET(0x442AD0);
+
+    // No FxMemoryPool_c::Optimize (causes heap corruption/memory leak)
+    MakeNOP(0x5C25D3, 5);
 
     // Disable CCheat::DoCheats
     MakeRET(0x439AF0);
     // Disable CCheat::ToggleCheat
     MakeRET(0x438370);
+
+    // Disable the game's replay system (recording & playing - see CReplay stuff)
+    // F1 = Play the last 30 second of gameplay
+    // F2 = Save the last 30 second of gameplay to Hard Disk
+    // F3 = Play a replay from Hard Disk (replay.rep)
+    // F1/F3 = Finish playback (if a replay is playing)
+    // CReplay::FinishPlayback
+    MakeRET(0x45F050);
+    // CReplay::TriggerPlayback
+    MakeRET(0x4600F0);
+    // CReplay::Update
+    MakeRET(0x460500);
+    // PlayReplayFromHD
+    MakeRET(0x460390);
+
+    // No "JCK_HLP" message
+    MakeJMP(0x63E8DF);
 
     // Disable CPlayerInfo::MakePlayerSafe
     MakeRET(0x56E870, 8);
