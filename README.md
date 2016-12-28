@@ -1,4 +1,4 @@
-[![CtNorth](https://cdn.pbrd.co/images/fbVnDHBcA.png)](https://github.com/ctnorth/ctnorth)
+<img src="https://cdn.pbrd.co/images/fbVnDHBcA.png" width="50%" height="50%" alt="CtNorth" />
 
 | Build Status | Latest Release | Total Downloads |
 | :---: | :---: | :---: |
