@@ -93,6 +93,9 @@ static HookFunction hookFunction([]()
     MemPatch<u8>(0x4C01F1, 0x00);
     MakeNOP(0x4C01F2, 3);
 
+    // Avoid GTA setting vehicle primary color to white (1) after setting a new paintjob
+    MakeNOP(0x6D65C5, 11);
+
     // Disable CGridRef::Init
     MakeRET(0x71D4E0);
 
