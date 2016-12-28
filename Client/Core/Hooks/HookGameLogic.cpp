@@ -18,6 +18,11 @@ static HookFunction hookFunction([]()
     // Disable CGameLogic::Update
     MakeRET(0x442AD0);
 
+    // Disable CCheat::DoCheats
+    MakeRET(0x439AF0);
+    // Disable CCheat::ToggleCheat
+    MakeRET(0x438370);
+
     // Disable CPlayerInfo::MakePlayerSafe
     MakeRET(0x56E870, 8);
 
