@@ -16,24 +16,25 @@ static HookFunction hookFunction([]()
 {
     // Disable Police Mavericks and News choppers at 3+ wanted stars
     // by making CWanted::NumOfHelisRequired always return 0
-    //MakeNOP(0x561FA4, 2);
     MakeRET0(0x561FA0);
 
     // Disable CWanted::UpdateEachFrame
     MakeNOP(0x53BFF6, 5);
 
-    // Disable the call to CWanted::Update in CPlayerPed::ProcessControl
-    //MakeNOP(0x60EBCC, 5);
+    // Disable CWanted::Update
     MakeRET(0x562C90);
 
     // Disable CCrime::ReportCrime
     MakeRET(0x532010);
 
+    // Disable CWanted::SetWantedLevel
+    MakeRET(0x562470);
+
     // Disable military zones (5star wanted level)
     MakeJMP(0x72DF0D);
 
     // Disable CGameLogic::SetPlayerWantedLevelForForbiddenTerritories
-    // May not be necessary, since CWanted::Update and CGameLogic::Update is disabled
+    // No 4-star wanted level on visiting LV and SF
     MakeRET(0x441770);
 
     // Disable CRoadBlocks::Init

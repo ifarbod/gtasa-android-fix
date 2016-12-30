@@ -108,3 +108,7 @@ function os.extract_archive(archive_path, target_path, override)
         os.executef("7z x \"%s\" %s -o\"%s\"", archive_path, flags, target_path)
     end
 end
+
+function os.computer_name()
+    return os.getenv("COMPUTERNAME") or 'dummy'
+end

@@ -342,16 +342,14 @@ Temporary Items
 .apdisk
 
 #################################################################
-## SAO-specific .gitignore
-## https://github.com/sanandreasonline/sao/blob/master/.gitignore
+## CtNorth-specific .gitignore
+## https://github.com/ctnorth/ctnorth/blob/master/.gitignore
 #################################################################
 Build/
 Bin/
 InstallFiles/
 Shared/Installer/*.exe
 Shared/Installer/Version.nsh
-Client/Version.h
-Server/Version.h
 Shared/Utility/Version.h
 
 # MSBuild files

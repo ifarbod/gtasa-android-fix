@@ -112,15 +112,25 @@ workspace "CtNorth"
     -- Helper functions for output path
     buildpath = function(p) return "%{wks.location}/../Bin/"..p.."/" end
     copy = function(p) return "{COPY} %{cfg.buildtarget.abspath} %{wks.location}../Bin/" .. p .. "/" end
+    buildhost = os.computer_name()
 
     -- Include the projects we are going to build
     group "Client"
     include "Client/Core"
     include "Client/Launcher"
     --include "Client/Updater"
+    if buildhost == "IFARBOD-PC" then
+        include "Client/Network"
+    end
 
+    group "Server"
+    include "Server/DS"
+    if buildhost == "IFARBOD-PC" then
+        include "Client/Network"
+    end
+    
     group "Vendor"
-    --include "Vendor/angelscript"
+    include "Vendor/angelscript"
     --include "Vendor/bzip2"
     --include "Vendor/cef3"
     --include "Vendor/cryptopp"
@@ -139,9 +149,6 @@ workspace "CtNorth"
     --include "Vendor/yaml-cpp"
     --include "Vendor/zlib"
     --include "Vendor/zip"
-
-    group "Server"
-    include "Server/DS"
 
     group "Shared"
     include "Shared/Utility"

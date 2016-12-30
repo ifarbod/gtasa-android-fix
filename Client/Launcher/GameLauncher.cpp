@@ -12,6 +12,7 @@
 #include <winternl.h>
 #include <Hooking/HookingUtils.hpp>
 #include <Container/Str.hpp>
+#include <Foundation/ProcessUtils.hpp>
 
 using namespace Util;
 
@@ -67,8 +68,6 @@ void GameLauncher::Launch(const char* gamePath)
 
     exeLoader.SetLibraryLoader([] (const char* libName)
     {
-        OutputDebugStringA(va("[LibraryLoader] %s\n", libName));
-
         if (String(libName).ToLower() == "vorbisfile.dll")
         {
             return LoadLibraryW(L"sdvf.dll");
@@ -84,7 +83,7 @@ void GameLauncher::Launch(const char* gamePath)
 
     exeLoader.LoadIntoModule(exeModule);
 
-    // free the old binary
+    // Free the old binary
     delete[] data;
 
     DWORD oldProtect;
@@ -92,7 +91,7 @@ void GameLauncher::Launch(const char* gamePath)
     // apply memory protection
     VirtualProtect((void*)0x401000, 0x456000, PAGE_EXECUTE_READ, &oldProtect); // .text
     VirtualProtect((void*)0x857000, 0x1000, PAGE_EXECUTE_READ, &oldProtect); // _rwcseg
-    VirtualProtect((void*)0x858000, 0x4C000, PAGE_READONLY, &oldProtect); // .idata/.rdata
+    //VirtualProtect((void*)0x858000, 0x4C000, PAGE_READONLY, &oldProtect); // .idata/.rdata
     VirtualProtect((void*)0x8A4000, 0x40C000, PAGE_READWRITE, &oldProtect); // .data/.idata/.data/_rwdseg
     VirtualProtect((void*)0xCB0000, 0x1000, PAGE_READWRITE, &oldProtect); // .rsrc
 
@@ -106,11 +105,11 @@ void GameLauncher::Launch(const char* gamePath)
 
     LoadLibraryA(CLIENT_CORE_NAME DEBUG_SUFFIX LIB_EXTENSION);
 
-    // get the entry point
+    // Get the entry point
     void(*entryPoint)();
     entryPoint = (void(*)())exeLoader.GetEntryPoint();
 
-    // call the entry point
+    // Call the entry point
     AddVectoredExceptionHandler(0, HandleVariant);
     return InvokeEntryPoint(entryPoint);
 }
