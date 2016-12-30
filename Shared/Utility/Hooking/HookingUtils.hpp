@@ -378,6 +378,14 @@ inline void MakeRET0(MemPtr at)
     MakeRET(at + 2);
 }
 
+// Uses al instead of eax
+inline void MakeRET0Ex(MemPtr at)
+{
+    MemWrite<u8>(at, 0x32); // xor al, al
+    MemWrite<u8>(at + 1, 0xC0);
+    MakeRET(at + 2);
+}
+
 // Jump Short
 inline void MakeJMP(MemPtr at)
 {

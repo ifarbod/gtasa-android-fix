@@ -101,7 +101,7 @@ void GameLauncher::Launch(const char* gamePath)
     // Patch IsAlreadyRunning
     Util::MakeRET0(0x7468E0);
     // Change CdStream semaphore to allow more than 2 SA instances
-    //Util::StrCpy_(0x858AD4, "semaphore");
+    Util::CopyStr(0x858AD4, "Meow");
 
     LoadLibraryA(CLIENT_CORE_NAME DEBUG_SUFFIX LIB_EXTENSION);
 

@@ -22,6 +22,12 @@ static HookFunction hookFunction([]()
     // Disable CGameLogic::Update
     MakeRET(0x442AD0);
 
+    // Disable CGameLogic::CalcDistanceToForbiddenTrainCrossing
+    MakeRET(0x4418E0);
+
+    // Don't give cigar/beer to player on spawn
+    MakeJMP(0x5FBA26);
+
     // No FxMemoryPool_c::Optimize (causes heap corruption/memory leak)
     MakeNOP(0x5C25D3, 5);
 
