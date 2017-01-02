@@ -1,4 +1,4 @@
-// Camera stuff
+// Population hooks
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -14,11 +14,21 @@ using namespace Util;
 
 static HookFunction hookFunction([]()
 {
+    // Disable CPopulation::Initialise
+    MakeRET(0x610E10);
+
+    // Disable CPopCycle::Initialise
+    MakeRET(0x5BC090);
+
+    // Disable CStreaming::StreamVehiclesAndPeds_Always
+    MakeRET(0x40B650);
+
+    // Stop the loading of ambient traffic models and textures
+    // by skipping CStreaming::StreamVehiclesAndPeds() and CStreaming::StreamZoneModels()
+    MakeJMP(0x40E7DF);
+
     // Disable CPopulation::AddToPopulation
     MakeRET0Ex(0x614720);
-
-    // Disable CObject::ProcessSamSiteBehaviour
-    MakeRET(0x5A07D0);
 
     // Disable CTrain::DoTrainGenerationAndRemoval
     MakeRET(0x6F7900);

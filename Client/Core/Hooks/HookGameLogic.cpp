@@ -28,8 +28,8 @@ static HookFunction hookFunction([]()
     // Don't give cigar/beer to player on spawn
     MakeJMP(0x5FBA26);
 
-    // No FxMemoryPool_c::Optimize (causes heap corruption/memory leak)
-    MakeNOP(0x5C25D3, 5);
+    // Disable CObject::ProcessSamSiteBehaviour
+    MakeRET(0x5A07D0);
 
     // Disable CCheat::DoCheats
     MakeRET(0x439AF0);
@@ -53,15 +53,28 @@ static HookFunction hookFunction([]()
     // No "JCK_HLP" message
     MakeJMP(0x63E8DF);
 
+    // Disable CFont::Initialize
+    //MakeRET(0x5BA690);
+    // Disable CFont::Shutdown
+    //MakeRET(0x7189B0);
+
     // Disable CPlayerInfo::MakePlayerSafe
     MakeRET(0x56E870, 8);
+
+    // Disable CInterestingEvents::ScanForNearbyEntities
+    MakeRET(0x605A30);
+
+    // Disable CGangWars::Update
+    MakeRET(0x446610);
+
+    // Disable CConversations::Update
+    MakeRET(0x43C590);
+    // Disable CPedToPlayerConversations::Update
+    MakeRET(0x43B0F0);
 
     // Disable ValidateVersion
     // Contains a stupid check for 'grandtheftauto3' string in peds.col
     MakeRET(0x5BA060);
-
-    // Disable CLoadingScreen::LoadSplashes
-    MakeRET(0x5900B0);
 
     // Disable CShopping::LoadStats
     MakeRET(0x49B6A0);
@@ -87,6 +100,9 @@ static HookFunction hookFunction([]()
     // Stop CTaskSimpleCarDrive::ProcessPed from exiting passengers with CTaskComplexSequence
     MakeNOP(0x644C18);
     MemPatch<u8>(0x644C19, 0xE9);
+
+    // Disable CPlayerInfo::WorkOutEnergyFromHunger (Prevents dying from starvation)
+    MakeRET(0x56E610);
 
     // Disable CFileLoader::LoadPickup
     MakeRET(0x5B47B0);
@@ -133,4 +149,17 @@ static HookFunction hookFunction([]()
 
     // SetWindowText
     MemPatch(0x619608, MOD_NAME);
+
+    // Disable CIniFile::LoadIniFile (gta3.ini)
+    MakeRET(0x56D070);
+
+    // Disable CStreaming::ReadIniFile (stream.ini)
+    MakeRET(0x5BCCD0);
+
+    // CDecisionMakerTypesFileLoader::LoadDefaultDecisionMaker
+    MakeRET(0x5BF400);
+    // CPedStats::LoadPedStats
+    MakeRET(0x5BB890);
+    // Change CPedStats::fHeadingChangeRate (was 15.0)
+    MemPatch<f32>(0x5BFA1D + 4, 9.5f);
 });

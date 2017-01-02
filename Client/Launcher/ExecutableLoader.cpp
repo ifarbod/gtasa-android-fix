@@ -15,7 +15,7 @@ ExecutableLoader::ExecutableLoader(const uint8_t* origBinary)
     origBinary_ = origBinary;
     loadLimit_ = UINT_MAX;
 
-    SetLibraryLoader([] (const char* name)
+    SetLibraryLoader([](const char* name)
     {
         return LoadLibraryA(name);
     });

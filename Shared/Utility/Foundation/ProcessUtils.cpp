@@ -29,12 +29,11 @@ void OpenConsoleWindow()
 
     AllocConsole();
     AttachConsole(GetCurrentProcessId());
+    //SetConsoleTitleW(WString(MOD_NAME " Debug console").CString());
 
-    //freopen("CON", "w", stdout);
     freopen("CONIN$", "r", stdin);
     freopen("CONOUT$", "w", stdout);
     freopen("CONOUT$", "w", stderr);
-    //freopen("CONERR$", "w", stderr);
 
     // If you have multiple monitors, this will automatically move the console to the 2nd
     if (GetSystemMetrics(SM_CMONITORS) > 1)

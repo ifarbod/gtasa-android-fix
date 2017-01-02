@@ -16,6 +16,13 @@ char g_szGamePath[MAX_PATH];
 char g_szGameExecutable[MAX_PATH]; // "D:\\GTA San Andreas Online\\gta_sa.exe"
 char g_szExecutablePath[MAX_PATH];
 
+// Prefer the high-performance GPU on switchable GPU systems
+extern "C"
+{
+    __declspec(dllexport) DWORD NvOptimusEnablement = 1;
+    __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+}
+
 void wmain()
 {
     if(!CheckRegistryIntegrity())

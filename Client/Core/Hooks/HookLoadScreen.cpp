@@ -25,6 +25,9 @@ void SimulateCopyrightScreen()
 
 static HookFunction hookFunction([]()
 {
+    // Disable CLoadingScreen::LoadSplashes
+    MakeRET(0x5900B0);
+
     // Start the game at state 5
     // Disable gGameState = 0 setting
     MakeNOP(0x747483, 6);

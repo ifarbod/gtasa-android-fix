@@ -45,6 +45,27 @@ int GetMaxMultiSamplingLevels()
 
 static Util::HookFunction hookFunction([]()
 {
+    // Disable menu by skipping CMenuManager::DrawStandardMenus call in CMenuManager::DrawBackground
+    MakeNOP(0x57BA57, 6);
+
+    // No background texture drawing in menu
+    MakeJMP(0x57B9CA);
+
+    // No input process for menu
+    MakeNOP(0x57B457, 5);
+
+    // No background black rectangle
+    MakeNOP(0x57B9BB, 5);
+
+    // No more ESC button processing
+#ifndef CTN_DEBUG
+    MakeJMP(0x576B8D);
+    MakeJMP(0x576BAF);
+#endif
+
+    // No frontend texture loading (Disable CMenuManager::LoadAllTextures)
+    MakeRET(0x572EC0);
+
     // Allow widescreen resolutions
     MemPatch<u32>(0x745B81, 0x9090587D);
     MemPatch<u32>(0x74596C, 0x9090127D);
@@ -59,19 +80,18 @@ static Util::HookFunction hookFunction([]()
     MakeNOP(0x748A8D, 6);
 
     // Disable Menu After Lost Focus
-    //MakeRET(0x53BC60);
     MemPatch<u8>(0x53BC78, 0x00);
-    //MemPatch<u8>((0xBA6748) + 0x5C, 0);
+    //MakeRET(0x53BC60);
 
     // Disable GTA Setting g_bIsForegroundApp to false on focus lost
     MakeNOP(0x747FFE, 6);
     MakeNOP(0x748054, 10);
 
-    // Anti-Aliasing
-    MakeJMP(0x7F6C9B);
-    MakeJMP(0x7F60C6);
-    MemPatch<u16>(0x7F6683, 0xE990);
-    MakeCALL(0x746350, SetMultiSamplingLevels);
+    // Anti-Aliasing fix
+    //MakeJMP(0x7F6C9B);
+    //MakeJMP(0x7F60C6);
+    //MemPatch<u16>(0x7F6683, 0xE990);
+    //MakeCALL(0x746350, SetMultiSamplingLevels);
     // Menu
     //MakeCALL(0x5744FE, ChangeMultiSamplingLevels);
     //MakeCALL(0x57D163, ChangeMultiSamplingLevels);

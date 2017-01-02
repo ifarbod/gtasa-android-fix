@@ -66,4 +66,7 @@ static Util::HookFunction hookFunction([]()
     MemPatch<u8>(0x7271CB + 5, 0xC4);
     MemPatch<u8>(0x7271CB + 6, 0x04);
     MemPatch<u8>(0x7271CB + 7, 0xC6); // mov byte ptr [00C7C728],01
+
+    // No FxMemoryPool_c::Optimize (causes heap corruption)
+    MakeNOP(0x5C25D3, 5);
 });

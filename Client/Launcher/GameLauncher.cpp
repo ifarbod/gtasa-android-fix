@@ -37,7 +37,7 @@ void GameLauncher::InvokeEntryPoint(void(*entryPoint)())
 
 void GameLauncher::Launch(const char* gamePath)
 {
-    // load the game executable data in temporary memory
+    // Load the game executable data in temporary memory
     FILE* gameFile = _wfopen(WString{ gamePath }.CString(), L"rb");
 
     if (!gameFile)
@@ -45,7 +45,7 @@ void GameLauncher::Launch(const char* gamePath)
         return;
     }
 
-    // find the file length and allocate a related buffer
+    // Find the file length and allocate a related buffer
     u32 length;
     u8* data;
 
@@ -54,14 +54,14 @@ void GameLauncher::Launch(const char* gamePath)
 
     data = new u8[length];
 
-    // seek back to the start and read the file
+    // Seek back to the start and read the file
     fseek(gameFile, 0, SEEK_SET);
     fread(data, 1, length, gameFile);
 
-    // close the file, and continue on
+    // Close the file, and continue on
     fclose(gameFile);
 
-    // load the executable into our module context
+    // Load the executable into our module context
     HMODULE exeModule = GetModuleHandleW(nullptr);
 
     ExecutableLoader exeLoader(data);
