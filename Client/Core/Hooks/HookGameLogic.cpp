@@ -54,9 +54,9 @@ static HookFunction hookFunction([]()
     MakeJMP(0x63E8DF);
 
     // Disable CFont::Initialize
-    //MakeRET(0x5BA690);
+    MakeRET(0x5BA690);
     // Disable CFont::Shutdown
-    //MakeRET(0x7189B0);
+    MakeRET(0x7189B0);
 
     // Disable CPlayerInfo::MakePlayerSafe
     MakeRET(0x56E870, 8);
@@ -78,24 +78,6 @@ static HookFunction hookFunction([]()
 
     // Disable CShopping::LoadStats
     MakeRET(0x49B6A0);
-
-    // Disable CStats::LoadActionReactionStats
-    MakeRET(0x5599B0);
-
-    // Disable CStats::LoadStatUpdateConditions
-    MakeRET(0x559860);
-
-    // Disable CStats::IncrementStat
-    MakeRET(0x55C180);
-
-    // Disable CStats::DecrementStat
-    MakeRET(0x559FA0);
-
-    // Disable CStats::DisplayScriptStatUpdateMessage
-    MakeRET(0x55B980);
-
-    // Disable CStats::CheckForStatsMessage
-    MakeRET(0x559760);
 
     // Stop CTaskSimpleCarDrive::ProcessPed from exiting passengers with CTaskComplexSequence
     MakeNOP(0x644C18);
@@ -162,4 +144,15 @@ static HookFunction hookFunction([]()
     MakeRET(0x5BB890);
     // Change CPedStats::fHeadingChangeRate (was 15.0)
     MemPatch<f32>(0x5BFA1D + 4, 9.5f);
+
+    // No random hydraulics for cars
+    MakeJMP(0x6B0BC2);
+
+    // Allow boats to rotate
+    MemPatch<u8>(0x6F2089, 0x58);
+    MakeNOP(0x6F208A, 4);
+
+    // Disable real-time shadows for peds
+    MakeJMP(0x5E68A0);
+    MakeJMP(0x542483);
 });

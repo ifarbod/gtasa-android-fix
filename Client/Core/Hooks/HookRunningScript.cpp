@@ -22,12 +22,14 @@ void Hook_CRunningScript__Process()
     {
         // Call RequestModel
         Call<void>(0x4087E0, 106, 2);
+        //Call<void>(0x409D10, 0, "CLAUDE", 26);
 
         // Call LoadAllRequestedModels
         Call<void>(0x40EA10, false);
 
         // Change player model ID
         MemPatch<u8>(0x60D5FF + 1, 106);
+        //MemPatch<u8>(0x60D5FF + 1, 0);
 
         // CPlayerPed::SetupPlayerPed
         Call<void>(0x60D790, 0);

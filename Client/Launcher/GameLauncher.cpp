@@ -13,6 +13,8 @@
 #include <Hooking/HookingUtils.hpp>
 #include <Container/Str.hpp>
 #include <Foundation/ProcessUtils.hpp>
+#include <Math/MT.hpp>
+#include <time.h>
 
 using namespace Util;
 
@@ -101,7 +103,8 @@ void GameLauncher::Launch(const char* gamePath)
     // Patch IsAlreadyRunning
     Util::MakeRET0(0x7468E0);
     // Change CdStream semaphore to allow more than 2 SA instances
-    Util::CopyStr(0x858AD4, "Meow");
+    MT19937_64 mt(time(nullptr));
+    Util::CopyStr(0x858AD4, String::Format("CtN%d", mt()).CString());
 
     LoadLibraryA(CLIENT_CORE_NAME DEBUG_SUFFIX LIB_EXTENSION);
 

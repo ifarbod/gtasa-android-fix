@@ -69,4 +69,7 @@ static Util::HookFunction hookFunction([]()
 
     // No FxMemoryPool_c::Optimize (causes heap corruption)
     MakeNOP(0x5C25D3, 5);
+
+    // Satchel charge crash fix
+    MakeNOP(0x738F3A, 83);
 });
