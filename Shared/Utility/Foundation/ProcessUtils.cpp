@@ -13,7 +13,23 @@
 #include <Path.hpp>
 
 #include <cstdio>
+#include <fcntl.h>
+
+#if !defined(__linux__)
+#include <libcpuid/libcpuid.h>
+#endif
+
+#ifdef _WIN32
+#include <Windows.h>
 #include <io.h>
+#if defined(_MSC_VER)
+#include <float.h>
+#endif
+#else
+#include <unistd.h>
+#endif
+
+#include <DebugNew.hpp>
 
 namespace Util
 {
@@ -21,6 +37,74 @@ namespace Util
 static bool consoleOpened = false;
 static String currentLine;
 static Vector<String> arguments;
+
+#if defined(__linux__)
+struct CpuCoreCount
+{
+    unsigned numPhysicalCores_;
+    unsigned numLogicalCores_;
+};
+
+// This function is used by all the target triplets with Linux as the OS, such as Android, RPI, desktop Linux, etc
+static void GetCPUData(struct CpuCoreCount* data)
+{
+    // Sanity check
+    assert(data);
+    // At least return 1 core
+    data->numPhysicalCores_ = data->numLogicalCores_ = 1;
+
+    FILE* fp;
+    int res;
+    unsigned i, j;
+
+    fp = fopen("/sys/devices/system/cpu/present", "r");
+    if (fp)
+    {
+        res = fscanf(fp, "%d-%d", &i, &j);
+        fclose(fp);
+
+        if (res == 2 && i == 0)
+        {
+            data->numPhysicalCores_ = data->numLogicalCores_ = j + 1;
+
+            fp = fopen("/sys/devices/system/cpu/cpu0/topology/thread_siblings_list", "r");
+            if (fp)
+            {
+                res = fscanf(fp, "%d,%d,%d,%d", &i, &j, &i, &j);
+                fclose(fp);
+
+                // Having sibling thread(s) indicates the CPU is using HT/SMT technology
+                if (res > 1)
+                    data->numPhysicalCores_ /= res;
+            }
+        }
+    }
+}
+
+#else
+static void GetCPUData(struct cpu_id_t* data)
+{
+    if (cpu_identify(nullptr, data) < 0)
+    {
+        data->num_logical_cpus = 1;
+        data->num_cores = 1;
+    }
+}
+#endif
+
+void InitFPU()
+{
+    // Make sure FPU is in round-to-nearest, single precision mode
+    // This ensures Direct3D and all threads behave similarly
+#if defined(_MSC_VER) && defined(_M_IX86)
+    _controlfp(_RC_NEAR | _PC_24, _MCW_RC | _MCW_PC);
+#elif defined(__i386__)
+    unsigned control = GetFPUState();
+    control &= ~(FPU_CW_PREC_MASK | FPU_CW_ROUND_MASK);
+    control |= (FPU_CW_PREC_SINGLE | FPU_CW_ROUND_NEAR);
+    SetFPUState(control);
+#endif
+}
 
 void OpenConsoleWindow()
 {
@@ -226,156 +310,115 @@ String GetConsoleInput()
     return ret;
 }
 
-FARPROC GetProcedureAddress(HMODULE hModule, const String& procName)
+String GetPlatform()
 {
-    PVOID functionAddress = nullptr;
-
-    __try
-    {
-        PIMAGE_DOS_HEADER dos = reinterpret_cast<PIMAGE_DOS_HEADER>(hModule);
-        PIMAGE_NT_HEADERS nt = reinterpret_cast<PIMAGE_NT_HEADERS>(reinterpret_cast<ULONG>(hModule) + dos->e_lfanew);
-
-        PIMAGE_DATA_DIRECTORY expdir =
-            reinterpret_cast<PIMAGE_DATA_DIRECTORY>(nt->OptionalHeader.DataDirectory + IMAGE_DIRECTORY_ENTRY_EXPORT);
-        ULONG addr = expdir->VirtualAddress;
-        PIMAGE_EXPORT_DIRECTORY exports =
-            reinterpret_cast<PIMAGE_EXPORT_DIRECTORY>(reinterpret_cast<ULONG>(hModule) + addr);
-        PULONG functions = reinterpret_cast<PULONG>(reinterpret_cast<ULONG>(hModule) + exports->AddressOfFunctions);
-        PSHORT ordinals = reinterpret_cast<PSHORT>(reinterpret_cast<ULONG>(hModule) + exports->AddressOfNameOrdinals);
-        PULONG names = reinterpret_cast<PULONG>(reinterpret_cast<ULONG>(hModule) + exports->AddressOfNames);
-        ULONG maxName = exports->NumberOfNames;
-        ULONG maxFunc = exports->NumberOfFunctions;
-
-        for (ULONG i = 0; i < maxName; i++)
-        {
-            ULONG ord = ordinals[i];
-            if (i >= maxName || ord >= maxFunc)
-                return nullptr;
-            if (functions[ord] < addr || functions[ord] >= addr)
-            {
-                if (strcmp(reinterpret_cast<PCHAR>(hModule) + names[i], procName.CString()) == 0)
-                {
-                    functionAddress = reinterpret_cast<PVOID>((PCHAR)hModule + functions[ord]);
-                    break;
-                }
-            }
-        }
-    } __except (EXCEPTION_EXECUTE_HANDLER)
-    {
-        functionAddress = nullptr;
-    }
-
-    return reinterpret_cast<FARPROC>(functionAddress);
+#if defined(_WIN32)
+    return "Windows";
+#elif defined(__APPLE__)
+    return "Mac OS X";
+#elif defined(__linux__)
+    return "Linux";
+#else
+    return String::EMPTY;
+#endif
 }
 
-bool CallRemoteFunction(HANDLE hProcess, const String& functionName, const String& fileName)
+String GetCPUVendorString()
 {
-    // Store the path as wchar_t
-    WString libPath = WString{fileName}.CString();
-    unsigned libPathLength = libPath.Length();
-
-    // Store kernel32 handle
-    HMODULE hKernel32 = GetModuleHandleW(L"KERNEL32");
-
-    // Store remote thread handle
-    HANDLE hThread = nullptr;
-
-    // Allocate memory in the remote process
-    void* libPathRemote = nullptr;
-    unsigned libPathSize = (libPathLength + 1) * sizeof(wchar_t);
-    libPathRemote = VirtualAllocEx(hProcess, nullptr, libPathSize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
-
-    // Allocation failed, return false
-    if (libPathRemote == nullptr)
-        return false;
-
-    // Write the DLL path to the remote memory allocated
-    SIZE_T bytesWritten = 0;
-    WriteProcessMemory(hProcess, libPathRemote, (void*)libPath.CString(), libPathSize, &bytesWritten);
-
-    if (bytesWritten != libPathSize)
-    {
-        // Clean up the resources used for injection of the DLL
-        VirtualFreeEx(hProcess, libPathRemote, libPathSize, MEM_RELEASE);
-
-        return false;
-    }
-
-    // Get the function's address
-    LPTHREAD_START_ROUTINE functionPtr =
-        reinterpret_cast<LPTHREAD_START_ROUTINE>(GetProcedureAddress(hKernel32, functionName));
-
-    // Does the function exist?
-    if (functionPtr == nullptr)
-    {
-        // Clean up the resources used for injection of the DLL
-        VirtualFreeEx(hProcess, libPathRemote, libPathSize, MEM_RELEASE);
-
-        return false;
-    }
-
-    // Start a remote thread calling the desired function with the parameter
-    hThread = CreateRemoteThread(hProcess, nullptr, 0, functionPtr, libPathRemote, 0, nullptr);
-
-    if (hThread == nullptr)
-    {
-        // Clean up the resources used for injection of the DLL
-        VirtualFreeEx(hProcess, libPathRemote, libPathSize, MEM_RELEASE);
-
-        return false;
-    }
-
-    // We wait for the created remote thread to finish executing. When it's done, the DLL
-    // is loaded into the game's userspace, and we can destroy the thread-handle. We wait
-    // 5 seconds which is way longer than this should take to prevent this application
-    // from deadlocking if something goes really wrong allowing us to kill the injected
-    // game executable and avoid user inconvenience.
-    // WaitForObject(hProcess, hThread, INFINITE, NULL);
-
-    // Get the handle of the remotely loaded DLL module
-    DWORD hLibModule = 0;
-    GetExitCodeThread(hThread, &hLibModule);
-
-    // Clean up the resources used for injection of the DLL
-    VirtualFreeEx(hProcess, libPathRemote, libPathSize, MEM_RELEASE);
-
-    // Success
-    return true;
+#if !defined(__linux__)
+    struct cpu_id_t data;
+    GetCPUData(&data);
+    return data.vendor_str;
+#endif
 }
 
-bool RemoteLoadLibrary(HANDLE hProcess, const String& fileName)
+String GetCPUBrandString()
 {
-    if (!CallRemoteFunction(hProcess, "SetDllDirectoryW", GetNativePath(GetPath(fileName))))
-    {
-        return false;
-    }
-
-    if (!CallRemoteFunction(hProcess, "LoadLibraryW", fileName))
-    {
-        return false;
-    }
-
-    // Success
-    return true;
+#if !defined(__linux__)
+    struct cpu_id_t data;
+    GetCPUData(&data);
+    return data.brand_str;
+#endif
 }
 
-bool RemoteLoadLibrary(unsigned processId, const String& fileName)
+unsigned GetCPUFamily()
 {
-    // Open our target process
-    HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processId);
+#if !defined(__linux__)
+    struct cpu_id_t data;
+    GetCPUData(&data);
+    return static_cast<unsigned>(data.family);
+#endif
+}
 
-    if (!hProcess)
-    {
-        // Failed to open the process
-        return false;
-    }
+unsigned GetCPUModel()
+{
+#if !defined(__linux__)
+    struct cpu_id_t data;
+    GetCPUData(&data);
+    return static_cast<unsigned>(data.model);
+#endif
+}
 
-    // Inject the library into the process
-    bool result = RemoteLoadLibrary(hProcess, fileName);
+unsigned GetCPUStepping()
+{
+#if !defined(__linux__)
+    struct cpu_id_t data;
+    GetCPUData(&data);
+    return static_cast<unsigned>(data.stepping);
+#endif
+}
 
-    // Close the process handle
-    CloseHandle(hProcess);
-    return result;
+unsigned GetCPUExtFamily()
+{
+#if !defined(__linux__)
+    struct cpu_id_t data;
+    GetCPUData(&data);
+    return static_cast<unsigned>(data.ext_family);
+#endif
+}
+
+unsigned GetCPUExtModel()
+{
+#if !defined(__linux__)
+    struct cpu_id_t data;
+    GetCPUData(&data);
+    return static_cast<unsigned>(data.ext_model);
+#endif
+}
+
+unsigned GetNumPhysicalCPUs()
+{
+#if defined(__linux__)
+    struct CpuCoreCount data;
+    GetCPUData(&data);
+    return data.numPhysicalCores_;
+#else
+    struct cpu_id_t data;
+    GetCPUData(&data);
+    return static_cast<unsigned>(data.num_cores);
+#endif
+}
+
+unsigned GetNumLogicalCPUs()
+{
+#if defined(__linux__)
+    struct CpuCoreCount data;
+    GetCPUData(&data);
+    return data.numLogicalCores_;
+#else
+    struct cpu_id_t data;
+    GetCPUData(&data);
+    return static_cast<unsigned>(data.num_logical_cpus);
+#endif
+}
+
+unsigned GetTotalLogicalCPUs()
+{
+#if !defined(__linux__)
+    struct cpu_id_t data;
+    GetCPUData(&data);
+    return static_cast<unsigned>(data.total_logical_cpus);
+#endif
 }
 
 }

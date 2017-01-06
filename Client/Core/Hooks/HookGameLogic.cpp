@@ -32,7 +32,7 @@ static HookFunction hookFunction([]()
     MakeRET(0x5A07D0);
 
     // Disable CCheat::DoCheats
-    MakeRET(0x439AF0);
+    //MakeRET(0x439AF0);
     // Disable CCheat::ToggleCheat
     MakeRET(0x438370);
 
@@ -107,11 +107,11 @@ static HookFunction hookFunction([]()
     MemPatch<u32>(0x5F12CA, 0x901CC483);
     MakeNOP(0x5F12CA + 4, 1);
 
-    // Patch ped vehicles damage when flipped
+    // Disable ped vehicles damage when flipped
     MemPatch<u16>(0x6A776B, 0xD8DD);
     MakeNOP(0x6A776D, 4);
 
-    // Patch player vehicle damage when flipped
+    // Disable player vehicle damage when flipped
     MemPatch<u16>(0x570E7F, 0xD8DD);
     MakeNOP(0x570E81, 4);
 
@@ -155,4 +155,17 @@ static HookFunction hookFunction([]()
     // Disable real-time shadows for peds
     MakeJMP(0x5E68A0);
     MakeJMP(0x542483);
+
+    // Stop CPed::ProcessControl from calling CVisibilityPlugins::SetClumpAlpha
+    MakeNOP(0x5E8E84, 5);
+
+    // Stop CVehicle::UpdateClumpAlpha from calling CVisibilityPlugins::SetClumpAlpha
+    MakeNOP(0x6D29CB, 5);
+
+    // Disable CVehicle::DoDriveByShootings
+    MakeNOP(0x741FD0, 3);
+    MakeRET(0x741FD0);
+
+    // Disable CTaskSimplePlayerOnFoot::PlayIdleAnimations (ret 4)
+    MakeRET(0x6872C0, 4);
 });
