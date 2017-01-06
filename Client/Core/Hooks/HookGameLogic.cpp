@@ -168,4 +168,15 @@ static HookFunction hookFunction([]()
 
     // Disable CTaskSimplePlayerOnFoot::PlayIdleAnimations (ret 4)
     MakeRET(0x6872C0, 4);
+
+    // Hack to make the choke task use 0 time left remaining when he starts to just stand there looking. So he won't do
+    // that.
+    MemPatch<u8>(0x620607, 0x33);
+    MemPatch<u8>(0x620608, 0xC0);
+
+    MemPatch<u8>(0x620618, 0x33);
+    MemPatch<u8>(0x620619, 0xC0);
+    MemPatch<u8>(0x62061A, 0x90);
+    MemPatch<u8>(0x62061B, 0x90);
+    MemPatch<u8>(0x62061C, 0x90);
 });
