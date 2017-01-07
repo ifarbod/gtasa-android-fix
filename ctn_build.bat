@@ -8,6 +8,8 @@
 
 @echo off
 
+:: TODO: Change to VS150 (or 141)
+cd %VS140COMNTOOLS%
 call vcvars32.bat
 call genversion.bat
 ::Utils\premake5 install_cef

@@ -37,6 +37,7 @@ f32 SquareRadar(Vector2& pos)
 
 static HookFunction hookFunction([]()
 {
+    // Experimental square radar
 #ifdef CTN_DEBUG
     MakeJMP(0x5832F0, SquareRadar);
     MemPatch<f32>(0x585719, 0.0f); // -1.0
@@ -48,4 +49,18 @@ static HookFunction hookFunction([]()
     MemPatch<f32>(0x585749, 0.0f); // -1.0
     MemPatch<f32>(0x585751, 0.0f); // -1.0
 #endif
+
+    // Fix radar disk colors
+    MemPatch<u8>(0x58A9A2, 0xFF);
+    MemPatch<u8>(0x58A99A, 0xFF);
+    MemPatch<u8>(0x58A996, 0xFF);
+    MemPatch<u8>(0x58A8EE, 0xFF);
+    MemPatch<u8>(0x58A8E6, 0xFF);
+    MemPatch<u8>(0x58A8DE, 0xFF);
+    MemPatch<u8>(0x58A89A, 0xFF);
+    MemPatch<u8>(0x58A896, 0xFF);
+    MemPatch<u8>(0x58A894, 0xFF);
+    MemPatch<u8>(0x58A798, 0xFF);
+    MemPatch<u8>(0x58A790, 0xFF);
+    MemPatch<u8>(0x58A78E, 0xFF);
 });
