@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "RWTypes.hpp"
+
 namespace SA
 {
 
@@ -16,7 +18,15 @@ class CMatrix
 public:
     union
     {
+        struct
+        {
 
+        };
+
+        struct
+        {
+            RwMatrix matrix;
+        };
     };
 };
 

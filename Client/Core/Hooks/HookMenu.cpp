@@ -18,9 +18,9 @@ void ProcessFrontEndMenu()
     if (!menuFirstProcessed)
     {
         // Start the game now - resume the timers
-        MemPatch<u8>(0xB7CB49, 0);
-        MemPatch<u8>(0xBA67A4, 0);
-        MemPatch<u32>(0xC8D4C0, 8); // gGameState
+        MemWrite<u8>(0xB7CB49, 0);
+        MemWrite<u8>(0xBA67A4, 0);
+        MemWrite<u32>(0xC8D4C0, 8); // gGameState
         menuFirstProcessed = true;
     }
 
@@ -49,7 +49,7 @@ static Util::HookFunction hookFunction([]()
     MakeNOP(0x57BA57, 6);
 
     // No background texture drawing in menu
-    MakeJMP(0x57B9CA);
+    MakeShortJmp(0x57B9CA);
 
     // No input process for menu
     MakeNOP(0x57B457, 5);
@@ -59,16 +59,16 @@ static Util::HookFunction hookFunction([]()
 
     // No more ESC button processing
 #ifndef CTN_DEBUG
-    MakeJMP(0x576B8D);
-    MakeJMP(0x576BAF);
+    MakeShortJmp(0x576B8D);
+    MakeShortJmp(0x576BAF);
 #endif
 
     // No frontend texture loading (Disable CMenuManager::LoadAllTextures)
     MakeRET(0x572EC0);
 
     // Allow widescreen resolutions
-    MemPatch<u32>(0x745B81, 0x9090587D);
-    MemPatch<u32>(0x74596C, 0x9090127D);
+    MemWrite<u32>(0x745B81, 0x9090587D);
+    MemWrite<u32>(0x74596C, 0x9090127D);
     MakeNOP(0x745970, 2);
     MakeNOP(0x745B85, 2);
     MakeNOP(0x7459E1, 2);
@@ -80,7 +80,7 @@ static Util::HookFunction hookFunction([]()
     MakeNOP(0x748A8D, 6);
 
     // Disable Menu After Lost Focus
-    MemPatch<u8>(0x53BC78, 0x00);
+    MemWrite<u8>(0x53BC78, 0x00);
     //MakeRET(0x53BC60);
 
     // Disable GTA Setting g_bIsForegroundApp to false on focus lost
@@ -90,7 +90,7 @@ static Util::HookFunction hookFunction([]()
     // Anti-Aliasing fix
     //MakeJMP(0x7F6C9B);
     //MakeJMP(0x7F60C6);
-    //MemPatch<u16>(0x7F6683, 0xE990);
+    //MemWrite<u16>(0x7F6683, 0xE990);
     //MakeCALL(0x746350, SetMultiSamplingLevels);
     // Menu
     //MakeCALL(0x5744FE, ChangeMultiSamplingLevels);

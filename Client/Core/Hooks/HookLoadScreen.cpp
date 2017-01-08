@@ -16,11 +16,11 @@ using namespace Util;
 void SimulateCopyrightScreen()
 {
     // Previous splash index = copyright notice
-    *MemPtr(0x8D093C).get<s32>() = 0;
+    *MemoryPointer(0x8D093C).Get<s32>() = 0;
     // Decrease timeSinceLastScreen, so it will change immediately
-    *MemPtr(0xBAB340).get<f32>() -= 1000.f;
+    *MemoryPointer(0xBAB340).Get<f32>() -= 1000.f;
     // First Loading Splash
-    *MemPtr(0xBAB31E).get<s8>() = 1;
+    *MemoryPointer(0xBAB31E).Get<s8>() = 1;
 }
 
 static HookFunction hookFunction([]()
@@ -33,7 +33,7 @@ static HookFunction hookFunction([]()
     MakeNOP(0x747483, 6);
     // Put the game where the user wants (default's to the copyright screen)
     // GS_INIT_ONCE:5
-    MemPatch<u32>(0xC8D4C0, 5);
+    MemWrite<u32>(0xC8D4C0, 5);
 
     // Disable Copyright screen
     // Hook the copyright screen fading in/out and simulates that it has happened
@@ -42,7 +42,7 @@ static HookFunction hookFunction([]()
 
     // Disable loading screen rendering
     MakeNOP(0x590D9F, 5);
-    MemPatch<u8>(0x590D9F, 0xC3);
+    MemWrite<u8>(0x590D9F, 0xC3);
 
     // Skip fading screen rendering
     MakeJMP(0x590AE4, 0x590C9E);

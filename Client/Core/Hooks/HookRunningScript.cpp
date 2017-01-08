@@ -28,8 +28,8 @@ void Hook_CRunningScript__Process()
         Call<void>(0x40EA10, false);
 
         // Change player model ID
-        MemPatch<u8>(0x60D5FF + 1, 106);
-        //MemPatch<u8>(0x60D5FF + 1, 0);
+        MemWrite<u8>(0x60D5FF + 1, 106);
+        //MemWrite<u8>(0x60D5FF + 1, 0);
 
         // CPlayerPed::SetupPlayerPed
         Call<void>(0x60D790, 0);
@@ -48,8 +48,7 @@ void Hook_CRunningScript__Process()
 static HookFunction hookFunction([]()
 {
     // Don't load the SCM Script
-    MakeJMP(0x468EB5);
-    MemPatch<u8>(0x468EB6, 0x32);
+    MakeShortJmp(0x468EB5, 0x32);
 
     // Hook script process (so we can spawn a local player)
     MakeCALL(0x46A21B, Hook_CRunningScript__Process);

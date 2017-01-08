@@ -25,7 +25,7 @@ static HookFunction hookFunction([]()
 
     // Stop the loading of ambient traffic models and textures
     // by skipping CStreaming::StreamVehiclesAndPeds() and CStreaming::StreamZoneModels()
-    MakeJMP(0x40E7DF);
+    MakeShortJmp(0x40E7DF);
 
     // Disable CPopulation::AddToPopulation
     MakeRET0Ex(0x614720);
@@ -34,7 +34,7 @@ static HookFunction hookFunction([]()
     MakeRET(0x6F7900);
 
     // Prevent trains spawning with peds
-    MakeJMP(0x6F7865);
+    MakeShortJmp(0x6F7865);
     MakeJMP(0x6F8E7B, 0x6F8F89);
     MakeNOP(0x6F8E80);
 

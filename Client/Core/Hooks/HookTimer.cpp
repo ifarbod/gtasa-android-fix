@@ -15,12 +15,12 @@ using namespace Util;
 static HookFunction hookFunction([]()
 {
     // No 14ms delay
-    MemPatch<u16>(0x53E923, 0x43EB);
-    MemPatch<u8>(0x53E99F, 0x10);
+    MemWrite<u16>(0x53E923, 0x43EB);
+    MemWrite<u8>(0x53E99F, 0x10);
     MakeNOP(0x53E9A5);
 
     // Fixed stuck strafing with 2-handed weapons with FPS > 45
     static const float strafeCheck = 0.1f;
-    MemPatch(0x61E0C2, &strafeCheck);
+    MemWrite(0x61E0C2, &strafeCheck);
     MakeNOP(0x61E0CA, 6);
 });

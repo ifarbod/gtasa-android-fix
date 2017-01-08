@@ -17,17 +17,17 @@ void __declspec(naked) CarDamageFix()
 {
     __asm
     {
-        fldz;
-        fcomp[esp + 20h + 10h];
-        fnstsw ax;
-        test ah, 5;
-        jp FixedCarDamage_Negative;
-        movzx eax, byte ptr[edi + 21h];
-        retn;
+        fldz
+        fcomp[esp + 20h + 10h]
+        fnstsw ax
+        test ah, 5
+        jp FixedCarDamage_Negative
+        movzx eax, byte ptr[edi + 21h]
+        retn
 
     FixedCarDamage_Negative:
-        movzx eax, byte ptr[edi + 24h];
-        retn;
+        movzx eax, byte ptr[edi + 24h]
+        retn
     }
 }
 

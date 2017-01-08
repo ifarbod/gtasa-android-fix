@@ -40,27 +40,38 @@ static HookFunction hookFunction([]()
     // Experimental square radar
 #ifdef CTN_DEBUG
     MakeJMP(0x5832F0, SquareRadar);
-    MemPatch<f32>(0x585719, 0.0f); // -1.0
-    MemPatch<f32>(0x585721, 0.0f); // 1.0
-    MemPatch<f32>(0x585729, 0.0f); // 1.0
-    MemPatch<f32>(0x585731, 0.0f); // 1.0
-    MemPatch<f32>(0x585739, 0.0f); // 1.0
-    MemPatch<f32>(0x585741, 0.0f); // -1.0
-    MemPatch<f32>(0x585749, 0.0f); // -1.0
-    MemPatch<f32>(0x585751, 0.0f); // -1.0
+    MemWrite<f32>(0x585719, 0.0f); // -1.0
+    MemWrite<f32>(0x585721, 0.0f); // 1.0
+    MemWrite<f32>(0x585729, 0.0f); // 1.0
+    MemWrite<f32>(0x585731, 0.0f); // 1.0
+    MemWrite<f32>(0x585739, 0.0f); // 1.0
+    MemWrite<f32>(0x585741, 0.0f); // -1.0
+    MemWrite<f32>(0x585749, 0.0f); // -1.0
+    MemWrite<f32>(0x585751, 0.0f); // -1.0
 #endif
 
     // Fix radar disk colors
-    MemPatch<u8>(0x58A9A2, 0xFF);
-    MemPatch<u8>(0x58A99A, 0xFF);
-    MemPatch<u8>(0x58A996, 0xFF);
-    MemPatch<u8>(0x58A8EE, 0xFF);
-    MemPatch<u8>(0x58A8E6, 0xFF);
-    MemPatch<u8>(0x58A8DE, 0xFF);
-    MemPatch<u8>(0x58A89A, 0xFF);
-    MemPatch<u8>(0x58A896, 0xFF);
-    MemPatch<u8>(0x58A894, 0xFF);
-    MemPatch<u8>(0x58A798, 0xFF);
-    MemPatch<u8>(0x58A790, 0xFF);
-    MemPatch<u8>(0x58A78E, 0xFF);
+    // Top left
+    MemWrite<u8>(0x58A9A2, 0xFF);
+    MemWrite<u8>(0x58A99A, 0xFF);
+    MemWrite<u8>(0x58A996, 0xFF);
+    // Top right
+    MemWrite<u8>(0x58A8EE, 0xFF);
+    MemWrite<u8>(0x58A8E6, 0xFF);
+    MemWrite<u8>(0x58A8DE, 0xFF);
+    // Bottom left
+    MemWrite<u8>(0x58A89A, 0xFF);
+    MemWrite<u8>(0x58A896, 0xFF);
+    MemWrite<u8>(0x58A894, 0xFF);
+    // Bottom right
+    MemWrite<u8>(0x58A798, 0xFF);
+    MemWrite<u8>(0x58A790, 0xFF);
+    MemWrite<u8>(0x58A78E, 0xFF);
+
+    // DrawAreaName
+    MakeRET(0x58AA50);
+    // Money
+    MakeJMP(0x58F47D, 0x58F618, 6);
+    // Clock
+    MakeJMP(0x58EB14, 0x58EC30, 6);
 });

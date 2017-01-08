@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "RWMacros.hpp"
+
 enum RwStreamType
 {
     rwNASTREAM = 0,   /**<Invalid stream type */

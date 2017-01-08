@@ -98,7 +98,7 @@ void GameLauncher::Launch(const char* gamePath)
     VirtualProtect((void*)0xCB0000, 0x1000, PAGE_READWRITE, &oldProtect); // .rsrc
 
     // Use our icon
-    Util::MemPatch<u8>(0x7486A5, 1);
+    Util::MemWrite<u8>(0x7486A5, 1);
 
     // Patch IsAlreadyRunning
     Util::MakeRET0(0x7468E0);

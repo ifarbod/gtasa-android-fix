@@ -31,7 +31,7 @@ static HookFunction hookFunction([]()
     MakeRET(0x562470);
 
     // Disable military zones (5star wanted level)
-    MakeJMP(0x72DF0D);
+    MakeShortJmp(0x72DF0D);
 
     // Disable CGameLogic::SetPlayerWantedLevelForForbiddenTerritories
     // No 4-star wanted level on visiting LV and SF

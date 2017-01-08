@@ -1,4 +1,4 @@
-// Generic code injecting utils
+// x86 code injecting utils
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //                  LINK/2012 <dma2012@hotmail.com>
 //
@@ -23,107 +23,52 @@
 namespace Util
 {
 
-union MemPtr
+union MemoryPointer
 {
-protected:
-    void* p;
-    uintptr_t a;
-
 public:
     // Constructors
-    MemPtr() : p(0) {}
-    MemPtr(std::nullptr_t) : p(nullptr) {}
-    MemPtr(const MemPtr& x) : p(x.p) {}
-    MemPtr(void* x) : p(x) {}
-    MemPtr(uintptr_t x) : a(x) {}
+    MemoryPointer() : ptr_(0) {}
+    MemoryPointer(std::nullptr_t) : ptr_(nullptr) {}
+    MemoryPointer(const MemoryPointer& x) = default;
+    MemoryPointer(void* x) : ptr_(x) {}
+    MemoryPointer(uintptr_t x) : a(x) {}
 
-    template <class T>
-    MemPtr(T* x) : p((void *)x) {}
+    template <class T> MemoryPointer(T* x) : ptr_(reinterpret_cast<void*>(x)) {}
 
-    bool is_null() const { return this->p != nullptr; }
-    uintptr_t as_int() const { return this->a; }
+    bool IsNull() const { return this->ptr_ != nullptr; }
+    uintptr_t AsInt() const { return this->a; }
 
-    explicit operator bool() const { return is_null(); }
+    explicit operator bool() const { return IsNull(); }
+    explicit operator uintptr_t() const { return this->a; }
 
-    MemPtr get() const { return *this; }
-    template <class T> T* get() const { return get(); }
-    template <class T> T* get_raw() { return get(); }
+    MemoryPointer Get() const { return *this; }
+    template <class T> T* Get() const { return Get(); }
+    template <class T> T* GetRaw() { return Get(); }
 
-    template <class T>
-    operator T*() const { return reinterpret_cast<T*>(p); }
+    template <class T> operator T*() const { return reinterpret_cast<T*>(ptr_); }
 
     // Comparison
-    bool operator ==(const MemPtr& rhs) const
-    {
-        return this->a == rhs.a;
-    }
-
-    bool operator !=(const MemPtr& rhs) const
-    {
-        return this->a != rhs.a;
-    }
-
-    bool operator <(const MemPtr& rhs) const
-    {
-        return this->a < rhs.a;
-    }
-
-    bool operator <=(const MemPtr& rhs) const
-    {
-        return this->a <= rhs.a;
-    }
-
-    bool operator >(const MemPtr& rhs) const
-    {
-        return this->a > rhs.a;
-    }
-
-    bool operator >=(const MemPtr& rhs) const
-    {
-        return this->a >= rhs.a;
-    }
+    bool operator==(const MemoryPointer& rhs) const { return this->a == rhs.a; }
+    bool operator!=(const MemoryPointer& rhs) const { return this->a != rhs.a; }
+    bool operator<(const MemoryPointer& rhs) const { return this->a < rhs.a; }
+    bool operator<=(const MemoryPointer& rhs) const { return this->a <= rhs.a; }
+    bool operator>(const MemoryPointer& rhs) const { return this->a > rhs.a; }
+    bool operator>=(const MemoryPointer& rhs) const { return this->a >= rhs.a; }
 
     // Operators
-    MemPtr operator +(const MemPtr& rhs) const
-    {
-        return MemPtr(this->a + rhs.a);
-    }
+    MemoryPointer operator+(const MemoryPointer& rhs) const { return MemoryPointer(this->a + rhs.a); }
+    MemoryPointer operator-(const MemoryPointer& rhs) const { return MemoryPointer(this->a - rhs.a); }
+    MemoryPointer operator*(const MemoryPointer& rhs) const { return MemoryPointer(this->a * rhs.a); }
+    MemoryPointer operator/(const MemoryPointer& rhs) const { return MemoryPointer(this->a / rhs.a); }
 
-    MemPtr operator -(const MemPtr& rhs) const
-    {
-        return MemPtr(this->a - rhs.a);
-    }
+    MemoryPointer operator+=(const MemoryPointer& rhs) const { return MemoryPointer(this->a + rhs.a); }
+    MemoryPointer operator-=(const MemoryPointer& rhs) const { return MemoryPointer(this->a - rhs.a); }
+    MemoryPointer operator*=(const MemoryPointer& rhs) const { return MemoryPointer(this->a * rhs.a); }
+    MemoryPointer operator/=(const MemoryPointer& rhs) const { return MemoryPointer(this->a / rhs.a); }
 
-    MemPtr operator *(const MemPtr& rhs) const
-    {
-        return MemPtr(this->a * rhs.a);
-    }
-
-    MemPtr operator /(const MemPtr& rhs) const
-    {
-        return MemPtr(this->a / rhs.a);
-    }
-
-    // ..=
-    MemPtr operator +=(const MemPtr& rhs) const
-    {
-        return MemPtr(this->a + rhs.a);
-    }
-
-    MemPtr operator -=(const MemPtr& rhs) const
-    {
-        return MemPtr(this->a - rhs.a);
-    }
-
-    MemPtr operator *=(const MemPtr& rhs) const
-    {
-        return MemPtr(this->a * rhs.a);
-    }
-
-    MemPtr operator /=(const MemPtr& rhs) const
-    {
-        return MemPtr(this->a / rhs.a);
-    }
+protected:
+    void* ptr_;
+    uintptr_t a;
 };
 
 template <uintptr_t addr>
@@ -131,61 +76,51 @@ struct LazyPointer
 {
 public:
     // Returns the final raw pointer
-    static MemPtr get()
-    {
-        return xget().get();
-    }
+    static MemoryPointer Get() { return xget().Get(); }
 
-    template <class T>
-    static T* get()
-    {
-        return get().get<T>();
-    }
+    template <class T> static T* Get() { return Get().Get<T>(); }
 
 private:
     // Returns the final pointer
-    static MemPtr xget()
+    static MemoryPointer xGet()
     {
         static void* ptr = nullptr;
-        if (!ptr) ptr = MemPtr(addr).get();
-        return MemPtr(ptr);
+        if (!ptr)
+            ptr = MemoryPointer(addr).Get();
+        return MemoryPointer(ptr);
     }
 };
 
-template <uintptr_t addr>
-inline MemPtr LazyPtr()
-{
-    return LazyPointer<addr>::get();
-}
+template <uintptr_t addr> inline MemoryPointer LazyPtr() { return LazyPointer<addr>::Get(); }
 
 // Memory protection
 
-inline bool ProtectMemory(MemPtr addr, size_t size, DWORD protection)
+inline bool ProtectMemory(MemoryPointer addr, size_t size, DWORD protection)
 {
-    return VirtualProtect(addr.get(), size, protection, &protection) != 0;
+    return VirtualProtect(addr.Get(), size, protection, &protection) != 0;
 }
 
-inline bool UnprotectMemory(MemPtr addr, size_t size, DWORD& out_oldprotect)
+inline bool UnprotectMemory(MemoryPointer addr, size_t size, DWORD& out_oldprotect)
 {
-    return VirtualProtect(addr.get(), size, PAGE_EXECUTE_READWRITE, &out_oldprotect) != 0;
+    return VirtualProtect(addr.Get(), size, PAGE_EXECUTE_READWRITE, &out_oldprotect) != 0;
 }
 
 struct ScopedUnprotect
 {
-    MemPtr addr;
+    MemoryPointer addr;
     size_t size;
     DWORD dwOldProtect;
     bool bUnprotected;
 
-    ScopedUnprotect(MemPtr addr, size_t size)
+    ScopedUnprotect(MemoryPointer addr, size_t size)
     {
         if (size == 0) bUnprotected = false;
-        else bUnprotected = UnprotectMemory(this->addr = addr.get<void>(), this->size = size, dwOldProtect);
+        else bUnprotected = UnprotectMemory(this->addr = addr.Get<void>(), this->size = size, dwOldProtect);
     }
 
     ~ScopedUnprotect()
     {
-        if (bUnprotected) ProtectMemory(this->addr.get(), this->size, this->dwOldProtect);
+        if (bUnprotected) ProtectMemory(this->addr.Get(), this->size, this->dwOldProtect);
     }
 };
 
@@ -238,58 +173,41 @@ private:
     std::forward_list<std::tuple<LPVOID, SIZE_T, DWORD>> m_queriedProtects;
 };
 
-// Methods for reading/writing memory */
+// Methods for reading/writing memory
 
 // Gets contents from a memory address
 template <class T>
-inline T MemRead(MemPtr addr)
+inline T MemRead(MemoryPointer addr)
 {
-    //return *(T *)addr.as_int();
-    return *addr.get<T>();
+    return *addr.Get<T>();
 }
 
-template <class T = void> // "= void" (not needed?!) who cares..
-inline T& ReadOffset(MemPtr ptr, size_t offset)
+template <class T = void>
+inline T& ReadOffset(MemoryPointer ptr, size_t offset)
 {
-    return *(ptr + offset).get<T>();
+    return *(ptr + offset).Get<T>();
 }
 
-// memset with unprotection
-inline void MemSet(MemPtr addr, s32 value, size_t size)
+inline void MemSet(MemoryPointer addr, s32 value, size_t size)
 {
     ScopedUnprotect xprotect(addr, size);
-    memset(addr.get<void>(), value, size);
+    memset(addr.Get<void>(), value, size);
 }
 
-// memcpy with unprotection
-inline void MemCpy(MemPtr addr, void const* src, size_t size)
+inline void MemCpy(MemoryPointer addr, void const* src, size_t size)
 {
     ScopedUnprotect xprotect(addr, size);
-    memcpy(addr.get<void>(), src, size);
+    memcpy(addr.Get<void>(), src, size);
 }
 
-// MemWrite
 template <class T>
-inline void MemWrite(MemPtr addr, T value)
+inline void MemWrite(MemoryPointer addr, T value)
 {
     ScopedUnprotect xprotect(addr, sizeof(T));
 
     if (MemRead<T>(addr) != value)
     {
-        MemCpy(addr, &value, sizeof(T));
-    }
-}
-
-// MemPatch
-template <class T>
-inline void MemPatch(MemPtr addr, T value)
-{
-    ScopedUnprotect xprotect(addr, sizeof(T));
-
-    if (MemRead<T>(addr) != value)
-    {
-        //*(T *)addr.as_int() = value;
-        *addr.get<T>() = value;
+        *addr.Get<T>() = value;
     }
 }
 
@@ -298,80 +216,77 @@ inline void MemPatch(MemPtr addr, T value)
 //  searches in the range [@addr, @addr + @max_search] for a pointer in the range [@default_base, @default_end] and replaces
 //  it with the proper offset in the pointer @replacement_base.
 //  does memory unprotection if @vp is true.
-inline MemPtr AdjustPointer(
-    MemPtr addr, MemPtr replacement_base, MemPtr default_base, MemPtr default_end, size_t max_search = 8)
+inline MemoryPointer AdjustPointer(MemoryPointer addr, MemoryPointer replacement_base, MemoryPointer default_base,
+    MemoryPointer default_end, size_t max_search = 8)
 {
     ScopedUnprotect xprotect(addr, max_search + sizeof(void*));
     for (size_t i = 0; i < max_search; ++i)
     {
-        MemPtr ptr = MemRead<void*>(addr + i);
-        if (ptr >= default_base.get() && ptr <= default_end.get())
+        MemoryPointer ptr = MemRead<void*>(addr + i);
+        if (ptr >= default_base.Get() && ptr <= default_end.Get())
         {
-            auto result = replacement_base + (ptr - default_base.get());
-            MemPatch<void*>(addr + i, result.get());
+            auto result = replacement_base + (ptr - default_base.Get());
+            MemWrite<void*>(addr + i, result.Get());
             return result;
         }
     }
     return nullptr;
 }
 
-// And some utilities :)
-inline void MemFill(MemPtr addr, u8 value, size_t size = 1)
+inline void MemFill(MemoryPointer addr, u8 value, size_t size = 1)
 {
-    //ScopedUnprotect xprotect(addr, size);
     MemSet(addr, value, size);
 }
 
-// string copy
-inline void CopyStr(MemPtr addr, char const* value)
+inline void CopyStr(MemoryPointer addr, char const* value)
 {
     ScopedUnprotect xprotect(addr, 1);
     strcpy(addr, value);
 }
 
-inline void CopyStrEx(MemPtr addr, char const* value, size_t count)
+inline void CopyStrEx(MemoryPointer addr, char const* value, size_t count)
 {
     ScopedUnprotect xprotect(addr, count);
     strncpy(addr, value, count);
 }
 
-inline void ZeroMem(MemPtr at, size_t count = 1)
+inline void ZeroMem(MemoryPointer at, size_t count = 1)
 {
     MemFill(at, 0, count);
 }
 
-inline void MakeNOP(MemPtr at, size_t count = 1)
+inline void MakeNOP(MemoryPointer at, size_t count = 1)
 {
     MemFill(at, 0x90, count);
 }
 
-inline void MakeRangedNOP(MemPtr at, MemPtr until)
+inline void MakeRangedNOP(MemoryPointer at, MemoryPointer until)
 {
-    return MakeNOP(at, size_t(until.get_raw<char>() - at.get_raw<char>()));
+    return MakeNOP(at, size_t(until.GetRaw<char>() - at.GetRaw<char>()));
 }
 
 // C3 RET
-inline void MakeRET(MemPtr at)
+inline void MakeRET(MemoryPointer at)
 {
     MemWrite<u8>(at, 0xC3);
 }
 
 // C2 RET (2Bytes)
-inline void MakeRET(MemPtr at, u16 pop)
+inline void MakeRET(MemoryPointer at, u16 pop)
 {
     MemWrite<u8>(at, 0xC2);
     MemWrite<u16>(at + 1, pop);
 }
 
-inline void MakeRETEx(MemPtr at, u8 ret = 1)
+inline void MakeRETEx(MemoryPointer at, u8 ret = 1)
 {
-    MemPatch<u8>(at, 0xB0); // mov al, @ret
-    MemPatch<u8>(0x5DF8F0 + 1, ret);
+    MemWrite<u8>(at, 0xB0); // mov al, @ret
+    MemWrite<u8>(0x5DF8F0 + 1, ret);
     MakeRET(0x5DF8F0 + 2, 4);
 }
 
 // for making functions return 0
-inline void MakeRET0(MemPtr at)
+inline void MakeRET0(MemoryPointer at)
 {
     MemWrite<u8>(at, 0x33); // xor eax, eax
     MemWrite<u8>(at + 1, 0xC0);
@@ -379,30 +294,31 @@ inline void MakeRET0(MemPtr at)
 }
 
 // Uses al instead of eax
-inline void MakeRET0Ex(MemPtr at)
+inline void MakeRET0Ex(MemoryPointer at)
 {
     MemWrite<u8>(at, 0x32); // xor al, al
     MemWrite<u8>(at + 1, 0xC0);
     MakeRET(at + 2);
 }
 
-// Jump Short
-inline void MakeJMP(MemPtr at)
+inline void MakeShortJmp(MemoryPointer at, u8 jmpOffset = 0)
 {
     MemWrite<u8>(at, 0xEB);
+    if (jmpOffset != 0)
+        MemWrite<u8>(at + 1, jmpOffset);
 }
 
-inline MemPtr GetAbsoluteOffset(int rel_value, MemPtr end_of_instruction)
+inline MemoryPointer GetAbsoluteOffset(int rel_value, MemoryPointer end_of_instruction)
 {
-    return end_of_instruction.get<char>() + rel_value;
+    return end_of_instruction.Get<char>() + rel_value;
 }
 
-inline int GetRelativeOffset(MemPtr abs_value, MemPtr end_of_instruction)
+inline int GetRelativeOffset(MemoryPointer abs_value, MemoryPointer end_of_instruction)
 {
-    return uintptr_t(abs_value.get<char>() - end_of_instruction.get<char>());
+    return uintptr_t(abs_value.Get<char>() - end_of_instruction.Get<char>());
 }
 
-inline MemPtr ReadRelativeOffset(MemPtr at, size_t sizeof_addr = 4)
+inline MemoryPointer ReadRelativeOffset(MemoryPointer at, size_t sizeof_addr = 4)
 {
     switch (sizeof_addr)
     {
@@ -416,7 +332,7 @@ inline MemPtr ReadRelativeOffset(MemPtr at, size_t sizeof_addr = 4)
     return nullptr;
 }
 
-inline void MakeRelativeOffset(MemPtr at, MemPtr dest, size_t sizeof_addr = 4)
+inline void MakeRelativeOffset(MemoryPointer at, MemoryPointer dest, size_t sizeof_addr = 4)
 {
     switch (sizeof_addr)
     {
@@ -429,7 +345,7 @@ inline void MakeRelativeOffset(MemPtr at, MemPtr dest, size_t sizeof_addr = 4)
     }
 }
 
-inline MemPtr GetBranchDestination(MemPtr at)
+inline MemoryPointer GetBranchDestination(MemoryPointer at)
 {
     switch (MemRead<u8>(at))
     {
@@ -453,7 +369,7 @@ inline MemPtr GetBranchDestination(MemPtr at)
 }
 
 // Jump Near
-inline MemPtr MakeJMP(MemPtr at, MemPtr dest)
+inline MemoryPointer MakeJMP(MemoryPointer at, MemoryPointer dest)
 {
     auto p = GetBranchDestination(at);
     MemWrite<u8>(at, 0xE9);
@@ -461,7 +377,7 @@ inline MemPtr MakeJMP(MemPtr at, MemPtr dest)
     return p;
 }
 
-inline MemPtr MakeCALL(MemPtr at, MemPtr dest)
+inline MemoryPointer MakeCALL(MemoryPointer at, MemoryPointer dest)
 {
     auto p = GetBranchDestination(at);
     MemWrite<u8>(at, 0xE8);
@@ -469,32 +385,8 @@ inline MemPtr MakeCALL(MemPtr at, MemPtr dest)
     return p;
 }
 
-inline void MakeJA(MemPtr at, MemPtr dest)
-{
-    MemWrite<u16>(at, 0x870F);
-    MakeRelativeOffset(at + 2, dest, 4);
-}
-
-inline void MakeJE(MemPtr at, MemPtr dest)
-{
-    MemWrite<u16>(at, 0x840F);
-    MakeRelativeOffset(at + 2, dest, 4);
-}
-
-inline void MakeJS(MemPtr at, MemPtr dest)
-{
-    MemWrite<u16>(at, 0x880F);
-    MakeRelativeOffset(at + 2, dest, 4);
-}
-
-inline void MakeJNE(MemPtr at, MemPtr dest) // jnz too
-{
-    MemWrite<u16>(at, 0x850F);
-    MakeRelativeOffset(at + 2, dest, 4);
-}
-
 // MakeJMP with NOPing @count
-inline MemPtr MakeJMP(MemPtr at, MemPtr dest, size_t count)
+inline MemoryPointer MakeJMP(MemoryPointer at, MemoryPointer dest, size_t count)
 {
     auto p = GetBranchDestination(at);
     MakeNOP(at, count);
@@ -508,44 +400,38 @@ inline void** GetVMT(const void* self)
     return *(void ***)(self);
 }
 
-inline void** GetVFT(const void* self) { return GetVMT(self); } // Virtual Function Table
-inline void** GetVCT(const void* self) { return GetVMT(self); } // Virtual Call Table
-inline void** GetVTable(const void* self) { return GetVMT(self); } // vtable
-inline void** GetVFTable(const void* self) { return GetVMT(self); } // vftable
-
-inline MemPtr GetVF(MemPtr self, size_t index)
+inline MemoryPointer GetVF(MemoryPointer self, size_t index)
 {
-    return GetVMT(self.get<void>())[index];
+    return GetVMT(self.Get<void>())[index];
 }
 
-// Calling Functions of GTASA exe
 // Call function at @p returning @Ret with args @Args
 // compiler's default calling convention
 template <class Ret, class... Args>
-inline Ret Call(MemPtr p, Args... a)
+inline Ret Call(MemoryPointer p, Args... a)
 {
-    auto fn = (Ret(*)(Args...)) p.get<void>();
+    auto fn = reinterpret_cast<Ret (*)(Args...)>(p.Get<void>());
     return fn(std::forward<Args>(a)...);
 }
 
 template <class Ret, class... Args>
-inline Ret Cdecl(MemPtr p, Args... a)
+inline Ret Cdecl(MemoryPointer p, Args... a)
 {
-    auto fn = (Ret(__cdecl*)(Args...))p.get<void>();
+    auto fn = reinterpret_cast<Ret(__cdecl*)(Args...)>(p.Get<void>());
     return fn(std::forward<Args>(a)...);
 }
 
 template <class Ret, class ...Args>
-inline Ret StdCall(MemPtr p, Args... a)
+inline Ret StdCall(MemoryPointer p, Args... a)
 {
-    auto fn = (Ret(__stdcall*)(Args...))p.get<void>();
+    auto fn = reinterpret_cast<Ret(__stdcall*)(Args...)>(p.Get<void>());
     return fn(std::forward<Args>(a)...);
 }
 
 template <class Ret, class ...Args>
-inline Ret ThisCall(MemPtr p, Args... a)
+inline Ret ThisCall(MemoryPointer p, Args... a)
 {
-    auto fn = (Ret(__thiscall*)(Args...))p.get<void>();
+    auto fn = reinterpret_cast<Ret(__thiscall*)(Args...)>(p.Get<void>());
     return fn(std::forward<Args>(a)...);
 }
 
@@ -555,38 +441,17 @@ struct Vtbl
     template <class Ret, class... Args>
     static Ret Call(Args... a)
     {
-        auto obj = MemPtr(std::get<0>(std::forward_as_tuple(a...)));
-        auto p = MemPtr((*obj.template get<void**>())[i]);
+        auto obj = MemoryPointer(std::get<0>(std::forward_as_tuple(a...)));
+        auto p = MemoryPointer((*obj.template Get<void**>())[i]);
         return ThisCall<Ret>(p, std::forward<Args>(a)...);
     }
 };
 
 template <class Ret, class... Args>
-inline Ret FastCall(MemPtr p, Args... a)
+inline Ret FastCall(MemoryPointer p, Args... a)
 {
-    auto fn = (Ret(__fastcall*)(Args...))p.get<void>();
+    auto fn = reinterpret_cast<Ret(__fastcall*)(Args...)>(p.Get<void>());
     return fn(std::forward<Args>(a)...);
 }
-
-// A Patch where you install and uninstall it later
-// Saves some memory contents for changes, after done, you can restore this later..
-struct RestorablePatch
-{
-    // Saves @size bytes from @at
-    RestorablePatch(MemPtr at, size_t size = 1) : addr_(at), numBytes_(size) { MemCpy(bytes_, at.get<void>(), size); }
-
-    // Restore what was there on destruction
-    ~RestorablePatch() { MemCpy(addr_, bytes_, numBytes_); }
-
-    void Write(size_t offset, u8 value) { MemWrite<u8>(addr_ + offset, value); }
-
-    // without destructing it
-    void Restore() { MemCpy(addr_, bytes_, numBytes_); }
-
-protected:
-    u8* bytes_;
-    size_t numBytes_;
-    MemPtr addr_;
-};
 
 }

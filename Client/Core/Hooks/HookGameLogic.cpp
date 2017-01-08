@@ -16,8 +16,8 @@ using namespace Util;
 static HookFunction hookFunction([]()
 {
     // No DirectPlay dependency - Better compatibility for Windows 8+
-    MemPatch<u8>(0x74754A, 0xB8);
-    MemPatch<u32>(0x74754B, 0x900);
+    MemWrite<u8>(0x74754A, 0xB8);
+    MemWrite<u32>(0x74754B, 0x900);
 
     // Disable CGameLogic::Update
     MakeRET(0x442AD0);
@@ -26,7 +26,7 @@ static HookFunction hookFunction([]()
     MakeRET(0x4418E0);
 
     // Don't give cigar/beer to player on spawn
-    MakeJMP(0x5FBA26);
+    MakeShortJmp(0x5FBA26);
 
     // Disable CObject::ProcessSamSiteBehaviour
     MakeRET(0x5A07D0);
@@ -51,7 +51,7 @@ static HookFunction hookFunction([]()
     MakeRET(0x460390);
 
     // No "JCK_HLP" message
-    MakeJMP(0x63E8DF);
+    MakeShortJmp(0x63E8DF);
 
     // Disable CFont::Initialize
     MakeRET(0x5BA690);
@@ -81,7 +81,7 @@ static HookFunction hookFunction([]()
 
     // Stop CTaskSimpleCarDrive::ProcessPed from exiting passengers with CTaskComplexSequence
     MakeNOP(0x644C18);
-    MemPatch<u8>(0x644C19, 0xE9);
+    MemWrite<u8>(0x644C19, 0xE9);
 
     // Disable CPlayerInfo::WorkOutEnergyFromHunger (Prevents dying from starvation)
     MakeRET(0x56E610);
@@ -93,8 +93,8 @@ static HookFunction hookFunction([]()
     MakeRET(0x591F90);
 
     // Make CEventDamage::IsSameEventForAI return false
-    MemPatch<u8>(0x4C01F0, 0xB0);
-    MemPatch<u8>(0x4C01F1, 0x00);
+    MemWrite<u8>(0x4C01F0, 0xB0);
+    MemWrite<u8>(0x4C01F1, 0x00);
     MakeNOP(0x4C01F2, 3);
 
     // Avoid GTA setting vehicle primary color to white (1) after setting a new paintjob
@@ -104,15 +104,15 @@ static HookFunction hookFunction([]()
     MakeRET(0x71D4E0);
 
     // Don't change velocity when colliding with peds in a vehicle
-    MemPatch<u32>(0x5F12CA, 0x901CC483);
+    MemWrite<u32>(0x5F12CA, 0x901CC483);
     MakeNOP(0x5F12CA + 4, 1);
 
     // Disable ped vehicles damage when flipped
-    MemPatch<u16>(0x6A776B, 0xD8DD);
+    MemWrite<u16>(0x6A776B, 0xD8DD);
     MakeNOP(0x6A776D, 4);
 
     // Disable player vehicle damage when flipped
-    MemPatch<u16>(0x570E7F, 0xD8DD);
+    MemWrite<u16>(0x570E7F, 0xD8DD);
     MakeNOP(0x570E81, 4);
 
     // No vehicle rewards
@@ -126,11 +126,14 @@ static HookFunction hookFunction([]()
     CopyStr(0x866C8C, "$-%d");
 
     // Increase Streaming_rwObjectInstancesList limit (disables flicker)
-    MemPatch<s32>(0x5B8E55, 7500 * 0xC);
-    MemPatch<s32>(0x5B8EB0, 7500 * 0xC);
+    MemWrite<s32>(0x5B8E55, 7500 * 0xC);
+    MemWrite<s32>(0x5B8EB0, 7500 * 0xC);
+
+    // Disable SecuromStateDisplay
+    MakeRET(0x744AE0);
 
     // SetWindowText
-    MemPatch(0x619608, MOD_NAME);
+    MemWrite(0x619608, MOD_NAME);
 
     // Disable CIniFile::LoadIniFile (gta3.ini)
     MakeRET(0x56D070);
@@ -143,18 +146,18 @@ static HookFunction hookFunction([]()
     // CPedStats::LoadPedStats
     MakeRET(0x5BB890);
     // Change CPedStats::fHeadingChangeRate (was 15.0)
-    MemPatch<f32>(0x5BFA1D + 4, 9.5f);
+    MemWrite<f32>(0x5BFA1D + 4, 9.5f);
 
     // No random hydraulics for cars
-    MakeJMP(0x6B0BC2);
+    MakeShortJmp(0x6B0BC2);
 
     // Allow boats to rotate
-    MemPatch<u8>(0x6F2089, 0x58);
+    MemWrite<u8>(0x6F2089, 0x58);
     MakeNOP(0x6F208A, 4);
 
     // Disable real-time shadows for peds
-    MakeJMP(0x5E68A0);
-    MakeJMP(0x542483);
+    MakeShortJmp(0x5E68A0);
+    MakeShortJmp(0x542483);
 
     // Stop CPed::ProcessControl from calling CVisibilityPlugins::SetClumpAlpha
     MakeNOP(0x5E8E84, 5);
@@ -171,12 +174,15 @@ static HookFunction hookFunction([]()
 
     // Hack to make the choke task use 0 time left remaining when he starts to just stand there looking. So he won't do
     // that.
-    MemPatch<u8>(0x620607, 0x33);
-    MemPatch<u8>(0x620608, 0xC0);
+    MemWrite<u8>(0x620607, 0x33);
+    MemWrite<u8>(0x620608, 0xC0);
 
-    MemPatch<u8>(0x620618, 0x33);
-    MemPatch<u8>(0x620619, 0xC0);
-    MemPatch<u8>(0x62061A, 0x90);
-    MemPatch<u8>(0x62061B, 0x90);
-    MemPatch<u8>(0x62061C, 0x90);
+    MemWrite<u8>(0x620618, 0x33);
+    MemWrite<u8>(0x620619, 0xC0);
+    MemWrite<u8>(0x62061A, 0x90);
+    MemWrite<u8>(0x62061B, 0x90);
+    MemWrite<u8>(0x62061C, 0x90);
+
+    // Disable speed limits
+    //MakeRET0(0x72DDD0);
 });

@@ -15,15 +15,15 @@ using namespace Util;
 static HookFunction hookFunction([]()
 {
     // Disable cinematic camera for trains
-    MemPatch<u8>(0x52A535, 0);
+    MemWrite<u8>(0x52A535, 0);
 
     // Hack to make non-local players always update their aim on akimbo weapons using camera
     // so they don't freeze when local player doesn't aim
-    MakeJMP(0x61EFFE);
+    MakeShortJmp(0x61EFFE);
 
     // Do not fixate camera behind spectated player if local player is dead
-    MemPatch<u8>(0x52A2BB, 0);
-    MemPatch<u8>(0x52A4F8, 0);
+    MemWrite<u8>(0x52A2BB, 0);
+    MemWrite<u8>(0x52A4F8, 0);
 
     // Disable CIdleCam::Process
     MakeRET(0x522C80);
