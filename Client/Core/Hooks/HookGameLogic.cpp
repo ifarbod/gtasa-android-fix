@@ -78,6 +78,9 @@ static HookFunction hookFunction([]()
 
     // Disable CShopping::LoadStats
     MakeRET(0x49B6A0);
+    
+    // Disable CEntryExitManager::Update
+    MakeRET(0x440D10);
 
     // Stop CTaskSimpleCarDrive::ProcessPed from exiting passengers with CTaskComplexSequence
     MakeNOP(0x644C18);
