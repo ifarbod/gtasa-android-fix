@@ -25,7 +25,7 @@ newaction {
 
         -- Copy data files
         os.copydir(DATA_DIR, BIN_DIR)
-        
+
         -- Copy cef3 data files
         os.copydir(CEF_DIR .. "/Release", BIN_DIR, "*.dll")
         os.copydir(CEF_DIR .. "/Release", BIN_DIR, "*.bin")

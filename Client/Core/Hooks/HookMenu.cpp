@@ -79,9 +79,8 @@ static Util::HookFunction hookFunction([]()
     // Allow Alt+Tab without pausing the game
     MakeNOP(0x748A8D, 6);
 
-    // Disable Menu After Lost Focus
-    MemWrite<u8>(0x53BC78, 0x00);
-    //MakeRET(0x53BC60);
+    // Disable menu after focus loss
+    MakeRET(0x53BC60);
 
     // Disable GTA Setting g_bIsForegroundApp to false on focus lost
     MakeNOP(0x747FFE, 6);

@@ -158,6 +158,8 @@ static HookFunction hookFunction([]()
     // Disable real-time shadows for peds
     MakeShortJmp(0x5E68A0);
     MakeShortJmp(0x542483);
+    // Disable CRealTimeShadowManager::Update
+    MakeRET(0x706AB0);
 
     // Stop CPed::ProcessControl from calling CVisibilityPlugins::SetClumpAlpha
     MakeNOP(0x5E8E84, 5);
@@ -184,5 +186,5 @@ static HookFunction hookFunction([]()
     MemWrite<u8>(0x62061C, 0x90);
 
     // Disable speed limits
-    //MakeRET0(0x72DDD0);
+    MakeRET0(0x72DDD0);
 });
