@@ -101,7 +101,7 @@ void GameLauncher::Launch(const char* gamePath)
     Util::MemWrite<u8>(0x7486A5, 1);
 
     // Patch IsAlreadyRunning
-    Util::MakeRET0(0x7468E0);
+    Util::MakeRet0(0x7468E0);
     // Change CdStream semaphore to allow more than 2 SA instances
     MT19937_64 mt(time(nullptr));
     Util::CopyStr(0x858AD4, String::Format("CtN%d", mt()).CString());

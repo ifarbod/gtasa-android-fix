@@ -22,7 +22,7 @@ static HookFunction hookFunction([]()
 
     // Fix Lightbeams
     MemWrite<u16>(0x6A2E88, 0x0EEB);
-    MakeNOP(0x6A2E9C, 3);
+    MakeNop(0x6A2E9C, 3);
     MemWrite<u16>(0x6E0F63, 0x0AEB);
     MemWrite<u16>(0x6E0F7C, 0x0BEB);
     MemWrite<u16>(0x6E0F95, 0x0BEB);
@@ -42,10 +42,10 @@ static HookFunction hookFunction([]()
     MemWrite<u8>(0x5D9F1F, 8);
 
     // Fixed gun's muzzle flash not showing from last bullet
-    MakeNOP(0x61ECE4, 2);
+    MakeNop(0x61ECE4, 2);
 
     // Weapon icon fix when using a jetpack (rwRENDERSTATEZWRITEENABLE flag being messed up)
-    MakeNOP(0x58E210, 3);
-    MakeNOP(0x58EAB7, 3);
-    MakeNOP(0x58EAE1, 3);
+    MakeNop(0x58E210, 3);
+    MakeNop(0x58EAB7, 3);
+    MakeNop(0x58EAE1, 3);
 });

@@ -20,17 +20,17 @@ const char* __fastcall CText__Get_Custom(void* text, int dummy, const char* gxt)
 static Util::HookFunction hookFunction([]()
 {
     // Disable CMenuManager::InitialiseChangedLanguageSettings
-    MakeRET(0x573260);
+    MakeRet(0x573260);
 
     // Disable InitialiseLanguage
-    MakeRET(0x7465B0);
+    MakeRet(0x7465B0);
 
     // Disable calling CText::Load in CGame::InitialiseEssentialsAfterRW
     MakeRangedNOP(0x5BA160, 0x5BA167 + 5);
 
     // Disable CText::LoadMissionText
-    MakeRET(0x69FBF0);
+    MakeRet(0x69FBF0);
 
     // Redirect CText::Get
-    MakeJMP(0x6A0050, CText__Get_Custom);
+    MakeJmp(0x6A0050, CText__Get_Custom);
 });

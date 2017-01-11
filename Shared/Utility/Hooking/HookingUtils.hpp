@@ -31,15 +31,15 @@ public:
     MemoryPointer(std::nullptr_t) : ptr_(nullptr) {}
     MemoryPointer(const MemoryPointer& x) = default;
     MemoryPointer(void* x) : ptr_(x) {}
-    MemoryPointer(uintptr_t x) : a(x) {}
+    MemoryPointer(uintptr_t x) : a_(x) {}
 
     template <class T> MemoryPointer(T* x) : ptr_(reinterpret_cast<void*>(x)) {}
 
     bool IsNull() const { return this->ptr_ != nullptr; }
-    uintptr_t AsInt() const { return this->a; }
+    uintptr_t AsInt() const { return this->a_; }
 
     explicit operator bool() const { return IsNull(); }
-    explicit operator uintptr_t() const { return this->a; }
+    explicit operator uintptr_t() const { return this->a_; }
 
     MemoryPointer Get() const { return *this; }
     template <class T> T* Get() const { return Get(); }
@@ -48,27 +48,27 @@ public:
     template <class T> operator T*() const { return reinterpret_cast<T*>(ptr_); }
 
     // Comparison
-    bool operator==(const MemoryPointer& rhs) const { return this->a == rhs.a; }
-    bool operator!=(const MemoryPointer& rhs) const { return this->a != rhs.a; }
-    bool operator<(const MemoryPointer& rhs) const { return this->a < rhs.a; }
-    bool operator<=(const MemoryPointer& rhs) const { return this->a <= rhs.a; }
-    bool operator>(const MemoryPointer& rhs) const { return this->a > rhs.a; }
-    bool operator>=(const MemoryPointer& rhs) const { return this->a >= rhs.a; }
+    bool operator==(const MemoryPointer& rhs) const { return this->a_ == rhs.a_; }
+    bool operator!=(const MemoryPointer& rhs) const { return this->a_ != rhs.a_; }
+    bool operator<(const MemoryPointer& rhs) const { return this->a_ < rhs.a_; }
+    bool operator<=(const MemoryPointer& rhs) const { return this->a_ <= rhs.a_; }
+    bool operator>(const MemoryPointer& rhs) const { return this->a_ > rhs.a_; }
+    bool operator>=(const MemoryPointer& rhs) const { return this->a_ >= rhs.a_; }
 
     // Operators
-    MemoryPointer operator+(const MemoryPointer& rhs) const { return MemoryPointer(this->a + rhs.a); }
-    MemoryPointer operator-(const MemoryPointer& rhs) const { return MemoryPointer(this->a - rhs.a); }
-    MemoryPointer operator*(const MemoryPointer& rhs) const { return MemoryPointer(this->a * rhs.a); }
-    MemoryPointer operator/(const MemoryPointer& rhs) const { return MemoryPointer(this->a / rhs.a); }
+    MemoryPointer operator+(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ + rhs.a_); }
+    MemoryPointer operator-(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ - rhs.a_); }
+    MemoryPointer operator*(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ * rhs.a_); }
+    MemoryPointer operator/(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ / rhs.a_); }
 
-    MemoryPointer operator+=(const MemoryPointer& rhs) const { return MemoryPointer(this->a + rhs.a); }
-    MemoryPointer operator-=(const MemoryPointer& rhs) const { return MemoryPointer(this->a - rhs.a); }
-    MemoryPointer operator*=(const MemoryPointer& rhs) const { return MemoryPointer(this->a * rhs.a); }
-    MemoryPointer operator/=(const MemoryPointer& rhs) const { return MemoryPointer(this->a / rhs.a); }
+    MemoryPointer operator+=(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ + rhs.a_); }
+    MemoryPointer operator-=(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ - rhs.a_); }
+    MemoryPointer operator*=(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ * rhs.a_); }
+    MemoryPointer operator/=(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ / rhs.a_); }
 
 protected:
     void* ptr_;
-    uintptr_t a;
+    uintptr_t a_;
 };
 
 template <uintptr_t addr>
@@ -76,7 +76,7 @@ struct LazyPointer
 {
 public:
     // Returns the final raw pointer
-    static MemoryPointer Get() { return xget().Get(); }
+    static MemoryPointer Get() { return xGet().Get(); }
 
     template <class T> static T* Get() { return Get().Get<T>(); }
 
@@ -255,24 +255,24 @@ inline void ZeroMem(MemoryPointer at, size_t count = 1)
     MemFill(at, 0, count);
 }
 
-inline void MakeNOP(MemoryPointer at, size_t count = 1)
+inline void MakeNop(MemoryPointer at, size_t count = 1)
 {
     MemFill(at, 0x90, count);
 }
 
 inline void MakeRangedNOP(MemoryPointer at, MemoryPointer until)
 {
-    return MakeNOP(at, size_t(until.GetRaw<char>() - at.GetRaw<char>()));
+    return MakeNop(at, size_t(until.GetRaw<char>() - at.GetRaw<char>()));
 }
 
 // C3 RET
-inline void MakeRET(MemoryPointer at)
+inline void MakeRet(MemoryPointer at)
 {
     MemWrite<u8>(at, 0xC3);
 }
 
 // C2 RET (2Bytes)
-inline void MakeRET(MemoryPointer at, u16 pop)
+inline void MakeRet(MemoryPointer at, u16 pop)
 {
     MemWrite<u8>(at, 0xC2);
     MemWrite<u16>(at + 1, pop);
@@ -282,23 +282,23 @@ inline void MakeRETEx(MemoryPointer at, u8 ret = 1)
 {
     MemWrite<u8>(at, 0xB0); // mov al, @ret
     MemWrite<u8>(0x5DF8F0 + 1, ret);
-    MakeRET(0x5DF8F0 + 2, 4);
+    MakeRet(0x5DF8F0 + 2, 4);
 }
 
 // for making functions return 0
-inline void MakeRET0(MemoryPointer at)
+inline void MakeRet0(MemoryPointer at)
 {
     MemWrite<u8>(at, 0x33); // xor eax, eax
     MemWrite<u8>(at + 1, 0xC0);
-    MakeRET(at + 2);
+    MakeRet(at + 2);
 }
 
 // Uses al instead of eax
-inline void MakeRET0Ex(MemoryPointer at)
+inline void MakeRet0Ex(MemoryPointer at)
 {
     MemWrite<u8>(at, 0x32); // xor al, al
     MemWrite<u8>(at + 1, 0xC0);
-    MakeRET(at + 2);
+    MakeRet(at + 2);
 }
 
 inline void MakeShortJmp(MemoryPointer at, u8 jmpOffset = 0)
@@ -369,7 +369,7 @@ inline MemoryPointer GetBranchDestination(MemoryPointer at)
 }
 
 // Jump Near
-inline MemoryPointer MakeJMP(MemoryPointer at, MemoryPointer dest)
+inline MemoryPointer MakeJmp(MemoryPointer at, MemoryPointer dest)
 {
     auto p = GetBranchDestination(at);
     MemWrite<u8>(at, 0xE9);
@@ -385,12 +385,12 @@ inline MemoryPointer MakeCALL(MemoryPointer at, MemoryPointer dest)
     return p;
 }
 
-// MakeJMP with NOPing @count
-inline MemoryPointer MakeJMP(MemoryPointer at, MemoryPointer dest, size_t count)
+// MakeJmp with NOPing @count
+inline MemoryPointer MakeJmp(MemoryPointer at, MemoryPointer dest, size_t count)
 {
     auto p = GetBranchDestination(at);
-    MakeNOP(at, count);
-    MakeJMP(at, dest);
+    MakeNop(at, count);
+    MakeJmp(at, dest);
     return p;
 }
 

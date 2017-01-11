@@ -125,9 +125,9 @@ workspace "CtNorth"
 
     group "Server"
     include "Server/DS"
-    if buildhost == "IFARBOD-PC" then
-        include "Client/Network"
-    end
+    --if buildhost == "IFARBOD-PC" then
+        --include "Server/Network"
+    --end
     
     group "Vendor"
     include "Vendor/angelscript"

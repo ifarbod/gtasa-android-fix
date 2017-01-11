@@ -15,20 +15,20 @@ using namespace Util;
 static Util::HookFunction hookFunction([]()
 {
     // Disable CStats::LoadActionReactionStats
-    MakeRET(0x5599B0);
+    MakeRet(0x5599B0);
 
     // Disable CStats::LoadStatUpdateConditions
-    MakeRET(0x559860);
+    MakeRet(0x559860);
 
     // Disable CStats::IncrementStat
-    MakeRET(0x55C180);
+    MakeRet(0x55C180);
 
     // Disable CStats::DecrementStat
-    MakeRET(0x559FA0);
+    MakeRet(0x559FA0);
 
     // Disable CStats::DisplayScriptStatUpdateMessage
-    MakeRET(0x55B980);
+    MakeRet(0x55B980);
 
     // Disable CStats::CheckForStatsMessage
-    MakeRET(0x559760);
+    MakeRet(0x559760);
 });

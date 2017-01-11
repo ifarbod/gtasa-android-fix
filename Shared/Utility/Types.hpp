@@ -21,6 +21,8 @@ using u64 = unsigned long long;
 using f32 = float;
 using f64 = double;
 
+using b32 = s32;
+
 union Float32
 {
     f32 f;

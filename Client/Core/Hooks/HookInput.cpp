@@ -23,10 +23,10 @@ static HookFunction hookFunction([]()
     MemWrite<u32>(0x7469A0, 0x9090C030);
 
     // No DirectInput gamepad
-    MakeNOP(0x748813, 5);
+    MakeNop(0x748813, 5);
 
     // No more mouse Y-axis lock during fade-ins
     MemWrite<u16>(0x50FBB4, 0x27EB);
     MemWrite<u16>(0x510512, 0xE990);
-    MakeJMP(0x524071, 0x524139);
+    MakeJmp(0x524071, 0x524139);
 });

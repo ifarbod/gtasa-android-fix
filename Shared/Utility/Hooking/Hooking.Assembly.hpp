@@ -91,28 +91,28 @@ inline void __declspec(naked) MakeRegPackAndCall()
     {
         // Construct the RegPack structure on the stack
         // Pushes general purposes registers to RegPack
-        pushad;
+        pushad
         // Add 4 to RegPack::esp 'cuz of our return pointer, let it be as before this func is called
-        add[esp + 12], 4;
+        add[esp + 12], 4
         // Pushes EFLAGS to RegPack
-        pushfd;
+        pushfd
 
         // Call wrapper sending RegPack as parameter
-        push esp;
-        Call W::Call;
-        add esp, 4;
+        push esp
+        Call W::Call
+        add esp, 4
 
         // Destructs the RegPack from the stack
         // Fix RegPack::esp before popping it (doesn't make a difference though) (+4 because eflags)
-        sub[esp + 12 + 4], 4;
+        sub[esp + 12 + 4], 4
 
         // Warning: Do not use any instruction that changes EFLAGS after this (-> sub affects EF!! <-)
-        popfd;
+        popfd
 
-        popad;
+        popad
 
         // Back to normal flow
-        ret;
+        ret
     }
 }
 
@@ -122,20 +122,20 @@ inline void __declspec(naked) MakeRegPackAndCall()
 //  MakeInline
 //  Makes inline assembly (but not assembly, an actual functor of type FuncT) at address
 template <class FuncT>
-void MakeInline(MemPtr at)
+void MakeInline(MemoryPointer at)
 {
     using functor = HookAsm::Wrapper<FuncT>;
     if (false)
         functor::Call(nullptr); // To instantiate the template, if not done __asm will fail
-    MakeCALL(at, HookAsm::MakeRegPackAndCall<functor>);
+    MakeCall(at, HookAsm::MakeRegPackAndCall<functor>);
 }
 
 //  MakeInline
 //  Same as above, but it NOPs everything between at and end (exclusive), then performs MakeInline
 template <class FuncT>
-void MakeInline(MemPtr at, MemPtr end)
+void MakeInline(MemoryPointer at, MemoryPointer end)
 {
-    MakeRangedNOP(at, end);
+    MakeRangedNop(at, end);
     MakeInline<FuncT>(at);
 }
 

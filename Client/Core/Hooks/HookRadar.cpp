@@ -39,7 +39,7 @@ static HookFunction hookFunction([]()
 {
     // Experimental square radar
 #ifdef CTN_DEBUG
-    MakeJMP(0x5832F0, SquareRadar);
+    MakeJmp(0x5832F0, SquareRadar);
     MemWrite<f32>(0x585719, 0.0f); // -1.0
     MemWrite<f32>(0x585721, 0.0f); // 1.0
     MemWrite<f32>(0x585729, 0.0f); // 1.0
@@ -69,9 +69,11 @@ static HookFunction hookFunction([]()
     MemWrite<u8>(0x58A78E, 0xFF);
 
     // DrawAreaName
-    MakeRET(0x58AA50);
+    MakeRet(0x58AA50);
     // Money
-    MakeJMP(0x58F47D, 0x58F618, 6);
+    MakeJmp(0x58F47D, 0x58F618, 6);
     // Clock
-    MakeJMP(0x58EB14, 0x58EC30, 6);
+    MakeJmp(0x58EB14, 0x58EC30, 6);
+    // Crosshair dot
+    MakeNop(0x58E2DD, 5);
 });

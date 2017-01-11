@@ -46,16 +46,16 @@ int GetMaxMultiSamplingLevels()
 static Util::HookFunction hookFunction([]()
 {
     // Disable menu by skipping CMenuManager::DrawStandardMenus call in CMenuManager::DrawBackground
-    MakeNOP(0x57BA57, 6);
+    MakeNop(0x57BA57, 6);
 
     // No background texture drawing in menu
     MakeShortJmp(0x57B9CA);
 
     // No input process for menu
-    MakeNOP(0x57B457, 5);
+    MakeNop(0x57B457, 5);
 
     // No background black rectangle
-    MakeNOP(0x57B9BB, 5);
+    MakeNop(0x57B9BB, 5);
 
     // No more ESC button processing
 #ifndef CTN_DEBUG
@@ -64,31 +64,31 @@ static Util::HookFunction hookFunction([]()
 #endif
 
     // No frontend texture loading (Disable CMenuManager::LoadAllTextures)
-    MakeRET(0x572EC0);
+    MakeRet(0x572EC0);
 
     // Allow widescreen resolutions
     MemWrite<u32>(0x745B81, 0x9090587D);
     MemWrite<u32>(0x74596C, 0x9090127D);
-    MakeNOP(0x745970, 2);
-    MakeNOP(0x745B85, 2);
-    MakeNOP(0x7459E1, 2);
+    MakeNop(0x745970, 2);
+    MakeNop(0x745B85, 2);
+    MakeNop(0x7459E1, 2);
 
     // Hook menu process
     MakeCALL(0x57C2BC, ProcessFrontEndMenu);
 
     // Allow Alt+Tab without pausing the game
-    MakeNOP(0x748A8D, 6);
+    MakeNop(0x748A8D, 6);
 
     // Disable menu after focus loss
-    MakeRET(0x53BC60);
+    MakeRet(0x53BC60);
 
     // Disable GTA Setting g_bIsForegroundApp to false on focus lost
-    MakeNOP(0x747FFE, 6);
-    MakeNOP(0x748054, 10);
+    MakeNop(0x747FFE, 6);
+    MakeNop(0x748054, 10);
 
     // Anti-Aliasing fix
-    //MakeJMP(0x7F6C9B);
-    //MakeJMP(0x7F60C6);
+    //MakeJmp(0x7F6C9B);
+    //MakeJmp(0x7F60C6);
     //MemWrite<u16>(0x7F6683, 0xE990);
     //MakeCALL(0x746350, SetMultiSamplingLevels);
     // Menu

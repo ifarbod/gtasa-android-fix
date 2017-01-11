@@ -41,17 +41,17 @@ static Util::HookFunction hookFunction([]()
 {
     // Don't create a ped group on player creation (Fixes a crash)
     // TODO: Proper CPlayerPed creation
-    MakeNOP(0x60D64D);
+    MakeNop(0x60D64D);
     MemWrite<u8>(0x60D64E, 0xE9);
 
     // Disable the call to FxSystem_c::GetCompositeMatrix in CAEFireAudioEntity::UpdateParameters
     // Which was causing a crash. The crash happens if you create 40 or
     // so vehicles that catch fire (upside down) then delete them, repeating a few times.
-    MakeNOP(0x4DCF87, 6);
+    MakeNop(0x4DCF87, 6);
 
     // Fixed a crash (race condition triggered when jacking a vehicle)
-    MakeNOP(0x6485AC, 6);
-    MakeJMP(0x6485AC, Hook_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit);
+    MakeNop(0x6485AC, 6);
+    MakeJmp(0x6485AC, Hook_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit);
 
     // Fix mirror crash
     MemWrite<u8>(0x7271CB + 0, 0x85); // test eax, eax
@@ -64,8 +64,8 @@ static Util::HookFunction hookFunction([]()
     MemWrite<u8>(0x7271CB + 7, 0xC6); // mov byte ptr [00C7C728],01
 
     // No FxMemoryPool_c::Optimize (causes heap corruption)
-    MakeNOP(0x5C25D3, 5);
+    MakeNop(0x5C25D3, 5);
 
     // Satchel charge crash fix
-    MakeNOP(0x738F3A, 83);
+    MakeNop(0x738F3A, 83);
 });
