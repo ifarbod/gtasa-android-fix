@@ -6,7 +6,7 @@
 
 CtNorth is an online multiplayer modification for Rockstar North's Game; Grand Theft Auto: San Andreas.
 
-As this game doesn't have a _built-in_ network play functionality, many attempts have been made since its PC release and only some of them succeeded. CtNorth has a goal of being unique by implementation of artifical intelligence synchronization which will add a unique co-operative based gameplay type, and being _completely_ customizable, ranging from custom maps, weapons, vehicles to Lua scripts that change the entire game logic.
+As this game doesn't have a _built-in_ network play functionality, many attempts have been made since its PC release and only some of them succeeded. CtNorth has a goal of being unique by implementation of artifical intelligence synchronization which will add a unique co-operative based gameplay type, and being _completely_ customizable, ranging from custom maps, weapons, vehicles to scripts that change the entire game logic.
 
 -------------------------------------------------
 ## Key Features (Planned)
@@ -21,8 +21,8 @@ As this game doesn't have a _built-in_ network play functionality, many attempts
   - You want to stream modifications or content from the server? No problem. Just hook up your preferred CDN system or use the integrated HTTP server for streaming content in our dedicated server.
 * Limit adjuster
   - Do you think the vanilla map of San Andreas is not enough for you? You want to add some content to San Andreas but GTA limits prevent you to do so? Whatever you want to do, from adding a dozens of weapons, to increasing the draw distance, our integrated limit adjuster is there for you!
-* 4 scripting languages (Lua, AngelScript, JavaScript and C#)
-  - Script your custom missions, mods and game logic in either Lua, AS, JS or C#, or even, all of them! Select them based on your taste and which suits you the most.
+* 2 scripting languages (AngelScript and Lua)
+  - Script your custom missions, mods and game logic in either Lua, AngelScript or even, both of them! Select them based on your taste and which suits you the most.
 * Client-side scripting
   - You may need to do something hacky on a specific player, with client-side scripting, It's possible to do so! Your script will be downloaded to the target client and it will be executed. Communication between server-side scripts and client-side ones is also possible.
 * Integrated CEF (Chromium Embedded Framework) for rich HTML5+CSS3 powered user interfaces
