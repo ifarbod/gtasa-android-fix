@@ -112,3 +112,11 @@ end
 function os.computer_name()
     return os.getenv("COMPUTERNAME") or 'dummy'
 end
+
+function string.tobool(str)
+    if str:lower():startswith("1") or str:lower():startswith("y") or str:lower():startswith("t") then
+        return true
+    else
+        return false
+    end
+end

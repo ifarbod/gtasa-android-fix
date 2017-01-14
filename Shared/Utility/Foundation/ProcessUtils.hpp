@@ -64,5 +64,7 @@ unsigned GetNumPhysicalCPUs();
 unsigned GetNumLogicalCPUs();
 // Return the total number of logical CPUs (total CPU thread count).
 unsigned GetTotalLogicalCPUs();
+// Returns true if the process is elevated.
+bool IsUserAdmin();
 
 }

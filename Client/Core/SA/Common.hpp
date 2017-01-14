@@ -25,4 +25,4 @@
 #define VALIDATE_OFFSET(struc, member, offset) static_assert(OFFSETOF(struc, member) == offset, "The offset of " #struc "::" #member " is not " #offset)
 
 // Padding
-#define	PAD(prefix, name, size) u8 prefix##_##name##[size]
+#define PAD(prefix, name, size) u8 prefix##_##name##[size]

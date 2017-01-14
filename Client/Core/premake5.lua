@@ -27,7 +27,7 @@ project "Core"
 
     links {
         "Utility",
-		"libcpuid",
+        "libcpuid",
         "../../Vendor/bass/lib/bass",
         "../../Vendor/bass/lib/bass_fx",
         "../../Vendor/bass/lib/bassmix",

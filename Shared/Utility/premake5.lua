@@ -9,6 +9,10 @@ project "Utility"
     flags { "NoIncrementalLink", "NoEditAndContinue" }
     includedirs { "." }
 
+    links {
+        "AngelScript"
+    }
+
     vpaths {
         ["Headers/*"] = { "**.hpp", "**.h" },
         ["Sources/*"] = "**.cpp",
