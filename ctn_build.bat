@@ -8,15 +8,38 @@
 
 @echo off
 
-:: TODO: Change to VS150 (or 141)
+:: Change the working directory to VS common tools
+:: Value for a normal install: C:\Program Files (x86)\Microsoft Visual Studio 15.0\Common7\Tools
+:: TODO: Change to VS150
 cd %VS140COMNTOOLS%
+
+:: Set MSVC environment variables
 call vcvars32.bat
+
+:: Generate version files
 call genversion.bat
+
+:: Generate bindings for building tolua++
 start /wait /b Vendor\toluapp\src\tool\tolua++.bat %cd%
+
+:: Install/Update CEF
 ::Utils\premake5 install_cef
-Utils\premake5 vs2017
+
+:: Generate VS2017 projects
+echo Generating project files for Visual Studio 15 (2017)...
+Utils\premake5 %* vs2017
+
+:: Build the solution
 msbuild Build/CtNorth.sln /v:minimal /m /p:Configuration=Release /p:Platform="Win32"
+
+:: Download and install the required data files
 Utils\premake5 install_data
+
+:: Install the game assets
 ::Utils\premake5 install_resources
+
+:: Compose the required files for building installer
 Utils\premake5 compose_files
+
+:: Pause for 5 seconds and auto-close the command window
 timeout /t 5 /nobreak

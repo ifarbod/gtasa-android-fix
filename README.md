@@ -32,4 +32,4 @@ As this game doesn't have a _built-in_ network play functionality, many attempts
 
 [MIT](LICENSE.md) © 2015-2017 Project CtNorth
 
-[Click here for a TL;DR version of the license](https://www.tldrlegal.com/l/mit)
+[Click here for a TL;DR version of the license](https://tldrlegal.com/l/mit)

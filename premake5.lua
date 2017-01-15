@@ -154,6 +154,9 @@ workspace "CtNorth"
     include "Vendor/libcpuid"
     include "Vendor/libcurl"
 	include "Vendor/lua"
+    if USE_LJ then
+        include "Vendor/luajit"
+    end
     --include "Vendor/lz4"
     --include "Vendor/lzma"
     --include "Vendor/minhook"

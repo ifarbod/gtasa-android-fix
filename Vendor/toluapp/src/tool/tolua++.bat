@@ -8,5 +8,5 @@
 
 @echo off
 cd %1\Vendor\toluapp\src\tool\
-toluapp -o toluabind.c -H toluabind.h -n tolua tolua_scons.pkg
+tolua++ -o toluabind.c -H toluabind.h -n tolua tolua_scons.pkg
 exit

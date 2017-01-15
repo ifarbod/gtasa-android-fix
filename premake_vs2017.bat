@@ -8,8 +8,18 @@
 
 @echo off
 
-start /wait /b Vendor\toluapp\src\tool\tolua++.bat %cd%
-echo Generating project files for Visual Studio 15 (2017)...
-Utils\premake5 vs2017
+:: Generate version files
+call genversion.bat
 
+:: Generate bindings for building tolua++
+start /wait /b Vendor\toluapp\src\tool\tolua++.bat %cd%
+
+:: Install/Update CEF
+::Utils\premake5 install_cef
+
+:: Generate VS2017 projects
+echo Generating project files for Visual Studio 15 (2017)...
+Utils\premake5 %* vs2017
+
+:: Pause for 5 seconds and auto-close the command window
 timeout /t 5 /nobreak

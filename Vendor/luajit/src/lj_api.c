@@ -6,7 +6,7 @@
 ** Copyright (C) 1994-2008 Lua.org, PUC-Rio. See Copyright Notice in lua.h
 */
 
-// Modified by Aster Jian for Urho3D
+// Modified by iFarbod for CtNorth
 
 #define lj_api_c
 #define LUA_CORE
