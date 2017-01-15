@@ -10,8 +10,7 @@ project "minilua"
 
     files {
         "premake5.lua",
-        "src/host/minilua.c",
-        "src/host/lj_vm.obj"
+        "src/host/minilua.c"
     }
 
 project "buildvm"
