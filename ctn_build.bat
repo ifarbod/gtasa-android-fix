@@ -12,6 +12,7 @@
 cd %VS140COMNTOOLS%
 call vcvars32.bat
 call genversion.bat
+start /wait /b Vendor\toluapp\src\tool\tolua++.bat %cd%
 ::Utils\premake5 install_cef
 Utils\premake5 vs2017
 msbuild Build/CtNorth.sln /v:minimal /m /p:Configuration=Release /p:Platform="Win32"

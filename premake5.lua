@@ -20,6 +20,21 @@ else
     CI_BUILD = false
 end
 
+-- Set LuaJIT global
+newoption {
+    trigger = "lj",
+    value = "LJ_USE_STATUS",
+    description = "Specify wheather to use or not use LuaJIT"
+}
+
+if not _OPTIONS["lj"] then
+    _OPTIONS["lj"] = "false"
+end
+
+USE_LJ = _OPTIONS["lj"]:tobool()
+print(USE_LJ)
+-- TODO: Define CTN_LUAJIT
+
 workspace "CtNorth"
     location "Build"
     platforms { "x86", "x64" }
@@ -138,6 +153,7 @@ workspace "CtNorth"
     --include "Vendor/jo"
     include "Vendor/libcpuid"
     include "Vendor/libcurl"
+	include "Vendor/lua"
     --include "Vendor/lz4"
     --include "Vendor/lzma"
     --include "Vendor/minhook"
@@ -146,6 +162,7 @@ workspace "CtNorth"
     --include "Vendor/RakNet"
     include "Vendor/stb"
     --include "Vendor/sqlite"
+    include "Vendor/toluapp"
     --include "Vendor/yaml-cpp"
     --include "Vendor/zlib"
     --include "Vendor/zip"
