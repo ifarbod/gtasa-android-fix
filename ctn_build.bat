@@ -30,7 +30,7 @@ echo Generating project files for Visual Studio 15 (2017)...
 Utils\premake5 %* vs2017
 
 :: Build the solution
-msbuild Build/CtNorth.sln /v:minimal /m /p:Configuration=Release /p:Platform="Win32"
+msbuild Build/CtNorth.sln /v:minimal /m /p:Configuration=Release;Platform=Win32
 
 :: Download and install the required data files
 Utils\premake5 install_data
