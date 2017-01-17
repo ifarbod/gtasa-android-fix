@@ -8,7 +8,7 @@
 
 
 #---------------------------------#
-#      general configuration      #
+#      General configuration      #
 #---------------------------------#
 version: '{build}'
 
@@ -19,7 +19,7 @@ branches:
 skip_tags: true
 
 #---------------------------------#
-#    environment configuration    #
+#    Environment configuration    #
 #---------------------------------#
 image: Visual Studio 2017 RC
 
@@ -29,7 +29,7 @@ environment:
   NSIS_ROOT: $(APPVEYOR_BUILD_FOLDER)\Shared\Installer\NSIS
 
 #---------------------------------#
-#       build configuration       #
+#       Build configuration       #
 #---------------------------------#
 platform:
   - Win32
@@ -58,19 +58,19 @@ after_build:
   - move CTN-Setup.exe ..\..\
 
 #---------------------------------#
-#      artifacts configuration    #
+#      Artifacts configuration    #
 #---------------------------------#
 artifacts:
   - path: CTN-Setup.exe
     name: CTN
 
 #---------------------------------#
-#     deployment configuration    #
+#     Deployment configuration    #
 #---------------------------------#
 deploy: off
 
 #---------------------------------#
-#         notifications           #
+#         Notifications           #
 #---------------------------------#
 notifications:
   # GitHub PR comment

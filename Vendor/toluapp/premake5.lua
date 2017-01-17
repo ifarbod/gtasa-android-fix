@@ -11,7 +11,7 @@ project "toluapp"
         "include"
     }
 
-    if USE_LJ then
+    if USE_LUAJIT then
         includedirs { "../luajit/src" }
     else
         includedirs { "../lua" }
@@ -33,6 +33,7 @@ project "tolua++"
     language "C++"
     kind "ConsoleApp"
     targetsuffix ""
+    targetdir "src/tool"
 
     defines {
         "TOLUA_RELEASE"

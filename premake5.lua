@@ -1,4 +1,4 @@
--- Premake5 script
+-- CtNorth build configuration script
 -- Author(s):       iFarbod <ifarbod@outlook.com>
 --
 -- Copyright (c) 2015-2017 Project CtNorth
@@ -20,21 +20,48 @@ else
     CI_BUILD = false
 end
 
--- Set LuaJIT global
+---
+-- Build options
+---
+
+-- LuaJIT
 newoption {
-    trigger = "lj",
-    value = "LJ_USE_STATUS",
-    description = "Specify wheather to use or not use LuaJIT"
+    trigger = "luajit",
+    value = "VALUE",
+    description = "Specify wheather to use or not use LuaJIT",
+    allowed = {
+        -- True
+        {"true", "True"},
+        {"True", "True"},
+        {"t", "True"},
+        {"T", "True"},
+        {"yes", "True"},
+        {"Yes", "True"},
+        {"y", "True"},
+        {"Y", "True"},
+        {"1", "True"},
+        -- False
+        {"false", "False"},
+        {"False", "False"},
+        {"f", "False"},
+        {"F", "False"},
+        {"no", "False"},
+        {"No", "False"},
+        {"n", "False"},
+        {"N", "False"},
+        {"0", "False"}
+    }
 }
 
-if not _OPTIONS["lj"] then
-    _OPTIONS["lj"] = "false"
+if not _OPTIONS["luajit"] then
+    _OPTIONS["luajit"] = "false"
 end
 
-USE_LJ = _OPTIONS["lj"]:tobool()
-print(USE_LJ)
--- TODO: Define CTN_LUAJIT
+USE_LUAJIT = _OPTIONS["luajit"]:tobool()
 
+---
+-- CtN main workspace
+---
 workspace "CtNorth"
     location "Build"
     platforms { "x86", "x64" }
@@ -121,9 +148,6 @@ workspace "CtNorth"
     filter { "system:windows", "platforms:x86", "kind:not StaticLib" }
         linkoptions "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\""
 
-    --filter { "system:windows", "kind:not StaticLib", "kind:not SharedLib" }
-        --linkoptions "/MANIFESTUAC:\"level='requireAdministrator\'"
-
     -- Helper functions for output path
     buildpath = function(p) return "%{wks.location}/../Bin/"..p.."/" end
     copy = function(p) return "{COPY} %{cfg.buildtarget.abspath} %{wks.location}../Bin/" .. p .. "/" end
@@ -154,7 +178,7 @@ workspace "CtNorth"
     include "Vendor/libcpuid"
     include "Vendor/libcurl"
 	include "Vendor/lua"
-    if USE_LJ then
+    if USE_LUAJIT then
         include "Vendor/luajit"
     end
     --include "Vendor/lz4"
@@ -172,3 +196,9 @@ workspace "CtNorth"
 
     group "Shared"
     include "Shared/Utility"
+
+-- Cleanup
+if _ACTION == "clean" then
+    os.rmdir("Bin");
+    os.rmdir("Build");
+end

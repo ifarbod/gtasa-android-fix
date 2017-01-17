@@ -114,6 +114,9 @@ function os.computer_name()
 end
 
 function string.tobool(str)
+    if str == nil then
+        return false
+    end
     if str:lower():startswith("1") or str:lower():startswith("y") or str:lower():startswith("t") then
         return true
     else
