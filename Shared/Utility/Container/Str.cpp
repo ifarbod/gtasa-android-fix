@@ -1225,13 +1225,13 @@ void String::Replace(unsigned pos, unsigned length, const char* srcStart, unsign
 
 WString::WString() :
     length_(0),
-    buffer_(0)
+    buffer_(nullptr)
 {
 }
 
 WString::WString(const String& str) :
     length_(0),
-    buffer_(0)
+    buffer_(nullptr)
 {
 #ifdef _WIN32
     unsigned neededSize = 0;

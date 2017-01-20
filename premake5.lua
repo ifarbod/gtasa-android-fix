@@ -157,6 +157,7 @@ workspace "CtNorth"
     group "Client"
     include "Client/Core"
     include "Client/Launcher"
+    --include "Client/SA"
     --include "Client/Updater"
     if buildhost == "IFARBOD-PC" then
         include "Client/Network"

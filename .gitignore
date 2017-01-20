@@ -351,6 +351,7 @@ InstallFiles/
 Shared/Installer/*.exe
 Shared/Installer/Version.nsh
 Shared/Utility/Version.h
+Vendor/toluapp/src/tool/*.exe
 
 # MSBuild files
 *.vcxproj

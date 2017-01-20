@@ -11,8 +11,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#define M_MIN(a,b) (((a) < (b)) ? (a) : (b))
-
 #include <stdint.h>
 #include <stdio.h>
 

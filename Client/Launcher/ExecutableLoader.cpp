@@ -10,6 +10,8 @@
 #include "Precompiled.hpp"
 #include "Main.hpp"
 
+#include <Math/MathDefs.hpp>
+
 ExecutableLoader::ExecutableLoader(const uint8_t* origBinary)
 {
     origBinary_ = origBinary;
@@ -22,7 +24,7 @@ ExecutableLoader::ExecutableLoader(const uint8_t* origBinary)
 
     SetFunctionResolver([](HMODULE module, const char* name)
     {
-        return (LPVOID)GetProcAddress(module, name);
+        return reinterpret_cast<LPVOID>(GetProcAddress(module, name));
     });
 }
 
@@ -103,7 +105,7 @@ void ExecutableLoader::LoadSection(IMAGE_SECTION_HEADER* section)
     if (section->SizeOfRawData > 0)
     {
         DWORD oldProtect;
-        uint32_t sizeOfData = M_MIN(section->SizeOfRawData, section->Misc.VirtualSize);
+        uint32_t sizeOfData = Util::Min(section->SizeOfRawData, section->Misc.VirtualSize);
 
         VirtualProtect(targetAddress, sizeOfData, PAGE_EXECUTE_READWRITE, &oldProtect);
         memcpy(targetAddress, sourceAddress, sizeOfData);
