@@ -12,8 +12,8 @@ premake.modules.install_cef = {}
 
 -- Config variables
 local CEF_PATH = "Vendor/cef3/"
-local CEF_URL = "http://saocef.000webhostapp.com"
-local CEF_URL_SHA1 = "http://saocef.000webhostapp.com/sha.php"
+local CEF_URL = "http://ctnorth.rf.gd/cef"
+local CEF_URL_SHA1 = "http://ctnorth.rf.gd/cef/sha"
 
 newaction {
     trigger = "install_cef",

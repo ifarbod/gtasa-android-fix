@@ -27,7 +27,7 @@ static HookFunction hookFunction([]()
     MakeRet(0x7465B0);
 
     // Disable calling CText::Load in CGame::InitialiseEssentialsAfterRW
-    MakeRangedNOP(0x5BA160, 0x5BA167 + 5);
+    MakeRangedNop(0x5BA160, 0x5BA167 + 5);
 
     // Disable CText::LoadMissionText
     MakeRet(0x69FBF0);

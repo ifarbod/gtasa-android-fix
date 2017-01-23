@@ -220,7 +220,7 @@ inline void MakeNop(MemoryPointer at, size_t count = 1)
     MemFill(at, 0x90, count);
 }
 
-inline void MakeRangedNOP(MemoryPointer at, MemoryPointer until)
+inline void MakeRangedNop(MemoryPointer at, MemoryPointer until)
 {
     return MakeNop(at, size_t(until.GetRaw<char>() - at.GetRaw<char>()));
 }
