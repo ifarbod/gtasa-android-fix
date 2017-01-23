@@ -15,7 +15,7 @@
 #include <emmintrin.h>
 #endif
 
-namespace Util
+namespace ctn
 {
 
 class Matrix3x4;
@@ -598,7 +598,7 @@ public:
 
         for (unsigned i = 0; i < 16; ++i)
         {
-            if (!Util::Equals(leftData[i], rightData[i]))
+            if (!ctn::Equals(leftData[i], rightData[i]))
                 return false;
         }
 

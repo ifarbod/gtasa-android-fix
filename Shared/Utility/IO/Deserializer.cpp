@@ -10,7 +10,7 @@
 
 #include <IO/Deserializer.hpp>
 
-namespace Util
+namespace ctn
 {
 
 static const float invQ = 1.0f / 32767.0f;

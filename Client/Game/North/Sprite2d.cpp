@@ -1,4 +1,4 @@
-// Core module
+// 2D Sprite
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -6,16 +6,5 @@
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
 
-#include "Precompiled.hpp"
-#include "Core.hpp"
+#include "Sprite2d.hpp"
 
-#include <Hooking/HookFunction.hpp>
-
-Core::Core()
-{
-    ctn::Hook::HookFunction::RunAll();
-}
-
-Core::~Core()
-{
-}

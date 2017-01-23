@@ -10,7 +10,7 @@
 
 #include <Math/Color.hpp>
 
-namespace Util
+namespace ctn
 {
 
 unsigned Color::ToUInt() const
@@ -217,9 +217,9 @@ float Color::Hue(float min, float max) const
         return 0.0f;
 
     // Calculate and return hue
-    if (Util::Equals(g_, max))
+    if (ctn::Equals(g_, max))
         return (b_ + 2.0f * chroma - r_) / (6.0f * chroma);
-    else if (Util::Equals(b_, max))
+    else if (ctn::Equals(b_, max))
         return (4.0f * chroma - g_ + r_) / (6.0f * chroma);
     else
     {
@@ -260,7 +260,7 @@ void Color::FromHCM(float h, float c, float m)
         h -= floorf(h);
 
     float hs = h * 6.0f;
-    float x = c * (1.0f - Util::Abs(fmodf(hs, 2.0f) - 1.0f));
+    float x = c * (1.0f - ctn::Abs(fmodf(hs, 2.0f) - 1.0f));
 
     // Reconstruct r', g', b' from hue
     if (hs < 2.0f)

@@ -13,7 +13,7 @@
 
 #include <cassert>
 
-namespace Util
+namespace ctn
 {
 
 // Shared array pointer template class. Uses non-intrusive reference counting.

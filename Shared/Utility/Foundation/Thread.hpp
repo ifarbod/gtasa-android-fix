@@ -15,7 +15,7 @@ using ThreadID = pthread_t;
 using ThreadID = unsigned;
 #endif
 
-namespace Util
+namespace ctn
 {
 
 // Operating system thread.

@@ -11,7 +11,7 @@
 #include <Math/Vector3.hpp>
 #include <Math/Matrix3x4.hpp>
 
-namespace Util
+namespace ctn
 {
 
 class BoundingBox;

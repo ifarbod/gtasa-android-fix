@@ -11,7 +11,7 @@
 #include <Math/Matrix3x4.hpp>
 #include <Math/Matrix4.hpp>
 
-namespace Util
+namespace ctn
 {
 
 const Matrix4 Matrix4::ZERO(

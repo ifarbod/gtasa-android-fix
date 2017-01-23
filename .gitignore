@@ -357,3 +357,4 @@ Vendor/toluapp/src/tool/*.exe
 *.vcxproj
 *.vcxproj.filters
 *.sln
+/code_of_conduct.md

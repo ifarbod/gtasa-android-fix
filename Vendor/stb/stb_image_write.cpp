@@ -79,7 +79,7 @@ static int stbi__start_write_file(stbi__write_context *s, const char *filename)
 #ifndef _WIN32
    FILE *f = fopen(filename, "wb");
 #else
-    Util::WString wstr(filename);
+    ctn::WString wstr(filename);
     FILE *f = _wfopen(wstr.CString(), L"wb");
 #endif
    stbi__start_write_callbacks(s, stbi__stdio_write, (void *) f);

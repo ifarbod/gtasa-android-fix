@@ -10,7 +10,7 @@
 
 #include <Math/Vector3.hpp>
 
-namespace Util
+namespace ctn
 {
 
 const Vector3 Vector3::ZERO;

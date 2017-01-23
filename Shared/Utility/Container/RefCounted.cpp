@@ -10,7 +10,7 @@
 
 #include "RefCounted.hpp"
 
-namespace Util
+namespace ctn
 {
 
 RefCounted::RefCounted() :

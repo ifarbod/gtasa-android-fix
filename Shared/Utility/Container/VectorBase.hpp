@@ -10,7 +10,7 @@
 
 #include <Container/Swap.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Random access iterator.
@@ -282,9 +282,9 @@ public:
     // Swap with another vector.
     void Swap(VectorBase& rhs)
     {
-        Util::Swap(size_, rhs.size_);
-        Util::Swap(capacity_, rhs.capacity_);
-        Util::Swap(buffer_, rhs.buffer_);
+        ctn::Swap(size_, rhs.size_);
+        ctn::Swap(capacity_, rhs.capacity_);
+        ctn::Swap(buffer_, rhs.buffer_);
     }
 
 protected:

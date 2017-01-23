@@ -7,12 +7,13 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
-#include <Hooking/HookingUtils.hpp>
+#include <Hooking/Hook.hpp>
 #include <Hooking/HookFunction.hpp>
 
-using namespace Util;
+using namespace ctn;
+using namespace ctn::Hook;
 
-static Util::HookFunction hookFunction([]()
+static HookFunction hookFunction([]()
 {
     // Disable CStats::LoadActionReactionStats
     MakeRet(0x5599B0);

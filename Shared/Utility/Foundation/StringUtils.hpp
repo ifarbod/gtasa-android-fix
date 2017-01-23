@@ -10,7 +10,7 @@
 
 #include <Foundation/Variant.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Parse a bool from a string. Check for the first non-empty character (converted to lowercase) being either 't', 'y' or '1'.

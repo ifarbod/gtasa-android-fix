@@ -7,10 +7,11 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
-#include <Hooking/HookingUtils.hpp>
+#include <Hooking/Hook.hpp>
 #include <Hooking/HookFunction.hpp>
 
-using namespace Util;
+using namespace ctn;
+using namespace ctn::Hook;
 
 ATOM __stdcall InitApplication(HINSTANCE instance)
 {
@@ -32,5 +33,5 @@ ATOM __stdcall InitApplication(HINSTANCE instance)
 static HookFunction hookFunction([]()
 {
     // Use our custom icon and WndProc
-    //MakeCALL(0x74875B, InitApplication);
+    //MakeCall(0x74875B, InitApplication);
 });

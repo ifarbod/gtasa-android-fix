@@ -10,7 +10,7 @@
 
 #include <Math/Quaternion.hpp>
 
-namespace Util
+namespace ctn
 {
 
 const Quaternion Quaternion::IDENTITY;

@@ -12,7 +12,7 @@
 
 #include <DebugNew.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Static initialization order can not be relied on, so do not use Vector3 constants

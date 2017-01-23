@@ -16,7 +16,7 @@
 #include <cassert>
 #include <initializer_list>
 
-namespace Util
+namespace ctn
 {
 
 // Hash map template class.
@@ -462,7 +462,7 @@ public:
             ptr = ptr->Next();
         }
 
-        Util::Sort(RandomAccessIterator<Node*>(ptrs), RandomAccessIterator<Node*>(ptrs + numKeys), CompareNodes);
+        ctn::Sort(RandomAccessIterator<Node*>(ptrs), RandomAccessIterator<Node*>(ptrs + numKeys), CompareNodes);
 
         head_ = ptrs[0];
         ptrs[0]->prev_ = 0;
@@ -766,12 +766,12 @@ private:
     unsigned Hash(const T& key) const { return MakeHash(key) & (NumBuckets() - 1); }
 };
 
-template <class T, class U> typename Util::HashMap<T, U>::ConstIterator begin(const Util::HashMap<T, U>& v) { return v.Begin(); }
+template <class T, class U> typename ctn::HashMap<T, U>::ConstIterator begin(const ctn::HashMap<T, U>& v) { return v.Begin(); }
 
-template <class T, class U> typename Util::HashMap<T, U>::ConstIterator end(const Util::HashMap<T, U>& v) { return v.End(); }
+template <class T, class U> typename ctn::HashMap<T, U>::ConstIterator end(const ctn::HashMap<T, U>& v) { return v.End(); }
 
-template <class T, class U> typename Util::HashMap<T, U>::Iterator begin(Util::HashMap<T, U>& v) { return v.Begin(); }
+template <class T, class U> typename ctn::HashMap<T, U>::Iterator begin(ctn::HashMap<T, U>& v) { return v.Begin(); }
 
-template <class T, class U> typename Util::HashMap<T, U>::Iterator end(Util::HashMap<T, U>& v) { return v.End(); }
+template <class T, class U> typename ctn::HashMap<T, U>::Iterator end(ctn::HashMap<T, U>& v) { return v.End(); }
 
 }

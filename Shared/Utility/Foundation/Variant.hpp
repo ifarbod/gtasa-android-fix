@@ -16,7 +16,7 @@
 #include <Math/Rect.hpp>
 #include <Math/StringHash.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Variant's supported types.

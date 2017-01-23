@@ -12,7 +12,7 @@
 #include <Foundation/Attribute.hpp>
 #include <Foundation/Object.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Tracking structure for event receivers.

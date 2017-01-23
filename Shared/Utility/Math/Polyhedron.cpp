@@ -17,7 +17,7 @@
 #pragma warning(disable:6293)
 #endif
 
-namespace Util
+namespace ctn
 {
 
 void Polyhedron::Define(const BoundingBox& box)

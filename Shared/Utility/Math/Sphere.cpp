@@ -13,7 +13,7 @@
 
 #include <DebugNew.hpp>
 
-namespace Util
+namespace ctn
 {
 
 void Sphere::Define(const Vector3* vertices, unsigned count)

@@ -10,7 +10,7 @@
 
 #include <Math/Matrix2.hpp>
 
-namespace Util
+namespace ctn
 {
 
 const Matrix2 Matrix2::ZERO(

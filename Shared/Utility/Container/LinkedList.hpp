@@ -10,7 +10,7 @@
 
 #include <initializer_list>
 
-namespace Util
+namespace ctn
 {
 
 // Singly-linked list node base class.

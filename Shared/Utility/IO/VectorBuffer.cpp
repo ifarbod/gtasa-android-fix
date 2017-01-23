@@ -10,7 +10,7 @@
 
 #include <IO/VectorBuffer.hpp>
 
-namespace Util
+namespace ctn
 {
 
 VectorBuffer::VectorBuffer(const PODVector<unsigned char>& data)

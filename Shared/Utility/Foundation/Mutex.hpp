@@ -8,7 +8,7 @@
 
 #pragma once
 
-namespace Util
+namespace ctn
 {
 
 // Operating system mutual exclusion primitive.

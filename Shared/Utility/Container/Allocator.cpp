@@ -9,7 +9,7 @@
 #include <PCH.hpp>
 #include "Allocator.hpp"
 
-namespace Util
+namespace ctn
 {
 
 AllocatorBlock* AllocatorReserveBlock(AllocatorBlock* allocator, unsigned nodeSize, unsigned capacity)

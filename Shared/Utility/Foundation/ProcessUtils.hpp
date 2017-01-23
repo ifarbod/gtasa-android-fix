@@ -13,7 +13,7 @@
 
 #include <cstdlib>
 
-namespace Util
+namespace ctn
 {
 
 // Initialize the FPU to round-to-nearest, single precision mode.

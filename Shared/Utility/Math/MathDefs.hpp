@@ -12,7 +12,7 @@
 #include <cmath>
 #include <limits>
 
-namespace Util
+namespace ctn
 {
 
 #undef M_PI

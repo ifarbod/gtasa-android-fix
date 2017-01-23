@@ -10,7 +10,7 @@
 
 #include "VectorBase.hpp"
 
-namespace Util
+namespace ctn
 {
 
 unsigned char* VectorBase::AllocateBuffer(unsigned size)

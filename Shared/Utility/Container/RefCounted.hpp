@@ -10,7 +10,7 @@
 
 #include <Container/Vector.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Instantation type, native code, JS, or C#
@@ -34,8 +34,8 @@ typedef const void* ClassID;
 // Macro to be included in RefCounted derived classes for efficient RTTI
 #define CTN_REFCOUNTED(typeName) \
     public: \
-        virtual Util::ClassID GetClassID() const { return GetClassIDStatic(); } \
-        static Util::ClassID GetClassIDStatic() { static const int typeID = 0; return (Util::ClassID) &typeID; }
+        virtual ctn::ClassID GetClassID() const { return GetClassIDStatic(); } \
+        static ctn::ClassID GetClassIDStatic() { static const int typeID = 0; return (ctn::ClassID) &typeID; }
 
 
 // Reference count structure.

@@ -10,7 +10,7 @@
 
 #include <Math/Matrix3x4.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Surface in three-dimensional space.

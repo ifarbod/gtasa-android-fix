@@ -11,7 +11,7 @@
 #include "Path.hpp"
 #include "Registry.hpp"
 
-namespace Util
+namespace ctn
 {
 
 void SplitPath(const String& fullPath, String& pathName, String& fileName, String& extension, bool lowercaseExtension)

@@ -7,17 +7,18 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
-#include <Hooking/HookingUtils.hpp>
+#include <Hooking/Hook.hpp>
 #include <Hooking/HookFunction.hpp>
 
-using namespace Util;
+using namespace ctn;
+using namespace ctn::Hook;
 
 const char* __fastcall CText__Get_Custom(void* text, int dummy, const char* gxt)
 {
     return gxt;
 }
 
-static Util::HookFunction hookFunction([]()
+static HookFunction hookFunction([]()
 {
     // Disable CMenuManager::InitialiseChangedLanguageSettings
     MakeRet(0x573260);

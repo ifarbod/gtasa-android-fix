@@ -31,7 +31,7 @@
 
 #include <DebugNew.hpp>
 
-namespace Util
+namespace ctn
 {
 
 static bool consoleOpened = false;

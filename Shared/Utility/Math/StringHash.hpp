@@ -10,7 +10,7 @@
 
 #include <Container/Str.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // 32-bit hash value for a string.

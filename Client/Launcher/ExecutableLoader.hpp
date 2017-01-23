@@ -11,6 +11,7 @@
 
 #include <winnt.h>
 
+// PE32 Loader.
 class ExecutableLoader
 {
 public:
@@ -37,7 +38,7 @@ private:
     void LoadSection(IMAGE_SECTION_HEADER* section);
     void LoadSections(IMAGE_NT_HEADERS* ntHeader);
 
-    void LoadImports(IMAGE_NT_HEADERS* ntHeader);
+    bool LoadImports(IMAGE_NT_HEADERS* ntHeader);
 
     HMODULE ResolveLibrary(const char* name);
 

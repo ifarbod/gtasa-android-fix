@@ -10,7 +10,7 @@
 
 #include <cstddef>
 
-namespace Util
+namespace ctn
 {
 
 // Pointer hash function.

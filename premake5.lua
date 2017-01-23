@@ -7,7 +7,7 @@
 -- https://opensource.org/licenses/MIT)
 
 -- Add buildactions to path
-premake.path = premake.path .. ";utils/buildactions"
+premake.path = premake.path .. ";Utils/buildactions"
 require "compose_files"
 require "install_cef"
 require "install_data"
@@ -24,39 +24,46 @@ end
 -- Build options
 ---
 
+-- Game
+newoption {
+    trigger = "game",
+    value = "VALUE",
+    description = "Specify the target game to build CtN for",
+    allowed = {
+        -- SA
+        {"sa", "GTA: San Andreas"},
+        {"north", "GTA: San Andreas"},
+        {"gtasa", "GTA: San Andreas"},
+        -- VC
+        {"vc", "GTA: Vice City"},
+        {"miami", "GTA: Vice City"},
+        {"gtavc", "GTA: Vice City"},
+        -- 3
+        {"lc", "GTA 3"},
+        {"3", "GTA 3"},
+        {"iii", "GTA 3"},
+        {"liberty", "GTA 3"},
+        {"gta3", "GTA 3"},
+        {"gtaiii", "GTA 3"}
+    }
+}
+
 -- LuaJIT
 newoption {
     trigger = "luajit",
     value = "VALUE",
     description = "Specify wheather to use or not use LuaJIT",
-    allowed = {
-        -- True
-        {"true", "True"},
-        {"True", "True"},
-        {"t", "True"},
-        {"T", "True"},
-        {"yes", "True"},
-        {"Yes", "True"},
-        {"y", "True"},
-        {"Y", "True"},
-        {"1", "True"},
-        -- False
-        {"false", "False"},
-        {"False", "False"},
-        {"f", "False"},
-        {"F", "False"},
-        {"no", "False"},
-        {"No", "False"},
-        {"n", "False"},
-        {"N", "False"},
-        {"0", "False"}
-    }
 }
+
+if not _OPTIONS["game"] then
+    _OPTIONS["game"] = "north"
+end
 
 if not _OPTIONS["luajit"] then
     _OPTIONS["luajit"] = "false"
 end
 
+TARGET_GAME = _OPTIONS["game"]:togame()
 USE_LUAJIT = _OPTIONS["luajit"]:tobool()
 
 ---
@@ -93,6 +100,20 @@ workspace "CtNorth"
         -- Enable SSE
         "CTN_SSE"
     }
+    
+    if TARGET_GAME == "north" then
+        defines "CTN_NORTH"
+    elseif TARGET_GAME == "miami" then
+        defines "CTN_MIAMI"
+    elseif TARGET_GAME == "liberty" then
+        defines "CTN_LIBERTY"
+    else
+        defines "CTN_NORTH"
+    end
+    
+    if USE_LUAJIT then
+        defines "CTN_LUAJIT"
+    end
 
     -- Get DirectX SDK directory from environment variables
     dxdir = os.getenv("DXSDK_DIR") or ""
@@ -157,7 +178,7 @@ workspace "CtNorth"
     group "Client"
     include "Client/Core"
     include "Client/Launcher"
-    --include "Client/SA"
+    include "Client/Game"
     --include "Client/Updater"
     if buildhost == "IFARBOD-PC" then
         include "Client/Network"

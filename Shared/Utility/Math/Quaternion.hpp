@@ -14,7 +14,7 @@
 #include <emmintrin.h>
 #endif
 
-namespace Util
+namespace ctn
 {
 
 // Rotation represented as a four-dimensional normalized vector.
@@ -304,7 +304,7 @@ public:
         _mm_storeu_ps(&w_, _mm_mul_ps(q, n));
 #else
         float lenSquared = LengthSquared();
-        if (!Util::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
+        if (!ctn::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
         {
             float invLen = 1.0f / sqrtf(lenSquared);
             w_ *= invLen;
@@ -330,7 +330,7 @@ public:
         return Quaternion(_mm_mul_ps(q, n));
 #else
         float lenSquared = LengthSquared();
-        if (!Util::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
+        if (!ctn::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
         {
             float invLen = 1.0f / sqrtf(lenSquared);
             return *this * invLen;
@@ -392,11 +392,11 @@ public:
     // Test for equality with another quaternion with epsilon.
     bool Equals(const Quaternion& rhs) const
     {
-        return Util::Equals(w_, rhs.w_) && Util::Equals(x_, rhs.x_) && Util::Equals(y_, rhs.y_) && Util::Equals(z_, rhs.z_);
+        return ctn::Equals(w_, rhs.w_) && ctn::Equals(x_, rhs.x_) && ctn::Equals(y_, rhs.y_) && ctn::Equals(z_, rhs.z_);
     }
 
     // Return whether is NaN.
-    bool IsNaN() const { return Util::IsNaN(w_) || Util::IsNaN(x_) || Util::IsNaN(y_) || Util::IsNaN(z_); }
+    bool IsNaN() const { return ctn::IsNaN(w_) || ctn::IsNaN(x_) || ctn::IsNaN(y_) || ctn::IsNaN(z_); }
 
     // Return conjugate.
     Quaternion Conjugate() const

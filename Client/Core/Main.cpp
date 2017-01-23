@@ -13,7 +13,7 @@
 #include <Container/Str.hpp>
 #include <Path.hpp>
 
-using namespace Util;
+using namespace ctn;
 
 Core * g_pCore;
 

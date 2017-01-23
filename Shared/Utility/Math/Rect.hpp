@@ -10,7 +10,7 @@
 
 #include <Math/Vector4.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Two-dimensional bounding rectangle.

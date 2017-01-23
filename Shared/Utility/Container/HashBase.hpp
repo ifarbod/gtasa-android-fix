@@ -12,7 +12,7 @@
 #include <Container/Hash.hpp>
 #include <Container/Swap.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Hash set/map node base class.
@@ -96,10 +96,10 @@ public:
     // Swap with another hash set or map.
     void Swap(HashBase& rhs)
     {
-        Util::Swap(head_, rhs.head_);
-        Util::Swap(tail_, rhs.tail_);
-        Util::Swap(ptrs_, rhs.ptrs_);
-        Util::Swap(allocator_, rhs.allocator_);
+        ctn::Swap(head_, rhs.head_);
+        ctn::Swap(tail_, rhs.tail_);
+        ctn::Swap(ptrs_, rhs.ptrs_);
+        ctn::Swap(allocator_, rhs.allocator_);
     }
 
     // Return number of elements.

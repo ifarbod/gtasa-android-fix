@@ -7,11 +7,12 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
-#include <Hooking/HookingUtils.hpp>
+#include <Hooking/Hook.hpp>
 #include <Hooking/HookFunction.hpp>
 #include <Math/Vector2.hpp>
 
-using namespace Util;
+using namespace ctn;
+using namespace ctn::Hook;
 
 f32 SquareRadar(Vector2& pos)
 {
@@ -33,7 +34,6 @@ f32 SquareRadar(Vector2& pos)
 
     return result;
 }
-
 
 static HookFunction hookFunction([]()
 {

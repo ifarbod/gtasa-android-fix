@@ -10,7 +10,7 @@
 
 #include <Math/Vector2.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // 2x2 matrix for rotation and scaling.
@@ -188,7 +188,7 @@ public:
 
         for (unsigned i = 0; i != 4; ++i)
         {
-            if (!Util::Equals(leftData[i], rightData[i]))
+            if (!ctn::Equals(leftData[i], rightData[i]))
                 return false;
         }
 

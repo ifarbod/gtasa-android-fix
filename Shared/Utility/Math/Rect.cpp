@@ -10,7 +10,7 @@
 
 #include <Math/Rect.hpp>
 
-namespace Util
+namespace ctn
 {
 
 const Rect Rect::FULL(-1.0f, -1.0f, 1.0f, 1.0f);

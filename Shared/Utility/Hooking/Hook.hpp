@@ -1,4 +1,4 @@
-// x86 code injecting utils
+// Code injecting utils
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //                  LINK/2012 <dma2012@hotmail.com>
 //
@@ -20,22 +20,31 @@
 #include <utility>
 #include <forward_list>
 
-namespace Util
+namespace ctn
+{
+
+namespace Hook
 {
 
 union MemoryPointer
 {
 public:
-    // Constructors
+    // Default constructor.
     MemoryPointer() : ptr_(0) {}
+    // Construct from nullptr.
     MemoryPointer(std::nullptr_t) : ptr_(nullptr) {}
+    // Copy constructor.
     MemoryPointer(const MemoryPointer& x) = default;
+    // Construct from a pointer.
     MemoryPointer(void* x) : ptr_(x) {}
+    // Construct from an integral pointer.
     MemoryPointer(uintptr_t x) : a_(x) {}
-
+    // Construct from a pointer with a specified type.
     template <class T> MemoryPointer(T* x) : ptr_(reinterpret_cast<void*>(x)) {}
 
+    // Returns true if the underlying pointer is a nullptr.
     bool IsNull() const { return this->ptr_ != nullptr; }
+    // Return the underlying pointer as a uintptr_t.
     uintptr_t AsInt() const { return this->a_; }
 
     explicit operator bool() const { return IsNull(); }
@@ -67,7 +76,9 @@ public:
     MemoryPointer operator/=(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ / rhs.a_); }
 
 protected:
+    // Pointer.
     void* ptr_;
+    // Unsigned int32.
     uintptr_t a_;
 };
 
@@ -124,55 +135,6 @@ struct ScopedUnprotect
     }
 };
 
-class SectionUnprotect
-{
-public:
-    SectionUnprotect(HINSTANCE hInstance, const char* name)
-    {
-        IMAGE_NT_HEADERS* ntHeader = (IMAGE_NT_HEADERS*)((BYTE*)hInstance + ((IMAGE_DOS_HEADER*)hInstance)->e_lfanew);
-        IMAGE_SECTION_HEADER* pSection = IMAGE_FIRST_SECTION(ntHeader);
-
-        DWORD VirtualAddress = MAXDWORD;
-        SIZE_T VirtualSize = MAXDWORD;
-        for (SIZE_T i = 0, j = ntHeader->FileHeader.NumberOfSections; i < j; ++i, ++pSection)
-        {
-            if (strncmp((const char*)pSection->Name, name, IMAGE_SIZEOF_SHORT_NAME) == 0)
-            {
-                VirtualAddress = (DWORD)hInstance + pSection->VirtualAddress;
-                VirtualSize = pSection->Misc.VirtualSize;
-                break;
-            }
-        }
-
-        if (VirtualAddress == MAXDWORD)
-            return;
-
-        size_t QueriedSize = 0;
-        while (QueriedSize < VirtualSize)
-        {
-            MEMORY_BASIC_INFORMATION MemoryInf;
-            DWORD dwOldProtect;
-
-            VirtualQuery((LPCVOID)VirtualAddress, &MemoryInf, sizeof(MemoryInf));
-            VirtualProtect(MemoryInf.BaseAddress, MemoryInf.RegionSize, PAGE_EXECUTE_READWRITE, &dwOldProtect);
-            m_queriedProtects.emplace_front(MemoryInf.BaseAddress, MemoryInf.RegionSize, MemoryInf.Protect);
-            QueriedSize += MemoryInf.RegionSize;
-        }
-    };
-
-    ~SectionUnprotect()
-    {
-        for (auto& it : m_queriedProtects)
-        {
-            DWORD dwOldProtect;
-            VirtualProtect(std::get<0>(it), std::get<1>(it), std::get<2>(it), &dwOldProtect);
-        }
-    }
-
-private:
-    std::forward_list<std::tuple<LPVOID, SIZE_T, DWORD>> m_queriedProtects;
-};
-
 // Methods for reading/writing memory
 
 // Gets contents from a memory address
@@ -211,11 +173,9 @@ inline void MemWrite(MemoryPointer addr, T value)
     }
 }
 
-//
-// AdjustPointer
-//  searches in the range [@addr, @addr + @max_search] for a pointer in the range [@default_base, @default_end] and replaces
-//  it with the proper offset in the pointer @replacement_base.
-//  does memory unprotection if @vp is true.
+// Searches in the range [@addr, @addr + @max_search] for a pointer in the range [@default_base, @default_end] and replaces
+// it with the proper offset in the pointer @replacement_base.
+// does memory unprotection if @vp is true.
 inline MemoryPointer AdjustPointer(MemoryPointer addr, MemoryPointer replacement_base, MemoryPointer default_base,
     MemoryPointer default_end, size_t max_search = 8)
 {
@@ -301,13 +261,6 @@ inline void MakeRet0Ex(MemoryPointer at)
     MakeRet(at + 2);
 }
 
-inline void MakeShortJmp(MemoryPointer at, u8 jmpOffset = 0)
-{
-    MemWrite<u8>(at, 0xEB);
-    if (jmpOffset != 0)
-        MemWrite<u8>(at + 1, jmpOffset);
-}
-
 inline MemoryPointer GetAbsoluteOffset(int rel_value, MemoryPointer end_of_instruction)
 {
     return end_of_instruction.Get<char>() + rel_value;
@@ -315,7 +268,7 @@ inline MemoryPointer GetAbsoluteOffset(int rel_value, MemoryPointer end_of_instr
 
 inline int GetRelativeOffset(MemoryPointer abs_value, MemoryPointer end_of_instruction)
 {
-    return uintptr_t(abs_value.Get<char>() - end_of_instruction.Get<char>());
+    return static_cast<uintptr_t>(abs_value.Get<char>() - end_of_instruction.Get<char>());
 }
 
 inline MemoryPointer ReadRelativeOffset(MemoryPointer at, size_t sizeof_addr = 4)
@@ -353,7 +306,8 @@ inline MemoryPointer GetBranchDestination(MemoryPointer at)
         case 0xE8: // call rel
         case 0xE9: // jmp rel
             return ReadRelativeOffset(at + 1, 4);
-
+        case 0xEB:
+            return ReadRelativeOffset(at + 1, 1);
         case 0xFF:
         {
             switch (MemRead<u8>(at + 1))
@@ -377,7 +331,7 @@ inline MemoryPointer MakeJmp(MemoryPointer at, MemoryPointer dest)
     return p;
 }
 
-inline MemoryPointer MakeCALL(MemoryPointer at, MemoryPointer dest)
+inline MemoryPointer MakeCall(MemoryPointer at, MemoryPointer dest)
 {
     auto p = GetBranchDestination(at);
     MemWrite<u8>(at, 0xE8);
@@ -394,6 +348,20 @@ inline MemoryPointer MakeJmp(MemoryPointer at, MemoryPointer dest, size_t count)
     return p;
 }
 
+// TODO: Handle absolute offsets properly
+inline void MakeShortJmp(MemoryPointer at, u8 jmpOffset = 0)
+{
+    MemWrite<u8>(at, 0xEB);
+    if (jmpOffset != 0)
+        MemWrite<u8>(at + 1, jmpOffset);
+}
+
+inline void MakeShortJmpEx(MemoryPointer at, MemoryPointer dest)
+{
+    MemWrite<u8>(at, 0xEB);
+    MakeRelativeOffset(at + 1, dest, 1);
+}
+
 // Gets the virtual method table from the object @self
 inline void** GetVMT(const void* self)
 {
@@ -405,34 +373,29 @@ inline MemoryPointer GetVF(MemoryPointer self, size_t index)
     return GetVMT(self.Get<void>())[index];
 }
 
-// Call function at @p returning @Ret with args @Args
-// compiler's default calling convention
-template <class Ret, class... Args>
+// TODO: std::forward-less
+template <class Ret = void, class... Args>
 inline Ret Call(MemoryPointer p, Args... a)
 {
-    auto fn = reinterpret_cast<Ret (*)(Args...)>(p.Get<void>());
-    return fn(std::forward<Args>(a)...);
+    return reinterpret_cast<Ret(__cdecl*)(Args...)>(p.Get<void>())(std::forward<Args>(a)...);
 }
 
-template <class Ret, class... Args>
-inline Ret Cdecl(MemoryPointer p, Args... a)
+template <u32 addr, class Ret = void, class... Args>
+inline Ret Call(Args... a)
 {
-    auto fn = reinterpret_cast<Ret(__cdecl*)(Args...)>(p.Get<void>());
-    return fn(std::forward<Args>(a)...);
+    return Call(LazyPtr<addr>(), std::forward<Args>(a)...);
 }
 
-template <class Ret, class ...Args>
-inline Ret StdCall(MemoryPointer p, Args... a)
-{
-    auto fn = reinterpret_cast<Ret(__stdcall*)(Args...)>(p.Get<void>());
-    return fn(std::forward<Args>(a)...);
-}
-
-template <class Ret, class ...Args>
+template <class Ret = void, class ...Args>
 inline Ret ThisCall(MemoryPointer p, Args... a)
 {
-    auto fn = reinterpret_cast<Ret(__thiscall*)(Args...)>(p.Get<void>());
-    return fn(std::forward<Args>(a)...);
+    return reinterpret_cast<Ret(__thiscall*)(Args...)>(p.Get<void>())(std::forward<Args>(a)...);
+}
+
+template <u32 addr, class Ret = void, class... Args>
+inline Ret ThisCall(Args... a)
+{
+    return ThisCall(LazyPtr<addr>(), std::forward<Args>(a)...);
 }
 
 template <size_t index>
@@ -447,11 +410,8 @@ struct Vtbl
     }
 };
 
-template <class Ret, class... Args>
-inline Ret FastCall(MemoryPointer p, Args... a)
-{
-    auto fn = reinterpret_cast<Ret(__fastcall*)(Args...)>(p.Get<void>());
-    return fn(std::forward<Args>(a)...);
 }
+
+namespace hook = Hook;
 
 }

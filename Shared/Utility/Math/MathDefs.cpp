@@ -10,7 +10,7 @@
 
 #include <Math/MathDefs.hpp>
 
-namespace Util
+namespace ctn
 {
 
 void SinCos(float angle, float& sin, float& cos)

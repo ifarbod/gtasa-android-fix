@@ -11,7 +11,7 @@
 #include <Container/Allocator.hpp>
 #include <Container/Swap.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Doubly-linked list node base class.
@@ -85,10 +85,10 @@ public:
     // Swap with another linked list.
     void Swap(ListBase& rhs)
     {
-        Util::Swap(head_, rhs.head_);
-        Util::Swap(tail_, rhs.tail_);
-        Util::Swap(allocator_, rhs.allocator_);
-        Util::Swap(size_, rhs.size_);
+        ctn::Swap(head_, rhs.head_);
+        ctn::Swap(tail_, rhs.tail_);
+        ctn::Swap(allocator_, rhs.allocator_);
+        ctn::Swap(size_, rhs.size_);
     }
 
 protected:

@@ -8,7 +8,7 @@
 
 #pragma once
 
-namespace Util
+namespace ctn
 {
 
 // Heap memory which is auto-deleted on RAII scope exit

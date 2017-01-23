@@ -11,7 +11,7 @@
 #include <Math/MathDefs.hpp>
 #include <Math/StringHash.hpp>
 
-namespace Util
+namespace ctn
 {
 
 const StringHash StringHash::ZERO;

@@ -10,7 +10,7 @@
 
 #include <Math/Vector2.hpp>
 
-namespace Util
+namespace ctn
 {
 
 const Vector2 Vector2::ZERO;

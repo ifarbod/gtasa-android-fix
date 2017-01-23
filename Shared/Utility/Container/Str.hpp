@@ -15,7 +15,7 @@
 #include <cctype>
 #include <cassert>
 
-namespace Util
+namespace ctn
 {
 
 static const int CONVERSION_BUFFER_LENGTH = 128;

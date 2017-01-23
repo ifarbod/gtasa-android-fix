@@ -10,7 +10,7 @@
 
 #include "ListBase.hpp"
 
-namespace Util
+namespace ctn
 {
 
 template <> void Swap<String>(String& first, String& second)

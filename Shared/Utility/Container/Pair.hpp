@@ -10,7 +10,7 @@
 
 #include <Container/Hash.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Pair template class.
@@ -68,12 +68,12 @@ template <class T, class U> Pair<T, U> MakePair(const T& first, const U& second)
     return Pair<T, U>(first, second);
 }
 
-template <class T> T begin(Util::Pair<T, T>& range) { return range.first_; }
+template <class T> T begin(ctn::Pair<T, T>& range) { return range.first_; }
 
-template <class T> T end(Util::Pair<T, T>& range) { return range.second_; }
+template <class T> T end(ctn::Pair<T, T>& range) { return range.second_; }
 
-template <class T> T begin(const Util::Pair<T, T>& range) { return range.first_; }
+template <class T> T begin(const ctn::Pair<T, T>& range) { return range.first_; }
 
-template <class T> T end(const Util::Pair<T, T>& range) { return range.second_; }
+template <class T> T end(const ctn::Pair<T, T>& range) { return range.second_; }
 
 }

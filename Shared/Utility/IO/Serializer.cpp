@@ -10,7 +10,7 @@
 
 #include <IO/Serializer.hpp>
 
-namespace Util
+namespace ctn
 {
 
 static const float q = 32767.0f;

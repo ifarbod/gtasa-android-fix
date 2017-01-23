@@ -10,7 +10,7 @@
 
 #include <stddef.h>
 
-namespace Util
+namespace ctn
 {
 
 struct AllocatorBlock;

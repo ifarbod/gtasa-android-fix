@@ -10,7 +10,7 @@
 
 #include <Math/Vector2.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Three-dimensional vector.
@@ -168,7 +168,7 @@ public:
     void Normalize()
     {
         float lenSquared = LengthSquared();
-        if (!Util::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
+        if (!ctn::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
         {
             float invLen = 1.0f / sqrtf(lenSquared);
             x_ *= invLen;
@@ -189,7 +189,7 @@ public:
     // Calculate absolute dot product.
     float AbsDotProduct(const Vector3& rhs) const
     {
-        return Util::Abs(x_ * rhs.x_) + Util::Abs(y_ * rhs.y_) + Util::Abs(z_ * rhs.z_);
+        return ctn::Abs(x_ * rhs.x_) + ctn::Abs(y_ * rhs.y_) + ctn::Abs(z_ * rhs.z_);
     }
 
     // Project vector onto axis.
@@ -206,7 +206,7 @@ public:
     }
 
     // Return absolute vector.
-    Vector3 Abs() const { return Vector3(Util::Abs(x_), Util::Abs(y_), Util::Abs(z_)); }
+    Vector3 Abs() const { return Vector3(ctn::Abs(x_), ctn::Abs(y_), ctn::Abs(z_)); }
 
     // Linear interpolation with another vector.
     Vector3 Lerp(const Vector3& rhs, float t) const { return *this * (1.0f - t) + rhs * t; }
@@ -214,20 +214,20 @@ public:
     // Test for equality with another vector with epsilon.
     bool Equals(const Vector3& rhs) const
     {
-        return Util::Equals(x_, rhs.x_) && Util::Equals(y_, rhs.y_) && Util::Equals(z_, rhs.z_);
+        return ctn::Equals(x_, rhs.x_) && ctn::Equals(y_, rhs.y_) && ctn::Equals(z_, rhs.z_);
     }
 
     // Returns the angle between this vector and another vector in degrees.
-    float Angle(const Vector3& rhs) const { return Util::Acos(DotProduct(rhs) / (Length() * rhs.Length())); }
+    float Angle(const Vector3& rhs) const { return ctn::Acos(DotProduct(rhs) / (Length() * rhs.Length())); }
 
     // Return whether is NaN.
-    bool IsNaN() const { return Util::IsNaN(x_) || Util::IsNaN(y_) || Util::IsNaN(z_); }
+    bool IsNaN() const { return ctn::IsNaN(x_) || ctn::IsNaN(y_) || ctn::IsNaN(z_); }
 
     // Return normalized to unit length.
     Vector3 Normalized() const
     {
         float lenSquared = LengthSquared();
-        if (!Util::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
+        if (!ctn::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
         {
             float invLen = 1.0f / sqrtf(lenSquared);
             return *this * invLen;

@@ -9,7 +9,7 @@
 #include <PCH.hpp>
 #include "HashBase.hpp"
 
-namespace Util
+namespace ctn
 {
 
 void HashBase::AllocateBuckets(unsigned size, unsigned numBuckets)

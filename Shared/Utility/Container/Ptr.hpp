@@ -14,7 +14,7 @@
 #include <cstddef>
 #include <utility>
 
-namespace Util
+namespace ctn
 {
 
 // Shared pointer template class with intrusive reference counting.

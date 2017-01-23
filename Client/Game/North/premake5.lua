@@ -3,14 +3,13 @@ project "GameNorth"
     kind "StaticLib"
     
     vpaths {
-        ["Headers/*"] = { "**.hpp", "**.h" },
+        ["Headers/*"] = "**.hpp",
         ["Sources/*"] = "**.cpp",
         ["*"] = "premake5.lua"
     }
 
     files {
         "premake5.lua",
-        "**.h",
         "**.hpp",
         "**.cpp"
     }

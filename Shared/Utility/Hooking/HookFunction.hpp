@@ -8,7 +8,10 @@
 
 #pragma once
 
-namespace Util
+namespace ctn
+{
+
+namespace Hook
 {
 
 // Initialization function that will be called after the game is loaded.
@@ -29,12 +32,14 @@ public:
 class HookFunction : public HookFunctionBase
 {
 private:
-    void (*function_)();
+    void(*function_)();
 
 public:
-    HookFunction(void (*function)()) { function_ = function; }
+    HookFunction(void(*function)()) { function_ = function; }
 
     virtual void Run() { function_(); }
 };
+
+}
 
 }

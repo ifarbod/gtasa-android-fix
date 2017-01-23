@@ -11,7 +11,7 @@
 #include <Container/Str.hpp>
 #include <Math/MathDefs.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Two-dimensional vector.
@@ -134,7 +134,7 @@ public:
     void Normalize()
     {
         float lenSquared = LengthSquared();
-        if (!Util::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
+        if (!ctn::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
         {
             float invLen = 1.0f / sqrtf(lenSquared);
             x_ *= invLen;
@@ -152,31 +152,31 @@ public:
     float DotProduct(const Vector2& rhs) const { return x_ * rhs.x_ + y_ * rhs.y_; }
 
     // Calculate absolute dot product.
-    float AbsDotProduct(const Vector2& rhs) const { return Util::Abs(x_ * rhs.x_) + Util::Abs(y_ * rhs.y_); }
+    float AbsDotProduct(const Vector2& rhs) const { return ctn::Abs(x_ * rhs.x_) + ctn::Abs(y_ * rhs.y_); }
 
     // Project vector onto axis.
     float ProjectOntoAxis(const Vector2& axis) const { return DotProduct(axis.Normalized()); }
 
     // Returns the angle between this vector and another vector in degrees.
-    float Angle(const Vector2& rhs) const { return Util::Acos(DotProduct(rhs) / (Length() * rhs.Length())); }
+    float Angle(const Vector2& rhs) const { return ctn::Acos(DotProduct(rhs) / (Length() * rhs.Length())); }
 
     // Return absolute vector.
-    Vector2 Abs() const { return Vector2(Util::Abs(x_), Util::Abs(y_)); }
+    Vector2 Abs() const { return Vector2(ctn::Abs(x_), ctn::Abs(y_)); }
 
     // Linear interpolation with another vector.
     Vector2 Lerp(const Vector2& rhs, float t) const { return *this * (1.0f - t) + rhs * t; }
 
     // Test for equality with another vector with epsilon.
-    bool Equals(const Vector2& rhs) const { return Util::Equals(x_, rhs.x_) && Util::Equals(y_, rhs.y_); }
+    bool Equals(const Vector2& rhs) const { return ctn::Equals(x_, rhs.x_) && ctn::Equals(y_, rhs.y_); }
 
     // Return whether is NaN.
-    bool IsNaN() const { return Util::IsNaN(x_) || Util::IsNaN(y_); }
+    bool IsNaN() const { return ctn::IsNaN(x_) || ctn::IsNaN(y_); }
 
     // Return normalized to unit length.
     Vector2 Normalized() const
     {
         float lenSquared = LengthSquared();
-        if (!Util::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
+        if (!ctn::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
         {
             float invLen = 1.0f / sqrtf(lenSquared);
             return *this * invLen;

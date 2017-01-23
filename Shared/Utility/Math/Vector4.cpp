@@ -12,7 +12,7 @@
 
 #include <DebugNew.hpp>
 
-namespace Util
+namespace ctn
 {
 
 const Vector4 Vector4::ZERO;

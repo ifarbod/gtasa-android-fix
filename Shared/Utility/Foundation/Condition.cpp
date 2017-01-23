@@ -16,7 +16,7 @@
 #include <pthread.h>
 #endif
 
-namespace Util
+namespace ctn
 {
 
 #ifdef _WIN32

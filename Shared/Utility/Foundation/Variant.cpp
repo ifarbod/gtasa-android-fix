@@ -13,7 +13,7 @@
 
 #include <cstring>
 
-namespace Util
+namespace ctn
 {
 
 const Variant Variant::EMPTY;

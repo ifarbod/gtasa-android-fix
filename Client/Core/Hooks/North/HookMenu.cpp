@@ -7,10 +7,11 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
-#include <Hooking/HookingUtils.hpp>
+#include <Hooking/Hook.hpp>
 #include <Hooking/HookFunction.hpp>
 
-using namespace Util;
+using namespace ctn;
+using namespace ctn::Hook;
 
 static bool menuFirstProcessed = false;
 void ProcessFrontEndMenu()
@@ -25,17 +26,17 @@ void ProcessFrontEndMenu()
     }
 
     // Call the original function - Sets render states
-    ThisCall<void>(0x573A60);
+    ThisCall(0x573A60);
 }
 
 void SetMultiSamplingLevels(u32 level)
 {
-    Call<void>(0x7F84F0, 1 << (level - 1)); // _RwD3D9EngineSetMultiSamplingLevels
+    Call(0x7F84F0, 1 << (level - 1)); // _RwD3D9EngineSetMultiSamplingLevels
 }
 
 void ChangeMultiSamplingLevels(u32 level)
 {
-    Call<void>(0x7F8A90, 1 << (level - 1)); // _RwD3D9ChangeMultiSamplingLevels
+    Call(0x7F8A90, 1 << (level - 1)); // _RwD3D9ChangeMultiSamplingLevels
 }
 
 int GetMaxMultiSamplingLevels()
@@ -43,7 +44,7 @@ int GetMaxMultiSamplingLevels()
     return Call<int>(0x7F84E0); // _RwD3D9EngineGetMaxMultiSamplingLevels
 }
 
-static Util::HookFunction hookFunction([]()
+static HookFunction hookFunction([]()
 {
     // Disable menu by skipping CMenuManager::DrawStandardMenus call in CMenuManager::DrawBackground
     MakeNop(0x57BA57, 6);
@@ -74,7 +75,7 @@ static Util::HookFunction hookFunction([]()
     MakeNop(0x7459E1, 2);
 
     // Hook menu process
-    MakeCALL(0x57C2BC, ProcessFrontEndMenu);
+    MakeCall(0x57C2BC, ProcessFrontEndMenu);
 
     // Allow Alt+Tab without pausing the game
     MakeNop(0x748A8D, 6);
@@ -90,9 +91,9 @@ static Util::HookFunction hookFunction([]()
     //MakeJmp(0x7F6C9B);
     //MakeJmp(0x7F60C6);
     //MemWrite<u16>(0x7F6683, 0xE990);
-    //MakeCALL(0x746350, SetMultiSamplingLevels);
+    //MakeCall(0x746350, SetMultiSamplingLevels);
     // Menu
-    //MakeCALL(0x5744FE, ChangeMultiSamplingLevels);
-    //MakeCALL(0x57D163, ChangeMultiSamplingLevels);
-    //MakeCALL(0x57D2A7, ChangeMultiSamplingLevels);
+    //MakeCall(0x5744FE, ChangeMultiSamplingLevels);
+    //MakeCall(0x57D163, ChangeMultiSamplingLevels);
+    //MakeCall(0x57D2A7, ChangeMultiSamplingLevels);
 });

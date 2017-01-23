@@ -11,7 +11,7 @@
 #include <IO/Deserializer.hpp>
 #include <IO/Serializer.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Dynamically sized buffer that can be read and written to as a stream.

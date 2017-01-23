@@ -8,17 +8,14 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
-#include <Hooking/HookingUtils.hpp>
+#include <Hooking/Hook.hpp>
 #include <Hooking/HookFunction.hpp>
 
-using namespace Util;
+using namespace ctn;
+using namespace ctn::Hook;
 
 static HookFunction hookFunction([]()
 {
-    // No DirectPlay dependency - Better compatibility for Windows 8+
-    MemWrite<u8>(0x74754A, 0xB8);
-    MemWrite<u32>(0x74754B, 0x900);
-
     // Disable CGameLogic::Update
     MakeRet(0x442AD0);
 
@@ -220,21 +217,6 @@ static HookFunction hookFunction([]()
     MemWrite<u8>(0x62E692, 0xDD);
     MemWrite<u8>(0x62E693, 0xD8);
 
-    // Disable setting players on fire when they're riding burning BMX's
-    MakeShortJmp(0x53A982);
-
-    // Disable setting the occupied's vehicles health to 75.0f when a burning ped enters it
-    // in CFire::ProcessFire
-    MakeNop(0x53A651, 10);
-
-    // Make CCreepingFire::TryToStartFireAtCoors return the fire pointer rather than a bool
-    MemWrite<u8>(0x53A459, 0x33);
-    MemWrite<u8>(0x53A568, 0x8B);
-    MemWrite<u8>(0x53A4A9, 0x33);
-    MakeNop(0x53A55F, 2);
-    MemWrite<u8>(0x73EC06, 0x85);
-
-    // Force triggering of the damage event for players on fire
-    MakeNop(0x633695, 6);
-    MemWrite<u8>(0x633720, 0);
+    // Force the MrWhoopee music to load even if we are not the driver.
+    MemWrite<u8>(0x4F9CCE, 0xCE);
 });

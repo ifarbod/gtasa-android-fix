@@ -7,10 +7,11 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
-#include <Hooking/HookingUtils.hpp>
+#include <Hooking/Hook.hpp>
 #include <Hooking/HookFunction.hpp>
 
-using namespace Util;
+using namespace ctn;
+using namespace ctn::Hook;
 
 static HookFunction hookFunction([]()
 {
@@ -29,6 +30,9 @@ static HookFunction hookFunction([]()
 
     // Disable CPopulation::AddToPopulation
     MakeRet0Ex(0x614720);
+
+    // Disable CPopulation::Update
+    //MakeRet(0x616650);
 
     // Disable CTrain::DoTrainGenerationAndRemoval
     MakeRet(0x6F7900);

@@ -123,3 +123,20 @@ function string.tobool(str)
         return false
     end
 end
+
+-- GTA:SA is the fallback game
+function string.togame(str)
+    if str == nil then
+        return "north"
+    end
+    if str:lower():startswith("sa") or str:lower():startswith("gtasa") or str:lower():startswith("north") then
+        return "north"
+    elseif str:lower():startswith("vc") or str:lower():startswith("gtavc") or str:lower():startswith("miami") then
+        return "miami"
+    elseif str:lower():startswith("lc") or str:lower():startswith("gtaiii") or str:lower():startswith("liberty")
+        or str:lower():startswith("3") or str:lower():startswith("iii") or str:lower():startswith("gta3") then
+        return "liberty"
+    else
+        return "north"
+    end
+end

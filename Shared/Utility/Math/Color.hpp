@@ -13,7 +13,7 @@
 // Defined by Windows headers
 #undef TRANSPARENT
 
-namespace Util
+namespace ctn
 {
 
 class String;
@@ -175,12 +175,12 @@ public:
     Color Lerp(const Color& rhs, float t) const;
 
     // Return color with absolute components.
-    Color Abs() const { return Color(Util::Abs(r_), Util::Abs(g_), Util::Abs(b_), Util::Abs(a_)); }
+    Color Abs() const { return Color(ctn::Abs(r_), ctn::Abs(g_), ctn::Abs(b_), ctn::Abs(a_)); }
 
     // Test for equality with another color with epsilon.
     bool Equals(const Color& rhs) const
     {
-        return Util::Equals(r_, rhs.r_) && Util::Equals(g_, rhs.g_) && Util::Equals(b_, rhs.b_) && Util::Equals(a_, rhs.a_);
+        return ctn::Equals(r_, rhs.r_) && ctn::Equals(g_, rhs.g_) && ctn::Equals(b_, rhs.b_) && ctn::Equals(a_, rhs.a_);
     }
 
     // Return as string.

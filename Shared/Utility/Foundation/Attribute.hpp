@@ -11,7 +11,7 @@
 #include <Container/Ptr.hpp>
 #include <Foundation/Variant.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Attribute shown only in the editor, but not serialized.

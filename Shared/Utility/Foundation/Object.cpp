@@ -12,7 +12,7 @@
 #include <Foundation/Thread.hpp>
 //#include <IO/Log.hpp>
 
-namespace Util
+namespace ctn
 {
 
 TypeInfo::TypeInfo(const char* typeName, const TypeInfo* baseTypeInfo) :
@@ -414,7 +414,7 @@ void Object::RemoveEventSender(Object* sender)
 }
 
 
-Util::StringHash EventNameRegistrar::RegisterEventName(const char* eventName)
+ctn::StringHash EventNameRegistrar::RegisterEventName(const char* eventName)
 {
     StringHash id(eventName);
     GetEventNameMap()[id] = eventName;

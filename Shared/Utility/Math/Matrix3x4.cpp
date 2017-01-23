@@ -10,7 +10,7 @@
 
 #include <Math/Matrix3x4.hpp>
 
-namespace Util
+namespace ctn
 {
 
 const Matrix3x4 Matrix3x4::ZERO(

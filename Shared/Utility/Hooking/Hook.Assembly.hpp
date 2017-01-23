@@ -9,9 +9,9 @@
 
 #pragma once
 
-#include <Hooking/HookingUtils.hpp>
+#include <Hooking/Hook.hpp>
 
-namespace Util
+namespace Hook
 {
 
 struct RegPack
@@ -69,7 +69,7 @@ struct RegPack
 
 // Lowest level stuff (actual assembly) goes on the following namespace
 // PRIVATE! Skip this, not interesting for you.
-namespace HookAsm
+namespace Asm
 {
 
 // Wrapper functor, so the assembly can use some templating
@@ -119,19 +119,17 @@ inline void __declspec(naked) MakeRegPackAndCall()
 }
 
 
-//  MakeInline
-//  Makes inline assembly (but not assembly, an actual functor of type FuncT) at address
+// Makes inline assembly (but not assembly, an actual functor of type FuncT) at address
 template <class FuncT>
 void MakeInline(MemoryPointer at)
 {
-    using functor = HookAsm::Wrapper<FuncT>;
+    using functor = Asm::Wrapper<FuncT>;
     if (false)
         functor::Call(nullptr); // To instantiate the template, if not done __asm will fail
-    MakeCall(at, HookAsm::MakeRegPackAndCall<functor>);
+    MakeCall(at, Asm::MakeRegPackAndCall<functor>);
 }
 
-//  MakeInline
-//  Same as above, but it NOPs everything between at and end (exclusive), then performs MakeInline
+// Same as above, but it NOPs everything between at and end (exclusive), then performs MakeInline
 template <class FuncT>
 void MakeInline(MemoryPointer at, MemoryPointer end)
 {
@@ -139,9 +137,8 @@ void MakeInline(MemoryPointer at, MemoryPointer end)
     MakeInline<FuncT>(at);
 }
 
-//  MakeInline
-//  Same as above, but (at,end) are template parameters.
-//  On this case the functor can be passed as argument since there will be one func instance for each at,end not just for each FuncT
+// Same as above, but (at,end) are template parameters.
+// On this case the functor can be passed as argument since there will be one func instance for each at,end not just for each FuncT
 template <uintptr_t at, uintptr_t end, class FuncT>
 void MakeInline(FuncT func)
 {

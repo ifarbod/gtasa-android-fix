@@ -13,7 +13,7 @@
 #include <Math/BoundingBox.hpp>
 #include <Math/StringHash.hpp>
 
-namespace Util
+namespace ctn
 {
 
 class Color;

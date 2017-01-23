@@ -13,7 +13,7 @@
 
 #include <Windows.h>
 
-namespace Util
+namespace ctn
 {
 
 bool WriteRegStr(KeyRoot keyRoot, const String& subKey, const String& valueName, const String& value, bool flush)

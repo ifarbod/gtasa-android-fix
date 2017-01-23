@@ -8,7 +8,7 @@
 
 #pragma once
 
-namespace Util
+namespace ctn
 {
 
 // List of pointers to elements.
@@ -62,25 +62,25 @@ private:
 };
 
 template <class T>
-typename Util::InitializerList<T>::Iterator begin(InitializerList<T> v)
+typename ctn::InitializerList<T>::Iterator begin(InitializerList<T> v)
 {
     return v.Begin();
 }
 
 template <class T>
-typename Util::InitializerList<T>::Iterator end(InitializerList<T> v)
+typename ctn::InitializerList<T>::Iterator end(InitializerList<T> v)
 {
     return v.End();
 }
 
 template <class T>
-typename Util::InitializerList<T>::ConstIterator begin(InitializerList<T> v)
+typename ctn::InitializerList<T>::ConstIterator begin(InitializerList<T> v)
 {
     return v.Begin();
 }
 
 template <class T>
-typename Util::InitializerList<T>::ConstIterator end(InitializerList<T> v)
+typename ctn::InitializerList<T>::ConstIterator end(InitializerList<T> v)
 {
     return v.End();
 }

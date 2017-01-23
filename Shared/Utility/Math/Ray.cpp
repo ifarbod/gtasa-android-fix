@@ -14,7 +14,7 @@
 
 #include <DebugNew.hpp>
 
-namespace Util
+namespace ctn
 {
 
 Vector3 Ray::ClosestPoint(const Ray& ray) const

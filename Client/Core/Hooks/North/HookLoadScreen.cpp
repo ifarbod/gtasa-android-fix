@@ -8,10 +8,11 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
-#include <Hooking/HookingUtils.hpp>
+#include <Hooking/Hook.hpp>
 #include <Hooking/HookFunction.hpp>
 
-using namespace Util;
+using namespace ctn;
+using namespace ctn::Hook;
 
 void SimulateCopyrightScreen()
 {
@@ -38,7 +39,7 @@ static HookFunction hookFunction([]()
     // Disable Copyright screen
     // Hook the copyright screen fading in/out and simulates that it has happened
     MakeNop(0x748C2B, 5);
-    MakeCALL(0x748C9A, SimulateCopyrightScreen);
+    MakeCall(0x748C9A, SimulateCopyrightScreen);
 
     // Disable loading screen rendering
     MakeNop(0x590D9F, 5);

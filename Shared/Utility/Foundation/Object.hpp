@@ -12,7 +12,7 @@
 #include <Foundation/Variant.hpp>
 #include <functional>
 
-namespace Util
+namespace ctn
 {
 
 class Context;
@@ -54,12 +54,12 @@ private:
     public: \
         using ClassName = typeName; \
         using BaseClassName = baseTypeName; \
-        virtual Util::StringHash GetType() const { return GetTypeInfoStatic()->GetType(); } \
-        virtual const Util::String& GetTypeName() const { return GetTypeInfoStatic()->GetTypeName(); } \
-        virtual const Util::TypeInfo* GetTypeInfo() const { return GetTypeInfoStatic(); } \
-        static Util::StringHash GetTypeStatic() { return GetTypeInfoStatic()->GetType(); } \
-        static const Util::String& GetTypeNameStatic() { return GetTypeInfoStatic()->GetTypeName(); } \
-        static const Util::TypeInfo* GetTypeInfoStatic() { static const Util::TypeInfo typeInfoStatic(#typeName, BaseClassName::GetTypeInfoStatic()); return &typeInfoStatic; } \
+        virtual ctn::StringHash GetType() const { return GetTypeInfoStatic()->GetType(); } \
+        virtual const ctn::String& GetTypeName() const { return GetTypeInfoStatic()->GetTypeName(); } \
+        virtual const ctn::TypeInfo* GetTypeInfo() const { return GetTypeInfoStatic(); } \
+        static ctn::StringHash GetTypeStatic() { return GetTypeInfoStatic()->GetType(); } \
+        static const ctn::String& GetTypeNameStatic() { return GetTypeInfoStatic()->GetTypeName(); } \
+        static const ctn::TypeInfo* GetTypeInfoStatic() { static const ctn::TypeInfo typeInfoStatic(#typeName, BaseClassName::GetTypeInfoStatic()); return &typeInfoStatic; } \
 
 // Base class for objects with type identification, subsystem access and event sending/receiving capability.
 class Object : public RefCounted
@@ -165,9 +165,9 @@ public:
         return (ClassID)&typeID;
     }
     // Get type name as a string
-    static const Util::String& GetTypeNameStatic()
+    static const ctn::String& GetTypeNameStatic()
     {
-        static const Util::String typeNameStatic("Object");
+        static const ctn::String typeNameStatic("Object");
         return typeNameStatic;
     }
 
@@ -364,14 +364,14 @@ struct EventNameRegistrar
 
 // Describe an event's hash ID and begin a namespace in which to define its parameters.
 #define CTN_EVENT(eventID, eventName)                                                                                  \
-    static const Util::StringHash eventID(Util::EventNameRegistrar::RegisterEventName(#eventName));                    \
+    static const ctn::StringHash eventID(ctn::EventNameRegistrar::RegisterEventName(#eventName));                    \
     namespace eventName
 // Describe an event's parameter hash ID. Should be used inside an event namespace.
-#define CTN_PARAM(paramID, paramName) static const Util::StringHash paramID(#paramName)
+#define CTN_PARAM(paramID, paramName) static const ctn::StringHash paramID(#paramName)
 // Convenience macro to construct an EventHandler that points to a receiver object and its member function.
-#define CTN_HANDLER(className, function) (new Util::EventHandlerImpl<className>(this, &className::function))
+#define CTN_HANDLER(className, function) (new ctn::EventHandlerImpl<className>(this, &className::function))
 // Convenience macro to construct an EventHandler that points to a receiver object and its member function, and also
 // defines a userdata pointer.
 #define CTN_HANDLER_USERDATA(className, function, userData)                                                            \
-    (new Util::EventHandlerImpl<className>(this, &className::function, userData))
+    (new ctn::EventHandlerImpl<className>(this, &className::function, userData))
 }

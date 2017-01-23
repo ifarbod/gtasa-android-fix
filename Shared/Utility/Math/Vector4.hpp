@@ -10,7 +10,7 @@
 
 #include <Math/Vector3.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Four-dimensional vector.
@@ -166,14 +166,14 @@ public:
     // Calculate absolute dot product.
     float AbsDotProduct(const Vector4& rhs) const
     {
-        return Util::Abs(x_ * rhs.x_) + Util::Abs(y_ * rhs.y_) + Util::Abs(z_ * rhs.z_) + Util::Abs(w_ * rhs.w_);
+        return ctn::Abs(x_ * rhs.x_) + ctn::Abs(y_ * rhs.y_) + ctn::Abs(z_ * rhs.z_) + ctn::Abs(w_ * rhs.w_);
     }
 
     // Project vector onto axis.
     float ProjectOntoAxis(const Vector3& axis) const { return DotProduct(Vector4(axis.Normalized(), 0.0f)); }
 
     // Return absolute vector.
-    Vector4 Abs() const { return Vector4(Util::Abs(x_), Util::Abs(y_), Util::Abs(z_), Util::Abs(w_)); }
+    Vector4 Abs() const { return Vector4(ctn::Abs(x_), ctn::Abs(y_), ctn::Abs(z_), ctn::Abs(w_)); }
 
     // Linear interpolation with another vector.
     Vector4 Lerp(const Vector4& rhs, float t) const { return *this * (1.0f - t) + rhs * t; }
@@ -181,11 +181,11 @@ public:
     // Test for equality with another vector with epsilon.
     bool Equals(const Vector4& rhs) const
     {
-        return Util::Equals(x_, rhs.x_) && Util::Equals(y_, rhs.y_) && Util::Equals(z_, rhs.z_) && Util::Equals(w_, rhs.w_);
+        return ctn::Equals(x_, rhs.x_) && ctn::Equals(y_, rhs.y_) && ctn::Equals(z_, rhs.z_) && ctn::Equals(w_, rhs.w_);
     }
 
     // Return whether is NaN.
-    bool IsNaN() const { return Util::IsNaN(x_) || Util::IsNaN(y_) || Util::IsNaN(z_) || Util::IsNaN(w_); }
+    bool IsNaN() const { return ctn::IsNaN(x_) || ctn::IsNaN(y_) || ctn::IsNaN(z_) || ctn::IsNaN(w_); }
 
     // Return float data.
     const float* Data() const { return &x_; }

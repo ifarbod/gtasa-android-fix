@@ -15,7 +15,7 @@
 #include <xmmintrin.h>
 #endif
 
-namespace Util
+namespace ctn
 {
 
 class Polyhedron;

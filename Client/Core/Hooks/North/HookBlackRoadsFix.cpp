@@ -8,10 +8,11 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
-#include <Hooking/HookingUtils.hpp>
+#include <Hooking/Hook.hpp>
 #include <Hooking/HookFunction.hpp>
 
-using namespace Util;
+using namespace ctn;
+using namespace ctn::Hook;
 
 #if 0
 unsigned int gCurrentLevel;
@@ -46,8 +47,9 @@ unsigned int ReadLevel(RwStream* stream, void* pbuf, unsigned int size)
 }
 #endif
 
-static Util::HookFunction hookFunction([]()
+static HookFunction hookFunction([]()
 {
-    //MakeCALL(0x4CDCA4, LockLevel);
-    //MakeCALL(0x4CDCD9, ReadLevel);
+    // Fix black roads on 'low' gfx settings
+    //MakeCall(0x4CDCA4, LockLevel);
+    //MakeCall(0x4CDCD9, ReadLevel);
 });

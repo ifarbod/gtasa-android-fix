@@ -8,7 +8,7 @@
 
 #pragma once
 
-namespace Util
+namespace ctn
 {
 
 // Condition on which a thread can wait.

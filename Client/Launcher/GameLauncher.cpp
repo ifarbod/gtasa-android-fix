@@ -10,13 +10,13 @@
 #include "Precompiled.hpp"
 #include "Main.hpp"
 #include <winternl.h>
-#include <Hooking/HookingUtils.hpp>
+#include <Hooking/Hook.hpp>
 #include <Container/Str.hpp>
 #include <Foundation/ProcessUtils.hpp>
 #include <Math/MT.hpp>
 #include <time.h>
 
-using namespace Util;
+using namespace ctn;
 
 static LONG NTAPI HandleVariant(PEXCEPTION_POINTERS exceptionInfo)
 {
@@ -98,13 +98,13 @@ void GameLauncher::Launch(const char* gamePath)
     VirtualProtect((void*)0xCB0000, 0x1000, PAGE_READWRITE, &oldProtect); // .rsrc
 
     // Use our icon
-    Util::MemWrite<u8>(0x7486A5, 1);
+    Hook::MemWrite<u8>(0x7486A5, 1);
 
     // Patch IsAlreadyRunning
-    Util::MakeRet0(0x7468E0);
+    Hook::MakeRet0(0x7468E0);
     // Change CdStream semaphore to allow more than 2 SA instances
     MT19937_64 mt(time(nullptr));
-    Util::CopyStr(0x858AD4, String::Format("CtN%d", mt()).CString());
+    Hook::CopyStr(0x858AD4, String::Format("CtN%d", mt()).CString());
 
     LoadLibraryA(CLIENT_CORE_NAME DEBUG_SUFFIX LIB_EXTENSION);
 

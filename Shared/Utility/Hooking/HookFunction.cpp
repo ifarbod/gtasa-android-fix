@@ -10,7 +10,10 @@
 
 #include <Hooking/HookFunction.hpp>
 
-namespace Util
+namespace ctn
+{
+
+namespace Hook
 {
 
 static HookFunctionBase* hookFunctions;
@@ -27,6 +30,8 @@ void HookFunctionBase::RunAll()
     {
         func->Run();
     }
+}
+
 }
 
 }

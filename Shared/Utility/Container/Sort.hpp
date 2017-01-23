@@ -11,7 +11,7 @@
 #include <Container/Swap.hpp>
 #include <Container/VectorBase.hpp>
 
-namespace Util
+namespace ctn
 {
 
 static const int QUICKSORT_THRESHOLD = 16;

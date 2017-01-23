@@ -15,7 +15,7 @@
 #include <new>
 #include <initializer_list>
 
-namespace Util
+namespace ctn
 {
 
 // Vector template class.
@@ -1014,20 +1014,20 @@ private:
     }
 };
 
-template <class T> typename Util::Vector<T>::ConstIterator begin(const Util::Vector<T>& v) { return v.Begin(); }
+template <class T> typename ctn::Vector<T>::ConstIterator begin(const ctn::Vector<T>& v) { return v.Begin(); }
 
-template <class T> typename Util::Vector<T>::ConstIterator end(const Util::Vector<T>& v) { return v.End(); }
+template <class T> typename ctn::Vector<T>::ConstIterator end(const ctn::Vector<T>& v) { return v.End(); }
 
-template <class T> typename Util::Vector<T>::Iterator begin(Util::Vector<T>& v) { return v.Begin(); }
+template <class T> typename ctn::Vector<T>::Iterator begin(ctn::Vector<T>& v) { return v.Begin(); }
 
-template <class T> typename Util::Vector<T>::Iterator end(Util::Vector<T>& v) { return v.End(); }
+template <class T> typename ctn::Vector<T>::Iterator end(ctn::Vector<T>& v) { return v.End(); }
 
-template <class T> typename Util::PODVector<T>::ConstIterator begin(const Util::PODVector<T>& v) { return v.Begin(); }
+template <class T> typename ctn::PODVector<T>::ConstIterator begin(const ctn::PODVector<T>& v) { return v.Begin(); }
 
-template <class T> typename Util::PODVector<T>::ConstIterator end(const Util::PODVector<T>& v) { return v.End(); }
+template <class T> typename ctn::PODVector<T>::ConstIterator end(const ctn::PODVector<T>& v) { return v.End(); }
 
-template <class T> typename Util::PODVector<T>::Iterator begin(Util::PODVector<T>& v) { return v.Begin(); }
+template <class T> typename ctn::PODVector<T>::Iterator begin(ctn::PODVector<T>& v) { return v.Begin(); }
 
-template <class T> typename Util::PODVector<T>::Iterator end(Util::PODVector<T>& v) { return v.End(); }
+template <class T> typename ctn::PODVector<T>::Iterator end(ctn::PODVector<T>& v) { return v.End(); }
 
 }

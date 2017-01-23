@@ -10,7 +10,7 @@
 
 #include <Math/Vector3.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // 3x3 matrix for rotation and scaling.
@@ -248,7 +248,7 @@ public:
 
         for (unsigned i = 0; i < 9; ++i)
         {
-            if (!Util::Equals(leftData[i], rightData[i]))
+            if (!ctn::Equals(leftData[i], rightData[i]))
                 return false;
         }
 

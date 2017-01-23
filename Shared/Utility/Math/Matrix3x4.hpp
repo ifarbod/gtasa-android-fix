@@ -14,7 +14,7 @@
 #include <emmintrin.h>
 #endif
 
-namespace Util
+namespace ctn
 {
 
 // 3x4 matrix for scene node transform calculations.
@@ -659,7 +659,7 @@ public:
 
         for (unsigned i = 0; i < 12; ++i)
         {
-            if (!Util::Equals(leftData[i], rightData[i]))
+            if (!ctn::Equals(leftData[i], rightData[i]))
                 return false;
         }
 

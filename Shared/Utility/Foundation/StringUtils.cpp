@@ -10,7 +10,7 @@
 
 #include <Foundation/StringUtils.hpp>
 
-namespace Util
+namespace ctn
 {
 
 unsigned CountElements(const char* buffer, char separator)

@@ -12,7 +12,7 @@
 #include <Math/BoundingBox.hpp>
 #include <Math/Rect.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Abstract stream for reading.

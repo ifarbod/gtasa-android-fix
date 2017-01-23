@@ -14,7 +14,7 @@
 #include <cassert>
 #include <initializer_list>
 
-namespace Util
+namespace ctn
 {
 
 // Hash set template class.
@@ -393,7 +393,7 @@ public:
             ptr = ptr->Next();
         }
 
-        Util::Sort(RandomAccessIterator<Node*>(ptrs), RandomAccessIterator<Node*>(ptrs + numKeys), CompareNodes);
+        ctn::Sort(RandomAccessIterator<Node*>(ptrs), RandomAccessIterator<Node*>(ptrs + numKeys), CompareNodes);
 
         head_ = ptrs[0];
         ptrs[0]->prev_ = 0;
@@ -610,12 +610,12 @@ private:
     unsigned Hash(const T& key) const { return MakeHash(key) & (NumBuckets() - 1); }
 };
 
-template <class T> typename Util::HashSet<T>::ConstIterator begin(const Util::HashSet<T>& v) { return v.Begin(); }
+template <class T> typename ctn::HashSet<T>::ConstIterator begin(const ctn::HashSet<T>& v) { return v.Begin(); }
 
-template <class T> typename Util::HashSet<T>::ConstIterator end(const Util::HashSet<T>& v) { return v.End(); }
+template <class T> typename ctn::HashSet<T>::ConstIterator end(const ctn::HashSet<T>& v) { return v.End(); }
 
-template <class T> typename Util::HashSet<T>::Iterator begin(Util::HashSet<T>& v) { return v.Begin(); }
+template <class T> typename ctn::HashSet<T>::Iterator begin(ctn::HashSet<T>& v) { return v.Begin(); }
 
-template <class T> typename Util::HashSet<T>::Iterator end(Util::HashSet<T>& v) { return v.End(); }
+template <class T> typename ctn::HashSet<T>::Iterator end(ctn::HashSet<T>& v) { return v.End(); }
 
 }

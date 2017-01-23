@@ -12,7 +12,7 @@
 
 #include <initializer_list>
 
-namespace Util
+namespace ctn
 {
 
 // Doubly-linked list template class.
@@ -468,12 +468,12 @@ private:
     }
 };
 
-template <class T> typename Util::List<T>::ConstIterator begin(const Util::List<T>& v) { return v.Begin(); }
+template <class T> typename ctn::List<T>::ConstIterator begin(const ctn::List<T>& v) { return v.Begin(); }
 
-template <class T> typename Util::List<T>::ConstIterator end(const Util::List<T>& v) { return v.End(); }
+template <class T> typename ctn::List<T>::ConstIterator end(const ctn::List<T>& v) { return v.End(); }
 
-template <class T> typename Util::List<T>::Iterator begin(Util::List<T>& v) { return v.Begin(); }
+template <class T> typename ctn::List<T>::Iterator begin(ctn::List<T>& v) { return v.Begin(); }
 
-template <class T> typename Util::List<T>::Iterator end(Util::List<T>& v) { return v.End(); }
+template <class T> typename ctn::List<T>::Iterator end(ctn::List<T>& v) { return v.End(); }
 
 }

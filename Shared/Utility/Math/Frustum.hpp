@@ -14,7 +14,7 @@
 #include <Math/Rect.hpp>
 #include <Math/Sphere.hpp>
 
-namespace Util
+namespace ctn
 {
 
 // Frustum planes.

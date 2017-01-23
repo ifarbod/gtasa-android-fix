@@ -13,6 +13,6 @@
 namespace SA
 {
 
-using CVector = Util::Vector3;
+using CVector = ctn::Vector3;
 
 }

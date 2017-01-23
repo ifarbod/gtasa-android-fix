@@ -28,7 +28,7 @@ ExecutableLoader::ExecutableLoader(const uint8_t* origBinary)
     });
 }
 
-void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
+bool ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
 {
     IMAGE_DATA_DIRECTORY* importDirectory = &ntHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT];
 
@@ -43,6 +43,7 @@ void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
         if (!module)
         {
             FatalError(va("Could not load dependent module %s. Error code was %i.", name, GetLastError()));
+            return false;
         }
 
         if (reinterpret_cast<uint32_t>(module) == 0xFFFFFFFF)
@@ -79,6 +80,7 @@ void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
                 GetModuleFileNameA(module, pathName, sizeof(pathName));
 
                 FatalError(va("Could not load function %s in dependent module %s (%s).", functionName, name, pathName));
+                return false;
             }
 
             *addressTableEntry = (uint32_t)function;
@@ -89,6 +91,8 @@ void ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
 
         descriptor++;
     }
+
+    return true;
 }
 
 void ExecutableLoader::LoadSection(IMAGE_SECTION_HEADER* section)
@@ -105,7 +109,7 @@ void ExecutableLoader::LoadSection(IMAGE_SECTION_HEADER* section)
     if (section->SizeOfRawData > 0)
     {
         DWORD oldProtect;
-        uint32_t sizeOfData = Util::Min(section->SizeOfRawData, section->Misc.VirtualSize);
+        uint32_t sizeOfData = ctn::Min(section->SizeOfRawData, section->Misc.VirtualSize);
 
         VirtualProtect(targetAddress, sizeOfData, PAGE_EXECUTE_READWRITE, &oldProtect);
         memcpy(targetAddress, sourceAddress, sizeOfData);

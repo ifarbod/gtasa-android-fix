@@ -9,7 +9,7 @@
 #pragma once
 
 #include <Types.hpp>
-#include <Hooking/HookingUtils.hpp>
+#include <Hooking/Hook.hpp>
 
 // Check size of a struct
 // struc = struct/union/class to check

@@ -10,7 +10,7 @@
 
 #include <cstdio>
 
-namespace Util
+namespace ctn
 {
 
 char String::endZero = 0;
@@ -460,9 +460,9 @@ void String::Clear()
 
 void String::Swap(String& str)
 {
-    Util::Swap(length_, str.length_);
-    Util::Swap(capacity_, str.capacity_);
-    Util::Swap(buffer_, str.buffer_);
+    ctn::Swap(length_, str.length_);
+    ctn::Swap(capacity_, str.capacity_);
+    ctn::Swap(buffer_, str.buffer_);
 }
 
 String String::Substring(unsigned pos) const

@@ -7,10 +7,11 @@
 // https://opensource.org/licenses/MIT)
 
 #include "Precompiled.hpp"
-#include <Hooking/HookingUtils.hpp>
+#include <Hooking/Hook.hpp>
 #include <Hooking/HookFunction.hpp>
 
-using namespace Util;
+using namespace ctn;
+using namespace ctn::Hook;
 
 u32 Return_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit = 0x6485B2;
 u32 Return_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit_Invalid = 0x6485E1;
@@ -37,8 +38,13 @@ void __declspec(naked) Hook_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPe
     }
 }
 
-static Util::HookFunction hookFunction([]()
+static HookFunction hookFunction([]()
 {
+    // No DirectPlay dependency
+    // Increase compatibility for Windows 8+
+    MemWrite<u8>(0x74754A, 0xB8);
+    MemWrite<u32>(0x74754B, 0x900);
+
     // Don't create a ped group on player creation (Fixes a crash)
     // TODO: Proper CPlayerPed creation
     MakeNop(0x60D64D);
