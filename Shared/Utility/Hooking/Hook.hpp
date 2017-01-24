@@ -383,7 +383,7 @@ inline Ret Call(MemoryPointer p, Args... a)
 template <u32 addr, class Ret = void, class... Args>
 inline Ret Call(Args... a)
 {
-    return Call(LazyPtr<addr>(), std::forward<Args>(a)...);
+    return Call<Ret>(LazyPtr<addr>(), std::forward<Args>(a)...);
 }
 
 template <class Ret = void, class ...Args>
@@ -395,7 +395,7 @@ inline Ret ThisCall(MemoryPointer p, Args... a)
 template <u32 addr, class Ret = void, class... Args>
 inline Ret ThisCall(Args... a)
 {
-    return ThisCall(LazyPtr<addr>(), std::forward<Args>(a)...);
+    return ThisCall<Ret>(LazyPtr<addr>(), std::forward<Args>(a)...);
 }
 
 template <size_t index>

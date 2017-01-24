@@ -74,6 +74,7 @@ workspace "CtNorth"
     platforms { "x86", "x64" }
     targetprefix ""
     configurations { "Debug", "Release" }
+    buildoptions "/std:c++latest"
     flags { "C++14" }
     symbols "On"
     characterset "Unicode"
@@ -114,6 +115,9 @@ workspace "CtNorth"
     if USE_LUAJIT then
         defines "CTN_LUAJIT"
     end
+    
+    -- License header definition file for the LicenseHeaderManager VS extension
+    files "ctn.licenseheader"
 
     -- Get DirectX SDK directory from environment variables
     dxdir = os.getenv("DXSDK_DIR") or ""

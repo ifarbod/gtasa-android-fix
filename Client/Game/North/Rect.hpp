@@ -1,4 +1,4 @@
-// GTA Matrix link
+// 2D Rectangle
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,19 +9,23 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Matrix.hpp"
-#include "Vector.hpp"
 
 namespace ctn::SA
 {
 
-class CMatrixLink : public CMatrix
+class CRect
 {
 public:
-    class CPlaceable* owner_;
-    CMatrixLink* prev_;
-    CMatrixLink* next_;
+    CRect();
+    CRect(f32 left, f32 top, f32 right, f32 bottom);
+
+public:
+    f32 left_;
+    f32 bottom_;
+    f32 right_;
+    f32 top_;
 };
-VALIDATE_SIZE(CMatrixLink, 0x54);
+
+VALIDATE_SIZE(CRect, 0x10);
 
 }

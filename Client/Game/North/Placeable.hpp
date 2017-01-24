@@ -12,7 +12,7 @@
 #include "SimpleTransform.hpp"
 #include "MatrixLink.hpp"
 
-namespace SA
+namespace ctn::SA
 {
 
 class CPlaceable

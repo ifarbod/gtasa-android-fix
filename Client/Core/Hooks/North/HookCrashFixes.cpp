@@ -1,5 +1,6 @@
 // Crash fixes
 // Author(s):       iFarbod <ifarbod@outlook.com>
+//                  avail
 //
 // Copyright (c) 2015-2017 Project CtNorth
 //
@@ -35,6 +36,24 @@ void __declspec(naked) Hook_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPe
         call CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit_Custom
         popad
         jmp Return_CTaskComplexCarSlowBeDraggedOut__PrepareVehicleForPedExit_Invalid
+    }
+}
+
+void* (*ColModelPool_new)(int);
+void __declspec(naked) Patched_LoadColFileFix(int size)
+{
+    __asm
+    {
+        // Perform the original operation (new ColModel)
+        push[esp + 4]
+        mov eax, ColModelPool_new
+        call eax
+        add esp, 4
+
+        // Now, the fix is here, edi should contain the ColModel pointer, but it doesn't!
+        // Let's fix it
+        mov edi, eax
+        ret
     }
 }
 
@@ -74,4 +93,7 @@ static HookFunction hookFunction([]()
 
     // Satchel charge crash fix
     MakeNop(0x738F3A, 83);
+
+    // Fixes the crash caused by using COLFILE for a building etc
+    ColModelPool_new = MakeCall(0x5B4F2E, Patched_LoadColFileFix);
 });

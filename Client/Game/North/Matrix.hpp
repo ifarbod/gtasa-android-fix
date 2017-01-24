@@ -12,7 +12,7 @@
 #include "RWTypes.hpp"
 #include "Vector.hpp"
 
-namespace SA
+namespace ctn::SA
 {
 
 class CMatrix

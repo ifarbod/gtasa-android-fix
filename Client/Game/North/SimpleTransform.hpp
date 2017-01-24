@@ -11,7 +11,7 @@
 #include "Common.hpp"
 #include "Vector.hpp"
 
-namespace SA
+namespace ctn::SA
 {
 
 class CSimpleTransform
@@ -20,6 +20,7 @@ public:
     CVector position_;
     f32 a_;
 };
+
 VALIDATE_SIZE(CSimpleTransform, 0x10);
 
 }

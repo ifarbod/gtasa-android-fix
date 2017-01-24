@@ -1,5 +1,5 @@
-// CVector
-// Author(s):       iFarbod <ifarbod@outlook.com>
+// Automobile.hpp
+// Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
 //
@@ -8,11 +8,16 @@
 
 #pragma once
 
-#include <Math/Vector3.hpp>
+#include "Common.hpp"
+#include "Vehicle.hpp"
 
 namespace ctn::SA
 {
 
-using CVector = ctn::Vector3;
+class CAutomobile : public CVehicle
+{
+public:
+
+};
 
 }

@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include <Types.hpp>
 #include <Hooking/Hook.hpp>
 
 // Check size of a struct
