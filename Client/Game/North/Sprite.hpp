@@ -7,3 +7,16 @@
 // https://opensource.org/licenses/MIT)
 
 #pragma once
+
+#include "Common.hpp"
+
+namespace ctn::SA
+{
+
+class CSprite
+{
+public:
+
+};
+
+}
