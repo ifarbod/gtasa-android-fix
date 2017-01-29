@@ -19,4 +19,6 @@ public:
 
 };
 
+//VALIDATE_SIZE(CBaseModelInfo, 0x20);
+
 }

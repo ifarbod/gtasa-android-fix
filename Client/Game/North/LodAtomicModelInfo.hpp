@@ -17,7 +17,10 @@ namespace ctn::SA
 class CLodAtomicModelInfo : public CAtomicModelInfo
 {
 public:
-
+    u16 f20_;
+    u16 f22_;
 };
+
+//VALIDATE_SIZE(CLodAtomicModelInfo, 0x24);
 
 }

@@ -20,4 +20,6 @@ public:
 
 };
 
+//VALIDATE_SIZE(CVehicle, 0x5A0);
+
 }

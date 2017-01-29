@@ -20,4 +20,6 @@ public:
 
 };
 
+//VALIDATE_SIZE(CDummyObject, 0x38);
+
 }

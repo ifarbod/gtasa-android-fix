@@ -20,4 +20,6 @@ public:
 
 };
 
+//VALIDATE_SIZE(CBuilding, 0x38);
+
 }

@@ -20,4 +20,6 @@ public:
 
 };
 
+//VALIDATE_SIZE(CAnimatedBuilding, 0x38);
+
 }

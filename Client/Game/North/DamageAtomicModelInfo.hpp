@@ -17,7 +17,9 @@ namespace ctn::SA
 class CDamageAtomicModelInfo : public CAtomicModelInfo
 {
 public:
-
+    struct RpAtomic* damagedAtomic_;
 };
+
+//VALIDATE_SIZE(CDamageAtomicModelInfo, 0x24)
 
 }

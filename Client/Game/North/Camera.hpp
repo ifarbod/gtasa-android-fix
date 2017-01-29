@@ -10,6 +10,7 @@
 
 #include "Common.hpp"
 #include "Placeable.hpp"
+#include "Cam.hpp"
 
 namespace ctn::SA
 {
@@ -17,7 +18,12 @@ namespace ctn::SA
 class CCamera : public CPlaceable
 {
 public:
+    virtual ~CCamera() = 0;
 
+public:
+    CCam cams_[3];
 };
+
+//VALIDATE_SIZE(CCamera, 0xD78);
 
 }

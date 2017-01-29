@@ -20,4 +20,6 @@ public:
 
 };
 
+//VALIDATE_SIZE(CMonsterTruck, 0x99C);
+
 }

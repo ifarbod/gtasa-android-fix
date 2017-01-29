@@ -20,4 +20,6 @@ public:
 
 };
 
+//VALIDATE_SIZE(CVehicleModelInfo, 0x308);
+
 }

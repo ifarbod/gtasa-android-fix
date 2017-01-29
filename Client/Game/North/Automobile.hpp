@@ -20,4 +20,6 @@ public:
 
 };
 
+//VALIDATE_SIZE(CAutomobile, 0x988);
+
 }

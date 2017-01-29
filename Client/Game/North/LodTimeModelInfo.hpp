@@ -17,7 +17,9 @@ namespace ctn::SA
 class CLodTimeModelInfo : public CLodAtomicModelInfo
 {
 public:
-
+    //CTimeInfo timeInfo;
 };
+
+//VALIDATE_SIZE(CLodTimeModelInfo, 0x24);
 
 }

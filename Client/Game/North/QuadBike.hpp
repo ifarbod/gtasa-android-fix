@@ -20,4 +20,6 @@ public:
 
 };
 
+//VALIDATE_SIZE(CQuadBike, 0x9BC);
+
 }

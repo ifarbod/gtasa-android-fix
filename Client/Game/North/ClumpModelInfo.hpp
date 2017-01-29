@@ -17,7 +17,13 @@ namespace ctn::SA
 class CClumpModelInfo : public CBaseModelInfo
 {
 public:
-
+    union
+    {
+        char* animFileName_;
+        unsigned int animFileIndex_; // animBlock_
+    };
 };
+
+//VALIDATE_SIZE(CClumpModelInfo, 0x24);
 
 }

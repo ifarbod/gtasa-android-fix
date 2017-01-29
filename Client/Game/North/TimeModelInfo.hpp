@@ -17,7 +17,9 @@ namespace ctn::SA
 class CTimeModelInfo : public CAtomicModelInfo
 {
 public:
-
+    //CTimeInfo timeInfo;
 };
+
+//VALIDATE_SIZE(CTimeModelInfo, 0x24);
 
 }

@@ -20,4 +20,6 @@ public:
 
 };
 
+//VALIDATE_SIZE(CTrailer, 0x9F4);
+
 }
