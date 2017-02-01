@@ -20,6 +20,6 @@ public:
 
 };
 
-//VALIDATE_SIZE(CBuilding, 0x38);
+VALIDATE_SIZE(CBuilding, 0x38);
 
 }

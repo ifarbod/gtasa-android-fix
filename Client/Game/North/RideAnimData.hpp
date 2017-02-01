@@ -1,4 +1,4 @@
-// DummyObject.hpp
+// Riding animation configuration
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,17 +9,22 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Dummy.hpp"
 
 namespace ctn::SA
 {
 
-class CDummyObject : public CDummy
+class CRideAnimData
 {
 public:
-
+    u32 animGroup_;
+    s32 f04_;
+    f32 animLean_;
+    s32 f0C_;
+    f32 f10_;
+    f32 handlebarsAngle_;
+    f32 animPercentageState_;
 };
 
-VALIDATE_SIZE(CDummyObject, 0x38);
+VALIDATE_SIZE(CRideAnimData, 0x1C);
 
 }
