@@ -17,7 +17,8 @@ namespace ctn::SA
 class CObject : public CPhysical
 {
 public:
-
+    void* operator new(u32 size);
+    void operator delete(void* ptr);
 };
 
 }

@@ -10,6 +10,7 @@
 
 #include "Common.hpp"
 #include "AtomicModelInfo.hpp"
+#include "TimeInfo.hpp"
 
 namespace ctn::SA
 {
@@ -17,9 +18,9 @@ namespace ctn::SA
 class CTimeModelInfo : public CAtomicModelInfo
 {
 public:
-    //CTimeInfo timeInfo;
+    CTimeInfo timeInfo_;
 };
 
-//VALIDATE_SIZE(CTimeModelInfo, 0x24);
+VALIDATE_SIZE(CTimeModelInfo, 0x24);
 
 }

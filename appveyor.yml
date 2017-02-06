@@ -54,7 +54,7 @@ after_build:
   - cd %NSIS_ROOT%
   - makensis ..\ctn.nsi
   - cd ..
-  - ren CTN*Setup.exe CTN-Setup.exe
+  - ren CTN-Setup-*.exe CTN-Setup.exe
   - move CTN-Setup.exe ..\..\
 
 #---------------------------------#

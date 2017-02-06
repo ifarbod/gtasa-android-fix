@@ -18,6 +18,8 @@ class CPed : public CPhysical
 {
 public:
 
+    void* operator new(u32 size);
+    void operator delete(void* ptr);
 };
 
 //VALIDATE_SIZE(CPed, 0x79C);

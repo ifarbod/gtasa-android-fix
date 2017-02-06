@@ -70,7 +70,7 @@ void CSprite2d::SetRenderState()
 
 void CSprite2d::Draw(CRect& position, CRGBA& color)
 {
-    Hook::ThisCall<void>(0x728350, this, &position, &color);
+    Hook::ThisCall(0x728350, this, &position, &color);
 }
 
 void CSprite2d::SetRecipNearClip()

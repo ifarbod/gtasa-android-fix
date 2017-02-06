@@ -17,7 +17,8 @@ namespace ctn::SA
 class CBuilding : public CEntity
 {
 public:
-
+    void* operator new(u32 size);
+    void operator delete(void* ptr);
 };
 
 VALIDATE_SIZE(CBuilding, 0x38);

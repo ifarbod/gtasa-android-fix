@@ -1,4 +1,4 @@
-// DamageAtomicModelInfo.hpp
+// TimeInfo.hpp
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,17 +9,19 @@
 #pragma once
 
 #include "Common.hpp"
-#include "AtomicModelInfo.hpp"
 
 namespace ctn::SA
 {
 
-class CDamageAtomicModelInfo : public CAtomicModelInfo
+class CTimeInfo
 {
 public:
-    struct RpAtomic* damagedAtomic_;
-};
+    CTimeInfo* FindOtherTimeModel(const char* name);
 
-VALIDATE_SIZE(CDamageAtomicModelInfo, 0x24)
+public:
+    u8 timeOn_;
+    u8 timeOff_;
+    u16 otherModelId_;
+};
 
 }

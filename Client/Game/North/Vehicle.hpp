@@ -17,7 +17,8 @@ namespace ctn::SA
 class CVehicle : public CPhysical
 {
 public:
-
+    void* operator new(u32 size);
+    void operator delete(void* ptr);
 };
 
 //VALIDATE_SIZE(CVehicle, 0x5A0);

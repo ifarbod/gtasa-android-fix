@@ -25,7 +25,7 @@ public:
     s32 f9B0_;
     s32 f9B4_;
     u8 quadFlags_;
-    PAD(CQuadBike, pad, 3)
+    PAD(CQuadBike, pad, 3);
 };
 
 //VALIDATE_SIZE(CQuadBike, 0x9BC);

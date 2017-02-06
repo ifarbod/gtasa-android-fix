@@ -21,6 +21,6 @@ public:
     u16 f22_;
 };
 
-//VALIDATE_SIZE(CLodAtomicModelInfo, 0x24);
+VALIDATE_SIZE(CLodAtomicModelInfo, 0x24);
 
 }

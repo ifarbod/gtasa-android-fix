@@ -11,6 +11,12 @@
 #include "Common.hpp"
 #include "Vehicle.hpp"
 
+// Vortex-related fields (4D Vector/Quaternion) @ 0x6C9357:
+// CAutomobile+0x968
+// CAutomobile+0x96C
+// CAutomobile+0x970
+// CAutomobile+0x974
+
 namespace ctn::SA
 {
 

@@ -1,4 +1,4 @@
-// DamageAtomicModelInfo.hpp
+// Entity flags
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -8,18 +8,12 @@
 
 #pragma once
 
-#include "Common.hpp"
-#include "AtomicModelInfo.hpp"
-
 namespace ctn::SA
 {
 
-class CDamageAtomicModelInfo : public CAtomicModelInfo
+struct EntityFlags
 {
-public:
-    struct RpAtomic* damagedAtomic_;
-};
 
-VALIDATE_SIZE(CDamageAtomicModelInfo, 0x24)
+};
 
 }

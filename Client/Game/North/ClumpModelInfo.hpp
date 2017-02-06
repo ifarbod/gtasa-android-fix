@@ -20,10 +20,10 @@ public:
     union
     {
         char* animFileName_;
-        unsigned int animFileIndex_; // animBlock_
+        u32 animFileIndex_; // animBlock_
     };
 };
 
-//VALIDATE_SIZE(CClumpModelInfo, 0x24);
+VALIDATE_SIZE(CClumpModelInfo, 0x24);
 
 }

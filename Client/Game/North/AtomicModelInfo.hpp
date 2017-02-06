@@ -17,9 +17,9 @@ namespace ctn::SA
 class CAtomicModelInfo : public CBaseModelInfo
 {
 public:
-    // methods, no additional members
+    // Methods, no additional members
 };
 
-//VALIDATE_SIZE(CAtomicModelInfo, 0x20);
+VALIDATE_SIZE(CAtomicModelInfo, 0x20);
 
 }

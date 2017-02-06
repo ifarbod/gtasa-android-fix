@@ -41,7 +41,7 @@
     !define VER_NOV "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
 !endif
 
-!define OUTFILE "${NAME2}-${VERSION}-Setup.exe"
+!define OUTFILE "${NAME2}-Setup-${VERSION}.exe"
 !define FILES_ROOT "../../InstallFiles"
 !define SERVER_FILES_ROOT "${FILES_ROOT}/Server"
 
@@ -166,24 +166,24 @@ Var GTA_DIR
 
 ${MementoSection} "Client core files (required)" SecCore
     SectionIn 1 2 RO
-    
+
     SetOutPath $INSTDIR
     ; Launcher
     File "${FILES_ROOT}\CTN*.exe"
-    
+
     ; BASS library
     File "${FILES_ROOT}\bass.dll"
     File "${FILES_ROOT}\bass_fx.dll"
     File "${FILES_ROOT}\bassmix.dll"
     File "${FILES_ROOT}\tags.dll"
-    
+
     ; Core files
     File "${FILES_ROOT}\Core*.dll"
     File "${FILES_ROOT}\sde.dll"
     File "${FILES_ROOT}\sdo.dll"
     File "${FILES_ROOT}\sdv.dll"
     File "${FILES_ROOT}\sdvf.dll"
-    
+
     ; CEF Files
     File "${FILES_ROOT}\chrome_elf.dll"
     File "${FILES_ROOT}\d3dcompiler_43.dll"
@@ -195,7 +195,7 @@ ${MementoSection} "Client core files (required)" SecCore
     File "${FILES_ROOT}\natives_blob.bin"
     File "${FILES_ROOT}\snapshot_blob.bin"
     File "${FILES_ROOT}\widevinecdmadapter.dll"
-    
+
     ; Create uninstaller
     WriteUninstaller "$INSTDIR\Uninstall.exe"
 ${MementoSectionEnd}
@@ -227,7 +227,7 @@ FunctionEnd
 
 Function .onInstSuccess
     ${MementoSectionSave}
-    
+
     WriteRegStr HKLM "${REGKEY}" "InstallLocation" $INSTDIR
     WriteRegStr HKLM "${REGKEY}" "GTAInstallLocation" $GTA_DIR
 FunctionEnd
@@ -292,13 +292,13 @@ FunctionEnd
 ; ----------------------
 ; Language strings
 ; ----------------------
-LangString INST_WELCOMEPAGE_TEXT ${LANG_ENGLISH} "This wizard will guide you through the installation of ${NAME}, a modification for Grand Theft Auto: San Andreas which allows you to play over Internet or LAN.$\r$\n$\r$\n${NAME} is highly customizable, ranging from custom maps, weapons, vehicles to Lua scripts that change the entire game logic.$\r$\n$\r$\n$_CLICK"
+LangString INST_WELCOMEPAGE_TEXT ${LANG_ENGLISH} "This wizard will guide you through the installation of ${NAME}, a modification for Grand Theft Auto: San Andreas which allows you to play over Internet or LAN.$\r$\n$\r$\n${NAME} is highly customizable, ranging from custom maps, weapons, vehicles to scripts that change the entire game logic.$\r$\n$\r$\n$_CLICK"
 LangString INST_GAMEDIRPAGE_HEADER_TEXT ${LANG_ENGLISH} "Game directory"
 LangString INST_GAMEDIRPAGE_HEADER_SUBTITLE_TEXT ${LANG_ENGLISH} "Where is your game located?"
 LangString INST_GAMEDIRPAGE_INSTRUCTIONS ${LANG_ENGLISH} "Locate the directory in which Grand Theft Auto: San Andreas is installed.$\r$\nYou need GTA:SA v1.00 in order to play San Andreas Online.$\r$\nAny other versions will not work and may need to be downgraded.$\r$\nNOTE: Please use a clean install."
 LangString INST_GAMEDIRPAGE_GROUPBOX_TEXT ${LANG_ENGLISH} "Game Install Folder"
 LangString INST_GAMEDIRPAGE_BROWSEBTN_TEXT ${LANG_ENGLISH} "B&rowse..."
-LangString INST_GTA_CONFLICT ${LANG_ENGLISH} "${NAME2} cannot be installed into the same directory as Grand Theft Auto: San Andreas.$\n$\n\ 
+LangString INST_GTA_CONFLICT ${LANG_ENGLISH} "${NAME2} cannot be installed into the same directory as Grand Theft Auto: San Andreas.$\n$\n\
             Do you want to use the default install directory$\n\
             $APPDATA\${NAME} ?"
 LangString INST_GTA_ERROR1 ${LANG_ENGLISH} "The selected directory does not exist.$\n$\n\
@@ -309,7 +309,7 @@ LangString INST_GTA_ERROR2 ${LANG_ENGLISH} "Could not find Grand Theft Auto: San
 
 Function PageLeaveDirectory
     ; Check if user is trying to install CTN into GTA directory
-    Push $INSTDIR 
+    Push $INSTDIR
     Call IsGtaDirectory
     Pop $0
     ${If} $0 == "gta"
@@ -331,7 +331,7 @@ Var GameDirPage_drButton
 
 Function PageGameDirectory
     !insertmacro MUI_HEADER_TEXT "$(INST_GAMEDIRPAGE_HEADER_TEXT)" "$(INST_GAMEDIRPAGE_HEADER_SUBTITLE_TEXT)"
-    
+
     ; Attempt to grab SA installation path from registry
     ; Try to get the path from a previous CTN installation
     ReadRegStr $0 HKLM "${REGKEY}" "GTAInstallLocation"
@@ -343,7 +343,7 @@ Function PageGameDirectory
         ; Try for retail SA
         ReadRegStr $0 HKLM "SOFTWARE\Rockstar Games\GTA San Andreas\Installation" "ExePath"
     ${EndIf}
-    
+
     ; Remove exe name from path
     !insertmacro ReplaceSubStr $0 "gta_sa.exe" ""
     ; Conform slash types
@@ -351,21 +351,21 @@ Function PageGameDirectory
     ; Remove quotes
     StrCpy $3 '"'
     !insertmacro ReplaceSubStr $MODIFIED_STR $3 ""
-    ; Store result 
+    ; Store result
     StrCpy $GTA_DIR $MODIFIED_STR
 
     ; Default to standard path if nothing defined
-    ${If} $GTA_DIR == "" 
+    ${If} $GTA_DIR == ""
         StrCpy $GTA_DIR "$PROGRAMFILES\Rockstar Games\GTA San Andreas\"
     ${EndIf}
-    
+
     nsDialogs::Create 1018
     Pop $GameDirPage_Dialog
     ; Did we encounter an error?
     ${If} $GameDirPage_Dialog == error
         Abort
     ${EndIf}
-    
+
     ${NSD_CreateLabel} 0u 0u 297.52u 58.46u "$(INST_GAMEDIRPAGE_INSTRUCTIONS)"
     Pop $GameDirPage_lblInstructions
 
@@ -381,14 +381,14 @@ Function PageGameDirectory
     ${NSD_CreateButton} 242.23u 72u 46.08u 15.38u "$(INST_GAMEDIRPAGE_BROWSEBTN_TEXT)"
     Pop $GameDirPage_drButton
     ${NSD_OnClick} $GameDirPage_drButton PageGameDirectoryDirRequestBtnClick
-    
+
     nsDialogs::Show
 FunctionEnd
 
 Function PageLeaveGameDirectory
     ${NSD_GetText} $GameDirPage_drText $R0
     StrCpy $GTA_DIR $R0
-    
+
     ; Directory must exist
     IfFileExists "$GTA_DIR\*.*" hasdir
         MessageBox MB_ICONEXCLAMATION|MB_TOPMOST|MB_SETFOREGROUND \
