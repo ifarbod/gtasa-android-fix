@@ -1,4 +1,4 @@
-// Object.hpp
+// ColModel.hpp
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,12 +9,11 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Physical.hpp"
 
 namespace ctn::SA
 {
 
-class CObject : public CPhysical
+class CColModel
 {
 public:
     // Memory allocation in pool.

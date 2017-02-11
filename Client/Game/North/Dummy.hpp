@@ -17,7 +17,9 @@ namespace ctn::SA
 class CDummy : public CEntity
 {
 public:
+    // Memory allocation in pool.
     void* operator new(u32 size);
+    // Memory deallocation in pool.
     void operator delete(void* ptr);
 };
 

@@ -18,7 +18,9 @@ class CPed : public CPhysical
 {
 public:
 
+    // Memory allocation in pool.
     void* operator new(u32 size);
+    // Memory deallocation in pool.
     void operator delete(void* ptr);
 };
 
