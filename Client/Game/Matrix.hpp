@@ -41,6 +41,7 @@ public:
     RwMatrix* rwMatrix_;
     b32 removeRwMatrix_;
 };
+
 VALIDATE_SIZE(CMatrix, 0x48);
 
 }

@@ -1,4 +1,4 @@
-// Entity.hpp
+// Static entity
 // Author(s):       iFarbod <>
 //                  GTA Modding Community <http://gtamodding.com>
 //

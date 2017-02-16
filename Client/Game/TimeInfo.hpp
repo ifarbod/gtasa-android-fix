@@ -1,4 +1,4 @@
-// Bike.hpp
+// Time info for modelinfo
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,17 +9,19 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Vehicle.hpp"
 
 namespace ctn::SA
 {
 
-class CBike : public CVehicle
+class CTimeInfo
 {
 public:
+    CTimeInfo* FindOtherTimeModel(const char* name);
 
+public:
+    u8 timeOn_;
+    u8 timeOff_;
+    u16 otherModelId_;
 };
-
-//VALIDATE_SIZE(CBike, 0x814);
 
 }

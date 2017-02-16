@@ -1,4 +1,4 @@
-// TimeInfo.hpp
+// Train vehicle entity
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,19 +9,17 @@
 #pragma once
 
 #include "Common.hpp"
+#include "Vehicle.hpp"
 
 namespace ctn::SA
 {
 
-class CTimeInfo
+class CTrain : public CVehicle
 {
 public:
-    CTimeInfo* FindOtherTimeModel(const char* name);
 
-public:
-    u8 timeOn_;
-    u8 timeOff_;
-    u16 otherModelId_;
 };
+
+//VALIDATE_SIZE(CTrain, 0x6AC);
 
 }

@@ -1,4 +1,4 @@
-// Four-wheeled bike (ATV)
+// Four-wheeled bike vehicle entity
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth

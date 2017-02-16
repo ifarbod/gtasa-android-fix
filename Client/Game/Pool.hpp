@@ -122,29 +122,32 @@ public:
     // Sets all items as free.
     void Clear()
     {
-        for (int i = 0; i < size; ++i)
+        for (s32 i = 0; i < size; ++i)
         {
-            SetNotFreeAt(i, true);
+            SetFreeAt(i, true);
         }
     }
 
-    bool IsFreeAtSlot(int index)
+    // Checks if the specified index is free.
+    bool IsFreeAtIndex(s32 index)
     {
         return byteMap_[index].isFree_;
     }
 
-    void SetFreeAt(int index, bool isFree = true)
+    // Set specified index as free/used.
+    void SetFreeAt(s32 index, bool isFree = true)
     {
         byteMap_[index].isFree_ = isFree;
     }
 
-    void SetNotFreeAt(int index)
+    // Set specified index as used.
+    void SetNotFreeAt(s32 index)
     {
         SetFreeAt(index, false);
     }
 
     // Returns pointer to object by index.
-    Type* GetAt(int index) const
+    Type* GetAt(s32 index) const
     {
         return index >= 0 && index < size_ && !IsFreeAtSlot(index) ? static_cast<Type*>(&objects_[index]) : nullptr;
     }
@@ -156,7 +159,7 @@ public:
     }
 
     // Allocate using specific SCM handle.
-    Type* New(int index)
+    Type* New(s32 index)
     {
 
     }

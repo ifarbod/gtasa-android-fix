@@ -1,4 +1,4 @@
-// TimeModelInfo.hpp
+// Panel.hpp
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,18 +9,15 @@
 #pragma once
 
 #include "Common.hpp"
-#include "AtomicModelInfo.hpp"
-#include "TimeInfo.hpp"
 
 namespace ctn::SA
 {
 
-class CTimeModelInfo : public CAtomicModelInfo
+class CPanel
 {
-public:
-    CTimeInfo timeInfo_;
+
 };
 
-VALIDATE_SIZE(CTimeModelInfo, 0x24);
+//VALIDATE_SIZE(CPanel, 0x20);
 
 }

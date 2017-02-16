@@ -1,4 +1,4 @@
-// Trailer.hpp
+// AnimBlendAssocGroup.hpp
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,17 +9,16 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Automobile.hpp"
 
 namespace ctn::SA
 {
 
-class CTrailer : public CAutomobile
+// Also known as CPedAnimation
+class CAnimBlendAssocGroup
 {
-public:
 
 };
 
-//VALIDATE_SIZE(CTrailer, 0x9F4);
+//VALIDATE_SIZE(CAnimBlendAssocGroup, 0x14);
 
 }

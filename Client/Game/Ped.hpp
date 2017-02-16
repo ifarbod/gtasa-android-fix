@@ -1,4 +1,4 @@
-// Automobile.hpp
+// Character entity
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,23 +9,21 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Vehicle.hpp"
-
-// Vortex-related fields (4D Vector/Quaternion) @ 0x6C9357:
-// CAutomobile+0x968
-// CAutomobile+0x96C
-// CAutomobile+0x970
-// CAutomobile+0x974
+#include "Physical.hpp"
 
 namespace ctn::SA
 {
 
-class CAutomobile : public CVehicle
+class CPed : public CPhysical
 {
 public:
 
+    // Memory allocation in pool.
+    void* operator new(u32 size);
+    // Memory deallocation in pool.
+    void operator delete(void* ptr);
 };
 
-//VALIDATE_SIZE(CAutomobile, 0x988);
+//VALIDATE_SIZE(CPed, 0x79C);
 
 }

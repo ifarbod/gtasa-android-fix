@@ -1,4 +1,4 @@
-// Vehicle.hpp
+// Monster truck vehicle entity
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,20 +9,21 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Physical.hpp"
+#include "Automobile.hpp"
 
 namespace ctn::SA
 {
 
-class CVehicle : public CPhysical
+class CMonsterTruck : public CAutomobile
 {
 public:
-    // Memory allocation in pool.
-    void* operator new(u32 size);
-    // Memory deallocation in pool.
-    void operator delete(void* ptr);
+    f32 f988_;
+    f32 f98C_;
+    f32 f990_;
+    f32 f994_;
+    f32 f998_;
 };
 
-//VALIDATE_SIZE(CVehicle, 0x5A0);
+//VALIDATE_SIZE(CMonsterTruck, 0x99C);
 
 }

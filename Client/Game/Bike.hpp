@@ -1,4 +1,4 @@
-// Dummy.hpp
+// Bike vehicle entity
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,20 +9,17 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Entity.hpp"
+#include "Vehicle.hpp"
 
 namespace ctn::SA
 {
 
-class CDummy : public CEntity
+class CBike : public CVehicle
 {
 public:
-    // Memory allocation in pool.
-    void* operator new(u32 size);
-    // Memory deallocation in pool.
-    void operator delete(void* ptr);
+
 };
 
-VALIDATE_SIZE(CDummy, 0x38);
+//VALIDATE_SIZE(CBike, 0x814);
 
 }

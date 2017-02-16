@@ -1,4 +1,4 @@
-// Object.hpp
+// Door.hpp
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,18 +9,15 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Physical.hpp"
 
 namespace ctn::SA
 {
 
-class CObject : public CPhysical
+class CDoor
 {
-public:
-    // Memory allocation in pool.
-    void* operator new(u32 size);
-    // Memory deallocation in pool.
-    void operator delete(void* ptr);
+
 };
+
+//VALIDATE_SIZE(CDoor, 0x18);
 
 }

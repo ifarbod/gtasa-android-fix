@@ -1,4 +1,4 @@
-// Boat.hpp
+// Physical entity base
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,17 +9,18 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Vehicle.hpp"
+#include "Entity.hpp"
 
 namespace ctn::SA
 {
 
-class CBoat : public CVehicle
+class CPhysical : public CEntity
 {
 public:
+    f32 f038_;
 
 };
 
-//VALIDATE_SIZE(CBoat, 0x7E8);
+//VALIDATE_SIZE(CPhysical, 0x138);
 
 }

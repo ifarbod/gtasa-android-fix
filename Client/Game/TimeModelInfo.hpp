@@ -1,4 +1,4 @@
-// Ped.hpp
+// Timed model info
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,21 +9,18 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Physical.hpp"
+#include "AtomicModelInfo.hpp"
+#include "TimeInfo.hpp"
 
 namespace ctn::SA
 {
 
-class CPed : public CPhysical
+class CTimeModelInfo : public CAtomicModelInfo
 {
 public:
-
-    // Memory allocation in pool.
-    void* operator new(u32 size);
-    // Memory deallocation in pool.
-    void operator delete(void* ptr);
+    CTimeInfo timeInfo_;
 };
 
-//VALIDATE_SIZE(CPed, 0x79C);
+VALIDATE_SIZE(CTimeModelInfo, 0x24);
 
 }

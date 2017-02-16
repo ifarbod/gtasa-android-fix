@@ -1,4 +1,4 @@
-// DummyObject.hpp
+// Dynamic object entity
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,17 +9,18 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Dummy.hpp"
+#include "Physical.hpp"
 
 namespace ctn::SA
 {
 
-class CDummyObject : public CDummy
+class CObject : public CPhysical
 {
 public:
-
+    // Memory allocation in pool.
+    void* operator new(u32 size);
+    // Memory deallocation in pool.
+    void operator delete(void* ptr);
 };
-
-VALIDATE_SIZE(CDummyObject, 0x38);
 
 }

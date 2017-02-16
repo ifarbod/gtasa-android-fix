@@ -1,4 +1,4 @@
-// MonsterTruck.hpp
+// PlayerPed.hpp
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,21 +9,18 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Automobile.hpp"
+#include "Ped.hpp"
 
 namespace ctn::SA
 {
 
-class CMonsterTruck : public CAutomobile
+class CPlayerPed : public CPed
 {
 public:
-    f32 f988_;
-    f32 f98C_;
-    f32 f990_;
-    f32 f994_;
-    f32 f998_;
+    CPed* targettedPed_;
+    s32 f7A0_;
 };
 
-//VALIDATE_SIZE(CMonsterTruck, 0x99C);
+//VALIDATE_SIZE(CPlayerPed, 0x7A4);
 
 }
