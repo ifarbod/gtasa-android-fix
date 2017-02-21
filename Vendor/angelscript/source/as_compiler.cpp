@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2016 Andreas Jonsson
+   Copyright (c) 2003-2017 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied
    warranty. In no event will the authors be held liable for any
@@ -2869,6 +2869,11 @@ bool asCCompiler::CompileInitialization(asCScriptNode *node, asCByteCode *bc, as
 			expr = &newExpr;
 			r = CompileAssignment(node, expr);
 		}
+
+		// handles initialized with null doesn't need any bytecode
+		// since handles will be initialized to null by default anyway
+		if (type.IsObjectHandle() && expr->type.IsNullConstant() && expr->bc.IsSimpleExpression() )
+			return false;
 
 		// Look for appropriate constructor
 		asCArray<int> funcs;
@@ -9589,7 +9594,7 @@ int asCCompiler::CompileConversion(asCScriptNode *node, asCExprContext *ctx)
 	asCDataType to;
 	bool anyErrors = false;
 	EImplicitConv convType;
-	if( node->nodeType == snConstructCall )
+	if( node->nodeType == snConstructCall || node->nodeType == snFunctionCall )
 	{
 		convType = asIC_EXPLICIT_VAL_CAST;
 
@@ -10398,6 +10403,15 @@ int asCCompiler::CompileFunctionCall(asCScriptNode *node, asCExprContext *ctx, a
 		}
 	}
 
+	// If at this point no functions have been identified, then this may be a construct call
+	if (funcs.GetLength() == 0)
+	{
+		bool isValid = false;
+		asCDataType dt = builder->CreateDataTypeFromNode(node->firstChild, script, outFunc->nameSpace, false, 0, false, &isValid);
+		if (isValid)
+			return CompileConstructCall(node, ctx);
+	}
+
 	// Compile the arguments
 	asCArray<asCExprContext *> args;
 	asCArray<asSNamedArgument> namedArgs;
@@ -11190,6 +11204,8 @@ int asCCompiler::FindPropertyAccessor(const asCString &name, asCExprContext *ctx
 		ctx->property_get = getId;
 		ctx->property_set = setId;
 
+		bool isHandleSafe = ctx->type.isHandleSafe;
+
 		if( ctx->type.dataType.IsObject() )
 		{
 			// If the object is read-only then we need to remember that
@@ -11220,6 +11236,10 @@ int asCCompiler::FindPropertyAccessor(const asCString &name, asCExprContext *ctx
 		ctx->type.stackOffset = (short)offset;
 		ctx->type.isTemporary = isTemp;
 		ctx->exprNode = node;
+
+		// Remember if the object is safe, so the invocation of the property
+		// accessor doesn't needlessly make a safe copy of the handle
+		ctx->type.isHandleSafe = isHandleSafe;
 
 		// Store the argument for later use
 		if( arg )
@@ -12527,8 +12547,15 @@ int asCCompiler::CompileOverloadedDualOperator2(asCScriptNode *node, const char 
 		// Did we find an operator?
 		if( ops.GetLength() == 1 )
 		{
+			// Reserve the variables used in the right expression so the new temporary
+			// variable allocated for the left operand isn't accidentally overwritten.
+			int l = int(reservedVariables.GetLength());
+			rctx->bc.GetVarsUsed(reservedVariables);
+
 			// Process the lctx expression as get accessor
 			ProcessPropertyGetAccessor(lctx, node);
+
+			reservedVariables.SetLength(l);
 
 			asCExprContext tmpCtx(engine);
 			if (leftToRight)
@@ -12539,7 +12566,7 @@ int asCCompiler::CompileOverloadedDualOperator2(asCScriptNode *node, const char 
 				{
 					// Reserve the variables used in the right expression so the new temporary
 					// variable allocated for the left operand isn't accidentally overwritten.
-					int l = int(reservedVariables.GetLength());
+					l = int(reservedVariables.GetLength());
 					rctx->bc.GetVarsUsed(reservedVariables);
 
 					if (lctx->type.dataType.SupportHandles())
