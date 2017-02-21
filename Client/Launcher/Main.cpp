@@ -16,28 +16,22 @@ char g_szGamePath[MAX_PATH];
 char g_szGameExecutable[MAX_PATH]; // "D:\\GTA San Andreas Online\\gta_sa.exe"
 char g_szExecutablePath[MAX_PATH];
 
-// Prefer the high-performance GPU on switchable GPU systems
-extern "C"
-{
-    __declspec(dllexport) DWORD NvOptimusEnablement = 1;
-    __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
-}
-
 void wmain()
 {
-    if(!CheckRegistryIntegrity())
+    if (!CheckRegistryIntegrity())
     {
         ExitProcess(1);
         return;
     }
 
-    if(GetFileAttributesA(g_szGameExecutable) == INVALID_FILE_ATTRIBUTES)
+    if (GetFileAttributesA(g_szGameExecutable) == INVALID_FILE_ATTRIBUTES)
     {
         FatalError("Could not find the game executable at the configured path.");
         return;
     }
 
-    SetDllDirectoryA(g_szGamePath);
+    // FIXME: Set DLL Directory to CTN's path
+    //SetDllDirectoryA(g_szGamePath);
     SetCurrentDirectoryA(g_szGamePath);
 
     GameLauncher::Launch(g_szGameExecutable);

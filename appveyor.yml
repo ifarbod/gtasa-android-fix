@@ -50,7 +50,8 @@ build:
 after_build:
   - utils\premake5 install_data
   - utils\premake5 compose_files
-  - cinst nsis --version 3.0 -y -installArgs /D=%NSIS_ROOT%
+  # TODO: Use 'nsis-unicode'?
+  - choco install nsis --version 3.0 -y -installArgs /D=%NSIS_ROOT%
   - cd %NSIS_ROOT%
   - makensis ..\ctn.nsi
   - cd ..

@@ -16,7 +16,21 @@ namespace ctn::SA
 class CBaseModelInfo
 {
 public:
-    virtual ~CBaseModelInfo() {};
+    virtual ~CBaseModelInfo() = 0;
+    virtual CBaseModelInfo* AsAtomicModelInfoPtr();
+    virtual CBaseModelInfo* AsDamageAtomicModelInfoPtr();
+    virtual CBaseModelInfo* AsLodAtomicModelInfoPtr();
+    virtual void GetModelType() = 0;
+    virtual class CTimeInfo* GetTimeInfo();
+    virtual void Init();
+    virtual void Shutdown();
+    virtual void DeleteRwObject() = 0;
+    virtual u32 GetRwModelType() = 0;
+    virtual struct RwObject* CreateInstance(class RwMatrix* matrix) = 0;
+    virtual struct RwObject* CreateInstance() = 0;
+    virtual void SetAnimFile(char* filename);
+    virtual void ConvertAnimFileIndex();
+    virtual s32 GetAnimFileIndex();
 
 public:
     u32 hashKey_;
