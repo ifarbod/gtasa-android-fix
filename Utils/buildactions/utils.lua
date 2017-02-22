@@ -124,6 +124,17 @@ function string.tobool(str)
     end
 end
 
+function http.download_ex(url, file, options)
+    local result_str, response_code = http.download(url, file, options)
+    if result_str ~= "OK" then
+        print("\nERROR: Failed to download " .. url .. "\n" .. result_str)
+        if response_code == 0 then
+            -- No response code means server was unreachable
+            print("Check if premake5 is not blocked by firewall rules")
+        end
+    end
+end
+
 -- GTA:SA is the fallback game
 function string.togame(str)
     if str == nil then

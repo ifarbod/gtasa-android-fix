@@ -1,4 +1,4 @@
-// PE32 Loader
+// PE32 Executable loader
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //                  NTAuthority
 //
@@ -122,6 +122,7 @@ void ExecutableLoader::LoadSections(IMAGE_NT_HEADERS* ntHeader)
 
     for (int i = 0; i < ntHeader->FileHeader.NumberOfSections; i++)
     {
+        // Load the given section into memory
         LoadSection(section);
 
         section++;
