@@ -19,9 +19,9 @@ public:
     CTimeInfo* FindOtherTimeModel(const char* name);
 
 public:
-    u8 timeOn_;
-    u8 timeOff_;
-    u16 otherModelId_;
+    u8 m_timeOn;
+    u8 m_timeOff;
+    u16 m_otherModelId;
 };
 
 }

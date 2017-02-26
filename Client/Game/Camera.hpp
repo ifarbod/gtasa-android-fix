@@ -21,7 +21,7 @@ public:
     virtual ~CCamera() = 0;
 
 public:
-    CCam cams_[3];
+    CCam m_cams[3];
 };
 
 //VALIDATE_SIZE(CCamera, 0xD78);

@@ -68,7 +68,7 @@ void GameLauncher::Launch(const char* gamePath)
 
     ExecutableLoader exeLoader(data);
 
-    exeLoader.SetLibraryLoader([] (const char* libName)
+    exeLoader.SetLibraryLoader([](const char* libName)
     {
         if (String(libName).ToLower() == "vorbisfile.dll")
         {

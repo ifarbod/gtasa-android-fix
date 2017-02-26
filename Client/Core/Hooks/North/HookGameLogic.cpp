@@ -153,13 +153,6 @@ static HookFunction hookFunction([]()
     // Disable CStreaming::ReadIniFile (stream.ini)
     MakeRet(0x5BCCD0);
 
-    // CDecisionMakerTypesFileLoader::LoadDefaultDecisionMaker
-    MakeRet(0x5BF400);
-    // CPedStats::LoadPedStats
-    MakeRet(0x5BB890);
-    // Change CPedStats::fHeadingChangeRate (was 15.0)
-    MemWrite<f32>(0x5BFA1D + 4, 9.5f);
-
     // No random hydraulics for cars
     MakeShortJmp(0x6B0BC2);
 

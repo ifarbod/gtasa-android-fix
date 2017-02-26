@@ -21,7 +21,7 @@ public:
 
 private:
     class C2dEffect* m_2dEffect;     // +0x04
-    CEntity* entity_;                // +0x08
+    CEntity* m_entity;                // +0x08
     PAD(CPedAttractor, pad0C, 0xB8); // +0x0C
 };
 

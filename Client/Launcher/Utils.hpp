@@ -24,5 +24,3 @@ char GetLastCharacterOfNullTerminatedCString(char *szString, size_t size);
 
 bool ReadRegistryString(HKEY hKeyLocation, const char * szSubKey, const char * szKey, const char * szDefault, char * szData, DWORD dwSize);
 bool WriteRegistryString(HKEY hKeyLocation, const char * szSubKey, const char * szKey, char * szData, DWORD dwSize);
-
-DWORD Unprotect(DWORD dwAddress, size_t sSize);

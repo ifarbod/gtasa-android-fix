@@ -41,7 +41,7 @@ public:
 
 public:
     // Parent task.
-    class CTask* parentTask_;
+    class CTask* m_parentTask;
 };
 
 VALIDATE_SIZE(CTask, 0x8);

@@ -23,7 +23,7 @@ public:
     virtual CTask* ControlSubTask(class CPed* ped) = 0;
 
 public:
-    CTask* subTask_;
+    CTask* m_subTask;
 };
 
 }

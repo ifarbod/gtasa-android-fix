@@ -21,8 +21,8 @@ public:
     virtual ~CPlaceable() = 0;
 
 public:
-    CSimpleTransform position_;
-    CMatrixLink* matrix_;
+    CSimpleTransform m_position;
+    CMatrixLink* m_matrix;
 };
 VALIDATE_SIZE(CPlaceable, 0x18);
 

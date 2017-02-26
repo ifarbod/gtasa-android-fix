@@ -30,56 +30,56 @@ union MemoryPointer
 {
 public:
     // Default constructor.
-    MemoryPointer() : ptr_(0) {}
+    MemoryPointer() : m_ptr(0) {}
     // Construct from nullptr.
-    MemoryPointer(std::nullptr_t) : ptr_(nullptr) {}
+    MemoryPointer(std::nullptr_t) : m_ptr(nullptr) {}
     // Copy constructor.
     MemoryPointer(const MemoryPointer& x) = default;
     // Construct from a pointer.
-    MemoryPointer(void* x) : ptr_(x) {}
+    MemoryPointer(void* x) : m_ptr(x) {}
     // Construct from an integral pointer.
-    MemoryPointer(uintptr_t x) : a_(x) {}
+    MemoryPointer(uintptr_t x) : m_a(x) {}
     // Construct from a pointer with a specified type.
-    template <class T> MemoryPointer(T* x) : ptr_(reinterpret_cast<void*>(x)) {}
+    template <class T> MemoryPointer(T* x) : m_ptr(reinterpret_cast<void*>(x)) {}
 
     // Returns true if the underlying pointer is a nullptr.
-    bool IsNull() const { return this->ptr_ != nullptr; }
+    bool IsNull() const { return this->m_ptr != nullptr; }
     // Return the underlying pointer as a uintptr_t.
-    uintptr_t AsInt() const { return this->a_; }
+    uintptr_t AsInt() const { return this->m_a; }
 
     explicit operator bool() const { return IsNull(); }
-    explicit operator uintptr_t() const { return this->a_; }
+    explicit operator uintptr_t() const { return this->m_a; }
 
     MemoryPointer Get() const { return *this; }
     template <class T> T* Get() const { return Get(); }
     template <class T> T* GetRaw() { return Get(); }
 
-    template <class T> operator T*() const { return reinterpret_cast<T*>(ptr_); }
+    template <class T> operator T*() const { return reinterpret_cast<T*>(m_ptr); }
 
     // Comparison
-    bool operator==(const MemoryPointer& rhs) const { return this->a_ == rhs.a_; }
-    bool operator!=(const MemoryPointer& rhs) const { return this->a_ != rhs.a_; }
-    bool operator<(const MemoryPointer& rhs) const { return this->a_ < rhs.a_; }
-    bool operator<=(const MemoryPointer& rhs) const { return this->a_ <= rhs.a_; }
-    bool operator>(const MemoryPointer& rhs) const { return this->a_ > rhs.a_; }
-    bool operator>=(const MemoryPointer& rhs) const { return this->a_ >= rhs.a_; }
+    bool operator==(const MemoryPointer& rhs) const { return this->m_a == rhs.m_a; }
+    bool operator!=(const MemoryPointer& rhs) const { return this->m_a != rhs.m_a; }
+    bool operator<(const MemoryPointer& rhs) const { return this->m_a < rhs.m_a; }
+    bool operator<=(const MemoryPointer& rhs) const { return this->m_a <= rhs.m_a; }
+    bool operator>(const MemoryPointer& rhs) const { return this->m_a > rhs.m_a; }
+    bool operator>=(const MemoryPointer& rhs) const { return this->m_a >= rhs.m_a; }
 
     // Operators
-    MemoryPointer operator+(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ + rhs.a_); }
-    MemoryPointer operator-(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ - rhs.a_); }
-    MemoryPointer operator*(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ * rhs.a_); }
-    MemoryPointer operator/(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ / rhs.a_); }
+    MemoryPointer operator+(const MemoryPointer& rhs) const { return MemoryPointer(this->m_a + rhs.m_a); }
+    MemoryPointer operator-(const MemoryPointer& rhs) const { return MemoryPointer(this->m_a - rhs.m_a); }
+    MemoryPointer operator*(const MemoryPointer& rhs) const { return MemoryPointer(this->m_a * rhs.m_a); }
+    MemoryPointer operator/(const MemoryPointer& rhs) const { return MemoryPointer(this->m_a / rhs.m_a); }
 
-    MemoryPointer operator+=(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ + rhs.a_); }
-    MemoryPointer operator-=(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ - rhs.a_); }
-    MemoryPointer operator*=(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ * rhs.a_); }
-    MemoryPointer operator/=(const MemoryPointer& rhs) const { return MemoryPointer(this->a_ / rhs.a_); }
+    MemoryPointer operator+=(const MemoryPointer& rhs) const { return MemoryPointer(this->m_a + rhs.m_a); }
+    MemoryPointer operator-=(const MemoryPointer& rhs) const { return MemoryPointer(this->m_a - rhs.m_a); }
+    MemoryPointer operator*=(const MemoryPointer& rhs) const { return MemoryPointer(this->m_a * rhs.m_a); }
+    MemoryPointer operator/=(const MemoryPointer& rhs) const { return MemoryPointer(this->m_a / rhs.m_a); }
 
 protected:
     // Pointer.
-    void* ptr_;
+    void* m_ptr;
     // Unsigned int32.
-    uintptr_t a_;
+    uintptr_t m_a;
 };
 
 template <uintptr_t addr>
@@ -116,23 +116,27 @@ inline bool UnprotectMemory(MemoryPointer addr, size_t size, DWORD& out_oldprote
     return VirtualProtect(addr.Get(), size, PAGE_EXECUTE_READWRITE, &out_oldprotect) != 0;
 }
 
-struct ScopedUnprotect
+class ScopedUnprotect
 {
-    MemoryPointer addr;
-    size_t size;
-    DWORD dwOldProtect;
-    bool bUnprotected;
-
+public:
     ScopedUnprotect(MemoryPointer addr, size_t size)
     {
-        if (size == 0) bUnprotected = false;
-        else bUnprotected = UnprotectMemory(this->addr = addr.Get<void>(), this->size = size, dwOldProtect);
+        if (size == 0)
+            m_unprotected = false;
+        else
+            m_unprotected = UnprotectMemory(m_addr = addr.Get<void>(), m_size = size, m_oldProtect);
     }
 
     ~ScopedUnprotect()
     {
-        if (bUnprotected) ProtectMemory(this->addr.Get(), this->size, this->dwOldProtect);
+        if (m_unprotected) ProtectMemory(m_addr.Get(), m_size, m_oldProtect);
     }
+
+private:
+    MemoryPointer m_addr;
+    size_t m_size;
+    DWORD m_oldProtect;
+    bool m_unprotected;
 };
 
 // Methods for reading/writing memory
@@ -156,7 +160,7 @@ inline void MemSet(MemoryPointer addr, s32 value, size_t size)
     memset(addr.Get<void>(), value, size);
 }
 
-inline void MemCpy(MemoryPointer addr, void const* src, size_t size)
+inline void MemCpy(MemoryPointer addr, const void* src, size_t size)
 {
     ScopedUnprotect xprotect(addr, size);
     memcpy(addr.Get<void>(), src, size);
@@ -411,7 +415,5 @@ struct Vtbl
 };
 
 }
-
-namespace hook = Hook;
 
 }

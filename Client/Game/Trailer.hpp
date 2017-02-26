@@ -17,12 +17,12 @@ namespace ctn::SA
 class CTrailer : public CAutomobile
 {
 public:
-    //CColPoint f988[2];
-    f32 f9E0;
-    f32 f9E4;
-    s8 f9E8[4];
-    f32 f9EC;
-    f32 f9F0;
+    //CColPoint m_field988[2];
+    f32 m_field9E0;
+    f32 m_field9E4;
+    s8 m_field9E8[4];
+    f32 m_field9EC;
+    f32 m_field9F0;
 };
 
 //VALIDATE_SIZE(CTrailer, 0x9F4);

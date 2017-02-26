@@ -17,7 +17,7 @@ namespace ctn::SA
 class CPhysical : public CEntity
 {
 public:
-    f32 f038_;
+    f32 m_field038; // +0x038
 
 };
 

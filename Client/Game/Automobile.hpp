@@ -27,8 +27,8 @@ class CAutomobile : public CVehicle
 public:
 
 private:
-    CDamageManager damageManager_;
-    CDoor doors_[6];
+    CDamageManager m_damageManager;
+    CDoor m_doors[6];
     RwFrame* m_aCarNodes[CAR_NUM_NODES];
     CPanel m_panels[3];
     CDoor m_swingingChassis;

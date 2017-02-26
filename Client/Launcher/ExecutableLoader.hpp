@@ -34,16 +34,16 @@ private:
     // Load all sections.
     void LoadSections(IMAGE_NT_HEADERS* ntHeader);
     // Load Imports
-    bool LoadImports(IMAGE_NT_HEADERS* ntHeader);
+    bool LoadDependentLibraries(IMAGE_NT_HEADERS* ntHeader);
     // Resolve a library.
     HMODULE ResolveLibrary(const char* name);
     // Resolve a library function.
     LPVOID ResolveLibraryFunction(HMODULE module, const char* name);
     // Get RVA.
-    template <class T> inline const T* GetRVA(uint32_t rva) { return reinterpret_cast<T*>(origBinary_ + rva);}
+    template <class T> inline const T* GetRVA(unsigned rva) { return reinterpret_cast<T*>(origBinary_ + rva);}
     // Get target RVA.
     template <class T>
-    inline T* GetTargetRVA(uint32_t rva)
+    inline T* GetTargetRVA(unsigned rva)
     {
         return reinterpret_cast<T*>(reinterpret_cast<char*>(executableHandle_) + rva);
     }

@@ -9,6 +9,8 @@
 #include "Precompiled.hpp"
 #include "Main.hpp"
 
+// TODO: Refactor this!
+
 bool CheckRegistryIntegrity()
 {
     // Own app-path
@@ -82,12 +84,12 @@ bool CheckRegistryIntegrity()
 
 void Error(const char *pszErrorMessage)
 {
-    MessageBoxA(NULL, pszErrorMessage, "Error!", MB_ICONERROR | MB_OK);
+    MessageBoxA(nullptr, pszErrorMessage, "Error!", MB_ICONERROR | MB_OK);
 }
 
 void FatalError(const char *pszErrorMessage)
 {
-    MessageBoxA(NULL, pszErrorMessage, "Fatal error!", MB_ICONERROR | MB_OK);
+    MessageBoxA(nullptr, pszErrorMessage, "Fatal error!", MB_ICONERROR | MB_OK);
 
     ExitProcess(1);
 }

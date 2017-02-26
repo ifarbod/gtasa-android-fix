@@ -17,7 +17,7 @@ namespace ctn::SA
 class CWeaponModelInfo : public CClumpModelInfo
 {
 public:
-    u32 weaponInfo_; // eWeaponType
+    u32 m_weaponInfo; // eWeaponType
 };
 
 VALIDATE_SIZE(CWeaponModelInfo, 0x28);

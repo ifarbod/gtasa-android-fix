@@ -19,12 +19,12 @@ union tPoolObjectFlags
 {
     struct
     {
-        u8 id_ : 7;
-        bool isFree_ : 1;
+        u8 m_id : 7;
+        bool m_isFree : 1;
     };
     struct
     {
-        u8 flags_;
+        u8 m_flags;
     };
 };
 
@@ -48,11 +48,11 @@ public:
 
     // Construct a pool that can hold items.
     CPool(s32 size, const char* poolName = nullptr) :
-        objects_(nullptr),
-        byteMap_(nullptr),
-        firstFree_(-1),
-        size_(0),
-        ownsAllocations_(false)
+        m_objects(nullptr),
+        m_byteMap(nullptr),
+        m_firstFree(-1),
+        m_size(0),
+        m_ownsAllocations(false)
     {
         if (size)
         {
@@ -72,51 +72,51 @@ public:
         // Should we use pre-allocated objects?
         if (objects && infos)
         {
-            objects_ = static_cast<StoreType*>(objects);
-            byteMap_ = static_cast<tPoolObjectFlags*>(infos);
-            ownsAllocations_ = false;
+            m_objects = static_cast<StoreType*>(objects);
+            m_byteMap = static_cast<tPoolObjectFlags*>(infos);
+            m_ownsAllocations = false;
         }
         // This pool allocates memory on its own
         else
         {
-            objects_ = static_cast<StoreType*>(operator new(sizeof(StoreType) * size));
-            byteMap_ = static_cast<tPoolObjectFlags*>(operator new(sizeof(tPoolObjectFlags) * size));
-            ownsAllocations_ = true;
+            m_objects = static_cast<StoreType*>(operator new(sizeof(StoreType) * size));
+            m_byteMap = static_cast<tPoolObjectFlags*>(operator new(sizeof(tPoolObjectFlags) * size));
+            m_ownsAllocations = true;
         }
 
-        size_ = size;
-        firstFree_ = -1;
+        m_size = size;
+        m_firstFree = -1;
 
         for (int i = 0; i < size; ++i)
         {
-            byteMap_[i].isFree_ = true;
-            byteMap_[i].id_ = 0;
+            m_byteMap[i].m_isFree = true;
+            m_byteMap[i].m_id = 0;
         }
     }
 
     // Removes all items and releases owned memory.
     void Flush()
     {
-        if (!size_)
+        if (!m_size)
         {
             return;
         }
-        if (ownsAllocations_)
+        if (m_ownsAllocations)
         {
-            if (objects_)
+            if (m_objects)
             {
-                operator delete(objects_);
+                operator delete(m_objects);
             }
-            if (byteMap_)
+            if (m_byteMap)
             {
-                operator delete(byteMap_);
+                operator delete(m_byteMap);
             }
         }
 
-        objects_ = nullptr;
-        byteMap_ = nullptr;
-        size_ = 0;
-        firstFree_ = 0;
+        m_objects = nullptr;
+        m_byteMap = nullptr;
+        m_size = 0;
+        m_firstFree = 0;
     }
 
     // Sets all items as free.
@@ -131,13 +131,13 @@ public:
     // Checks if the specified index is free.
     bool IsFreeAtIndex(s32 index)
     {
-        return byteMap_[index].isFree_;
+        return m_byteMap[index].m_isFree;
     }
 
     // Set specified index as free/used.
     void SetFreeAt(s32 index, bool isFree = true)
     {
-        byteMap_[index].isFree_ = isFree;
+        m_byteMap[index].m_isFree = isFree;
     }
 
     // Set specified index as used.
@@ -149,13 +149,13 @@ public:
     // Returns pointer to object by index.
     Type* GetAt(s32 index) const
     {
-        return index >= 0 && index < size_ && !IsFreeAtSlot(index) ? static_cast<Type*>(&objects_[index]) : nullptr;
+        return index >= 0 && index < m_size && !IsFreeAtSlot(index) ? static_cast<Type*>(&m_objects[index]) : nullptr;
     }
 
     // Allocate using first free space.
     Type* New()
     {
-        return static_cast<Type*>(&objects_[firstFree_]);
+        return static_cast<Type*>(&m_objects[m_firstFree]);
     }
 
     // Allocate using specific SCM handle.
@@ -171,27 +171,27 @@ public:
 
     s32 GetJustIndex(Type* obj) const
     {
-        return static_cast<StoreType*>(obj) - objects_;
+        return static_cast<StoreType*>(obj) - m_objects;
     }
 
     s32 GetIndex(Type* obj) const
     {
-        return static_cast<s32>(GetJustIndex(obj) | byteMap_[GetJustIndex(obj)]->flags_);
+        return static_cast<s32>(GetJustIndex(obj) | m_byteMap[GetJustIndex(obj)]->m_flags);
     }
 
 private:
     // Holds stored items.
-    StoreType* objects_;
+    StoreType* m_objects;
     // Specifies object state at index.
-    tPoolObjectFlags* byteMap_;
+    tPoolObjectFlags* m_byteMap;
     // Count of objects this pool can hold.
-    s32 size_;
+    s32 m_size;
     // First free index.
-    s32 firstFree_;
+    s32 m_firstFree;
     // Free allocated memory on destruction.
-    bool ownsAllocations_;
+    bool m_ownsAllocations;
     // Is this pool locked?
-    bool locked_;
+    bool m_locked;
 };
 
 VALIDATE_SIZE(CPool<bool>, 0x14);

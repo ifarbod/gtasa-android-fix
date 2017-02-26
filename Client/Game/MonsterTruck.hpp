@@ -17,11 +17,11 @@ namespace ctn::SA
 class CMonsterTruck : public CAutomobile
 {
 public:
-    f32 f988_;
-    f32 f98C_;
-    f32 f990_;
-    f32 f994_;
-    f32 f998_;
+    f32 m_field988; // +0x988
+    f32 m_field98C; // +0x98C
+    f32 m_field990; // +0x990
+    f32 m_field994; // +0x994
+    f32 m_field998; // +0x998
 };
 
 //VALIDATE_SIZE(CMonsterTruck, 0x99C);

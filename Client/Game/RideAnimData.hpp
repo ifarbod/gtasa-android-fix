@@ -16,13 +16,13 @@ namespace ctn::SA
 class CRideAnimData
 {
 public:
-    u32 animGroup_;
-    s32 f04_;
-    f32 animLean_;
-    s32 f0C_;
-    f32 f10_;
-    f32 handlebarsAngle_;
-    f32 animPercentageState_;
+    u32 m_animGroup;           // +0x00
+    s32 m_field04;             // +0x04
+    f32 m_animLean;            // +0x08
+    s32 m_field0C;             // +0x0C
+    f32 m_field10;             // +0x10
+    f32 m_handlebarsAngle;     // +0x14
+    f32 m_animPercentageState; // +0x18
 };
 
 VALIDATE_SIZE(CRideAnimData, 0x1C);

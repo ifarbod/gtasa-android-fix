@@ -22,24 +22,24 @@ public:
     {
         struct
         {
-            CVector right_;
-            u32 flags_;
-            CVector up_;
-            u32 pad1_;
-            CVector at_;
-            u32 pad2_;
-            CVector pos_;
-            u32 pad3_;
+            CVector m_right;
+            u32 m_flags;
+            CVector m_up;
+            u32 m_pad1;
+            CVector m_at;
+            u32 m_pad2;
+            CVector m_pos;
+            u32 m_pad3;
         };
 
         struct
         {
-            RwMatrix matrix_;
+            RwMatrix m_matrix;
         };
     };
 
-    RwMatrix* rwMatrix_;
-    b32 removeRwMatrix_;
+    RwMatrix* m_rwMatrix;
+    b32 m_removeRwMatrix;
 };
 
 VALIDATE_SIZE(CMatrix, 0x48);

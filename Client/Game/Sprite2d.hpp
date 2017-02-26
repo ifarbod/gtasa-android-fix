@@ -42,7 +42,7 @@ public:
 
 public:
     // Texture.
-    struct RwTexture* texture_;
+    struct RwTexture* m_texture;
 
     static u32 nextBufferVertex;
     static u32 nextBufferIndex;

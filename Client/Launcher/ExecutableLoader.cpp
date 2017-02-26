@@ -28,7 +28,7 @@ ExecutableLoader::ExecutableLoader(const uint8_t* origBinary)
     });
 }
 
-bool ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
+bool ExecutableLoader::LoadDependentLibraries(IMAGE_NT_HEADERS* ntHeader)
 {
     IMAGE_DATA_DIRECTORY* importDirectory = &ntHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT];
 
@@ -46,14 +46,14 @@ bool ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
             return false;
         }
 
-        if (reinterpret_cast<uint32_t>(module) == 0xFFFFFFFF)
+        if (reinterpret_cast<unsigned>(module) == 0xFFFFFFFF)
         {
             descriptor++;
             continue;
         }
 
-        auto nameTableEntry = GetTargetRVA<uint32_t>(descriptor->OriginalFirstThunk);
-        auto addressTableEntry = GetTargetRVA<uint32_t>(descriptor->FirstThunk);
+        auto nameTableEntry = GetTargetRVA<unsigned>(descriptor->OriginalFirstThunk);
+        auto addressTableEntry = GetTargetRVA<unsigned>(descriptor->FirstThunk);
 
         while (*nameTableEntry)
         {
@@ -71,7 +71,7 @@ bool ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
                 auto import = GetTargetRVA<IMAGE_IMPORT_BY_NAME>(*nameTableEntry);
 
                 function = reinterpret_cast<FARPROC>(ResolveLibraryFunction(module, (const char*)import->Name));
-                functionName = (const char*)import->Name;
+                functionName = static_cast<const char*>(import->Name);
             }
 
             if (!function)
@@ -83,7 +83,7 @@ bool ExecutableLoader::LoadImports(IMAGE_NT_HEADERS* ntHeader)
                 return false;
             }
 
-            *addressTableEntry = (uint32_t)function;
+            *addressTableEntry = reinterpret_cast<unsigned>(function);
 
             nameTableEntry++;
             addressTableEntry++;
@@ -109,7 +109,7 @@ void ExecutableLoader::LoadSection(IMAGE_SECTION_HEADER* section)
     if (section->SizeOfRawData > 0)
     {
         DWORD oldProtect;
-        uint32_t sizeOfData = ctn::Min(section->SizeOfRawData, section->Misc.VirtualSize);
+        unsigned sizeOfData = ctn::Min(section->SizeOfRawData, section->Misc.VirtualSize);
 
         VirtualProtect(targetAddress, sizeOfData, PAGE_EXECUTE_READWRITE, &oldProtect);
         memcpy(targetAddress, sourceAddress, sizeOfData);
@@ -146,7 +146,7 @@ void ExecutableLoader::LoadIntoModule(HMODULE module)
     IMAGE_NT_HEADERS* ntHeader = (IMAGE_NT_HEADERS*)(origBinary_ + header->e_lfanew);
 
     LoadSections(ntHeader);
-    LoadImports(ntHeader);
+    LoadDependentLibraries(ntHeader);
 
     entryPoint_ = GetTargetRVA<void>(ntHeader->OptionalHeader.AddressOfEntryPoint);
 

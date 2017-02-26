@@ -33,22 +33,22 @@ public:
     virtual s32 GetAnimFileIndex();
 
 public:
-    u32 hashKey_;
-    u16 refCount_;
-    s16 txdSlot_;
-    u8 alpha_;
-    u8 num2dfx_;
-    s16 m_2dfxIndex_;
-    s16 objectIndex_;
-    u16 flags_;
-    class CColModel* colModel_;
-    f32 drawDistance_;
+    u32 m_hashKey;
+    u16 m_refCount;
+    s16 m_txdSlot;
+    u8 m_alpha;
+    u8 m_num2dfx;
+    s16 m_2dfxIndex;
+    s16 m_objectIndex;
+    u16 m_flags;
+    class CColModel* m_colModel;
+    f32 m_drawDistance;
 
     union
     {
-        struct RwObject* rwObject_;
-        struct RpClump* rpClump_;
-        struct RpAtomic* rpAtomic_;
+        struct RwObject* m_rwObject;
+        struct RpClump* m_rpClump;
+        struct RpAtomic* m_rpAtomic;
     };
 };
 

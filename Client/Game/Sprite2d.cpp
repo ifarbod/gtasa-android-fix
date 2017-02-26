@@ -12,7 +12,7 @@ namespace ctn::SA
 {
 
 CSprite2d::CSprite2d() :
-    texture_(nullptr)
+    m_texture(nullptr)
 {
 }
 
@@ -23,11 +23,11 @@ CSprite2d::~CSprite2d()
 
 void CSprite2d::Delete()
 {
-    if (texture_)
+    if (m_texture)
     {
         auto RwTextureDestroy = Hook::Call<0x7F3820, void, struct RwTexture*>;
-        RwTextureDestroy(texture_);
-        texture_ = nullptr;
+        RwTextureDestroy(m_texture);
+        m_texture = nullptr;
     }
 }
 
@@ -39,13 +39,13 @@ void CSprite2d::SetTexture(const char* name, const char* mask)
     if (name)
     {
         // RwTextureRead
-        texture_ = Hook::Call<0x7F3AC0, struct RwTexture*>(name, mask ? mask : nullptr);
+        m_texture = Hook::Call<0x7F3AC0, struct RwTexture*>(name, mask ? mask : nullptr);
     }
 }
 
 void CSprite2d::SetAddressing(RwTextureAddressMode addressMode)
 {
-    if (texture_)
+    if (m_texture)
     {
         //RwTextureSetAddressing(texture_, addressMode);
     }
@@ -53,7 +53,7 @@ void CSprite2d::SetAddressing(RwTextureAddressMode addressMode)
 
 void CSprite2d::SetAddressingUV(RwTextureAddressMode addressModeU, RwTextureAddressMode addressModeV)
 {
-    if (texture_)
+    if (m_texture)
     {
         //RwTextureSetAddressingU(texture_, addressModeU);
         //RwTextureSetAddressingV(texture_, addressModeU);
@@ -62,7 +62,7 @@ void CSprite2d::SetAddressingUV(RwTextureAddressMode addressModeU, RwTextureAddr
 
 void CSprite2d::SetRenderState()
 {
-    if (texture_)
+    if (m_texture)
     {
         //RwRenderStateSet(rwRENDERSTATETEXTURERASTER, RwTextureGetRaster(texture_));
     }

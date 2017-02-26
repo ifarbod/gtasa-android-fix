@@ -13,11 +13,21 @@
 namespace ctn::SA
 {
 
+class CAnimBlendSequence;
+
 class CAnimBlendHierarchy
 {
-
+public:
+    u32 m_hashKey;
+    CAnimBlendSequence* m_sequences;
+    u16 m_seqCount;
+    bool m_runningCompressed;
+    s8 m_field0B;
+    s32 m_animBlockId;
+    f32 m_totalTime;
+    s32 m_field14;
 };
 
-//VALIDATE_SIZE(CAnimBlendHierarchy, 0x18);
+VALIDATE_SIZE(CAnimBlendHierarchy, 0x18);
 
 }

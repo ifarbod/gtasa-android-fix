@@ -19,8 +19,8 @@ class CClumpModelInfo : public CBaseModelInfo
 public:
     union
     {
-        char* animFileName_;
-        u32 animFileIndex_; // animBlock_
+        char* m_animFileName;
+        u32 m_animFileIndex; // m_animBlock
     };
 };
 

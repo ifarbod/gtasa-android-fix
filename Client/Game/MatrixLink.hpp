@@ -15,12 +15,14 @@
 namespace ctn::SA
 {
 
+class CPlaceable;
+
 class CMatrixLink : public CMatrix
 {
 public:
-    class CPlaceable* owner_;
-    CMatrixLink* prev_;
-    CMatrixLink* next_;
+    CPlaceable* m_owner; // +0x48
+    CMatrixLink* m_prev; // +0x4C
+    CMatrixLink* m_next; // +0x50
 };
 VALIDATE_SIZE(CMatrixLink, 0x54);
 

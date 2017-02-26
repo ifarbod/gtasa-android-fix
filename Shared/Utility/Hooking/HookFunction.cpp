@@ -20,13 +20,13 @@ static HookFunctionBase* hookFunctions;
 
 void HookFunctionBase::Register()
 {
-    next_ = hookFunctions;
+    m_next = hookFunctions;
     hookFunctions = this;
 }
 
 void HookFunctionBase::RunAll()
 {
-    for (auto func = hookFunctions; func; func = func->next_)
+    for (auto func = hookFunctions; func; func = func->m_next)
     {
         func->Run();
     }

@@ -17,8 +17,8 @@ namespace ctn::SA
 class CSimpleTransform
 {
 public:
-    CVector position_;
-    f32 a_;
+    CVector m_position;
+    f32 m_a;
 };
 
 VALIDATE_SIZE(CSimpleTransform, 0x10);

@@ -17,8 +17,8 @@ namespace ctn::SA
 class CPlayerPed : public CPed
 {
 public:
-    CPed* targettedPed_;
-    s32 f7A0_;
+    CPed* m_targettedPed;
+    s32 m_field7A0;
 };
 
 //VALIDATE_SIZE(CPlayerPed, 0x7A4);

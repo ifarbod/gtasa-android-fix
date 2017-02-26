@@ -21,25 +21,25 @@ public:
     static void SetObjectData();
 
 private:
-    f32 mass_;
-    f32 turnMass_;
-    f32 fAirResistance_;
-    f32 fElasticity_;
-    f32 fBuoyancyConstant_;
-    f32 fUprootLimit_;
-    f32 fColDamageMultiplier_;
-    u8 nColDamageEffect_;
-    u8 nSpecialColResponseCase_;
-    u8 bCameraAvoidObject_;
-    u8 bCausesExplosion_;
-    u8 nFxType_;
-    CVector vFxOffset_;
-    class FxSystem_c* pFxSystem_;
-    f32 fSmashMultiplier_;
-    CVector vBreakVelocity_;
-    f32 fBreakVelocityRand_;
-    u32 dwGunBreakMode_;
-    u32 dwSparksOnImpact_;
+    f32 m_mass;
+    f32 m_turnMass;
+    f32 m_airResistance;
+    f32 m_elasticity;
+    f32 m_buoyancyConstant;
+    f32 m_uprootLimit;
+    f32 m_colDamageMultiplier;
+    u8 m_colDamageEffect;
+    u8 m_specialColResponseCase;
+    u8 m_cameraAvoidObject;
+    u8 m_causesExplosion;
+    u8 m_fxType;
+    CVector m_fxOffset;
+    class FxSystem_c* m_fxSystem;
+    f32 m_smashMultiplier;
+    CVector m_breakVelocity;
+    f32 m_breakVelocityRand;
+    u32 m_gunBreakMode;
+    u32 m_sparksOnImpact;
 };
 
 VALIDATE_SIZE(CObjectData, 0x50);

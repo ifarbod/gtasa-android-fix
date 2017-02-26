@@ -21,6 +21,16 @@ static HookFunction hookFunction([]()
     // Disable CPopCycle::Initialise
     MakeRet(0x5BC090);
 
+    // Disable CPedType::LoadPedData
+    MakeRet(0x608B30);
+
+    // Disable CDecisionMakerTypesFileLoader::LoadDefaultDecisionMaker
+    MakeRet(0x5BF400);
+    // Disable CPedStats::LoadPedStats
+    MakeRet(0x5BB890);
+    // Change CPedStats::fHeadingChangeRate (was 15.0)
+    MemWrite<f32>(0x5BFA1D + 4, 9.5f);
+
     // Disable CStreaming::StreamVehiclesAndPeds_Always
     MakeRet(0x40B650);
 

@@ -15,7 +15,7 @@
 
 using namespace ctn;
 
-Core * g_pCore;
+Core* g_pCore;
 
 BOOL WINAPI DllMain(HINSTANCE hDllInstance, DWORD dwReason, LPVOID lpvReserved)
 {

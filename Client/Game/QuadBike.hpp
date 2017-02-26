@@ -18,14 +18,14 @@ namespace ctn::SA
 class CQuadBike : public CAutomobile
 {
 public:
-    void* handling_;
-    CRideAnimData rideAnimData_;
-    float f9A8;
-    s32 f9AC_;
-    s32 f9B0_;
-    s32 f9B4_;
-    u8 quadFlags_;
-    PAD(CQuadBike, pad, 3);
+    void* m_handling;             // +0x988
+    CRideAnimData m_rideAnimData; // +0x98C
+    f32 m_field9A8;               // +0x9A8
+    s32 m_field9AC;               // +0x9AC
+    s32 m_field9B0;               // +0x9B0
+    s32 m_field9B4;               // +0x9B4
+    u8 m_quadFlags;               // +0x9B8
+    u8 m_field9B9[3];             // +0x9B9
 };
 
 //VALIDATE_SIZE(CQuadBike, 0x9BC);

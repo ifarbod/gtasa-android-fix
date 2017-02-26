@@ -18,7 +18,7 @@ namespace Hook
 class HookFunctionBase
 {
 private:
-    HookFunctionBase* next_;
+    HookFunctionBase* m_next;
 
 public:
     HookFunctionBase() { Register(); }
@@ -32,12 +32,12 @@ public:
 class HookFunction : public HookFunctionBase
 {
 private:
-    void(*function_)();
+    void(*m_function)();
 
 public:
-    HookFunction(void(*function)()) { function_ = function; }
+    HookFunction(void(*function)()) { m_function = function; }
 
-    virtual void Run() { function_(); }
+    virtual void Run() { m_function(); }
 };
 
 }
