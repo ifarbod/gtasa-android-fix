@@ -11,6 +11,8 @@
 #include "Common.hpp"
 #include "Pool.hpp"
 
+#include "PtrNodeSingleLink.hpp"
+#include "PtrNodeDoubleLink.hpp"
 #include "PlayerPed.hpp"
 #include "Heli.hpp"
 #include "Building.hpp"
@@ -24,8 +26,8 @@
 namespace ctn::SA
 {
 
-using CPtrNodeSinglePool = CPool<CPtrNodeSingle>;
-using CPtrNodeDoublePool = CPool<CPtrNodeDouble>;
+using CPtrNodeSinglePool = CPool<CPtrNodeSingleLink>;
+using CPtrNodeDoublePool = CPool<CPtrNodeDoubleLink>;
 using CEntryInfoNodePool = CPool<CEntryInfoNode>;
 using CPedPool = CPool<CPed, CCopPed>;
 using CVehiclePool = CPool<CVehicle, CHeli>;

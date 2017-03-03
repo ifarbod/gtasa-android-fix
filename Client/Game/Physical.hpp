@@ -12,6 +12,7 @@
 #include "Entity.hpp"
 #include "EntryInfoList.hpp"
 #include "PtrNodeDoubleLink.hpp"
+#include "Quaternion.hpp"
 
 namespace ctn::SA
 {
@@ -19,8 +20,8 @@ namespace ctn::SA
 class CPhysical : public CEntity
 {
 public:
-    f32 m_field038; // +0x038
-    u32 m_lastCollisionTime; // +0x03C
+    f32 m_field038;                        // +0x038
+    u32 m_lastCollisionTime;               // +0x03C
 
     union
     {
@@ -94,26 +95,45 @@ public:
             // 31  0x80000000
             u32 m_unknown31 : 1;
         };
-        u32 m_physicalFlags;        // +0x040
+        u32 m_physicalFlags;               // +0x040
     };
-    CVector m_moveSpeed;               // +0x044 Velocity ?
-    CVector m_turnSpeed;               // +0x050 Angular velocity ?
-    CVector m_frictionMoveSpeed;       // +0x05C Acceleration ?
-    CVector m_frictionTurnSpeed;       // +0x068 Angular acceleration
-    CVector m_force;                   // +0x074
-    CVector m_torque;                  // +0x080
-    f32 m_mass;                        // +0x08C
-    f32 m_turnMass;                    // +0x090
-    f32 m_velocityFrequency;           // +0x094
-    f32 m_airResistance;               // +0x098
-    f32 m_elasticity;                  // +0x09C
-    f32 m_buoyancyConstant;            // +0x0A0
-    CVector m_centerOfMass;            // +0x0A4
-    CEntryInfoList m_entryInfoList;    // +0x0B0
-    CPtrNodeDoubleLink* m_pMovingList; // +0x0B4
-    u8 m_fieldB8;                      // +0x0B8
+    CVector m_moveSpeed;                   // +0x044 Velocity ?
+    CVector m_turnSpeed;                   // +0x050 Angular velocity ?
+    CVector m_frictionMoveSpeed;           // +0x05C Acceleration ?
+    CVector m_frictionTurnSpeed;           // +0x068 Angular acceleration
+    CVector m_force;                       // +0x074
+    CVector m_torque;                      // +0x080
+    f32 m_mass;                            // +0x08C
+    f32 m_turnMass;                        // +0x090
+    f32 m_velocityFrequency;               // +0x094
+    f32 m_airResistance;                   // +0x098
+    f32 m_elasticity;                      // +0x09C
+    f32 m_buoyancyConstant;                // +0x0A0
+    CVector m_centerOfMass;                // +0x0A4
+    CEntryInfoList m_entryInfoList;        // +0x0B0
+    CPtrNodeDoubleLink* m_pMovingList;     // +0x0B4
+    u8 m_field0B8;                         // +0x0B8
+    u8 m_numEntitiesCollided;              // +0x0B9
+    u8 m_contactSurface;                   // +0x0BA
+    u8 m_field0BB;                         // +0x0BB
+    CEntity* m_collidedEntities[6];        // +0x0BC
+    f32 m_movingSpeed;                     // +0x0D4
+    f32 m_damageIntensity;                 // +0x0D8
+    CEntity* m_damageEntity;               // +0x0DC
+    CVector m_lastCollisionImpactVelocity; // +0x0E0 m_lastCollisionDirection ?
+    CVector m_lastCollisionPosition;       // +0x0EC
+    u16 m_damagedPieceType;                // +0x0F8 m_damagedBodyPart ?
+    u16 m_field0FA;                        // +0x0FA
+    CPhysical* m_attachedTo;               // +0x0FC
+    CVector m_attachOffset;                // +0x100
+    CVector m_attachedEntityPosition;      // +0x10C m_attachRotation ?
+    CQuaternion m_attachedEntityRotation;  // +0x118
+    CEntity* m_entityIgnoredCollision;     // +0x128
+    f32 m_contactSurfaceBrightness;        // +0x12C
+    u32 m_dynamicLighting;                 // +0x130
+    class CRealTimeShadow* m_shadow;       // +0x134 m_shadowData ?
 };
 
-//VALIDATE_SIZE(CPhysical, 0x138);
+VALIDATE_SIZE(CPhysical, 0x138);
 
 }
