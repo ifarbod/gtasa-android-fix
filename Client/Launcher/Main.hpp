@@ -28,6 +28,6 @@
 
 #define GAME_EXECUTABLE_NAME "gta_sa.exe"
 
-extern char g_szGamePath[MAX_PATH];
-extern char g_szGameExecutable[MAX_PATH];
-extern char g_szExecutablePath[MAX_PATH];
+extern char g_gamePath[MAX_PATH];
+extern char g_gameExecutable[MAX_PATH];
+extern char g_executablePath[MAX_PATH];

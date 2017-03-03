@@ -13,6 +13,29 @@
 using namespace ctn;
 using namespace ctn::Hook;
 
+auto CanSeeOutSideFromCurrArea = Call<0x53C4A0, bool>;
+static void* const g_fx = (void*)0x4A9649;
+void __declspec(naked) GetMaxExtraDirectionals()
+{
+    __asm
+    {
+        call	CanSeeOutSideFromCurrArea
+        test	al, al
+        jz		GetMaxExtraDirectionals_Six
+
+        // Low details?
+        mov		eax, [g_fx]
+        cmp		dword ptr[eax + 54h], 0
+        jne		GetMaxExtraDirectionals_Six
+        mov		ebx, 4
+        retn
+
+        GetMaxExtraDirectionals_Six :
+        mov		ebx, 6
+        retn
+    }
+}
+
 static HookFunction hookFunction([]()
 {
     // Reflection Fix
@@ -49,4 +72,8 @@ static HookFunction hookFunction([]()
     MakeNop(0x58E210, 3);
     MakeNop(0x58EAB7, 3);
     MakeNop(0x58EAE1, 3);
+
+    // 6 extra directionals on Medium and higher
+    MakeCall(0x735881, GetMaxExtraDirectionals);
+    MemWrite<u16>(0x735886, 0x07EB);
 });

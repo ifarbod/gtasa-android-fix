@@ -24,6 +24,7 @@ public:
     CSimpleTransform m_position;
     CMatrixLink* m_matrix;
 };
+
 VALIDATE_SIZE(CPlaceable, 0x18);
 
 }

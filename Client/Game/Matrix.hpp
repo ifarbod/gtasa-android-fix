@@ -9,7 +9,7 @@
 #pragma once
 
 #include "Common.hpp"
-#include "RWTypes.hpp"
+//#include "RWTypes.hpp"
 #include "Vector.hpp"
 
 namespace ctn::SA
@@ -34,11 +34,11 @@ public:
 
         struct
         {
-            RwMatrix m_matrix;
+            //RwMatrix m_matrix;
         };
     };
 
-    RwMatrix* m_rwMatrix;
+    struct RwMatrix* m_rwMatrix;
     b32 m_removeRwMatrix;
 };
 

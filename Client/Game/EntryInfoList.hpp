@@ -1,4 +1,4 @@
-// Entity flags
+// EntryInfoList.hpp
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,8 +9,17 @@
 #pragma once
 
 #include "Common.hpp"
+#include "EntryInfoNode.hpp"
 
 namespace ctn::SA
 {
+
+class CEntryInfoList
+{
+public:
+    CEntryInfoNode* m_lastEntry; // +0x0
+};
+
+VALIDATE_SIZE(CEntryInfoList, 0x4);
 
 }

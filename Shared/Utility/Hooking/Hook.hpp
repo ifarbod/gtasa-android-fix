@@ -38,17 +38,17 @@ public:
     // Construct from a pointer.
     MemoryPointer(void* x) : m_ptr(x) {}
     // Construct from an integral pointer.
-    MemoryPointer(uintptr_t x) : m_a(x) {}
+    MemoryPointer(u32 x) : m_a(x) {}
     // Construct from a pointer with a specified type.
     template <class T> MemoryPointer(T* x) : m_ptr(reinterpret_cast<void*>(x)) {}
 
     // Returns true if the underlying pointer is a nullptr.
     bool IsNull() const { return this->m_ptr != nullptr; }
-    // Return the underlying pointer as a uintptr_t.
-    uintptr_t AsInt() const { return this->m_a; }
+    // Return the underlying pointer as a u32.
+    u32 AsInt() const { return this->m_a; }
 
     explicit operator bool() const { return IsNull(); }
-    explicit operator uintptr_t() const { return this->m_a; }
+    explicit operator u32() const { return this->m_a; }
 
     MemoryPointer Get() const { return *this; }
     template <class T> T* Get() const { return Get(); }
@@ -75,14 +75,14 @@ public:
     MemoryPointer operator*=(const MemoryPointer& rhs) const { return MemoryPointer(this->m_a * rhs.m_a); }
     MemoryPointer operator/=(const MemoryPointer& rhs) const { return MemoryPointer(this->m_a / rhs.m_a); }
 
-protected:
+private:
     // Pointer.
     void* m_ptr;
     // Unsigned int32.
-    uintptr_t m_a;
+    u32 m_a;
 };
 
-template <uintptr_t addr>
+template <u32 addr>
 struct LazyPointer
 {
 public:
@@ -102,7 +102,7 @@ private:
     }
 };
 
-template <uintptr_t addr> inline MemoryPointer LazyPtr() { return LazyPointer<addr>::Get(); }
+template <u32 addr> inline MemoryPointer LazyPtr() { return LazyPointer<addr>::Get(); }
 
 // Memory protection
 
@@ -177,19 +177,19 @@ inline void MemWrite(MemoryPointer addr, T value)
     }
 }
 
-// Searches in the range [@addr, @addr + @max_search] for a pointer in the range [@default_base, @default_end] and replaces
-// it with the proper offset in the pointer @replacement_base.
+// Searches in the range [@addr, @addr + @maxSearch] for a pointer in the range [@defaultBase, @defaultEnd] and replaces
+// it with the proper offset in the pointer @replacementBase.
 // does memory unprotection if @vp is true.
-inline MemoryPointer AdjustPointer(MemoryPointer addr, MemoryPointer replacement_base, MemoryPointer default_base,
-    MemoryPointer default_end, size_t max_search = 8)
+inline MemoryPointer AdjustPointer(MemoryPointer addr, MemoryPointer replacementBase, MemoryPointer defaultBase,
+    MemoryPointer defaultEnd, size_t maxSearch = 8)
 {
-    ScopedUnprotect xprotect(addr, max_search + sizeof(void*));
-    for (size_t i = 0; i < max_search; ++i)
+    ScopedUnprotect xprotect(addr, maxSearch + sizeof(void*));
+    for (size_t i = 0; i < maxSearch; ++i)
     {
         MemoryPointer ptr = MemRead<void*>(addr + i);
-        if (ptr >= default_base.Get() && ptr <= default_end.Get())
+        if (ptr >= defaultBase.Get() && ptr <= defaultEnd.Get())
         {
-            auto result = replacement_base + (ptr - default_base.Get());
+            auto result = replacementBase + (ptr - defaultBase.Get());
             MemWrite<void*>(addr + i, result.Get());
             return result;
         }
@@ -265,40 +265,40 @@ inline void MakeRet0Ex(MemoryPointer at)
     MakeRet(at + 2);
 }
 
-inline MemoryPointer GetAbsoluteOffset(int rel_value, MemoryPointer end_of_instruction)
+inline MemoryPointer GetAbsoluteOffset(int relValue, MemoryPointer endOfInstruction)
 {
-    return end_of_instruction.Get<char>() + rel_value;
+    return endOfInstruction.Get<char>() + relValue;
 }
 
-inline int GetRelativeOffset(MemoryPointer abs_value, MemoryPointer end_of_instruction)
+inline int GetRelativeOffset(MemoryPointer absValue, MemoryPointer endOfInstruction)
 {
-    return static_cast<uintptr_t>(abs_value.Get<char>() - end_of_instruction.Get<char>());
+    return static_cast<u32>(absValue.Get<char>() - endOfInstruction.Get<char>());
 }
 
-inline MemoryPointer ReadRelativeOffset(MemoryPointer at, size_t sizeof_addr = 4)
+inline MemoryPointer ReadRelativeOffset(MemoryPointer at, size_t sizeofAddr = 4)
 {
-    switch (sizeof_addr)
+    switch (sizeofAddr)
     {
         case 1:
-            return (GetAbsoluteOffset(MemRead<s8>(at), at + sizeof_addr));
+            return (GetAbsoluteOffset(MemRead<s8>(at), at + sizeofAddr));
         case 2:
-            return (GetAbsoluteOffset(MemRead<s16>(at), at + sizeof_addr));
+            return (GetAbsoluteOffset(MemRead<s16>(at), at + sizeofAddr));
         case 4:
-            return (GetAbsoluteOffset(MemRead<s32>(at), at + sizeof_addr));
+            return (GetAbsoluteOffset(MemRead<s32>(at), at + sizeofAddr));
     }
     return nullptr;
 }
 
-inline void MakeRelativeOffset(MemoryPointer at, MemoryPointer dest, size_t sizeof_addr = 4)
+inline void MakeRelativeOffset(MemoryPointer at, MemoryPointer dest, size_t sizeofAddr = 4)
 {
-    switch (sizeof_addr)
+    switch (sizeofAddr)
     {
         case 1:
-            MemWrite<s8>(at, static_cast<s8>(GetRelativeOffset(dest, at + sizeof_addr)));
+            MemWrite<s8>(at, static_cast<s8>(GetRelativeOffset(dest, at + sizeofAddr)));
         case 2:
-            MemWrite<s16>(at, static_cast<s16>(GetRelativeOffset(dest, at + sizeof_addr)));
+            MemWrite<s16>(at, static_cast<s16>(GetRelativeOffset(dest, at + sizeofAddr)));
         case 4:
-            MemWrite<s32>(at, static_cast<s32>(GetRelativeOffset(dest, at + sizeof_addr)));
+            MemWrite<s32>(at, static_cast<s32>(GetRelativeOffset(dest, at + sizeofAddr)));
     }
 }
 
@@ -318,7 +318,7 @@ inline MemoryPointer GetBranchDestination(MemoryPointer at)
             {
                 case 0x15: // call dword ptr [addr]
                 case 0x25: // jmp dword ptr [addr]
-                    return *(MemRead<uintptr_t*>(at + 2));
+                    return *(MemRead<u32*>(at + 2));
             }
             break;
         }

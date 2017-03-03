@@ -109,8 +109,7 @@ void GameLauncher::Launch(const char* gamePath)
     LoadLibraryA(CLIENT_CORE_NAME DEBUG_SUFFIX LIB_EXTENSION);
 
     // Get the entry point
-    void(*entryPoint)();
-    entryPoint = (void(*)())exeLoader.GetEntryPoint();
+    auto entryPoint = (void(*)())exeLoader.GetEntryPoint();
 
     // Call the entry point
     AddVectoredExceptionHandler(0, HandleVariant);

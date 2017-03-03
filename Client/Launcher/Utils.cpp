@@ -14,16 +14,16 @@
 bool CheckRegistryIntegrity()
 {
     // Own app-path
-    strcpy_s(g_szExecutablePath, MAX_PATH, GetAppPath());
-    WriteRegistryString(CTN_REG_KEY, CTN_REG_SUBKEY, "LauncherPath", g_szExecutablePath, MAX_PATH);
+    strcpy_s(g_executablePath, MAX_PATH, GetAppPath());
+    WriteRegistryString(CTN_REG_KEY, CTN_REG_SUBKEY, "LauncherPath", g_executablePath, MAX_PATH);
 
     // Game path
-    if(!ReadRegistryString(CTN_REG_KEY, CTN_REG_SUBKEY, "GamePath", "", g_szGamePath, MAX_PATH) || strlen(g_szGamePath) < 1)
+    if (!ReadRegistryString(CTN_REG_KEY, CTN_REG_SUBKEY, "GamePath", "", g_gamePath, MAX_PATH) || strlen(g_gamePath) < 1)
     {
         OPENFILENAMEA ofn = { 0 };
 
         ofn.lStructSize = sizeof(ofn);
-        ofn.lpstrFile = g_szGameExecutable;
+        ofn.lpstrFile = g_gameExecutable;
         ofn.nMaxFile = MAX_PATH;
 
         ofn.lpstrFilter = "Executable\0*.exe";
@@ -35,13 +35,13 @@ bool CheckRegistryIntegrity()
 
         ofn.lpstrTitle = "Please select your GTA San Andreas executable!";
 
-        if(GetOpenFileNameA(&ofn))
+        if (GetOpenFileNameA(&ofn))
         {
-            if(CheckNameOfExecutableFromPath(GAME_EXECUTABLE_NAME, strlen(GAME_EXECUTABLE_NAME), ofn.lpstrFile, strlen(ofn.lpstrFile)))
+            if (CheckNameOfExecutableFromPath(GAME_EXECUTABLE_NAME, strlen(GAME_EXECUTABLE_NAME), ofn.lpstrFile, strlen(ofn.lpstrFile)))
             {
-                RemoveExecutableNameFromPath(ofn.lpstrFile, strlen(ofn.lpstrFile), g_szGamePath, MAX_PATH);
-                WriteRegistryString(CTN_REG_KEY, CTN_REG_SUBKEY, "GamePath", g_szGamePath, MAX_PATH);
-                strcpy_s(g_szGameExecutable, MAX_PATH, ofn.lpstrFile);
+                RemoveExecutableNameFromPath(ofn.lpstrFile, strlen(ofn.lpstrFile), g_gamePath, MAX_PATH);
+                WriteRegistryString(CTN_REG_KEY, CTN_REG_SUBKEY, "GamePath", g_gamePath, MAX_PATH);
+                strcpy_s(g_gameExecutable, MAX_PATH, ofn.lpstrFile);
                 return true;
             }
             else
@@ -58,11 +58,11 @@ bool CheckRegistryIntegrity()
     }
     else
     {
-        if(g_szGamePath[1] == ':' && g_szGamePath[2] == '\\' && GetLastCharacterOfNullTerminatedCString(g_szGamePath, strlen(g_szGamePath)) == '\\')
+        if (g_gamePath[1] == ':' && g_gamePath[2] == '\\' && GetLastCharacterOfNullTerminatedCString(g_gamePath, strlen(g_gamePath)) == '\\')
         {
-            sprintf_s(g_szGameExecutable, "%s%s", g_szGamePath, GAME_EXECUTABLE_NAME);
+            sprintf_s(g_gameExecutable, "%s%s", g_gamePath, GAME_EXECUTABLE_NAME);
 
-            if(_access(g_szGameExecutable, 0) == -1)
+            if (_access(g_gameExecutable, 0) == -1)
             {
                 RegDeleteKeyValueA(CTN_REG_KEY, CTN_REG_SUBKEY, "GamePath");
                 Error("Can't find the game's executable.\nPlease restart " MOD_NAME " and specify the location again.");
@@ -131,7 +131,7 @@ bool StripPath1(char *pszString)
 {
     for(size_t i = strlen(pszString); i > 0; --i)
     {
-        if(pszString[i] == '\\')
+        if (pszString[i] == '\\')
         {
             pszString[i + 1] = '\0';
             return true;
@@ -166,10 +166,10 @@ const char * GetExePath()
 
 bool CheckNameOfExecutableFromPath(char *szCheckedName, size_t checkedNameSize, char *szPath, size_t pathSize)
 {
-    if(!szCheckedName || !checkedNameSize || !szPath || !pathSize || szCheckedName[checkedNameSize] != 0 || szPath[pathSize] != 0)
+    if (!szCheckedName || !checkedNameSize || !szPath || !pathSize || szCheckedName[checkedNameSize] != 0 || szPath[pathSize] != 0)
         return false;
 
-    if(
+    if (
         (szCheckedName[checkedNameSize - 1] != 'e' && szCheckedName[checkedNameSize - 1] != 'E') ||
         (szCheckedName[checkedNameSize - 2] != 'x' && szCheckedName[checkedNameSize - 2] != 'X') ||
         (szCheckedName[checkedNameSize - 3] != 'e' && szCheckedName[checkedNameSize - 3] != 'E') ||
@@ -178,7 +178,7 @@ bool CheckNameOfExecutableFromPath(char *szCheckedName, size_t checkedNameSize, 
         return false;
     }
 
-    if(
+    if (
         (szPath[pathSize - 1] != 'e' && szPath[pathSize - 1] != 'E') ||
         (szPath[pathSize - 2] != 'x' && szPath[pathSize - 2] != 'X') ||
         (szPath[pathSize - 3] != 'e' && szPath[pathSize - 3] != 'E') ||
@@ -191,24 +191,24 @@ bool CheckNameOfExecutableFromPath(char *szCheckedName, size_t checkedNameSize, 
     size_t locationOfLastSeparator = 0;
     size_t locationInCheckedName = 0;
 
-    for(i = 0; (i < pathSize && szPath[i] != 0); i++)
+    for (i = 0; (i < pathSize && szPath[i] != 0); i++)
     {
-        if(szPath[i] == '\\')
+        if (szPath[i] == '\\')
         {
             locationOfLastSeparator = i;
         }
     }
 
-    if((pathSize - locationOfLastSeparator - 1) != checkedNameSize)
+    if ((pathSize - locationOfLastSeparator - 1) != checkedNameSize)
     {
         return false;
     }
 
     bool bDifferences = false;
 
-    for(i = pathSize, j = checkedNameSize; (i != 0 && j != 0 && i > locationOfLastSeparator); i--, j--)
+    for (i = pathSize, j = checkedNameSize; (i != 0 && j != 0 && i > locationOfLastSeparator); i--, j--)
     {
-        if(szPath[i] != szCheckedName[j])
+        if (szPath[i] != szCheckedName[j])
         {
             bDifferences = true;
             break;
@@ -220,10 +220,10 @@ bool CheckNameOfExecutableFromPath(char *szCheckedName, size_t checkedNameSize, 
 
 bool RemoveExecutableNameFromPath(char *szSrc, size_t srcSize, char *szDst, size_t dstSize)
 {
-    if(!szSrc || !srcSize || !szDst || !dstSize || szSrc[srcSize] != 0)
+    if (!szSrc || !srcSize || !szDst || !dstSize || szSrc[srcSize] != 0)
         return false;
 
-    if(
+    if (
         (szSrc[srcSize - 1] == 'e' || szSrc[srcSize - 1] == 'E') &&
         (szSrc[srcSize - 2] == 'x' || szSrc[srcSize - 2] == 'X') &&
         (szSrc[srcSize - 3] == 'e' || szSrc[srcSize - 3] == 'E') &&
@@ -232,7 +232,7 @@ bool RemoveExecutableNameFromPath(char *szSrc, size_t srcSize, char *szDst, size
         size_t i = 0;
         size_t locationOfLastSeparator = 0;
 
-        for(i = 0; (i < srcSize && szSrc[i] != 0); i++)
+        for (i = 0; (i < srcSize && szSrc[i] != 0); i++)
         {
             if(szSrc[i] == '\\')
             {
@@ -240,7 +240,7 @@ bool RemoveExecutableNameFromPath(char *szSrc, size_t srcSize, char *szDst, size
             }
         }
 
-        for(i = 0; (i < srcSize && i <= locationOfLastSeparator && szSrc[i] != 0); i++)
+        for (i = 0; (i < srcSize && i <= locationOfLastSeparator && szSrc[i] != 0); i++)
         {
             szDst[i] = szSrc[i];
         }
@@ -254,7 +254,7 @@ bool RemoveExecutableNameFromPath(char *szSrc, size_t srcSize, char *szDst, size
 
 char GetLastCharacterOfNullTerminatedCString(char *szString, size_t size)
 {
-    if(!szString || !size || szString[size] != 0)
+    if (!szString || !size || szString[size] != 0)
         return 0;
 
     return szString[size - 1];
@@ -264,7 +264,7 @@ bool ReadRegistryString(HKEY hKeyLocation, const char * szSubKey, const char * s
 {
     HKEY hKey = NULL;
 
-    if(RegOpenKeyExA(hKeyLocation, szSubKey, NULL, KEY_READ, &hKey) == ERROR_SUCCESS)
+    if (RegOpenKeyExA(hKeyLocation, szSubKey, NULL, KEY_READ, &hKey) == ERROR_SUCCESS)
     {
         DWORD dwType = REG_SZ;
         LONG lStatus = RegQueryValueExA(hKey, szKey, NULL, &dwType, (BYTE *)szData, &dwSize);
@@ -283,10 +283,10 @@ bool WriteRegistryString(HKEY hKeyLocation, const char * szSubKey, const char * 
     HKEY hKey = NULL;
     RegOpenKeyExA(hKeyLocation, szSubKey, NULL, KEY_WRITE, &hKey);
 
-    if(!hKey)
+    if (!hKey)
         RegCreateKeyA(hKeyLocation, szSubKey, &hKey);
 
-    if(hKey)
+    if (hKey)
     {
         DWORD dwType = REG_SZ;
         RegSetValueExA(hKey, szKey, NULL, dwType, (BYTE *)szData, dwSize);
