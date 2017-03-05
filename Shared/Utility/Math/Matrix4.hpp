@@ -244,7 +244,7 @@ public:
     Vector3 operator *(const Vector3& rhs) const
     {
 #ifdef CTN_SSE
-        __m128 vec = _mm_set_ps(1.f, rhs.z_, rhs.y_, rhs.x_);
+        __m128 vec = _mm_set_ps(1.f, rhs.m_z, rhs.m_y, rhs.m_x);
         __m128 r0 = _mm_mul_ps(_mm_loadu_ps(&m00_), vec);
         __m128 r1 = _mm_mul_ps(_mm_loadu_ps(&m10_), vec);
         __m128 t0 = _mm_unpacklo_ps(r0, r1);
@@ -262,12 +262,12 @@ public:
             _mm_cvtss_f32(_mm_shuffle_ps(vec, vec, _MM_SHUFFLE(1, 1, 1, 1))),
             _mm_cvtss_f32(_mm_movehl_ps(vec, vec)));
 #else
-        float invW = 1.0f / (m30_ * rhs.x_ + m31_ * rhs.y_ + m32_ * rhs.z_ + m33_);
+        float invW = 1.0f / (m30_ * rhs.m_x + m31_ * rhs.m_y + m32_ * rhs.m_z + m33_);
 
         return Vector3(
-            (m00_ * rhs.x_ + m01_ * rhs.y_ + m02_ * rhs.z_ + m03_) * invW,
-            (m10_ * rhs.x_ + m11_ * rhs.y_ + m12_ * rhs.z_ + m13_) * invW,
-            (m20_ * rhs.x_ + m21_ * rhs.y_ + m22_ * rhs.z_ + m23_) * invW
+            (m00_ * rhs.m_x + m01_ * rhs.m_y + m02_ * rhs.m_z + m03_) * invW,
+            (m10_ * rhs.m_x + m11_ * rhs.m_y + m12_ * rhs.m_z + m13_) * invW,
+            (m20_ * rhs.m_x + m21_ * rhs.m_y + m22_ * rhs.m_z + m23_) * invW
         );
 #endif
     }
@@ -276,7 +276,7 @@ public:
     Vector4 operator *(const Vector4& rhs) const
     {
 #ifdef CTN_SSE
-        __m128 vec = _mm_loadu_ps(&rhs.x_);
+        __m128 vec = _mm_loadu_ps(&rhs.m_x);
         __m128 r0 = _mm_mul_ps(_mm_loadu_ps(&m00_), vec);
         __m128 r1 = _mm_mul_ps(_mm_loadu_ps(&m10_), vec);
         __m128 t0 = _mm_unpacklo_ps(r0, r1);
@@ -290,14 +290,14 @@ public:
         vec = _mm_add_ps(_mm_movelh_ps(t0, t2), _mm_movehl_ps(t2, t0));
 
         Vector4 ret;
-        _mm_storeu_ps(&ret.x_, vec);
+        _mm_storeu_ps(&ret.m_x, vec);
         return ret;
 #else
         return Vector4(
-            m00_ * rhs.x_ + m01_ * rhs.y_ + m02_ * rhs.z_ + m03_ * rhs.w_,
-            m10_ * rhs.x_ + m11_ * rhs.y_ + m12_ * rhs.z_ + m13_ * rhs.w_,
-            m20_ * rhs.x_ + m21_ * rhs.y_ + m22_ * rhs.z_ + m23_ * rhs.w_,
-            m30_ * rhs.x_ + m31_ * rhs.y_ + m32_ * rhs.z_ + m33_ * rhs.w_
+            m00_ * rhs.m_x + m01_ * rhs.m_y + m02_ * rhs.m_z + m03_ * rhs.w_,
+            m10_ * rhs.m_x + m11_ * rhs.m_y + m12_ * rhs.m_z + m13_ * rhs.w_,
+            m20_ * rhs.m_x + m21_ * rhs.m_y + m22_ * rhs.m_z + m23_ * rhs.w_,
+            m30_ * rhs.m_x + m31_ * rhs.m_y + m32_ * rhs.m_z + m33_ * rhs.w_
         );
 #endif
     }
@@ -467,9 +467,9 @@ public:
     // Set translation elements.
     void SetTranslation(const Vector3& translation)
     {
-        m03_ = translation.x_;
-        m13_ = translation.y_;
-        m23_ = translation.z_;
+        m03_ = translation.m_x;
+        m13_ = translation.m_y;
+        m23_ = translation.m_z;
     }
 
     // Set rotation elements from a 3x3 matrix.
@@ -489,9 +489,9 @@ public:
     // Set scaling elements.
     void SetScale(const Vector3& scale)
     {
-        m00_ = scale.x_;
-        m11_ = scale.y_;
-        m22_ = scale.z_;
+        m00_ = scale.m_x;
+        m11_ = scale.m_y;
+        m22_ = scale.m_z;
     }
 
     // Set uniform scaling elements.

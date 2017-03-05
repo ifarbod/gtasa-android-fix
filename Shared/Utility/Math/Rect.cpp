@@ -21,7 +21,7 @@ const IntRect IntRect::ZERO(0, 0, 0, 0);
 
 String Rect::ToString() const
 {
-    return String::Format("%g %g %g %g", min_.x_, min_.y_, max_.x_, max_.y_);
+    return String::Format("%g %g %g %g", min_.m_x, min_.m_y, max_.m_x, max_.m_y);
 }
 
 String IntRect::ToString() const
@@ -31,16 +31,16 @@ String IntRect::ToString() const
 
 void Rect::Clip(const Rect& rect)
 {
-    if (rect.min_.x_ > min_.x_)
-        min_.x_ = rect.min_.x_;
-    if (rect.max_.x_ < max_.x_)
-        max_.x_ = rect.max_.x_;
-    if (rect.min_.y_ > min_.y_)
-        min_.y_ = rect.min_.y_;
-    if (rect.max_.y_ < max_.y_)
-        max_.y_ = rect.max_.y_;
+    if (rect.min_.m_x > min_.m_x)
+        min_.m_x = rect.min_.m_x;
+    if (rect.max_.m_x < max_.m_x)
+        max_.m_x = rect.max_.m_x;
+    if (rect.min_.m_y > min_.m_y)
+        min_.m_y = rect.min_.m_y;
+    if (rect.max_.m_y < max_.m_y)
+        max_.m_y = rect.max_.m_y;
 
-    if (min_.x_ > max_.x_ || min_.y_ > max_.y_)
+    if (min_.m_x > max_.m_x || min_.m_y > max_.m_y)
     {
         min_ = Vector2(M_INFINITY, M_INFINITY);
         max_ = Vector2(-M_INFINITY, -M_INFINITY);

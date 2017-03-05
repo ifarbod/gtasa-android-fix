@@ -67,8 +67,8 @@ public:
 #ifdef CTN_SSE
     BoundingBox(__m128 min, __m128 max)
     {
-        _mm_storeu_ps(&min_.x_, min);
-        _mm_storeu_ps(&max_.x_, max);
+        _mm_storeu_ps(&min_.m_x, min);
+        _mm_storeu_ps(&max_.m_x, max);
     }
 #endif
 
@@ -162,22 +162,22 @@ public:
     void Merge(const Vector3& point)
     {
 #ifdef CTN_SSE
-        __m128 vec = _mm_set_ps(1.f, point.z_, point.y_, point.x_);
-        _mm_storeu_ps(&min_.x_, _mm_min_ps(_mm_loadu_ps(&min_.x_), vec));
-        _mm_storeu_ps(&max_.x_, _mm_max_ps(_mm_loadu_ps(&max_.x_), vec));
+        __m128 vec = _mm_set_ps(1.f, point.m_z, point.m_y, point.m_x);
+        _mm_storeu_ps(&min_.m_x, _mm_min_ps(_mm_loadu_ps(&min_.m_x), vec));
+        _mm_storeu_ps(&max_.m_x, _mm_max_ps(_mm_loadu_ps(&max_.m_x), vec));
 #else
-        if (point.x_ < min_.x_)
-            min_.x_ = point.x_;
-        if (point.y_ < min_.y_)
-            min_.y_ = point.y_;
-        if (point.z_ < min_.z_)
-            min_.z_ = point.z_;
-        if (point.x_ > max_.x_)
-            max_.x_ = point.x_;
-        if (point.y_ > max_.y_)
-            max_.y_ = point.y_;
-        if (point.z_ > max_.z_)
-            max_.z_ = point.z_;
+        if (point.m_x < min_.m_x)
+            min_.m_x = point.m_x;
+        if (point.m_y < min_.m_y)
+            min_.m_y = point.m_y;
+        if (point.m_z < min_.m_z)
+            min_.m_z = point.m_z;
+        if (point.m_x > max_.m_x)
+            max_.m_x = point.m_x;
+        if (point.m_y > max_.m_y)
+            max_.m_y = point.m_y;
+        if (point.m_z > max_.m_z)
+            max_.m_z = point.m_z;
 #endif
     }
 
@@ -185,21 +185,21 @@ public:
     void Merge(const BoundingBox& box)
     {
 #ifdef CTN_SSE
-        _mm_storeu_ps(&min_.x_, _mm_min_ps(_mm_loadu_ps(&min_.x_), _mm_loadu_ps(&box.min_.x_)));
-        _mm_storeu_ps(&max_.x_, _mm_max_ps(_mm_loadu_ps(&max_.x_), _mm_loadu_ps(&box.max_.x_)));
+        _mm_storeu_ps(&min_.m_x, _mm_min_ps(_mm_loadu_ps(&min_.m_x), _mm_loadu_ps(&box.min_.m_x)));
+        _mm_storeu_ps(&max_.m_x, _mm_max_ps(_mm_loadu_ps(&max_.m_x), _mm_loadu_ps(&box.max_.m_x)));
 #else
-        if (box.min_.x_ < min_.x_)
-            min_.x_ = box.min_.x_;
-        if (box.min_.y_ < min_.y_)
-            min_.y_ = box.min_.y_;
-        if (box.min_.z_ < min_.z_)
-            min_.z_ = box.min_.z_;
-        if (box.max_.x_ > max_.x_)
-            max_.x_ = box.max_.x_;
-        if (box.max_.y_ > max_.y_)
-            max_.y_ = box.max_.y_;
-        if (box.max_.z_ > max_.z_)
-            max_.z_ = box.max_.z_;
+        if (box.min_.m_x < min_.m_x)
+            min_.m_x = box.min_.m_x;
+        if (box.min_.m_y < min_.m_y)
+            min_.m_y = box.min_.m_y;
+        if (box.min_.m_z < min_.m_z)
+            min_.m_z = box.min_.m_z;
+        if (box.max_.m_x > max_.m_x)
+            max_.m_x = box.max_.m_x;
+        if (box.max_.m_y > max_.m_y)
+            max_.m_y = box.max_.m_y;
+        if (box.max_.m_z > max_.m_z)
+            max_.m_z = box.max_.m_z;
 #endif
     }
 
@@ -230,8 +230,8 @@ public:
     void Clear()
     {
 #ifdef CTN_SSE
-        _mm_storeu_ps(&min_.x_, _mm_set1_ps(M_INFINITY));
-        _mm_storeu_ps(&max_.x_, _mm_set1_ps(-M_INFINITY));
+        _mm_storeu_ps(&min_.m_x, _mm_set1_ps(M_INFINITY));
+        _mm_storeu_ps(&max_.m_x, _mm_set1_ps(-M_INFINITY));
 #else
         min_ = Vector3(M_INFINITY, M_INFINITY, M_INFINITY);
         max_ = Vector3(-M_INFINITY, -M_INFINITY, -M_INFINITY);
@@ -241,7 +241,7 @@ public:
     // Return true if this bounding box is defined via a previous call to Define() or Merge().
     bool Defined() const
     {
-        return min_.x_ != M_INFINITY;
+        return min_.m_x != M_INFINITY;
     }
 
     // Return center.
@@ -263,8 +263,8 @@ public:
     // Test if a point is inside.
     Intersection IsInside(const Vector3& point) const
     {
-        if (point.x_ < min_.x_ || point.x_ > max_.x_ || point.y_ < min_.y_ || point.y_ > max_.y_ ||
-            point.z_ < min_.z_ || point.z_ > max_.z_)
+        if (point.m_x < min_.m_x || point.m_x > max_.m_x || point.m_y < min_.m_y || point.m_y > max_.m_y ||
+            point.m_z < min_.m_z || point.m_z > max_.m_z)
             return OUTSIDE;
         else
             return INSIDE;
@@ -273,11 +273,11 @@ public:
     // Test if another bounding box is inside, outside or intersects.
     Intersection IsInside(const BoundingBox& box) const
     {
-        if (box.max_.x_ < min_.x_ || box.min_.x_ > max_.x_ || box.max_.y_ < min_.y_ || box.min_.y_ > max_.y_ ||
-            box.max_.z_ < min_.z_ || box.min_.z_ > max_.z_)
+        if (box.max_.m_x < min_.m_x || box.min_.m_x > max_.m_x || box.max_.m_y < min_.m_y || box.min_.m_y > max_.m_y ||
+            box.max_.m_z < min_.m_z || box.min_.m_z > max_.m_z)
             return OUTSIDE;
-        else if (box.min_.x_ < min_.x_ || box.max_.x_ > max_.x_ || box.min_.y_ < min_.y_ || box.max_.y_ > max_.y_ ||
-            box.min_.z_ < min_.z_ || box.max_.z_ > max_.z_)
+        else if (box.min_.m_x < min_.m_x || box.max_.m_x > max_.m_x || box.min_.m_y < min_.m_y || box.max_.m_y > max_.m_y ||
+            box.min_.m_z < min_.m_z || box.max_.m_z > max_.m_z)
             return INTERSECTS;
         else
             return INSIDE;
@@ -286,8 +286,8 @@ public:
     // Test if another bounding box is (partially) inside or outside.
     Intersection IsInsideFast(const BoundingBox& box) const
     {
-        if (box.max_.x_ < min_.x_ || box.min_.x_ > max_.x_ || box.max_.y_ < min_.y_ || box.min_.y_ > max_.y_ ||
-            box.max_.z_ < min_.z_ || box.min_.z_ > max_.z_)
+        if (box.max_.m_x < min_.m_x || box.min_.m_x > max_.m_x || box.max_.m_y < min_.m_y || box.min_.m_y > max_.m_y ||
+            box.max_.m_z < min_.m_z || box.min_.m_z > max_.m_z)
             return OUTSIDE;
         else
             return INSIDE;
@@ -320,12 +320,12 @@ public:
     {
         float* data = const_cast<BoundingBox*>(this)->data_;
 
-        data[0] = min_.x_;
-        data[1] = min_.y_;
-        data[2] = min_.z_;
-        data[3] = max_.x_;
-        data[4] = max_.y_;
-        data[5] = max_.z_;
+        data[0] = min_.m_x;
+        data[1] = min_.m_y;
+        data[2] = min_.m_z;
+        data[3] = max_.m_x;
+        data[4] = max_.m_y;
+        data[5] = max_.m_z;
         return data;
     }
 };

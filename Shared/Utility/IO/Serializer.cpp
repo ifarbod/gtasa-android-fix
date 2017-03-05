@@ -104,9 +104,9 @@ bool Serializer::WritePackedVector3(const Vector3& value, float maxAbsCoord)
     short coords[3];
     float v = 32767.0f / maxAbsCoord;
 
-    coords[0] = (short)(Clamp(value.x_, -maxAbsCoord, maxAbsCoord) * v + 0.5f);
-    coords[1] = (short)(Clamp(value.y_, -maxAbsCoord, maxAbsCoord) * v + 0.5f);
-    coords[2] = (short)(Clamp(value.z_, -maxAbsCoord, maxAbsCoord) * v + 0.5f);
+    coords[0] = (short)(Clamp(value.m_x, -maxAbsCoord, maxAbsCoord) * v + 0.5f);
+    coords[1] = (short)(Clamp(value.m_y, -maxAbsCoord, maxAbsCoord) * v + 0.5f);
+    coords[2] = (short)(Clamp(value.m_z, -maxAbsCoord, maxAbsCoord) * v + 0.5f);
     return Write(&coords[0], sizeof coords) == sizeof coords;
 }
 
@@ -126,9 +126,9 @@ bool Serializer::WritePackedQuaternion(const Quaternion& value)
     Quaternion norm = value.Normalized();
 
     coords[0] = (short)(Clamp(norm.w_, -1.0f, 1.0f) * q + 0.5f);
-    coords[1] = (short)(Clamp(norm.x_, -1.0f, 1.0f) * q + 0.5f);
-    coords[2] = (short)(Clamp(norm.y_, -1.0f, 1.0f) * q + 0.5f);
-    coords[3] = (short)(Clamp(norm.z_, -1.0f, 1.0f) * q + 0.5f);
+    coords[1] = (short)(Clamp(norm.m_x, -1.0f, 1.0f) * q + 0.5f);
+    coords[2] = (short)(Clamp(norm.m_y, -1.0f, 1.0f) * q + 0.5f);
+    coords[3] = (short)(Clamp(norm.m_z, -1.0f, 1.0f) * q + 0.5f);
     return Write(&coords[0], sizeof coords) == sizeof coords;
 }
 

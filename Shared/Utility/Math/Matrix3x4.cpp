@@ -22,15 +22,15 @@ const Matrix3x4 Matrix3x4::IDENTITY;
 
 void Matrix3x4::Decompose(Vector3& translation, Quaternion& rotation, Vector3& scale) const
 {
-    translation.x_ = m03_;
-    translation.y_ = m13_;
-    translation.z_ = m23_;
+    translation.m_x = m03_;
+    translation.m_y = m13_;
+    translation.m_z = m23_;
 
-    scale.x_ = sqrtf(m00_ * m00_ + m10_ * m10_ + m20_ * m20_);
-    scale.y_ = sqrtf(m01_ * m01_ + m11_ * m11_ + m21_ * m21_);
-    scale.z_ = sqrtf(m02_ * m02_ + m12_ * m12_ + m22_ * m22_);
+    scale.m_x = sqrtf(m00_ * m00_ + m10_ * m10_ + m20_ * m20_);
+    scale.m_y = sqrtf(m01_ * m01_ + m11_ * m11_ + m21_ * m21_);
+    scale.m_z = sqrtf(m02_ * m02_ + m12_ * m12_ + m22_ * m22_);
 
-    Vector3 invScale(1.0f / scale.x_, 1.0f / scale.y_, 1.0f / scale.z_);
+    Vector3 invScale(1.0f / scale.m_x, 1.0f / scale.m_y, 1.0f / scale.m_z);
     rotation = Quaternion(ToMatrix3().Scaled(invScale));
 }
 

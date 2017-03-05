@@ -203,8 +203,8 @@ IntVector2 ToIntVector2(const char* source)
         return ret;
 
     char* ptr = (char*)source;
-    ret.x_ = (int)strtol(ptr, &ptr, 10);
-    ret.y_ = (int)strtol(ptr, &ptr, 10);
+    ret.m_x = (int)strtol(ptr, &ptr, 10);
+    ret.m_y = (int)strtol(ptr, &ptr, 10);
 
     return ret;
 }
@@ -223,10 +223,10 @@ Rect ToRect(const char* source)
         return ret;
 
     char* ptr = (char*)source;
-    ret.min_.x_ = (float)strtod(ptr, &ptr);
-    ret.min_.y_ = (float)strtod(ptr, &ptr);
-    ret.max_.x_ = (float)strtod(ptr, &ptr);
-    ret.max_.y_ = (float)strtod(ptr, &ptr);
+    ret.min_.m_x = (float)strtod(ptr, &ptr);
+    ret.min_.m_y = (float)strtod(ptr, &ptr);
+    ret.max_.m_x = (float)strtod(ptr, &ptr);
+    ret.max_.m_y = (float)strtod(ptr, &ptr);
 
     return ret;
 }
@@ -258,9 +258,9 @@ Quaternion ToQuaternion(const char* source)
         // 4 coords specified: full quaternion
         Quaternion ret;
         ret.w_ = (float)strtod(ptr, &ptr);
-        ret.x_ = (float)strtod(ptr, &ptr);
-        ret.y_ = (float)strtod(ptr, &ptr);
-        ret.z_ = (float)strtod(ptr, &ptr);
+        ret.m_x = (float)strtod(ptr, &ptr);
+        ret.m_y = (float)strtod(ptr, &ptr);
+        ret.m_z = (float)strtod(ptr, &ptr);
 
         return ret;
     }
@@ -280,8 +280,8 @@ Vector2 ToVector2(const char* source)
         return ret;
 
     char* ptr = (char*)source;
-    ret.x_ = (float)strtod(ptr, &ptr);
-    ret.y_ = (float)strtod(ptr, &ptr);
+    ret.m_x = (float)strtod(ptr, &ptr);
+    ret.m_y = (float)strtod(ptr, &ptr);
 
     return ret;
 }
@@ -300,9 +300,9 @@ Vector3 ToVector3(const char* source)
         return ret;
 
     char* ptr = (char*)source;
-    ret.x_ = (float)strtod(ptr, &ptr);
-    ret.y_ = (float)strtod(ptr, &ptr);
-    ret.z_ = (float)strtod(ptr, &ptr);
+    ret.m_x = (float)strtod(ptr, &ptr);
+    ret.m_y = (float)strtod(ptr, &ptr);
+    ret.m_z = (float)strtod(ptr, &ptr);
 
     return ret;
 }
@@ -324,9 +324,9 @@ Vector4 ToVector4(const char* source, bool allowMissingCoords)
         if (elements < 4)
             return ret;
 
-        ret.x_ = (float)strtod(ptr, &ptr);
-        ret.y_ = (float)strtod(ptr, &ptr);
-        ret.z_ = (float)strtod(ptr, &ptr);
+        ret.m_x = (float)strtod(ptr, &ptr);
+        ret.m_y = (float)strtod(ptr, &ptr);
+        ret.m_z = (float)strtod(ptr, &ptr);
         ret.w_ = (float)strtod(ptr, &ptr);
 
         return ret;
@@ -334,11 +334,11 @@ Vector4 ToVector4(const char* source, bool allowMissingCoords)
     else
     {
         if (elements > 0)
-            ret.x_ = (float)strtod(ptr, &ptr);
+            ret.m_x = (float)strtod(ptr, &ptr);
         if (elements > 1)
-            ret.y_ = (float)strtod(ptr, &ptr);
+            ret.m_y = (float)strtod(ptr, &ptr);
         if (elements > 2)
-            ret.z_ = (float)strtod(ptr, &ptr);
+            ret.m_z = (float)strtod(ptr, &ptr);
         if (elements > 3)
             ret.w_ = (float)strtod(ptr, &ptr);
 

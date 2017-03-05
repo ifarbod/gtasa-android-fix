@@ -20,7 +20,7 @@ const Vector4 Vector4::ONE(1.0f, 1.0f, 1.0f, 1.0f);
 
 String Vector4::ToString() const
 {
-    return String::Format("%g %g %g %g", x_, y_, z_, w_);
+    return String::Format("%g %g %g %g", m_x, m_y, m_z, w_);
 }
 
 }

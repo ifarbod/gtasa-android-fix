@@ -40,8 +40,8 @@ public:
 
     // Construct from a Vector4.
     Rect(const Vector4& vector) :
-        min_(vector.x_, vector.y_),
-        max_(vector.z_, vector.w_)
+        min_(vector.m_x, vector.m_y),
+        max_(vector.m_z, vector.w_)
     {
     }
 
@@ -96,27 +96,27 @@ public:
     // Merge a point.
     void Merge(const Vector2& point)
     {
-        if (point.x_ < min_.x_)
-            min_.x_ = point.x_;
-        if (point.x_ > max_.x_)
-            max_.x_ = point.x_;
-        if (point.y_ < min_.y_)
-            min_.y_ = point.y_;
-        if (point.y_ > max_.y_)
-            max_.y_ = point.y_;
+        if (point.m_x < min_.m_x)
+            min_.m_x = point.m_x;
+        if (point.m_x > max_.m_x)
+            max_.m_x = point.m_x;
+        if (point.m_y < min_.m_y)
+            min_.m_y = point.m_y;
+        if (point.m_y > max_.m_y)
+            max_.m_y = point.m_y;
     }
 
     // Merge a rect.
     void Merge(const Rect& rect)
     {
-        if (rect.min_.x_ < min_.x_)
-            min_.x_ = rect.min_.x_;
-        if (rect.min_.y_ < min_.y_)
-            min_.y_ = rect.min_.y_;
-        if (rect.max_.x_ > max_.x_)
-            max_.x_ = rect.max_.x_;
-        if (rect.max_.y_ > max_.y_)
-            max_.y_ = rect.max_.y_;
+        if (rect.min_.m_x < min_.m_x)
+            min_.m_x = rect.min_.m_x;
+        if (rect.min_.m_y < min_.m_y)
+            min_.m_y = rect.min_.m_y;
+        if (rect.max_.m_x > max_.m_x)
+            max_.m_x = rect.max_.m_x;
+        if (rect.max_.m_y > max_.m_y)
+            max_.m_y = rect.max_.m_y;
     }
 
     // Clear to undefined state.
@@ -132,7 +132,7 @@ public:
     // Return true if this rect is defined via a previous call to Define() or Merge().
     bool Defined() const
     {
-        return min_.x_ != M_INFINITY;
+        return min_.m_x != M_INFINITY;
     }
 
     // Return center.
@@ -150,7 +150,7 @@ public:
     // Test whether a point is inside.
     Intersection IsInside(const Vector2& point) const
     {
-        if (point.x_ < min_.x_ || point.y_ < min_.y_ || point.x_ > max_.x_ || point.y_ > max_.y_)
+        if (point.m_x < min_.m_x || point.m_y < min_.m_y || point.m_x > max_.m_x || point.m_y > max_.m_y)
             return OUTSIDE;
         else
             return INSIDE;
@@ -159,19 +159,19 @@ public:
     // Test if another rect is inside, outside or intersects.
     Intersection IsInside(const Rect& rect) const
     {
-        if (rect.max_.x_ < min_.x_ || rect.min_.x_ > max_.x_ || rect.max_.y_ < min_.y_ || rect.min_.y_ > max_.y_)
+        if (rect.max_.m_x < min_.m_x || rect.min_.m_x > max_.m_x || rect.max_.m_y < min_.m_y || rect.min_.m_y > max_.m_y)
             return OUTSIDE;
-        else if (rect.min_.x_ < min_.x_ || rect.max_.x_ > max_.x_ || rect.min_.y_ < min_.y_ || rect.max_.y_ > max_.y_)
+        else if (rect.min_.m_x < min_.m_x || rect.max_.m_x > max_.m_x || rect.min_.m_y < min_.m_y || rect.max_.m_y > max_.m_y)
             return INTERSECTS;
         else
             return INSIDE;
     }
 
     // Return float data.
-    const float* Data() const { return &min_.x_; }
+    const float* Data() const { return &min_.m_x; }
 
     // Return as a vector.
-    Vector4 ToVector4() const { return Vector4(min_.x_, min_.y_, max_.x_, max_.y_); }
+    Vector4 ToVector4() const { return Vector4(min_.m_x, min_.m_y, max_.m_x, max_.m_y); }
 
     // Return as string.
     String ToString() const;
@@ -244,7 +244,7 @@ public:
     // Test whether a point is inside.
     Intersection IsInside(const IntVector2& point) const
     {
-        if (point.x_ < left_ || point.y_ < top_ || point.x_ >= right_ || point.y_ >= bottom_)
+        if (point.m_x < left_ || point.m_y < top_ || point.m_x >= right_ || point.m_y >= bottom_)
             return OUTSIDE;
         else
             return INSIDE;

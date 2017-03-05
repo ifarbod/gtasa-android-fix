@@ -20,96 +20,96 @@ class Vector2
 public:
     // Construct a zero vector.
     Vector2() :
-        x_(0.0f),
-        y_(0.0f)
+        m_x(0.0f),
+        m_y(0.0f)
     {
     }
 
     // Copy-construct from another vector.
     Vector2(const Vector2& vector) :
-        x_(vector.x_),
-        y_(vector.y_)
+        m_x(vector.m_x),
+        m_y(vector.m_y)
     {
     }
 
     // Construct from coordinates.
     Vector2(float x, float y) :
-        x_(x),
-        y_(y)
+        m_x(x),
+        m_y(y)
     {
     }
 
     // Construct from a float array.
     explicit Vector2(const float* data) :
-        x_(data[0]),
-        y_(data[1])
+        m_x(data[0]),
+        m_y(data[1])
     {
     }
 
     // Assign from another vector.
     Vector2& operator =(const Vector2& rhs)
     {
-        x_ = rhs.x_;
-        y_ = rhs.y_;
+        m_x = rhs.m_x;
+        m_y = rhs.m_y;
         return *this;
     }
 
     // Test for equality with another vector without epsilon.
-    bool operator ==(const Vector2& rhs) const { return x_ == rhs.x_ && y_ == rhs.y_; }
+    bool operator ==(const Vector2& rhs) const { return m_x == rhs.m_x && m_y == rhs.m_y; }
 
     // Test for inequality with another vector without epsilon.
-    bool operator !=(const Vector2& rhs) const { return x_ != rhs.x_ || y_ != rhs.y_; }
+    bool operator !=(const Vector2& rhs) const { return m_x != rhs.m_x || m_y != rhs.m_y; }
 
     // Add a vector.
-    Vector2 operator +(const Vector2& rhs) const { return Vector2(x_ + rhs.x_, y_ + rhs.y_); }
+    Vector2 operator +(const Vector2& rhs) const { return Vector2(m_x + rhs.m_x, m_y + rhs.m_y); }
 
     // Return negation.
-    Vector2 operator -() const { return Vector2(-x_, -y_); }
+    Vector2 operator -() const { return Vector2(-m_x, -m_y); }
 
     // Subtract a vector.
-    Vector2 operator -(const Vector2& rhs) const { return Vector2(x_ - rhs.x_, y_ - rhs.y_); }
+    Vector2 operator -(const Vector2& rhs) const { return Vector2(m_x - rhs.m_x, m_y - rhs.m_y); }
 
     // Multiply with a scalar.
-    Vector2 operator *(float rhs) const { return Vector2(x_ * rhs, y_ * rhs); }
+    Vector2 operator *(float rhs) const { return Vector2(m_x * rhs, m_y * rhs); }
 
     // Multiply with a vector.
-    Vector2 operator *(const Vector2& rhs) const { return Vector2(x_ * rhs.x_, y_ * rhs.y_); }
+    Vector2 operator *(const Vector2& rhs) const { return Vector2(m_x * rhs.m_x, m_y * rhs.m_y); }
 
     // Divide by a scalar.
-    Vector2 operator /(float rhs) const { return Vector2(x_ / rhs, y_ / rhs); }
+    Vector2 operator /(float rhs) const { return Vector2(m_x / rhs, m_y / rhs); }
 
     // Divide by a vector.
-    Vector2 operator /(const Vector2& rhs) const { return Vector2(x_ / rhs.x_, y_ / rhs.y_); }
+    Vector2 operator /(const Vector2& rhs) const { return Vector2(m_x / rhs.m_x, m_y / rhs.m_y); }
 
     // Add-assign a vector.
     Vector2& operator +=(const Vector2& rhs)
     {
-        x_ += rhs.x_;
-        y_ += rhs.y_;
+        m_x += rhs.m_x;
+        m_y += rhs.m_y;
         return *this;
     }
 
     // Subtract-assign a vector.
     Vector2& operator -=(const Vector2& rhs)
     {
-        x_ -= rhs.x_;
-        y_ -= rhs.y_;
+        m_x -= rhs.m_x;
+        m_y -= rhs.m_y;
         return *this;
     }
 
     // Multiply-assign a scalar.
     Vector2& operator *=(float rhs)
     {
-        x_ *= rhs;
-        y_ *= rhs;
+        m_x *= rhs;
+        m_y *= rhs;
         return *this;
     }
 
     // Multiply-assign a vector.
     Vector2& operator *=(const Vector2& rhs)
     {
-        x_ *= rhs.x_;
-        y_ *= rhs.y_;
+        m_x *= rhs.m_x;
+        m_y *= rhs.m_y;
         return *this;
     }
 
@@ -117,16 +117,16 @@ public:
     Vector2& operator /=(float rhs)
     {
         float invRhs = 1.0f / rhs;
-        x_ *= invRhs;
-        y_ *= invRhs;
+        m_x *= invRhs;
+        m_y *= invRhs;
         return *this;
     }
 
     // Divide-assign a vector.
     Vector2& operator /=(const Vector2& rhs)
     {
-        x_ /= rhs.x_;
-        y_ /= rhs.y_;
+        m_x /= rhs.m_x;
+        m_y /= rhs.m_y;
         return *this;
     }
 
@@ -137,22 +137,22 @@ public:
         if (!ctn::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
         {
             float invLen = 1.0f / sqrtf(lenSquared);
-            x_ *= invLen;
-            y_ *= invLen;
+            m_x *= invLen;
+            m_y *= invLen;
         }
     }
 
     // Return length.
-    float Length() const { return sqrtf(x_ * x_ + y_ * y_); }
+    float Length() const { return sqrtf(m_x * m_x + m_y * m_y); }
 
     // Return squared length.
-    float LengthSquared() const { return x_ * x_ + y_ * y_; }
+    float LengthSquared() const { return m_x * m_x + m_y * m_y; }
 
     // Calculate dot product.
-    float DotProduct(const Vector2& rhs) const { return x_ * rhs.x_ + y_ * rhs.y_; }
+    float DotProduct(const Vector2& rhs) const { return m_x * rhs.m_x + m_y * rhs.m_y; }
 
     // Calculate absolute dot product.
-    float AbsDotProduct(const Vector2& rhs) const { return ctn::Abs(x_ * rhs.x_) + ctn::Abs(y_ * rhs.y_); }
+    float AbsDotProduct(const Vector2& rhs) const { return ctn::Abs(m_x * rhs.m_x) + ctn::Abs(m_y * rhs.m_y); }
 
     // Project vector onto axis.
     float ProjectOntoAxis(const Vector2& axis) const { return DotProduct(axis.Normalized()); }
@@ -161,16 +161,16 @@ public:
     float Angle(const Vector2& rhs) const { return ctn::Acos(DotProduct(rhs) / (Length() * rhs.Length())); }
 
     // Return absolute vector.
-    Vector2 Abs() const { return Vector2(ctn::Abs(x_), ctn::Abs(y_)); }
+    Vector2 Abs() const { return Vector2(ctn::Abs(m_x), ctn::Abs(m_y)); }
 
     // Linear interpolation with another vector.
     Vector2 Lerp(const Vector2& rhs, float t) const { return *this * (1.0f - t) + rhs * t; }
 
     // Test for equality with another vector with epsilon.
-    bool Equals(const Vector2& rhs) const { return ctn::Equals(x_, rhs.x_) && ctn::Equals(y_, rhs.y_); }
+    bool Equals(const Vector2& rhs) const { return ctn::Equals(m_x, rhs.m_x) && ctn::Equals(m_y, rhs.m_y); }
 
     // Return whether is NaN.
-    bool IsNaN() const { return ctn::IsNaN(x_) || ctn::IsNaN(y_); }
+    bool IsNaN() const { return ctn::IsNaN(m_x) || ctn::IsNaN(m_y); }
 
     // Return normalized to unit length.
     Vector2 Normalized() const
@@ -186,15 +186,15 @@ public:
     }
 
     // Return float data.
-    const float* Data() const { return &x_; }
+    const float* Data() const { return &m_x; }
 
     // Return as string.
     String ToString() const;
 
     // X coordinate.
-    float x_;
+    float m_x;
     // Y coordinate.
-    float y_;
+    float m_y;
 
     // Zero vector.
     static const Vector2 ZERO;
@@ -219,109 +219,109 @@ class IntVector2
 public:
     // Construct a zero vector.
     IntVector2() :
-        x_(0),
-        y_(0)
+        m_x(0),
+        m_y(0)
     {
     }
 
     // Construct from coordinates.
     IntVector2(int x, int y) :
-        x_(x),
-        y_(y)
+        m_x(x),
+        m_y(y)
     {
     }
 
     // Construct from an int array.
     IntVector2(const int* data) :
-        x_(data[0]),
-        y_(data[1])
+        m_x(data[0]),
+        m_y(data[1])
     {
     }
 
     // Copy-construct from another vector.
     IntVector2(const IntVector2& rhs) :
-        x_(rhs.x_),
-        y_(rhs.y_)
+        m_x(rhs.m_x),
+        m_y(rhs.m_y)
     {
     }
 
     // Assign from another vector.
     IntVector2& operator =(const IntVector2& rhs)
     {
-        x_ = rhs.x_;
-        y_ = rhs.y_;
+        m_x = rhs.m_x;
+        m_y = rhs.m_y;
         return *this;
     }
 
     // Test for equality with another vector.
-    bool operator ==(const IntVector2& rhs) const { return x_ == rhs.x_ && y_ == rhs.y_; }
+    bool operator ==(const IntVector2& rhs) const { return m_x == rhs.m_x && m_y == rhs.m_y; }
 
     // Test for inequality with another vector.
-    bool operator !=(const IntVector2& rhs) const { return x_ != rhs.x_ || y_ != rhs.y_; }
+    bool operator !=(const IntVector2& rhs) const { return m_x != rhs.m_x || m_y != rhs.m_y; }
 
     // Add a vector.
-    IntVector2 operator +(const IntVector2& rhs) const { return IntVector2(x_ + rhs.x_, y_ + rhs.y_); }
+    IntVector2 operator +(const IntVector2& rhs) const { return IntVector2(m_x + rhs.m_x, m_y + rhs.m_y); }
 
     // Return negation.
-    IntVector2 operator -() const { return IntVector2(-x_, -y_); }
+    IntVector2 operator -() const { return IntVector2(-m_x, -m_y); }
 
     // Subtract a vector.
-    IntVector2 operator -(const IntVector2& rhs) const { return IntVector2(x_ - rhs.x_, y_ - rhs.y_); }
+    IntVector2 operator -(const IntVector2& rhs) const { return IntVector2(m_x - rhs.m_x, m_y - rhs.m_y); }
 
     // Multiply with a scalar.
-    IntVector2 operator *(int rhs) const { return IntVector2(x_ * rhs, y_ * rhs); }
+    IntVector2 operator *(int rhs) const { return IntVector2(m_x * rhs, m_y * rhs); }
 
     // Divide by a scalar.
-    IntVector2 operator /(int rhs) const { return IntVector2(x_ / rhs, y_ / rhs); }
+    IntVector2 operator /(int rhs) const { return IntVector2(m_x / rhs, m_y / rhs); }
 
     // Add-assign a vector.
     IntVector2& operator +=(const IntVector2& rhs)
     {
-        x_ += rhs.x_;
-        y_ += rhs.y_;
+        m_x += rhs.m_x;
+        m_y += rhs.m_y;
         return *this;
     }
 
     // Subtract-assign a vector.
     IntVector2& operator -=(const IntVector2& rhs)
     {
-        x_ -= rhs.x_;
-        y_ -= rhs.y_;
+        m_x -= rhs.m_x;
+        m_y -= rhs.m_y;
         return *this;
     }
 
     // Multiply-assign a scalar.
     IntVector2& operator *=(int rhs)
     {
-        x_ *= rhs;
-        y_ *= rhs;
+        m_x *= rhs;
+        m_y *= rhs;
         return *this;
     }
 
     // Divide-assign a scalar.
     IntVector2& operator /=(int rhs)
     {
-        x_ /= rhs;
-        y_ /= rhs;
+        m_x /= rhs;
+        m_y /= rhs;
         return *this;
     }
 
     // Return integer data.
-    const int* Data() const { return &x_; }
+    const int* Data() const { return &m_x; }
 
     // Return as string.
     String ToString() const;
 
     // Return hash value for HashSet & HashMap.
-    unsigned ToHash() const { return (unsigned)x_ * 31 + (unsigned)y_; }
+    unsigned ToHash() const { return (unsigned)m_x * 31 + (unsigned)m_y; }
 
     // Return length.
-    float Length() const { return sqrtf((float)(x_ * x_ + y_ * y_)); }
+    float Length() const { return sqrtf((float)(m_x * m_x + m_y * m_y)); }
 
     // X coordinate.
-    int x_;
+    int m_x;
     // Y coordinate.
-    int y_;
+    int m_y;
 
     // Zero vector.
     static const IntVector2 ZERO;
@@ -334,34 +334,34 @@ inline IntVector2 operator *(int lhs, const IntVector2& rhs) { return rhs * lhs;
 inline Vector2 VectorLerp(const Vector2& lhs, const Vector2& rhs, const Vector2& t) { return lhs + (rhs - lhs) * t; }
 
 // Per-component min of two 2-vectors.
-inline Vector2 VectorMin(const Vector2& lhs, const Vector2& rhs) { return Vector2(Min(lhs.x_, rhs.x_), Min(lhs.y_, rhs.y_)); }
+inline Vector2 VectorMin(const Vector2& lhs, const Vector2& rhs) { return Vector2(Min(lhs.m_x, rhs.m_x), Min(lhs.m_y, rhs.m_y)); }
 
 // Per-component max of two 2-vectors.
-inline Vector2 VectorMax(const Vector2& lhs, const Vector2& rhs) { return Vector2(Max(lhs.x_, rhs.x_), Max(lhs.y_, rhs.y_)); }
+inline Vector2 VectorMax(const Vector2& lhs, const Vector2& rhs) { return Vector2(Max(lhs.m_x, rhs.m_x), Max(lhs.m_y, rhs.m_y)); }
 
 // Per-component floor of 2-vector.
-inline Vector2 VectorFloor(const Vector2& vec) { return Vector2(Floor(vec.x_), Floor(vec.y_)); }
+inline Vector2 VectorFloor(const Vector2& vec) { return Vector2(Floor(vec.m_x), Floor(vec.m_y)); }
 
 // Per-component round of 2-vector.
-inline Vector2 VectorRound(const Vector2& vec) { return Vector2(Round(vec.x_), Round(vec.y_)); }
+inline Vector2 VectorRound(const Vector2& vec) { return Vector2(Round(vec.m_x), Round(vec.m_y)); }
 
 // Per-component ceil of 2-vector.
-inline Vector2 VectorCeil(const Vector2& vec) { return Vector2(Ceil(vec.x_), Ceil(vec.y_)); }
+inline Vector2 VectorCeil(const Vector2& vec) { return Vector2(Ceil(vec.m_x), Ceil(vec.m_y)); }
 
 // Per-component floor of 2-vector. Returns IntVector2.
-inline IntVector2 VectorFloorToInt(const Vector2& vec) { return IntVector2(FloorToInt(vec.x_), FloorToInt(vec.y_)); }
+inline IntVector2 VectorFloorToInt(const Vector2& vec) { return IntVector2(FloorToInt(vec.m_x), FloorToInt(vec.m_y)); }
 
 // Per-component round of 2-vector. Returns IntVector2.
-inline IntVector2 VectorRoundToInt(const Vector2& vec) { return IntVector2(RoundToInt(vec.x_), RoundToInt(vec.y_)); }
+inline IntVector2 VectorRoundToInt(const Vector2& vec) { return IntVector2(RoundToInt(vec.m_x), RoundToInt(vec.m_y)); }
 
 // Per-component ceil of 2-vector. Returns IntVector2.
-inline IntVector2 VectorCeilToInt(const Vector2& vec) { return IntVector2(CeilToInt(vec.x_), CeilToInt(vec.y_)); }
+inline IntVector2 VectorCeilToInt(const Vector2& vec) { return IntVector2(CeilToInt(vec.m_x), CeilToInt(vec.m_y)); }
 
 // Per-component min of two 2-vectors.
-inline IntVector2 VectorMin(const IntVector2& lhs, const IntVector2& rhs) { return IntVector2(Min(lhs.x_, rhs.x_), Min(lhs.y_, rhs.y_)); }
+inline IntVector2 VectorMin(const IntVector2& lhs, const IntVector2& rhs) { return IntVector2(Min(lhs.m_x, rhs.m_x), Min(lhs.m_y, rhs.m_y)); }
 
 // Per-component max of two 2-vectors.
-inline IntVector2 VectorMax(const IntVector2& lhs, const IntVector2& rhs) { return IntVector2(Max(lhs.x_, rhs.x_), Max(lhs.y_, rhs.y_)); }
+inline IntVector2 VectorMax(const IntVector2& lhs, const IntVector2& rhs) { return IntVector2(Max(lhs.m_x, rhs.m_x), Max(lhs.m_y, rhs.m_y)); }
 
 // Return a random value from [0, 1) from 2-vector seed.
 // http://stackoverflow.com/questions/12964279/whats-the-origin-of-this-glsl-rand-one-liner

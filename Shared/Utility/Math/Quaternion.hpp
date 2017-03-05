@@ -25,9 +25,9 @@ public:
     Quaternion()
 #ifndef CTN_SSE
         :w_(1.0f),
-        x_(0.0f),
-        y_(0.0f),
-        z_(0.0f)
+        m_x(0.0f),
+        m_y(0.0f),
+        m_z(0.0f)
 #endif
     {
 #ifdef CTN_SSE
@@ -43,9 +43,9 @@ public:
     }
 #else
         :w_(quat.w_),
-        x_(quat.x_),
-        y_(quat.y_),
-        z_(quat.z_)
+        m_x(quat.m_x),
+        m_y(quat.m_y),
+        m_z(quat.m_z)
     {
     }
 #endif
@@ -54,9 +54,9 @@ public:
     Quaternion(float w, float x, float y, float z)
 #ifndef CTN_SSE
         :w_(w),
-        x_(x),
-        y_(y),
-        z_(z)
+        m_x(x),
+        m_y(y),
+        m_z(z)
 #endif
     {
 #ifdef CTN_SSE
@@ -68,9 +68,9 @@ public:
     explicit Quaternion(const float* data)
 #ifndef CTN_SSE
         :w_(data[0]),
-        x_(data[1]),
-        y_(data[2]),
-        z_(data[3])
+        m_x(data[1]),
+        m_y(data[2]),
+        m_z(data[3])
 #endif
     {
 #ifdef CTN_SSE
@@ -128,9 +128,9 @@ public:
         _mm_storeu_ps(&w_, _mm_loadu_ps(&rhs.w_));
 #else
         w_ = rhs.w_;
-        x_ = rhs.x_;
-        y_ = rhs.y_;
-        z_ = rhs.z_;
+        m_x = rhs.m_x;
+        m_y = rhs.m_y;
+        m_z = rhs.m_z;
 #endif
         return *this;
     }
@@ -142,9 +142,9 @@ public:
         _mm_storeu_ps(&w_, _mm_add_ps(_mm_loadu_ps(&w_), _mm_loadu_ps(&rhs.w_)));
 #else
         w_ += rhs.w_;
-        x_ += rhs.x_;
-        y_ += rhs.y_;
-        z_ += rhs.z_;
+        m_x += rhs.m_x;
+        m_y += rhs.m_y;
+        m_z += rhs.m_z;
 #endif
         return *this;
     }
@@ -156,9 +156,9 @@ public:
         _mm_storeu_ps(&w_, _mm_mul_ps(_mm_loadu_ps(&w_), _mm_set1_ps(rhs)));
 #else
         w_ *= rhs;
-        x_ *= rhs;
-        y_ *= rhs;
-        z_ *= rhs;
+        m_x *= rhs;
+        m_y *= rhs;
+        m_z *= rhs;
 #endif
         return *this;
     }
@@ -172,7 +172,7 @@ public:
         c = _mm_and_ps(c, _mm_shuffle_ps(c, c, _MM_SHUFFLE(1, 1, 1, 1)));
         return _mm_cvtsi128_si32(_mm_castps_si128(c)) == -1;
 #else
-        return w_ == rhs.w_ && x_ == rhs.x_ && y_ == rhs.y_ && z_ == rhs.z_;
+        return w_ == rhs.w_ && m_x == rhs.m_x && m_y == rhs.m_y && m_z == rhs.m_z;
 #endif
     }
 
@@ -185,7 +185,7 @@ public:
 #ifdef CTN_SSE
         return Quaternion(_mm_mul_ps(_mm_loadu_ps(&w_), _mm_set1_ps(rhs)));
 #else
-        return Quaternion(w_ * rhs, x_ * rhs, y_ * rhs, z_ * rhs);
+        return Quaternion(w_ * rhs, m_x * rhs, m_y * rhs, m_z * rhs);
 #endif
     }
 
@@ -195,7 +195,7 @@ public:
 #ifdef CTN_SSE
         return Quaternion(_mm_xor_ps(_mm_loadu_ps(&w_), _mm_castsi128_ps(_mm_set1_epi32((int)0x80000000UL))));
 #else
-        return Quaternion(-w_, -x_, -y_, -z_);
+        return Quaternion(-w_, -m_x, -m_y, -m_z);
 #endif
     }
 
@@ -205,7 +205,7 @@ public:
 #ifdef CTN_SSE
         return Quaternion(_mm_add_ps(_mm_loadu_ps(&w_), _mm_loadu_ps(&rhs.w_)));
 #else
-        return Quaternion(w_ + rhs.w_, x_ + rhs.x_, y_ + rhs.y_, z_ + rhs.z_);
+        return Quaternion(w_ + rhs.w_, m_x + rhs.m_x, m_y + rhs.m_y, m_z + rhs.m_z);
 #endif
     }
 
@@ -215,7 +215,7 @@ public:
 #ifdef CTN_SSE
         return Quaternion(_mm_sub_ps(_mm_loadu_ps(&w_), _mm_loadu_ps(&rhs.w_)));
 #else
-        return Quaternion(w_ - rhs.w_, x_ - rhs.x_, y_ - rhs.y_, z_ - rhs.z_);
+        return Quaternion(w_ - rhs.w_, m_x - rhs.m_x, m_y - rhs.m_y, m_z - rhs.m_z);
 #endif
     }
 
@@ -236,10 +236,10 @@ public:
         return Quaternion(_mm_shuffle_ps(out, out, _MM_SHUFFLE(2, 1, 0, 3)));
 #else
         return Quaternion(
-            w_ * rhs.w_ - x_ * rhs.x_ - y_ * rhs.y_ - z_ * rhs.z_,
-            w_ * rhs.x_ + x_ * rhs.w_ + y_ * rhs.z_ - z_ * rhs.y_,
-            w_ * rhs.y_ + y_ * rhs.w_ + z_ * rhs.x_ - x_ * rhs.z_,
-            w_ * rhs.z_ + z_ * rhs.w_ + x_ * rhs.y_ - y_ * rhs.x_
+            w_ * rhs.w_ - m_x * rhs.m_x - m_y * rhs.m_y - m_z * rhs.m_z,
+            w_ * rhs.m_x + m_x * rhs.w_ + m_y * rhs.m_z - m_z * rhs.m_y,
+            w_ * rhs.m_y + m_y * rhs.w_ + m_z * rhs.m_x - m_x * rhs.m_z,
+            w_ * rhs.m_z + m_z * rhs.w_ + m_x * rhs.m_y - m_y * rhs.m_x
         );
 #endif
     }
@@ -250,7 +250,7 @@ public:
 #ifdef CTN_SSE
         __m128 q = _mm_loadu_ps(&w_);
         q = _mm_shuffle_ps(q, q, _MM_SHUFFLE(0, 3, 2, 1));
-        __m128 v = _mm_set_ps(0.f, rhs.z_, rhs.y_, rhs.x_);
+        __m128 v = _mm_set_ps(0.f, rhs.m_z, rhs.m_y, rhs.m_x);
         const __m128 W = _mm_shuffle_ps(q, q, _MM_SHUFFLE(3, 3, 3, 3));
         const __m128 a_yzx = _mm_shuffle_ps(q, q, _MM_SHUFFLE(3, 0, 2, 1));
         __m128 x = _mm_mul_ps(q, _mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1)));
@@ -268,7 +268,7 @@ public:
             _mm_cvtss_f32(_mm_shuffle_ps(s, s, _MM_SHUFFLE(1, 1, 1, 1))),
             _mm_cvtss_f32(_mm_movehl_ps(s, s)));
 #else
-        Vector3 qVec(x_, y_, z_);
+        Vector3 qVec(m_x, m_y, m_z);
         Vector3 cross1(qVec.CrossProduct(rhs));
         Vector3 cross2(qVec.CrossProduct(cross1));
 
@@ -308,9 +308,9 @@ public:
         {
             float invLen = 1.0f / sqrtf(lenSquared);
             w_ *= invLen;
-            x_ *= invLen;
-            y_ *= invLen;
-            z_ *= invLen;
+            m_x *= invLen;
+            m_y *= invLen;
+            m_z *= invLen;
         }
 #endif
     }
@@ -370,7 +370,7 @@ public:
         n = _mm_add_ps(n, _mm_shuffle_ps(n, n, _MM_SHUFFLE(0, 1, 2, 3)));
         return _mm_cvtss_f32(n);
 #else
-        return w_ * w_ + x_ * x_ + y_ * y_ + z_ * z_;
+        return w_ * w_ + m_x * m_x + m_y * m_y + m_z * m_z;
 #endif
     }
 
@@ -385,18 +385,18 @@ public:
         n = _mm_add_ps(n, _mm_shuffle_ps(n, n, _MM_SHUFFLE(0, 1, 2, 3)));
         return _mm_cvtss_f32(n);
 #else
-        return w_ * rhs.w_ + x_ * rhs.x_ + y_ * rhs.y_ + z_ * rhs.z_;
+        return w_ * rhs.w_ + m_x * rhs.m_x + m_y * rhs.m_y + m_z * rhs.m_z;
 #endif
     }
 
     // Test for equality with another quaternion with epsilon.
     bool Equals(const Quaternion& rhs) const
     {
-        return ctn::Equals(w_, rhs.w_) && ctn::Equals(x_, rhs.x_) && ctn::Equals(y_, rhs.y_) && ctn::Equals(z_, rhs.z_);
+        return ctn::Equals(w_, rhs.w_) && ctn::Equals(m_x, rhs.m_x) && ctn::Equals(m_y, rhs.m_y) && ctn::Equals(m_z, rhs.m_z);
     }
 
     // Return whether is NaN.
-    bool IsNaN() const { return ctn::IsNaN(w_) || ctn::IsNaN(x_) || ctn::IsNaN(y_) || ctn::IsNaN(z_); }
+    bool IsNaN() const { return ctn::IsNaN(w_) || ctn::IsNaN(m_x) || ctn::IsNaN(m_y) || ctn::IsNaN(m_z); }
 
     // Return conjugate.
     Quaternion Conjugate() const
@@ -405,7 +405,7 @@ public:
         __m128 q = _mm_loadu_ps(&w_);
         return Quaternion(_mm_xor_ps(q, _mm_castsi128_ps(_mm_set_epi32((int)0x80000000UL, (int)0x80000000UL, (int)0x80000000UL, 0))));
 #else
-        return Quaternion(w_, -x_, -y_, -z_);
+        return Quaternion(w_, -m_x, -m_y, -m_z);
 #endif
     }
 
@@ -433,11 +433,11 @@ public:
     // W coordinate.
     float w_;
     // X coordinate.
-    float x_;
+    float m_x;
     // Y coordinate.
-    float y_;
+    float m_y;
     // Z coordinate.
-    float z_;
+    float m_z;
 
     // Identity quaternion.
     static const Quaternion IDENTITY;
