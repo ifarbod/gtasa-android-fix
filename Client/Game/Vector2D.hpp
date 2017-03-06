@@ -10,7 +10,7 @@
 
 #include <Math/Vector2.hpp>
 
-namespace SA
+namespace ctn::SA
 {
 
 using CVector2D = ctn::Vector2;
