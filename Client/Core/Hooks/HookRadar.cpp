@@ -20,17 +20,17 @@ f32 SquareRadar(Vector2& pos)
 
     if (result > Sqrt(2.f) / 2.0)
     {
-        pos.m_x /= result * 1 / Sqrt(2.f);
-        pos.m_y /= result * 1 / Sqrt(2.f);
+        pos.x_ /= result * 1 / Sqrt(2.f);
+        pos.y_ /= result * 1 / Sqrt(2.f);
     }
-    if (pos.m_x > 1.0f)
-        pos.m_x = 1.0f;
-    else if (-1.0f > pos.m_x)
-        pos.m_x = -1.0f;
-    if (pos.m_y > 1.0f)
-        pos.m_y = 1.0f;
-    else if (-1.0f > pos.m_y)
-        pos.m_y = -1.0f;
+    if (pos.x_ > 1.0f)
+        pos.x_ = 1.0f;
+    else if (-1.0f > pos.x_)
+        pos.x_ = -1.0f;
+    if (pos.y_ > 1.0f)
+        pos.y_ = 1.0f;
+    else if (-1.0f > pos.y_)
+        pos.y_ = -1.0f;
 
     return result;
 }

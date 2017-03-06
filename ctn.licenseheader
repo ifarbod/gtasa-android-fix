@@ -1,6 +1,5 @@
-﻿extensions: .hpp .cpp .hh .cc .hxx .cxx .h .c .inl
+﻿extensions: .hpp .cpp .hh .cc .hxx .cxx .h .c
 // %FileName%
-//
 // Author(s):       %UserName% <>
 //
 // Copyright (c) 2015-%CurrentYear% Project CtNorth

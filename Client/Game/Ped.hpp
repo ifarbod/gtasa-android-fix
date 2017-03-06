@@ -22,8 +22,6 @@ public:
     void* operator new(u32 size);
     // Memory deallocation in pool.
     void operator delete(void* ptr);
-
-
 };
 
 //VALIDATE_SIZE(CPed, 0x79C);

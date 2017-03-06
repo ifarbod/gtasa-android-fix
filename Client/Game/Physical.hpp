@@ -17,8 +17,6 @@
 namespace ctn::SA
 {
 
-class CRealTimeShadow;
-
 class CPhysical : public CEntity
 {
 public:
@@ -133,7 +131,7 @@ public:
     CEntity* m_entityIgnoredCollision;     // +0x128
     f32 m_contactSurfaceBrightness;        // +0x12C
     u32 m_dynamicLighting;                 // +0x130
-    CRealTimeShadow* m_shadow;             // +0x134 m_shadowData ?
+    class CRealTimeShadow* m_shadow;       // +0x134 m_shadowData ?
 };
 
 VALIDATE_SIZE(CPhysical, 0x138);

@@ -3,7 +3,7 @@ project "DedicatedServer"
     kind "ConsoleApp"
 	targetdir(buildpath("Server"))
 
-    links { "kNet" }
+    --links { "Lua" }
 
     pchheader "Precompiled.hpp"
     pchsource "Precompiled.cpp"
