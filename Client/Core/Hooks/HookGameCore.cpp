@@ -83,10 +83,8 @@ static HookFunction hookFunction([]()
     // Process test keys
     MakeCall(0x53C090, TestUpdate);
 
-    // PS2 Sun
-    static const float sunMult = (1050.0f * 0.95f) / 1500.0f;
-    MakeNop(0x6FB316, 3);
-    MakeNop(0x6FB480, 3);
-    MakeNop(0x6FB17C, 3);
-    MemWrite<const void*>(0x6FC5B0, &sunMult);
+#ifdef CTN_DEBUG
+    // Increase priority for streaming objects like trees so you don't crash into them
+    MakeNop(0x5557CF, 7);
+#endif
 });
