@@ -101,7 +101,7 @@ workspace "CtNorth"
         flags { "StaticRuntime" }
 
     filter { "system:windows", "platforms:x86" }
-        defines { "WIN32", "_WIN32" }
+        defines { "WIN32" }
 
         includedirs {
             dxdir .. "Include"
@@ -111,7 +111,7 @@ workspace "CtNorth"
         }
 
     filter { "system:windows", "platforms:x64" }
-        defines { "WIN64", "_WIN64" }
+        defines { "WIN64" }
 
     filter { "system:windows", "kind:StaticLib" }
         defines { "_LIB" }
@@ -159,7 +159,7 @@ workspace "CtNorth"
     --include "Vendor/minhook"
     --include "Vendor/miniupnpc"
     include "Vendor/pugixml"
-    --include "Vendor/RakNet"
+    include "Vendor/knet"
     include "Vendor/stb"
     --include "Vendor/sqlite"
     include "Vendor/toluapp"

@@ -1,4 +1,4 @@
-// PlayerPed.hpp
+// TimeCycleBox
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,18 +9,20 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Ped.hpp"
+#include "Box.hpp"
 
 namespace ctn::SA
 {
 
-class CPlayerPed : public CPed
+class CTimeCycleBox : public CBox
 {
 public:
-    CPed* m_targettedPed; // +0x79C
-    s32 m_field7A0;       // +0x7A0 TimeInMS related to 3rd person aiming
+    s16 m_field18; // +0x18
+    u8 m_field1A;  // +0x1A
+    u8 m_field1B;  // +0x1B
+    s32 m_field1C; // +0x1C
+    f32 m_field20; // +0x20
+    f32 m_field24; // +0x24
 };
-
-//VALIDATE_SIZE(CPlayerPed, 0x7A4);
 
 }

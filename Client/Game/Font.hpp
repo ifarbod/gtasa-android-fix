@@ -1,4 +1,5 @@
-// PlayerPed.hpp
+// Im2D Font renderer
+//
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -9,18 +10,22 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Ped.hpp"
+#include "FontDetails.hpp"
+#include "FontRenderState.hpp"
+#include "Sprite2d.hpp"
 
 namespace ctn::SA
 {
 
-class CPlayerPed : public CPed
+class CFont
 {
 public:
-    CPed* m_targettedPed; // +0x79C
-    s32 m_field7A0;       // +0x7A0 TimeInMS related to 3rd person aiming
-};
+    // Initialize Font API
+    static void Initialize();
+    // Shutdown Font API
+    static void Shutdown();
+private:
 
-//VALIDATE_SIZE(CPlayerPed, 0x7A4);
+};
 
 }
