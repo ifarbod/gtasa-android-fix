@@ -17,7 +17,7 @@ void CBox::Set(const CVector& sup, const CVector& inf)
     m_infimum = inf;
 }
 
-void CBox::Recalc()
+void CBox::Recalculate()
 {
     if (m_supremum.m_x > m_infimum.m_x)
     {

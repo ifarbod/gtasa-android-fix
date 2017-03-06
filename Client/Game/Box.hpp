@@ -26,7 +26,7 @@ public:
     // Initialize this box using two points.
     void Set(const CVector& sup, const CVector& inf);
     // Recalculates box corners - if left > right then Swap(left, right).
-    void Recalc();
+    void Recalculate();
 
 private:
     // Supremum vertex (contains largest values)
