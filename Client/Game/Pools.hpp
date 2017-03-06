@@ -29,19 +29,19 @@ namespace ctn::SA
 using CPtrNodeSinglePool = CPool<CPtrNodeSingleLink>;
 using CPtrNodeDoublePool = CPool<CPtrNodeDoubleLink>;
 using CEntryInfoNodePool = CPool<CEntryInfoNode>;
-using CPedPool = CPool<CPed, CCopPed>;
+//using CPedPool = CPool<CPed, CCopPed>;
 using CVehiclePool = CPool<CVehicle, CHeli>;
 using CBuildingPool = CPool<CBuilding>;
-using CObjectPool = CPool<CObject, CCutsceneObject>;
+//using CObjectPool = CPool<CObject, CCutsceneObject>;
 using CDummyPool = CPool<CDummy>;
 using CColModelPool = CPool<CColModel>;
-using CTaskPool = CPool<CTask, CTaskSimpleSlideToCoord>;
+//using CTaskPool = CPool<CTask, CTaskSimpleSlideToCoord>;
 using CEventPool = CPool<CEvent>;
-using CPointRoutePool = CPool<CPointRoute>;
-using CPatrolRoutePool = CPool<CPatrolRoute>;
-using CNodeRoutePool = CPool<CNodeRoute>;
-using CTaskAllocatorPool = CPool<CTaskAllocator>;
-using CPedIntelligencePool = CPool<CPedIntelligence>;
+//using CPointRoutePool = CPool<CPointRoute>;
+//using CPatrolRoutePool = CPool<CPatrolRoute>;
+//using CNodeRoutePool = CPool<CNodeRoute>;
+//using CTaskAllocatorPool = CPool<CTaskAllocator>;
+//using CPedIntelligencePool = CPool<CPedIntelligence>;
 using CPedAttractorPool = CPool<CPedAttractor>;
 
 
