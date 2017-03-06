@@ -28,11 +28,11 @@ public:
 
 private:
     CDamageManager m_damageManager;
-    CDoor m_doors[6];
-    RwFrame* m_aCarNodes[CAR_NUM_NODES];
-    CPanel m_panels[3];
-    CDoor m_swingingChassis;
-    CColPoint m_wheelColPoint[4];
+    //CDoor m_doors[6];
+    //RwFrame* m_aCarNodes[CAR_NUM_NODES];
+    //CPanel m_panels[3];
+    //CDoor m_swingingChassis;
+    //CColPoint m_wheelColPoint[4];
 };
 
 //VALIDATE_SIZE(CAutomobile, 0x988);
