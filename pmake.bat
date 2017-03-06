@@ -11,9 +11,6 @@
 :: Generate version files
 call genversion.bat
 
-:: Generate bindings for building tolua++
-start /wait /b Vendor\toluapp\src\tool\tolua++.bat %cd%
-
 :: Install/Update CEF
 ::Utils\premake5 install_cef
 
