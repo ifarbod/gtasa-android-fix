@@ -1,4 +1,4 @@
-// DamageManager.hpp
+// Vehicle damage manager
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 Project CtNorth
@@ -15,50 +15,61 @@ namespace ctn::SA
 
 class CDamageManager
 {
-    f32 m_fWheelDamageEffect;
-    u8 m_nEngineStatus;
+    f32 m_wheelDamageEffect;
+    u8 m_engineStatus;
+
     union
     {
-        u8 m_anWheelsStatus[4];
+        u8 m_wheelsStatus[4];
+
         struct
         {
-            u8 m_nRightRearWheelsStatus;
-            u8 m_nRightFrontWheelsStatus;
-            u8 m_nLeftRearWheelsStatus;
-            u8 m_nLeftFrontWheelsStatus;
+            u8 m_rightRearWheelsStatus;
+            u8 m_rightFrontWheelsStatus;
+            u8 m_leftRearWheelsStatus;
+            u8 m_leftFrontWheelsStatus;
         };
     };
     union
     {
-        u8 m_anDoorsStatus[6];
+        u8 m_doorsStatus[6];
+
         struct
         {
-            u8 m_nHoodStatus;
-            u8 m_nTrunkStatus;
-            u8 m_nLeftFrontDoorStatus;
-            u8 m_nRightFrontDoorStatus;
-            u8 m_nLeftRearDoorStatus;
-            u8 m_nRightRearDoorStatus;
+            u8 m_hoodStatus;
+            u8 m_trunkStatus;
+            u8 m_leftFrontDoorStatus;
+            u8 m_rightFrontDoorStatus;
+            u8 m_leftRearDoorStatus;
+            u8 m_rightRearDoorStatus;
         };
     };
     union
     {
-        u32 m_dwLightsStatus;
+        u32 m_lightsStatus;
+
+        // 2 bits per light
         struct
         {
-            u32 m_nLeftFrontLightStatus : 2;
-            u32 m_nRightFrontLightStatus : 2;
-            u32 m_nRightRearLightStatus : 2;
-            u32 m_nLeftRearLightStatus : 2;
+            u32 m_leftFrontLightStatus : 2;
+            u32 m_rightFrontLightStatus : 2;
+            u32 m_rightRearLightStatus : 2;
+            u32 m_leftRearLightStatus : 2;
         };
     };
     union
     {
-        u32 m_dwPanelsStatus;
+        u32 m_panelsStatus;
+
+        // 4 bits per panel
+        // FIXME: Confirm this
         struct
         {
-            // 4 bytes per panel
-            // : 4;
+            u8 m_leftFrontWingStatus : 4;
+            u8 m_rightFrontWingStatus : 4;
+            u8 m_windscreen : 4;
+            u8 m_bumpFront : 4;
+            u8 m_bumpRear : 4;
         };
     };
 };
