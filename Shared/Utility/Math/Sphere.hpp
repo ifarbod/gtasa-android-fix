@@ -1,7 +1,7 @@
 // Sphere in three-dimensional space
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 Project CtNorth
+// Copyright (c) 2015-2017 CtNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
