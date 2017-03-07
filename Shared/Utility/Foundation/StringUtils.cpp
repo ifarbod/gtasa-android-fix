@@ -257,7 +257,7 @@ Quaternion ToQuaternion(const char* source)
     {
         // 4 coords specified: full quaternion
         Quaternion ret;
-        ret.w_ = (float)strtod(ptr, &ptr);
+        ret.m_w = (float)strtod(ptr, &ptr);
         ret.m_x = (float)strtod(ptr, &ptr);
         ret.m_y = (float)strtod(ptr, &ptr);
         ret.m_z = (float)strtod(ptr, &ptr);
@@ -327,7 +327,7 @@ Vector4 ToVector4(const char* source, bool allowMissingCoords)
         ret.m_x = (float)strtod(ptr, &ptr);
         ret.m_y = (float)strtod(ptr, &ptr);
         ret.m_z = (float)strtod(ptr, &ptr);
-        ret.w_ = (float)strtod(ptr, &ptr);
+        ret.m_w = (float)strtod(ptr, &ptr);
 
         return ret;
     }
@@ -340,7 +340,7 @@ Vector4 ToVector4(const char* source, bool allowMissingCoords)
         if (elements > 2)
             ret.m_z = (float)strtod(ptr, &ptr);
         if (elements > 3)
-            ret.w_ = (float)strtod(ptr, &ptr);
+            ret.m_w = (float)strtod(ptr, &ptr);
 
         return ret;
     }

@@ -159,7 +159,7 @@ public:
     {
 #ifdef CTN_SSE
         __m128 t = _mm_set_ps(1.f, translation.m_z, translation.m_y, translation.m_x);
-        __m128 q = _mm_loadu_ps(&rotation.w_);
+        __m128 q = _mm_loadu_ps(&rotation.m_w);
         __m128 s = _mm_set_ps(1.f, scale, scale, scale);
         SetFromTRS(t, q, s);
 #else
@@ -173,7 +173,7 @@ public:
     {
 #ifdef CTN_SSE
         __m128 t = _mm_set_ps(1.f, translation.m_z, translation.m_y, translation.m_x);
-        __m128 q = _mm_loadu_ps(&rotation.w_);
+        __m128 q = _mm_loadu_ps(&rotation.m_w);
         __m128 s = _mm_set_ps(1.f, scale.m_z, scale.m_y, scale.m_x);
         SetFromTRS(t, q, s);
 #else
@@ -332,9 +332,9 @@ public:
             _mm_cvtss_f32(_mm_movehl_ps(vec, vec)));
 #else
         return Vector3(
-            (m00_ * rhs.m_x + m01_ * rhs.m_y + m02_ * rhs.m_z + m03_ * rhs.w_),
-            (m10_ * rhs.m_x + m11_ * rhs.m_y + m12_ * rhs.m_z + m13_ * rhs.w_),
-            (m20_ * rhs.m_x + m21_ * rhs.m_y + m22_ * rhs.m_z + m23_ * rhs.w_)
+            (m00_ * rhs.m_x + m01_ * rhs.m_y + m02_ * rhs.m_z + m03_ * rhs.m_w),
+            (m10_ * rhs.m_x + m11_ * rhs.m_y + m12_ * rhs.m_z + m13_ * rhs.m_w),
+            (m20_ * rhs.m_x + m21_ * rhs.m_y + m22_ * rhs.m_z + m23_ * rhs.m_w)
         );
 #endif
     }

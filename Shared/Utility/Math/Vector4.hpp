@@ -22,7 +22,7 @@ public:
         m_x(0.0f),
         m_y(0.0f),
         m_z(0.0f),
-        w_(0.0f)
+        m_w(0.0f)
     {
     }
 
@@ -31,7 +31,7 @@ public:
         m_x(vector.m_x),
         m_y(vector.m_y),
         m_z(vector.m_z),
-        w_(vector.w_)
+        m_w(vector.m_w)
     {
     }
 
@@ -40,7 +40,7 @@ public:
         m_x(vector.m_x),
         m_y(vector.m_y),
         m_z(vector.m_z),
-        w_(w)
+        m_w(w)
     {
     }
 
@@ -49,7 +49,7 @@ public:
         m_x(x),
         m_y(y),
         m_z(z),
-        w_(w)
+        m_w(w)
     {
     }
 
@@ -58,7 +58,7 @@ public:
         m_x(data[0]),
         m_y(data[1]),
         m_z(data[2]),
-        w_(data[3])
+        m_w(data[3])
     {
     }
 
@@ -68,36 +68,36 @@ public:
         m_x = rhs.m_x;
         m_y = rhs.m_y;
         m_z = rhs.m_z;
-        w_ = rhs.w_;
+        m_w = rhs.m_w;
         return *this;
     }
 
     // Test for equality with another vector without epsilon.
-    bool operator ==(const Vector4& rhs) const { return m_x == rhs.m_x && m_y == rhs.m_y && m_z == rhs.m_z && w_ == rhs.w_; }
+    bool operator ==(const Vector4& rhs) const { return m_x == rhs.m_x && m_y == rhs.m_y && m_z == rhs.m_z && m_w == rhs.m_w; }
 
     // Test for inequality with another vector without epsilon.
-    bool operator !=(const Vector4& rhs) const { return m_x != rhs.m_x || m_y != rhs.m_y || m_z != rhs.m_z || w_ != rhs.w_; }
+    bool operator !=(const Vector4& rhs) const { return m_x != rhs.m_x || m_y != rhs.m_y || m_z != rhs.m_z || m_w != rhs.m_w; }
 
     // Add a vector.
-    Vector4 operator +(const Vector4& rhs) const { return Vector4(m_x + rhs.m_x, m_y + rhs.m_y, m_z + rhs.m_z, w_ + rhs.w_); }
+    Vector4 operator +(const Vector4& rhs) const { return Vector4(m_x + rhs.m_x, m_y + rhs.m_y, m_z + rhs.m_z, m_w + rhs.m_w); }
 
     // Return negation.
-    Vector4 operator -() const { return Vector4(-m_x, -m_y, -m_z, -w_); }
+    Vector4 operator -() const { return Vector4(-m_x, -m_y, -m_z, -m_w); }
 
     // Subtract a vector.
-    Vector4 operator -(const Vector4& rhs) const { return Vector4(m_x - rhs.m_x, m_y - rhs.m_y, m_z - rhs.m_z, w_ - rhs.w_); }
+    Vector4 operator -(const Vector4& rhs) const { return Vector4(m_x - rhs.m_x, m_y - rhs.m_y, m_z - rhs.m_z, m_w - rhs.m_w); }
 
     // Multiply with a scalar.
-    Vector4 operator *(float rhs) const { return Vector4(m_x * rhs, m_y * rhs, m_z * rhs, w_ * rhs); }
+    Vector4 operator *(float rhs) const { return Vector4(m_x * rhs, m_y * rhs, m_z * rhs, m_w * rhs); }
 
     // Multiply with a vector.
-    Vector4 operator *(const Vector4& rhs) const { return Vector4(m_x * rhs.m_x, m_y * rhs.m_y, m_z * rhs.m_z, w_ * rhs.w_); }
+    Vector4 operator *(const Vector4& rhs) const { return Vector4(m_x * rhs.m_x, m_y * rhs.m_y, m_z * rhs.m_z, m_w * rhs.m_w); }
 
     // Divide by a scalar.
-    Vector4 operator /(float rhs) const { return Vector4(m_x / rhs, m_y / rhs, m_z / rhs, w_ / rhs); }
+    Vector4 operator /(float rhs) const { return Vector4(m_x / rhs, m_y / rhs, m_z / rhs, m_w / rhs); }
 
     // Divide by a vector.
-    Vector4 operator /(const Vector4& rhs) const { return Vector4(m_x / rhs.m_x, m_y / rhs.m_y, m_z / rhs.m_z, w_ / rhs.w_); }
+    Vector4 operator /(const Vector4& rhs) const { return Vector4(m_x / rhs.m_x, m_y / rhs.m_y, m_z / rhs.m_z, m_w / rhs.m_w); }
 
     // Add-assign a vector.
     Vector4& operator +=(const Vector4& rhs)
@@ -105,7 +105,7 @@ public:
         m_x += rhs.m_x;
         m_y += rhs.m_y;
         m_z += rhs.m_z;
-        w_ += rhs.w_;
+        m_w += rhs.m_w;
         return *this;
     }
 
@@ -115,7 +115,7 @@ public:
         m_x -= rhs.m_x;
         m_y -= rhs.m_y;
         m_z -= rhs.m_z;
-        w_ -= rhs.w_;
+        m_w -= rhs.m_w;
         return *this;
     }
 
@@ -125,7 +125,7 @@ public:
         m_x *= rhs;
         m_y *= rhs;
         m_z *= rhs;
-        w_ *= rhs;
+        m_w *= rhs;
         return *this;
     }
 
@@ -135,7 +135,7 @@ public:
         m_x *= rhs.m_x;
         m_y *= rhs.m_y;
         m_z *= rhs.m_z;
-        w_ *= rhs.w_;
+        m_w *= rhs.m_w;
         return *this;
     }
 
@@ -146,7 +146,7 @@ public:
         m_x *= invRhs;
         m_y *= invRhs;
         m_z *= invRhs;
-        w_ *= invRhs;
+        m_w *= invRhs;
         return *this;
     }
 
@@ -156,24 +156,24 @@ public:
         m_x /= rhs.m_x;
         m_y /= rhs.m_y;
         m_z /= rhs.m_z;
-        w_ /= rhs.w_;
+        m_w /= rhs.m_w;
         return *this;
     }
 
     // Calculate dot product.
-    float DotProduct(const Vector4& rhs) const { return m_x * rhs.m_x + m_y * rhs.m_y + m_z * rhs.m_z + w_ * rhs.w_; }
+    float DotProduct(const Vector4& rhs) const { return m_x * rhs.m_x + m_y * rhs.m_y + m_z * rhs.m_z + m_w * rhs.m_w; }
 
     // Calculate absolute dot product.
     float AbsDotProduct(const Vector4& rhs) const
     {
-        return ctn::Abs(m_x * rhs.m_x) + ctn::Abs(m_y * rhs.m_y) + ctn::Abs(m_z * rhs.m_z) + ctn::Abs(w_ * rhs.w_);
+        return ctn::Abs(m_x * rhs.m_x) + ctn::Abs(m_y * rhs.m_y) + ctn::Abs(m_z * rhs.m_z) + ctn::Abs(m_w * rhs.m_w);
     }
 
     // Project vector onto axis.
     float ProjectOntoAxis(const Vector3& axis) const { return DotProduct(Vector4(axis.Normalized(), 0.0f)); }
 
     // Return absolute vector.
-    Vector4 Abs() const { return Vector4(ctn::Abs(m_x), ctn::Abs(m_y), ctn::Abs(m_z), ctn::Abs(w_)); }
+    Vector4 Abs() const { return Vector4(ctn::Abs(m_x), ctn::Abs(m_y), ctn::Abs(m_z), ctn::Abs(m_w)); }
 
     // Linear interpolation with another vector.
     Vector4 Lerp(const Vector4& rhs, float t) const { return *this * (1.0f - t) + rhs * t; }
@@ -181,11 +181,11 @@ public:
     // Test for equality with another vector with epsilon.
     bool Equals(const Vector4& rhs) const
     {
-        return ctn::Equals(m_x, rhs.m_x) && ctn::Equals(m_y, rhs.m_y) && ctn::Equals(m_z, rhs.m_z) && ctn::Equals(w_, rhs.w_);
+        return ctn::Equals(m_x, rhs.m_x) && ctn::Equals(m_y, rhs.m_y) && ctn::Equals(m_z, rhs.m_z) && ctn::Equals(m_w, rhs.m_w);
     }
 
     // Return whether is NaN.
-    bool IsNaN() const { return ctn::IsNaN(m_x) || ctn::IsNaN(m_y) || ctn::IsNaN(m_z) || ctn::IsNaN(w_); }
+    bool IsNaN() const { return ctn::IsNaN(m_x) || ctn::IsNaN(m_y) || ctn::IsNaN(m_z) || ctn::IsNaN(m_w); }
 
     // Return float data.
     const float* Data() const { return &m_x; }
@@ -200,7 +200,7 @@ public:
     // Z coordinate.
     float m_z;
     // W coordinate.
-    float w_;
+    float m_w;
 
     // Zero vector.
     static const Vector4 ZERO;
@@ -215,18 +215,18 @@ inline Vector4 operator *(float lhs, const Vector4& rhs) { return rhs * lhs; }
 inline Vector4 VectorLerp(const Vector4& lhs, const Vector4& rhs, const Vector4& t) { return lhs + (rhs - lhs) * t; }
 
 // Per-component min of two 4-vectors.
-inline Vector4 VectorMin(const Vector4& lhs, const Vector4& rhs) { return Vector4(Min(lhs.m_x, rhs.m_x), Min(lhs.m_y, rhs.m_y), Min(lhs.m_z, rhs.m_z), Min(lhs.w_, rhs.w_)); }
+inline Vector4 VectorMin(const Vector4& lhs, const Vector4& rhs) { return Vector4(Min(lhs.m_x, rhs.m_x), Min(lhs.m_y, rhs.m_y), Min(lhs.m_z, rhs.m_z), Min(lhs.m_w, rhs.m_w)); }
 
 // Per-component max of two 4-vectors.
-inline Vector4 VectorMax(const Vector4& lhs, const Vector4& rhs) { return Vector4(Max(lhs.m_x, rhs.m_x), Max(lhs.m_y, rhs.m_y), Max(lhs.m_z, rhs.m_z), Max(lhs.w_, rhs.w_)); }
+inline Vector4 VectorMax(const Vector4& lhs, const Vector4& rhs) { return Vector4(Max(lhs.m_x, rhs.m_x), Max(lhs.m_y, rhs.m_y), Max(lhs.m_z, rhs.m_z), Max(lhs.m_w, rhs.m_w)); }
 
 // Per-component floor of 4-vector.
-inline Vector4 VectorFloor(const Vector4& vec) { return Vector4(Floor(vec.m_x), Floor(vec.m_y), Floor(vec.m_z), Floor(vec.w_)); }
+inline Vector4 VectorFloor(const Vector4& vec) { return Vector4(Floor(vec.m_x), Floor(vec.m_y), Floor(vec.m_z), Floor(vec.m_w)); }
 
 // Per-component round of 4-vector.
-inline Vector4 VectorRound(const Vector4& vec) { return Vector4(Round(vec.m_x), Round(vec.m_y), Round(vec.m_z), Round(vec.w_)); }
+inline Vector4 VectorRound(const Vector4& vec) { return Vector4(Round(vec.m_x), Round(vec.m_y), Round(vec.m_z), Round(vec.m_w)); }
 
 // Per-component ceil of 4-vector.
-inline Vector4 VectorCeil(const Vector4& vec) { return Vector4(Ceil(vec.m_x), Ceil(vec.m_y), Ceil(vec.m_z), Ceil(vec.w_)); }
+inline Vector4 VectorCeil(const Vector4& vec) { return Vector4(Ceil(vec.m_x), Ceil(vec.m_y), Ceil(vec.m_z), Ceil(vec.m_w)); }
 
 }

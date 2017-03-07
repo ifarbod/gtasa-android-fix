@@ -41,7 +41,7 @@ public:
     // Construct from a Vector4.
     Rect(const Vector4& vector) :
         min_(vector.m_x, vector.m_y),
-        max_(vector.m_z, vector.w_)
+        max_(vector.m_z, vector.m_w)
     {
     }
 

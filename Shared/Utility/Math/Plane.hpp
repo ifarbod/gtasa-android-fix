@@ -80,7 +80,7 @@ public:
     {
         normal_ = Vector3(plane.m_x, plane.m_y, plane.m_z);
         absNormal_ = normal_.Abs();
-        d_ = plane.w_;
+        d_ = plane.m_w;
     }
 
     // Transform with a 3x3 matrix.

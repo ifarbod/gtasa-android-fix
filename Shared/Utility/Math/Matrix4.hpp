@@ -294,10 +294,10 @@ public:
         return ret;
 #else
         return Vector4(
-            m00_ * rhs.m_x + m01_ * rhs.m_y + m02_ * rhs.m_z + m03_ * rhs.w_,
-            m10_ * rhs.m_x + m11_ * rhs.m_y + m12_ * rhs.m_z + m13_ * rhs.w_,
-            m20_ * rhs.m_x + m21_ * rhs.m_y + m22_ * rhs.m_z + m23_ * rhs.w_,
-            m30_ * rhs.m_x + m31_ * rhs.m_y + m32_ * rhs.m_z + m33_ * rhs.w_
+            m00_ * rhs.m_x + m01_ * rhs.m_y + m02_ * rhs.m_z + m03_ * rhs.m_w,
+            m10_ * rhs.m_x + m11_ * rhs.m_y + m12_ * rhs.m_z + m13_ * rhs.m_w,
+            m20_ * rhs.m_x + m21_ * rhs.m_y + m22_ * rhs.m_z + m23_ * rhs.m_w,
+            m30_ * rhs.m_x + m31_ * rhs.m_y + m32_ * rhs.m_z + m33_ * rhs.m_w
         );
 #endif
     }
