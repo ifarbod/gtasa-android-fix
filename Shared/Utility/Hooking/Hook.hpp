@@ -366,17 +366,6 @@ inline void MakeShortJmpEx(MemoryPointer at, MemoryPointer dest)
     MakeRelativeOffset(at + 1, dest, 1);
 }
 
-// Gets the virtual method table from the object @self
-inline void** GetVMT(const void* self)
-{
-    return *(void ***)(self);
-}
-
-inline MemoryPointer GetVF(MemoryPointer self, size_t index)
-{
-    return GetVMT(self.Get<void>())[index];
-}
-
 // TODO: std::forward-less
 template <class Ret = void, class... Args>
 inline Ret Call(MemoryPointer p, Args... a)
