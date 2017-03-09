@@ -1,5 +1,4 @@
 // Im2D Font renderer current text sprite details
-//
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 CtNorth Team

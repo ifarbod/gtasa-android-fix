@@ -84,7 +84,7 @@ static HookFunction hookFunction([]()
     MakeCall(0x53C090, TestUpdate);
 
 #ifdef CTN_DEBUG
-    // Increase priority for streaming objects like trees so you don't crash into them
+    // Increase priority for streaming objects like trees so you don't crash into them w/ a plane
     MakeNop(0x5557CF, 7);
 #endif
 });

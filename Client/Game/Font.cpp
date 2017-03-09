@@ -1,5 +1,4 @@
-// Font.cpp
-//
+// Im2D Font renderer
 // Author(s):       iFarbod <>
 //
 // Copyright (c) 2015-2017 CtNorth Team
