@@ -113,6 +113,16 @@ function os.computer_name()
     return os.getenv("COMPUTERNAME") or 'dummy'
 end
 
+function os.file_exists(name)
+    local f = io.open(name,"r")
+    if f ~= nil then
+        io.close(f)
+        return true
+    else
+        return false
+    end
+end
+
 function string.tobool(str)
     if str == nil then
         return false

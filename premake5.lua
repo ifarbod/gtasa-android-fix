@@ -12,6 +12,7 @@ require "compose_files"
 require "install_cef"
 require "install_data"
 dofile "buildoptions.lua"
+dofile "findDirectX9.lua"
 
 ---
 -- CtN main workspace
@@ -29,7 +30,8 @@ workspace "CtNorth"
     startproject "Launcher"
 
     -- Preprocessor definitions
-    defines {
+    defines
+    {
         -- Disable deprecation warnings and errors
         "_CRT_SECURE_NO_WARNINGS",
         "_CRT_SECURE_NO_DEPRECATE",
@@ -49,27 +51,14 @@ workspace "CtNorth"
         "CTN_SSE"
     }
     
-    if TARGET_GAME == "north" then
-        defines "CTN_NORTH"
-    elseif TARGET_GAME == "miami" then
-        defines "CTN_MIAMI"
-    elseif TARGET_GAME == "liberty" then
-        defines "CTN_LIBERTY"
-    else
-        defines "CTN_NORTH"
-    end
-    
-    if USE_LUAJIT then
-        defines "CTN_LUAJIT"
-    end
-    
     -- License header definition file for the LicenseHeaderManager VS extension
     files "ctn.licenseheader"
 
-    -- Get DirectX SDK directory from environment variables
-    dxdir = os.getenv("DXSDK_DIR") or ""
+    -- Find DirectX SDK
+    findDirectX9()
 
-    includedirs {
+    includedirs
+    {
         "Vendor",
         "Shared/Utility"
     }
@@ -96,19 +85,17 @@ workspace "CtNorth"
         os.mkdir("Build/Symbols")
         linkoptions "/PDB:\"Symbols\\$(ProjectName).pdb\""
 
+    filter { "system:windows", "action:vs2015" }
+        toolset "v140"
+
+    filter { "system:windows", "action:vs2017" }
+        toolset "v141"
+
     filter "system:windows"
-        toolset "v140" -- TODO: Change to v141 after VS2017 RTM release
         flags { "StaticRuntime" }
 
     filter { "system:windows", "platforms:x86" }
         defines { "WIN32" }
-
-        includedirs {
-            dxdir .. "Include"
-        }
-        libdirs {
-            dxdir .. "Lib/x86"
-        }
 
     filter { "system:windows", "platforms:x64" }
         defines { "WIN64" }
@@ -148,7 +135,6 @@ workspace "CtNorth"
     --include "Vendor/cryptopp"
     --include "Vendor/freetype"
     --include "Vendor/jo"
-    include "Vendor/kNet"
     include "Vendor/libcpuid"
     include "Vendor/libcurl"
     --include "Vendor/lz4"
