@@ -85,12 +85,6 @@ workspace "CtNorth"
         os.mkdir("Build/Symbols")
         linkoptions "/PDB:\"Symbols\\$(ProjectName).pdb\""
 
-    filter { "system:windows", "action:vs2015" }
-        toolset "v140"
-
-    filter { "system:windows", "action:vs2017" }
-        toolset "v141"
-
     filter "system:windows"
         flags { "StaticRuntime" }
 
