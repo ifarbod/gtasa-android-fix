@@ -8,28 +8,35 @@ project "Launcher"
     pchheader "Precompiled.hpp"
     pchsource "Precompiled.cpp"
 
+    entrypoint "wmainCRTStartup"
     flags { "NoIncrementalLink", "NoEditAndContinue" }
-    linkoptions "/IGNORE:4254 /ENTRY:wmainCRTStartup /OPT:NOLBR /SAFESEH:NO /DYNAMICBASE:NO /LARGEADDRESSAWARE /LAST:.zdata"
+    linkoptions "/IGNORE:4254 /OPT:NOLBR /SAFESEH:NO /DYNAMICBASE:NO /LARGEADDRESSAWARE /LAST:.zdata"
 
-    links {
+    links
+    {
         "Utility",
         "dbghelp", "psapi", "comctl32", "wininet", "winhttp", "Shlwapi"
     }
 
-    vpaths {
+    vpaths
+    {
         ["Headers/*"] = "**.hpp",
         ["Sources/*"] = "**.cpp",
-        ["Resources/*"] = {"**.rc", "res/ctn.ico"},
+        ["Resources/*"] = {"**.rc", "res/*.ico"},
         ["*"] = "premake5.lua"
     }
 
-    files {
+    files
+    {
         "premake5.lua",
         "*.hpp",
         "*.cpp",
-        "**.rc",
-        "**.ico"
+        "**.rc"
     }
+    
+    -- TODO: Insiders version
+    --files "res/ctn.ico"
+    files "res/ctn-insiders.ico"
 
     filter "architecture:x64"
         flags { "ExcludeFromBuild" }
