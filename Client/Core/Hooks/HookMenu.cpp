@@ -59,10 +59,8 @@ static HookFunction hookFunction([]()
     MakeNop(0x57B9BB, 5);
 
     // No more ESC button processing
-#ifndef CTN_DEBUG
     MakeShortJmp(0x576B8D);
     MakeShortJmp(0x576BAF);
-#endif
 
     // No frontend texture loading (Disable CMenuManager::LoadAllTextures)
     MakeRet(0x572EC0);
