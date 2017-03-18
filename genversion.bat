@@ -1,4 +1,4 @@
-:: version.h & version.nsh generator
+:: Version.h generator
 :: Author(s):       iFarbod <ifarbod@outlook.com>
 ::
 :: Copyright (c) 2015-2017 CtNorth Team
@@ -26,6 +26,3 @@ set VERSION_PRE_RELEASE=0
 
 :: Shared\Utility\Version.h
 utils\genver Shared\Utility\Version.h %VERSION_MAJOR% %VERSION_MINOR% %VERSION_PATCH% %VERSION_PRE_RELEASE_TYPE% %VERSION_PRE_RELEASE%
-
-:: Shared\Installer\Version.nsh
-utils\genver Shared\Installer\Version.nsh %VERSION_MAJOR% %VERSION_MINOR% %VERSION_PATCH% %VERSION_PRE_RELEASE_TYPE% %VERSION_PRE_RELEASE%

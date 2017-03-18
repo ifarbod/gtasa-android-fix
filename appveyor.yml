@@ -25,8 +25,8 @@ image: Visual Studio 2017
 
 clone_depth: 1
 
-environment:
-  NSIS_ROOT: $(APPVEYOR_BUILD_FOLDER)\Shared\Installer\NSIS
+#environment:
+  #NSIS_ROOT: $(APPVEYOR_BUILD_FOLDER)\Shared\Installer\NSIS
 
 #---------------------------------#
 #       Build configuration       #
@@ -50,20 +50,13 @@ build:
 after_build:
   - utils\premake5 install_data
   - utils\premake5 compose_files
-  # TODO: Use 'nsis-unicode'?
-  - choco install nsis --version 3.0 -y -installArgs /D=%NSIS_ROOT%
-  - cd %NSIS_ROOT%
-  - makensis ..\ctn.nsi
-  - cd ..
-  - ren CTN-Setup-*.exe CTN-Setup.exe
-  - move CTN-Setup.exe ..\..\
 
 #---------------------------------#
 #      Artifacts configuration    #
 #---------------------------------#
-artifacts:
-  - path: CTN-Setup.exe
-    name: CTN
+#artifacts:
+  #- path: CTN-Setup.exe
+    #name: CTN
 
 #---------------------------------#
 #     Deployment configuration    #
