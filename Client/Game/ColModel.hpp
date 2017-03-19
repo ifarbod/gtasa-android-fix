@@ -9,6 +9,9 @@
 #pragma once
 
 #include "Common.hpp"
+#include "BoundingBox.hpp"
+//#include "CollSphere.hpp"
+#include "CollisionData.hpp"
 
 namespace ctn::SA
 {
@@ -20,6 +23,12 @@ public:
     void* operator new(u32 size);
     // Memory deallocation in pool.
     void operator delete(void* ptr);
+
+    CBoundingBox m_boundBox;    // +0x00
+    //CColSphere m_boundSphere;   // +0x00
+    CCollisionData* m_colData;  // +0x2C
 };
+
+//VALIDATE_SIZE(CColModel, 0x30);
 
 }
