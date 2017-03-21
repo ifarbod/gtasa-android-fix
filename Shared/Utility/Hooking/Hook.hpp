@@ -29,7 +29,7 @@ union MemoryPointer
 {
 public:
     // Default constructor.
-    MemoryPointer() : m_ptr(0) {}
+    MemoryPointer() : m_ptr(nullptr) {}
     // Construct from nullptr.
     MemoryPointer(std::nullptr_t) : m_ptr(nullptr) {}
     // Copy constructor.
@@ -351,18 +351,11 @@ inline MemoryPointer MakeJmp(MemoryPointer at, MemoryPointer dest, size_t count)
     return p;
 }
 
-// TODO: Handle absolute offsets properly
-inline void MakeShortJmp(MemoryPointer at, u8 jmpOffset = 0)
+inline void MakeShortJmp(MemoryPointer at, MemoryPointer dest = nullptr)
 {
     MemWrite<u8>(at, 0xEB);
-    if (jmpOffset != 0)
-        MemWrite<u8>(at + 1, jmpOffset);
-}
-
-inline void MakeShortJmpEx(MemoryPointer at, MemoryPointer dest)
-{
-    MemWrite<u8>(at, 0xEB);
-    MakeRelativeOffset(at + 1, dest, 1);
+    if (dest.AsInt() != 0)
+        MakeRelativeOffset(at + 1, dest, 1);
 }
 
 // TODO: std::forward-less
