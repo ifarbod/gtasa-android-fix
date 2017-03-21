@@ -24,9 +24,10 @@ workspace "CtNorth"
     configurations { "Debug", "Release" }
     buildoptions "/std:c++latest"
     flags { "C++14" }
-    symbols "On"
+    symbols "On" -- Change to 'Full' for VS2017
     characterset "Unicode"
     pic "On"
+    systemversion "10.0.14393.0"
     startproject "Launcher"
 
     -- Preprocessor definitions
@@ -46,16 +47,18 @@ workspace "CtNorth"
 
         -- No windows.h min()/max() macros
         "NOMINMAX",
-        
+        -- Exclude rarely-used stuff from Windows headers
+        "WIN32_LEAN_AND_MEAN",
+
         -- Enable SSE
         "CTN_SSE"
     }
-    
+
     -- License header definition file for the LicenseHeaderManager VS extension
     files "ctn.licenseheader"
 
     -- Find DirectX SDK
-    findDirectX9()
+    FindDirectX9()
 
     includedirs
     {
@@ -121,7 +124,7 @@ workspace "CtNorth"
     --if buildhost == "IFARBOD-PC" then
         --include "Server/Network"
     --end
-    
+
     group "Vendor"
     include "Vendor/angelscript"
     --include "Vendor/bzip2"
