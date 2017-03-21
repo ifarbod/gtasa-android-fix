@@ -4,20 +4,29 @@ project "libcef_dll_wrapper"
 
     includedirs { "." }
 
-    defines {
-        "__STDC_CONSTANT_MACROS", "__STDC_FORMAT_MACROS", "_FILE_OFFSET_BITS=64",
-        "_WINDOWS", "UNICODE", "_UNICODE", "WINVER=0x0602", "_WIN32_WINNT=0x602", "NOMINMAX", "WIN32_LEAN_AND_MEAN", "_HAS_EXCEPTIONS=0",
+    defines
+    {
+        "__STDC_CONSTANT_MACROS", "__STDC_FORMAT_MACROS", "_FILE_OFFSET_BITS=64", "_HAS_EXCEPTIONS=0",
         "PSAPI_VERSION=1",
-        "WRAPPING_CEF_SHARED" -- introduced in 3.2883.1539.gd7f087e
+        "WRAPPING_CEF_SHARED"
     }
 
-    files {
+    vpaths
+    {
+        ["Headers/*"] = "**.h",
+        ["Sources/*"] = "**.cc",
+        ["*"] = "premake5.lua"
+    }
+    
+    files
+    {
         "premake5.lua",
         "**.cc",
         "**.h",
     }
 
-    excludes {
+    excludes
+    {
         "libcef_dll/base/cef_string16.cc"
     }
 
