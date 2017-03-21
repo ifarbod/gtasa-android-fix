@@ -609,4 +609,7 @@ private:
 inline String ToStr(const WString& string) { return String(string); }
 inline WString ToWStr(const String& string) { return WString(string); }
 
+inline String operator"" _s(const char* str, size_t sz) { return String(str, sz); }
+inline String operator"" _s(const wchar_t* str, size_t sz) { return String(String(str).CString(), sz); }
+
 }
