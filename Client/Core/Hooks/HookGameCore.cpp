@@ -10,8 +10,6 @@
 #include <Hooking/Hook.hpp>
 #include <Hooking/HookFunction.hpp>
 
-#include "../Game/Physical.hpp"
-
 using namespace ctn;
 using namespace ctn::Hook;
 
@@ -25,7 +23,7 @@ void DoNothing()
 
 void TestUpdate()
 {
-    void* ControlsMgr = reinterpret_cast<void*>(0xB70198);
+    auto ControlsMgr = reinterpret_cast<void*>(0xB70198);
     auto GetIsKeyboardKeyJustDown = ThisCall<0x52E450, bool, void*, int>;
 
     // F2
@@ -40,14 +38,11 @@ static HookFunction hookFunction([]()
     // Disable loading default.dat in CGame::Initialize
     MakeCall(0x53BC95, DoNothing);
 
-    // No heat haze
-    //MakeShortJmp(0x72C1B7);
-
     // Process test keys
     MakeCall(0x53C090, TestUpdate);
 
 #ifdef CTN_DEBUG
-    // Increase priority for streaming objects like trees so you don't crash into them w/ a plane
+    // Increase rendering priority for streaming objects like trees so you don't crash into them w/ a plane
     MakeNop(0x5557CF, 7);
 
     // Use Data/peds.ifp instead of anim/peds.ifp
