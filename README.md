@@ -1,8 +1,8 @@
-<img src="https://vgy.me/V5DpbH.png" width="50%" height="50%" alt="CtNorth" />
+# CTNorth <img src="http://meowy.cf/x/170322_C0v.png" width="32" height="32" alt="CtNorth" />
 
 | Build Status | Latest Release | Total Downloads |
 | :---: | :---: | :---: |
-| [![Windows Build status](https://ci.appveyor.com/api/projects/status/8sm6rvql5e9trkar/branch/master?svg=true)](https://ci.appveyor.com/project/ctnorth/ctnorth/branch/master) | [![Latest Release](https://img.shields.io/github/downloads/sanandreasonline/sao/latest/total.svg)](https://github.com/sanandreasonline/sao/releases/latest) | [![All Releases](https://img.shields.io/github/downloads/sanandreasonline/sao/total.svg)](https://github.com/sanandreasonline/sao/releases) |
+| [![Windows Build status](https://ci.appveyor.com/api/projects/status/8sm6rvql5e9trkar/branch/master?svg=true)](https://ci.appveyor.com/project/ctnorth/ctnorth/branch/master) | [![Latest Release](https://img.shields.io/github/downloads/ctnorth/ctnorth/latest/total.svg)](https://github.com/ctnorth/ctnorth/releases/latest) | [![All Releases](https://img.shields.io/github/downloads/ctnorth/ctnorth/total.svg)](https://github.com/ctnorth/ctnorth/releases) |
 
 CtNorth is a framework and an online multiplayer modification for Rockstar North's Grand Theft Auto III series.
 
