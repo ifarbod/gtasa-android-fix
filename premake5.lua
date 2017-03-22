@@ -24,7 +24,7 @@ workspace "CtNorth"
     configurations { "Debug", "Release" }
     buildoptions "/std:c++latest"
     flags { "C++14" }
-    symbols "On" -- Change to 'Full' for VS2017
+    symbols "Full"
     characterset "Unicode"
     pic "On"
     systemversion "10.0.14393.0"
