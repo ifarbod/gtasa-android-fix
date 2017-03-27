@@ -107,12 +107,12 @@ template <u32 addr> inline MemoryPointer LazyPtr() { return LazyPointer<addr>::G
 
 inline bool ProtectMemory(MemoryPointer addr, size_t size, DWORD protection)
 {
-    return VirtualProtect(addr.Get(), size, protection, &protection) != 0;
+    return !!VirtualProtect(addr.Get(), size, protection, &protection);
 }
 
 inline bool UnprotectMemory(MemoryPointer addr, size_t size, DWORD& out_oldprotect)
 {
-    return VirtualProtect(addr.Get(), size, PAGE_EXECUTE_READWRITE, &out_oldprotect) != 0;
+    return !!VirtualProtect(addr.Get(), size, PAGE_EXECUTE_READWRITE, &out_oldprotect);
 }
 
 class ScopedUnprotect
@@ -145,12 +145,6 @@ template <class T>
 inline T MemRead(MemoryPointer addr)
 {
     return *addr.Get<T>();
-}
-
-template <class T = void>
-inline T& ReadOffset(MemoryPointer ptr, size_t offset)
-{
-    return *(ptr + offset).Get<T>();
 }
 
 inline void MemSet(MemoryPointer addr, s32 value, size_t size)
