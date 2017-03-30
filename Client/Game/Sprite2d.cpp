@@ -47,7 +47,7 @@ void CSprite2d::SetAddressing(RwTextureAddressMode addressMode)
 {
     if (m_texture)
     {
-        //RwTextureSetAddressing(texture_, addressMode);
+        //RwTextureSetAddressing(m_texture, addressMode);
     }
 }
 
@@ -55,8 +55,8 @@ void CSprite2d::SetAddressingUV(RwTextureAddressMode addressModeU, RwTextureAddr
 {
     if (m_texture)
     {
-        //RwTextureSetAddressingU(texture_, addressModeU);
-        //RwTextureSetAddressingV(texture_, addressModeU);
+        //RwTextureSetAddressingU(m_texture, addressModeU);
+        //RwTextureSetAddressingV(m_texture, addressModeU);
     }
 }
 
@@ -64,7 +64,7 @@ void CSprite2d::SetRenderState()
 {
     if (m_texture)
     {
-        //RwRenderStateSet(rwRENDERSTATETEXTURERASTER, RwTextureGetRaster(texture_));
+        //RwRenderStateSet(rwRENDERSTATETEXTURERASTER, RwTextureGetRaster(m_texture));
     }
 }
 
