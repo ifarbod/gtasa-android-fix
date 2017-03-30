@@ -9,11 +9,9 @@
 #pragma once
 
 #define VALIDATE_SIZE(struc, size) static_assert(sizeof(struc) == size, "The size of " #struc " is not " #size)
-#define OFFSETOF(struc, member) ((size_t)&reinterpret_cast<const volatile char&>((((struc*)0)->member)))
-//#define OFFSETOF(struc, member)                                                                                        \
-//    (reinterpret_cast<size_t>(&reinterpret_cast<const volatile char&>(((reinterpret_cast<struc*>(0))->member))))
-//#define OFFSETOF(struc, member)                                                                                        \
-//    (reinterpret_cast<size_t>(&reinterpret_cast<const volatile char&>(((static_cast<struc*>(nullptr))->member))))
+
+#define OFFSETOF(struc, member) \
+    (reinterpret_cast<size_t>(&reinterpret_cast<const volatile char&>(((static_cast<struc*>(nullptr))->member))))
 
 #define VALIDATE_OFFSET(struc, member, offset) static_assert(OFFSETOF(struc, member) == offset, "The offset of " #struc "::" #member " is not " #offset)
 
