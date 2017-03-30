@@ -426,7 +426,7 @@ bool IsUserAdmin()
 #if defined(_WIN32)
     SID_IDENTIFIER_AUTHORITY ntAuthority = SECURITY_NT_AUTHORITY;
     PSID administratorsGroup;
-    b32 b = AllocateAndInitializeSid(
+    auto b = AllocateAndInitializeSid(
         &ntAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &administratorsGroup);
 
     if (b)
@@ -438,7 +438,7 @@ bool IsUserAdmin()
         FreeSid(administratorsGroup);
     }
 
-    return b != 0;
+    return !!b;
 #else
     return false;
 #endif
