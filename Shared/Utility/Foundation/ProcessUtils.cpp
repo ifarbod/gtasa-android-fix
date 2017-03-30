@@ -41,8 +41,8 @@ static Vector<String> arguments;
 #if defined(__linux__)
 struct CpuCoreCount
 {
-    unsigned numPhysicalCores_;
-    unsigned numLogicalCores_;
+    unsigned m_numPhysicalCores;
+    unsigned m_numLogicalCores;
 };
 
 // This function is used by all the target triplets with Linux as the OS, such as Android, RPI, desktop Linux, etc
@@ -51,7 +51,7 @@ static void GetCPUData(struct CpuCoreCount* data)
     // Sanity check
     assert(data);
     // At least return 1 core
-    data->numPhysicalCores_ = data->numLogicalCores_ = 1;
+    data->m_numPhysicalCores = data->m_numLogicalCores = 1;
 
     FILE* fp;
     int res;
@@ -65,7 +65,7 @@ static void GetCPUData(struct CpuCoreCount* data)
 
         if (res == 2 && i == 0)
         {
-            data->numPhysicalCores_ = data->numLogicalCores_ = j + 1;
+            data->m_numPhysicalCores = data->m_numLogicalCores = j + 1;
 
             fp = fopen("/sys/devices/system/cpu/cpu0/topology/thread_siblings_list", "r");
             if (fp)
@@ -75,7 +75,7 @@ static void GetCPUData(struct CpuCoreCount* data)
 
                 // Having sibling thread(s) indicates the CPU is using HT/SMT technology
                 if (res > 1)
-                    data->numPhysicalCores_ /= res;
+                    data->m_numPhysicalCores /= res;
             }
         }
     }
@@ -390,11 +390,15 @@ unsigned GetNumPhysicalCPUs()
 {
 #if defined(__linux__)
     struct CpuCoreCount data;
-    GetCPUData(&data);
-    return data.numPhysicalCores_;
 #else
     struct cpu_id_t data;
+#endif
+
     GetCPUData(&data);
+
+#if defined(__linux__)
+    return data.m_numPhysicalCores;
+#else
     return static_cast<unsigned>(data.num_cores);
 #endif
 }
@@ -403,11 +407,15 @@ unsigned GetNumLogicalCPUs()
 {
 #if defined(__linux__)
     struct CpuCoreCount data;
-    GetCPUData(&data);
-    return data.numLogicalCores_;
 #else
     struct cpu_id_t data;
+#endif
+
     GetCPUData(&data);
+
+#if defined(__linux__)
+    return data.m_numLogicalCores;
+#else
     return static_cast<unsigned>(data.num_logical_cpus);
 #endif
 }
