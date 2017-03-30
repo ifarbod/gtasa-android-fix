@@ -84,14 +84,4 @@ static HookFunction hookFunction([]()
     // Disable GTA Setting g_bIsForegroundApp to false on focus lost
     MakeNop(0x747FFE, 6);
     MakeNop(0x748054, 10);
-
-    // Anti-Aliasing fix
-    //MakeJmp(0x7F6C9B);
-    //MakeJmp(0x7F60C6);
-    //MemWrite<u16>(0x7F6683, 0xE990);
-    //MakeCall(0x746350, SetMultiSamplingLevels);
-    // Menu
-    //MakeCall(0x5744FE, ChangeMultiSamplingLevels);
-    //MakeCall(0x57D163, ChangeMultiSamplingLevels);
-    //MakeCall(0x57D2A7, ChangeMultiSamplingLevels);
 });
