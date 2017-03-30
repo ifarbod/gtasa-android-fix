@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <Types.hpp>
 #include <Version.hpp>
 #include <Windows.h>
 #include <VersionHelpers.h>

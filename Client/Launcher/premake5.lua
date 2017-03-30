@@ -1,7 +1,7 @@
 project "Launcher"
     language "C++"
     kind "WindowedApp"
-    targetname "CTN"
+    targetname "CTNorth"
     targetdir(buildpath("."))
     debugdir(buildpath("."))
 
@@ -33,7 +33,7 @@ project "Launcher"
         "*.cpp",
         "**.rc"
     }
-    
+
     -- TODO: Insiders version
     --files "res/ctn.ico"
     files "res/ctn-insiders.ico"

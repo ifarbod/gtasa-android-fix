@@ -14,8 +14,8 @@
 
 ExecutableLoader::ExecutableLoader(const uint8_t* origBinary)
 {
-    origBinary_ = origBinary;
-    loadLimit_ = UINT_MAX;
+    m_origBinary = origBinary;
+    m_loadLimit = UINT_MAX;
 
     SetLibraryLoader([](const char* name)
     {
@@ -98,9 +98,9 @@ bool ExecutableLoader::LoadDependentLibraries(IMAGE_NT_HEADERS* ntHeader)
 void ExecutableLoader::LoadSection(IMAGE_SECTION_HEADER* section)
 {
     void* targetAddress = GetTargetRVA<uint8_t>(section->VirtualAddress);
-    const void* sourceAddress = origBinary_ + section->PointerToRawData;
+    const void* sourceAddress = m_origBinary + section->PointerToRawData;
 
-    if ((uintptr_t)targetAddress >= loadLimit_)
+    if ((uintptr_t)targetAddress >= m_loadLimit)
     {
         FatalError("Exceeded load limit.");
         return;
@@ -131,9 +131,9 @@ void ExecutableLoader::LoadSections(IMAGE_NT_HEADERS* ntHeader)
 
 void ExecutableLoader::LoadIntoModule(HMODULE module)
 {
-    executableHandle_ = module;
+    m_executableHandle = module;
 
-    IMAGE_DOS_HEADER* header = (IMAGE_DOS_HEADER*)origBinary_;
+    IMAGE_DOS_HEADER* header = (IMAGE_DOS_HEADER*)m_origBinary;
 
     if (header->e_magic != IMAGE_DOS_SIGNATURE)
     {
@@ -143,12 +143,12 @@ void ExecutableLoader::LoadIntoModule(HMODULE module)
     IMAGE_DOS_HEADER* sourceHeader = (IMAGE_DOS_HEADER*)module;
     IMAGE_NT_HEADERS* sourceNtHeader = GetTargetRVA<IMAGE_NT_HEADERS>(sourceHeader->e_lfanew);
 
-    IMAGE_NT_HEADERS* ntHeader = (IMAGE_NT_HEADERS*)(origBinary_ + header->e_lfanew);
+    IMAGE_NT_HEADERS* ntHeader = (IMAGE_NT_HEADERS*)(m_origBinary + header->e_lfanew);
 
     LoadSections(ntHeader);
     LoadDependentLibraries(ntHeader);
 
-    entryPoint_ = GetTargetRVA<void>(ntHeader->OptionalHeader.AddressOfEntryPoint);
+    m_entryPoint = GetTargetRVA<void>(ntHeader->OptionalHeader.AddressOfEntryPoint);
 
     DWORD oldProtect;
     VirtualProtect(sourceNtHeader, 0x1000, PAGE_EXECUTE_READWRITE, &oldProtect);
@@ -158,10 +158,10 @@ void ExecutableLoader::LoadIntoModule(HMODULE module)
 
 HMODULE ExecutableLoader::ResolveLibrary(const char* name)
 {
-    return libraryLoader_(name);
+    return m_libraryLoader(name);
 }
 
 LPVOID ExecutableLoader::ResolveLibraryFunction(HMODULE module, const char* name)
 {
-    return functionResolver_(module, name);
+    return m_functionResolver(module, name);
 }

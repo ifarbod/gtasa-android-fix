@@ -18,15 +18,15 @@ public:
     // Construct an ExecutableLoader instance with given binary stream.
     ExecutableLoader(const uint8_t* origBinary);
     // Set memory load limit.
-    void SetLoadLimit(uintptr_t loadLimit) { loadLimit_ = loadLimit; }
+    void SetLoadLimit(uintptr_t loadLimit) { m_loadLimit = loadLimit; }
     // Get EXE's entry point offset.
-    void* GetEntryPoint() { return entryPoint_; }
+    void* GetEntryPoint() { return m_entryPoint; }
     // Load in to the given module handle.
     void LoadIntoModule(HMODULE module);
     // Set a custom function for handling dll loading.
-    void SetLibraryLoader(HMODULE(*loader)(const char*)) { libraryLoader_ = loader; }
+    void SetLibraryLoader(HMODULE(*loader)(const char*)) { m_libraryLoader = loader; }
     // Set a custom function for handling function resolving.
-    void SetFunctionResolver(LPVOID (*functionResolver)(HMODULE, const char*)) { functionResolver_ = functionResolver; }
+    void SetFunctionResolver(LPVOID (*functionResolver)(HMODULE, const char*)) { m_functionResolver = functionResolver; }
 
 private:
     // Load a section.
@@ -40,24 +40,24 @@ private:
     // Resolve a library function.
     LPVOID ResolveLibraryFunction(HMODULE module, const char* name);
     // Get RVA.
-    template <class T> inline const T* GetRVA(unsigned rva) { return reinterpret_cast<T*>(origBinary_ + rva);}
+    template <class T> inline const T* GetRVA(unsigned rva) { return reinterpret_cast<T*>(m_origBinary + rva);}
     // Get target RVA.
     template <class T>
     inline T* GetTargetRVA(unsigned rva)
     {
-        return reinterpret_cast<T*>(reinterpret_cast<char*>(executableHandle_) + rva);
+        return reinterpret_cast<T*>(reinterpret_cast<char*>(m_executableHandle) + rva);
     }
 
     // Binary stream.
-    const uint8_t* origBinary_;
+    const uint8_t* m_origBinary;
     // Executable handle.
-    HMODULE executableHandle_;
+    HMODULE m_executableHandle;
     // Memory load limit.
-    uintptr_t loadLimit_;
+    uintptr_t m_loadLimit;
     // Entry point offset.
-    void* entryPoint_;
+    void* m_entryPoint;
     // LoadLibrary replacement function.
-    HMODULE(*libraryLoader_)(const char*);
+    HMODULE(*m_libraryLoader)(const char*);
     // GetProcAddress replacement function.
-    LPVOID(*functionResolver_)(HMODULE, const char*);
+    LPVOID(*m_functionResolver)(HMODULE, const char*);
 };
