@@ -20,6 +20,11 @@ As this game doesn't have a _built-in_ network play functionality, many attempts
 | **Travis CI**  |             |             |
 | **Circle CI**  |           |             |
 
+## Community
+[![Discord guild](https://img.shields.io/badge/chat-on%20Discord-7085D4.svg)](https://discord.gg/Tx2mHuc)
+[![Telegram group](https://img.shields.io/badge/chat-on%20Telegram-2AA1DD.svg)](https://t.me/ctnorth)
+[![Codewake](https://www.codewake.com/badges/ask_question.svg)](https://www.codewake.com/p/ctnorth)
+
 ## Key Features (Planned)
 * A.I./Co-op
   - The most important of them all! Bored of playing in an empty map with no pedestrians? Or maybe you want to play some missions with your friend(s)? or even trying to survive hordes of enemies? Thanks to our custom AI system, A true co-op experience is now possible in the world of San Andreas. Something never seen before in similar mods!
