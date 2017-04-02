@@ -71,9 +71,11 @@ static HookFunction hookFunction([]()
     // DrawAreaName
     MakeRet(0x58AA50);
     // Money
-    MakeJmp(0x58F47D, 0x58F618, 6);
+    MakeJmp(0x58F47D, 0x58F618);
+    MakeNop(0x58F482);
     // Clock
-    MakeJmp(0x58EB14, 0x58EC30, 6);
+    MakeJmp(0x58EB14, 0x58EC30);
+    MakeNop(0x58EB19);
     // Crosshair dot
     MakeNop(0x58E2DD, 5);
 });

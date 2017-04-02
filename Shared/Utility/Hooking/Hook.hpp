@@ -12,7 +12,6 @@
 #include <Types.hpp>
 
 #include <Windows.h>
-#include <cstdint>
 #include <cstddef>
 #include <functional>
 #include <type_traits>
@@ -320,36 +319,43 @@ inline MemoryPointer GetBranchDestination(MemoryPointer at)
 }
 
 // Jump Near
-inline MemoryPointer MakeJmp(MemoryPointer at, MemoryPointer dest)
+inline MemoryPointer MakeJmp(MemoryPointer at, MemoryPointer dest = nullptr)
 {
     auto p = GetBranchDestination(at);
     MemWrite<u8>(at, 0xE9);
-    MakeRelativeOffset(at + 1, dest, 4);
+
+    if (!!dest.AsInt())
+    {
+        MakeRelativeOffset(at + 1, dest, 4);
+    }
+
     return p;
 }
 
-inline MemoryPointer MakeCall(MemoryPointer at, MemoryPointer dest)
+inline MemoryPointer MakeCall(MemoryPointer at, MemoryPointer dest = nullptr)
 {
     auto p = GetBranchDestination(at);
     MemWrite<u8>(at, 0xE8);
-    MakeRelativeOffset(at + 1, dest, 4);
+
+    if (!!dest.AsInt())
+    {
+        MakeRelativeOffset(at + 1, dest, 4);
+    }
+
     return p;
 }
 
-// MakeJmp with NOPing @count
-inline MemoryPointer MakeJmp(MemoryPointer at, MemoryPointer dest, size_t count)
+inline MemoryPointer MakeShortJmp(MemoryPointer at, MemoryPointer dest = nullptr)
 {
     auto p = GetBranchDestination(at);
-    MakeNop(at, count);
-    MakeJmp(at, dest);
-    return p;
-}
-
-inline void MakeShortJmp(MemoryPointer at, MemoryPointer dest = nullptr)
-{
     MemWrite<u8>(at, 0xEB);
-    if (dest.AsInt() != 0)
+
+    if (!!dest.AsInt())
+    {
         MakeRelativeOffset(at + 1, dest, 1);
+    }
+
+    return p;
 }
 
 // TODO: std::forward-less
@@ -365,7 +371,7 @@ inline Ret Call(Args... a)
     return Call<Ret>(LazyPtr<addr>(), std::forward<Args>(a)...);
 }
 
-template <class Ret = void, class ...Args>
+template <class Ret = void, class... Args>
 inline Ret ThisCall(MemoryPointer p, Args... a)
 {
     return reinterpret_cast<Ret(__thiscall*)(Args...)>(p.Get<void>())(std::forward<Args>(a)...);

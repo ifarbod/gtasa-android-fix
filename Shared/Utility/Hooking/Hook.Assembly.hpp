@@ -55,10 +55,10 @@ struct RegPack
         overflow_flag = 11
     };
 
-    uint32_t& operator[](size_t i) { return this->arr[i]; }
-    const uint32_t& operator[](size_t i) const { return this->arr[i]; }
+    u32& operator[](size_t i) { return this->arr[i]; }
+    const u32& operator[](size_t i) const { return this->arr[i]; }
 
-    template <uint32_t bit> // bit starts from 0, use ef_flag enum
+    template <u32 bit> // bit starts from 0, use ef_flag enum
     bool Flag()
     {
         return (this->ef & (1 << bit)) != 0;
