@@ -9,6 +9,7 @@
 #pragma once
 
 #include "Common.hpp"
+#include "ColModel.hpp"
 
 namespace ctn::SA
 {
@@ -41,7 +42,7 @@ public:
     s16 m_2dfxIndex;
     s16 m_objectIndex;
     u16 m_flags;
-    class CColModel* m_colModel;
+    CColModel* m_colModel;
     f32 m_drawDistance;
 
     union
