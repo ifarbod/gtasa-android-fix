@@ -17,42 +17,78 @@ namespace ctn::SA
 class CPedModelInfo : public CClumpModelInfo
 {
 public:
-	uint32_t m_dwAnimType;
-	uint32_t m_dwPedType;
-	uint32_t m_dwStatType;
-	struct
-	{
-		uint16_t m_wNormalCar : 1;
-		uint16_t m_wPoorFamilyCar : 1;
-		uint16_t m_wRichFamilyCar : 1;
-		uint16_t m_wExecutiveCar : 1;
-		uint16_t m_wWorkerCar : 1;
-		uint16_t m_wBigCar : 1;
-		uint16_t m_wTaxiCar : 1;
-		uint16_t m_wMoped : 1;
-		uint16_t m_wMotorBike : 1;
-		uint16_t m_wLeisureBoat : 1;
-		uint16_t m_wWorkerBoat : 1;
-		uint16_t m_wBicycle : 1;
-		uint16_t m_wOnFoot : 1;
-	} m_wCarCanDriveMask;
-	struct
-	{
-		bool m_bBuysDrugs : 1;
-		bool m_bUnk1 : 1;
-		bool m_bUnk2 : 1;
-		bool m_bUnk3 : 1;
-		bool m_bUnk4 : 1;
-		bool m_bUnk5 : 1;
-		bool m_bUnk6 : 1;
-		bool m_bUnk7 : 1;
-	} m_wPedFlags;
-	uint32_t field_34;
-	uint8_t m_nRadio1;
-	uint8_t m_nRadio2;
-	uint16_t m_wModelIndex;
-	uint16_t m_wVoiceType;
-	uint16_t m_wVoice1, m_wVoice2, m_wVoice3;
+    u32 m_animType;           // +0x24
+    u32 m_defaultPedType;     // +0x28
+    u32 m_defaultPedStatType; // +0x2C
+
+    union
+    {
+        struct
+        {
+            union
+            {
+                struct
+                {
+                    //  0  0x00000001
+                    u16 m_normalCar : 1;
+                    //  1  0x00000002
+                    u16 m_poorFamilyCar : 1;
+                    //  2  0x00000004
+                    u16 m_richFamilyCar : 1;
+                    //  3  0x00000008
+                    u16 m_executiveCar : 1;
+                    //  4  0x00000010
+                    u16 m_workerCar : 1;
+                    //  5  0x00000020
+                    u16 m_bigCar : 1;
+                    //  6  0x00000040
+                    u16 m_taxiCar : 1;
+                    //  7  0x00000080
+                    u16 m_moped : 1;
+
+                    //  8  0x00000100
+                    u16 m_motorBike : 1;
+                    //  9  0x00000200
+                    u16 m_leisureBoat : 1;
+                    // 10  0x00000400
+                    u16 m_workerBoat : 1;
+                    // 11  0x00000800
+                    u16 m_bicycle : 1;
+                    // 12  0x00001000
+                    u16 m_onFoot : 1;
+                };
+
+                u16 m_canDriveCars;
+            };
+            union
+            {
+                struct
+                {
+                    bool m_buysDrugs : 1;
+                    bool m_unk1 : 1;
+                    bool m_unk2 : 1;
+                    bool m_unk3 : 1;
+                    bool m_unk4 : 1;
+                    bool m_unk5 : 1;
+                    bool m_unk6 : 1;
+                    bool m_unk7 : 1;
+                };
+
+                u16 m_otherFlags;
+            };
+        };
+
+        u32 m_pedModelFlags;
+    };
+
+    CColModel* m_hitColModel;
+    u8 m_firstRadioStation;
+    u8 m_secondRadioStation;
+    u8 m_race;
+    s16 m_audioPedType;
+    s16 m_firstVoice;
+    s16 m_lastVoice;
+    s16 m_nextVoice;
 };
 
 VALIDATE_SIZE(CPedModelInfo, 0x44);
