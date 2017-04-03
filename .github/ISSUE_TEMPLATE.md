@@ -18,7 +18,7 @@
 
 ![Screenshots and GIFs which follow reproduction steps to demonstrate the problem](url)
 
-**CtNorth version:** [Enter CtNorth version here]
+**CTNorth version:** [Enter CTNorth version here]
 **OS and version:** [Enter OS name and version here]
 
 **Installed packages:**
@@ -29,6 +29,6 @@
 
 * Problem can be reproduced in P2P mode: [Yes/No]
 * Problem can be reproduced in Server-Client mode: [Yes/No]
-* Problem started happening recently, didn't happen in an older version of CtNorth: [Yes/No]
+* Problem started happening recently, didn't happen in an older version of CTNorth: [Yes/No]
 * Problem can be reliably reproduced, doesn't happen randomly: [Yes/No]
 * Problem happens with all files and projects, not only some files or projects: [Yes/No]

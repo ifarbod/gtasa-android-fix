@@ -18,7 +18,7 @@
 
 **Screenshots, YouTube videos and GIFs**
 
-![Screenshots, YouTube videos and GIFs which demonstrate the steps or part of CtNorth the enhancement suggestion is related to](url)
+![Screenshots, YouTube videos and GIFs which demonstrate the steps or part of CTNorth the enhancement suggestion is related to](url)
 
-**CtNorth Version:** [Enter CtNorth version here]
+**CTNorth Version:** [Enter CTNorth version here]
 **OS and Version:** [Enter OS name and version here]
