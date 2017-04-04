@@ -1,7 +1,7 @@
--- CtNorth build configuration script
+-- CTNorth build configuration script
 -- Author(s):       iFarbod <ifarbod@outlook.com>
 --
--- Copyright (c) 2015-2017 CtNorth Team
+-- Copyright (c) 2015-2017 CTNorth Team
 --
 -- Distributed under the MIT license (See accompanying file LICENSE or copy at
 -- https://opensource.org/licenses/MIT)
@@ -15,21 +15,21 @@ dofile "buildoptions.lua"
 dofile "findDirectX9.lua"
 
 ---
--- CtN main workspace
+-- CTN main workspace
 ---
-workspace "CtNorth"
+workspace "CTNorth"
     location "Build"
     platforms { "x86", "x64" }
     targetprefix ""
     configurations { "Debug", "Release" }
     buildoptions "/std:c++latest"
     flags { "C++14" }
-    symbols "Full"
+    symbols "On" -- Change to Full?
     characterset "Unicode"
     pic "On"
     systemversion "10.0.14393.0"
     startproject "Launcher"
-
+    
     -- Preprocessor definitions
     defines
     {
@@ -51,7 +51,12 @@ workspace "CtNorth"
         "WIN32_LEAN_AND_MEAN",
 
         -- Enable SSE
-        "CTN_SSE"
+        "CTN_SSE",
+        
+        -- Test Versioning
+        "CTN_MAJOR_VERSION=0",
+        "CTN_MINOR_VERSION=1",
+        "CTN_PATCH_VERSION=0"
     }
 
     -- License header definition file for the LicenseHeaderManager VS extension
@@ -104,16 +109,12 @@ workspace "CtNorth"
     filter { "system:windows", "platforms:x86", "kind:not StaticLib" }
         linkoptions "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\""
 
-    -- Helper functions for output path
-    buildpath = function(p) return "%{wks.location}/../Bin/"..p.."/" end
-    copy = function(p) return "{COPY} %{cfg.buildtarget.abspath} %{wks.location}../Bin/" .. p .. "/" end
-    buildhost = os.computer_name()
-
     -- Include the projects we are going to build
     group "Client"
     include "Client/Core"
     include "Client/Launcher"
     include "Client/Game"
+    include "Client/LauncherHelper"
     --include "Client/Updater"
     if buildhost == "IFARBOD-PC" then
         include "Client/Network"
@@ -134,17 +135,16 @@ workspace "CtNorth"
     --include "Vendor/jo"
     include "Vendor/libcpuid"
     include "Vendor/libcurl"
-    --include "Vendor/lz4"
-    --include "Vendor/lzma"
+    include "Vendor/lz4"
     --include "Vendor/minhook"
     --include "Vendor/miniupnpc"
+    include "Vendor/opus"
     include "Vendor/pugixml"
     --include "Vendor/RakNet"
     include "Vendor/stb"
     --include "Vendor/sqlite"
     --include "Vendor/yaml-cpp"
-    --include "Vendor/zlib"
-    --include "Vendor/zip"
+    include "Vendor/zlib"
 
     group "Shared"
     include "Shared/Utility"

@@ -1,7 +1,7 @@
-:: Script to build CtNorth
+:: Script to build CTNorth
 :: Author(s):       iFarbod <ifarbod@outlook.com>
 ::
-:: Copyright (c) 2015-2017 CtNorth Team
+:: Copyright (c) 2015-2017 CTNorth Team
 ::
 :: Distributed under the MIT license (See accompanying file LICENSE or copy at
 :: https://opensource.org/licenses/MIT)
@@ -54,9 +54,6 @@ echo.
 cd %VCVARS32PATH%
 call vcvars32.bat
 
-:: Generate version files
-call genversion.bat
-
 :: Install/Update CEF
 ::Utils\premake5 install_cef
 
@@ -64,7 +61,7 @@ call genversion.bat
 call Utils\premake5 %* vs2017
 
 :: Build the solution
-%MSBUILDPATH%\msbuild Build/CtNorth.sln /v:minimal /m /p:Configuration=Release;Platform=Win32
+%MSBUILDPATH%\msbuild Build/CTNorth.sln /v:minimal /m /p:Configuration=Release;Platform=Win32
 
 :: Download and install the required data files
 Utils\premake5 install_data

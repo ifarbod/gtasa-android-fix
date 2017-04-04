@@ -1,4 +1,4 @@
-# CTNorth <img src="http://meowy.cf/x/170322_C0v.png" width="32" height="32" alt="CtNorth" />
+# CTNorth <img src="http://meowy.cf/x/170322_C0v.png" width="32" height="32" alt="CTNorth" />
 
 [![GitHub issues](https://img.shields.io/github/issues/ctnorth/ctnorth.svg)](https://github.com/ctnorth/ctnorth/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/ctnorth/ctnorth.svg)](https://github.com/ctnorth/ctnorth/pulls)
@@ -8,9 +8,9 @@
 [![License](https://img.shields.io/github/license/ctnorth/ctnorth.svg)](https://github.com/ctnorth/ctnorth/blob/master/LICENSE.md)
 [![Total downloads](https://img.shields.io/github/downloads/ctnorth/ctnorth/total.svg)](https://github.com/ctnorth/ctnorth/releases)
 
-CtNorth is a framework and an online multiplayer modification for Rockstar North's Grand Theft Auto III series.
+CTNorth is a framework and an online multiplayer modification for Rockstar North's Grand Theft Auto III series.
 
-As this game doesn't have a _built-in_ network play functionality, many attempts have been made since its PC release and only some of them succeeded. CtNorth has a goal of being unique by implementation of artifical intelligence synchronization which will add a unique co-operative based gameplay type, and being _completely_ customizable, ranging from custom maps, weapons, vehicles to scripts that change the entire game logic.
+As this game doesn't have a _built-in_ network play functionality, many attempts have been made since its PC release and only some of them succeeded. CTNorth has a goal of being unique by implementation of artifical intelligence synchronization which will add a unique co-operative based gameplay type, and being _completely_ customizable, ranging from custom maps, weapons, vehicles to scripts that change the entire game logic.
 
 -------------------------------------------------
 ## Build & Test Status
@@ -42,10 +42,10 @@ As this game doesn't have a _built-in_ network play functionality, many attempts
 * Client-side scripting
   - You may need to do something hacky on a specific player, with client-side scripting, It's possible to do so! Your script will be downloaded to the target client and it will be executed. Communication between server-side scripts and client-side ones is also possible.
 * Integrated CEF (Chromium Embedded Framework) for rich HTML5+CSS3 powered user interfaces
-  - Did you find the stock user interface boring? Using CEF, It's possible to bring powerful modern web technologies to CtNorth! Use your web developing skills to create that decent GUI!
+  - Did you find the stock user interface boring? Using CEF, It's possible to bring powerful modern web technologies to CTNorth! Use your web developing skills to create that decent GUI!
 
 ## License
 
-[MIT](LICENSE.md) © 2015-2017 CtNorth Team
+[MIT](LICENSE.md) © 2015-2017 CTNorth Team
 
 [Click here for a TL;DR version of the license](https://tldrlegal.com/l/mit)
