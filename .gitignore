@@ -348,13 +348,8 @@ Temporary Items
 Build/
 Bin/
 InstallFiles/
-Shared/Installer/*.exe
-Shared/Installer/Version.nsh
-Shared/Utility/Version.h
-Vendor/toluapp/src/tool/*.exe
 
 # MSBuild files
 *.vcxproj
 *.vcxproj.filters
 *.sln
-/code_of_conduct.md
