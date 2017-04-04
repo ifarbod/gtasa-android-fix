@@ -6,6 +6,7 @@ project "LauncherHelper"
 
     links
     {
+        "Base",
         "LZ4"
     }
     

@@ -67,8 +67,8 @@ workspace "CTNorth"
 
     includedirs
     {
-        "Vendor",
-        "Shared/Utility"
+        "Base",
+        "Vendor"
     }
 
     filter "platforms:x86"
@@ -110,6 +110,9 @@ workspace "CTNorth"
         linkoptions "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\""
 
     -- Include the projects we are going to build
+    group "Base"
+    include "Base"
+    
     group "Client"
     include "Client/Core"
     include "Client/Launcher"
@@ -138,16 +141,13 @@ workspace "CTNorth"
     include "Vendor/lz4"
     --include "Vendor/minhook"
     --include "Vendor/miniupnpc"
-    include "Vendor/opus"
+    --include "Vendor/opus"
     include "Vendor/pugixml"
     --include "Vendor/RakNet"
     include "Vendor/stb"
     --include "Vendor/sqlite"
     --include "Vendor/yaml-cpp"
-    include "Vendor/zlib"
-
-    group "Shared"
-    include "Shared/Utility"
+    --include "Vendor/zlib"
 
 -- Cleanup
 if _ACTION == "clean" then

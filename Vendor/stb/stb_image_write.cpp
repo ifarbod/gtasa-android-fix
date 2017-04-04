@@ -1,5 +1,5 @@
 #include "stb_image_write.h"
-#include "../../Shared/Utility/Container/Str.hpp"
+#include <Container/Str.hpp>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
 #ifdef STB_IMAGE_WRITE_IMPLEMENTATION

@@ -26,7 +26,7 @@ project "Core"
     }
 
     links {
-        "Utility",
+        "Base",
         "Game",
         "libcpuid",
         "../../Vendor/bass/lib/bass",

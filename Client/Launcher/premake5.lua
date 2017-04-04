@@ -14,7 +14,7 @@ project "Launcher"
 
     links
     {
-        "Utility",
+        "Base",
         "dbghelp", "psapi", "comctl32", "wininet", "winhttp", "Shlwapi"
     }
 
