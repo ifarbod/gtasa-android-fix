@@ -2,7 +2,7 @@
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //                  LINK/2012
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -11,7 +11,7 @@
 
 #include <Hooking/Hook.hpp>
 
-namespace Hook
+namespace ctn::Hook
 {
 
 struct RegPack

@@ -1,7 +1,7 @@
 // Abstract stream for reading
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -35,13 +35,13 @@ public:
     // Return a checksum if applicable.
     virtual unsigned GetChecksum();
     // Return whether the end of stream has been reached.
-    virtual bool IsEof() const { return position_ >= size_; }
+    virtual bool IsEof() const { return m_position >= m_size; }
 
     // Return current position.
-    unsigned GetPosition() const { return position_; }
+    unsigned GetPosition() const { return m_position; }
 
     // Return size.
-    unsigned GetSize() const { return size_; }
+    unsigned GetSize() const { return m_size; }
 
     // Read a 64-bit integer.
     long long ReadInt64();
@@ -124,9 +124,9 @@ public:
 
 protected:
     // Stream position.
-    unsigned position_;
+    unsigned m_position;
     // Stream size.
-    unsigned size_;
+    unsigned m_size;
 };
 
 }

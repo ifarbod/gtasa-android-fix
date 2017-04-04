@@ -1,7 +1,7 @@
 // Allocate a memory block
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -22,7 +22,7 @@ struct AllocatorBlock
     // Size of a node.
     unsigned nodeSize_;
     // Number of nodes in this block.
-    unsigned capacity_;
+    unsigned m_capacity;
     // First free node.
     AllocatorNode* free_;
     // Next allocator block.

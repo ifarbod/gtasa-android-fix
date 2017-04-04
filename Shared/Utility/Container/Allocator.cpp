@@ -1,7 +1,7 @@
 // Allocate a memory block
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -20,7 +20,7 @@ AllocatorBlock* AllocatorReserveBlock(AllocatorBlock* allocator, unsigned nodeSi
     unsigned char* blockPtr = new unsigned char[sizeof(AllocatorBlock) + capacity * (sizeof(AllocatorNode) + nodeSize)];
     AllocatorBlock* newBlock = reinterpret_cast<AllocatorBlock*>(blockPtr);
     newBlock->nodeSize_ = nodeSize;
-    newBlock->capacity_ = capacity;
+    newBlock->m_capacity = capacity;
     newBlock->free_ = 0;
     newBlock->next_ = 0;
 
@@ -77,9 +77,9 @@ void* AllocatorReserve(AllocatorBlock* allocator)
     if (!allocator->free_)
     {
         // Free nodes have been exhausted. Allocate a new larger block
-        unsigned newCapacity = (allocator->capacity_ + 1) >> 1;
+        unsigned newCapacity = (allocator->m_capacity + 1) >> 1;
         AllocatorReserveBlock(allocator, allocator->nodeSize_, newCapacity);
-        allocator->capacity_ += newCapacity;
+        allocator->m_capacity += newCapacity;
     }
 
     // We should have new free node(s) chained

@@ -1,7 +1,7 @@
 // Execution context
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -48,7 +48,7 @@ private:
     bool dirty_;
 };
 
-// CtNorth execution context. Provides access to subsystems, object factories and attributes, and event
+// CTNorth execution context. Provides access to subsystems, object factories and attributes, and event
 // receivers.
 class Context : public RefCounted
 {

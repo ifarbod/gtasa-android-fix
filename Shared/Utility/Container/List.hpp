@@ -1,7 +1,7 @@
 // Doubly-linked list
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -214,7 +214,7 @@ public:
     // Test for equality with another list.
     bool operator ==(const List<T>& rhs) const
     {
-        if (rhs.size_ != size_)
+        if (rhs.m_size != m_size)
             return false;
 
         ConstIterator i = Begin();
@@ -233,7 +233,7 @@ public:
     // Test for inequality with another list.
     bool operator !=(const List<T>& rhs) const
     {
-        if (rhs.size_ != size_)
+        if (rhs.m_size != m_size)
             return true;
 
         ConstIterator i = Begin();
@@ -289,14 +289,14 @@ public:
     // Erase the last element.
     void Pop()
     {
-        if (size_)
+        if (m_size)
             Erase(--End());
     }
 
     // Erase the first element.
     void PopFront()
     {
-        if (size_)
+        if (m_size)
             Erase(Begin());
     }
 
@@ -328,17 +328,17 @@ public:
             }
 
             head_ = tail_;
-            size_ = 0;
+            m_size = 0;
         }
     }
 
     // Resize the list by removing or adding items at the end.
     void Resize(unsigned newSize)
     {
-        while (size_ > newSize)
+        while (m_size > newSize)
             Pop();
 
-        while (size_ < newSize)
+        while (m_size < newSize)
             InsertNode(Tail(), T());
     }
 
@@ -388,10 +388,10 @@ public:
     const T& Back() const { return *(--End()); }
 
     // Return number of elements.
-    unsigned Size() const { return size_; }
+    unsigned Size() const { return m_size; }
 
     // Return whether list is empty.
-    bool Empty() const { return size_ == 0; }
+    bool Empty() const { return m_size == 0; }
 
 private:
     // Return the head node.
@@ -418,7 +418,7 @@ private:
         if (dest == Head())
             head_ = newNode;
 
-        ++size_;
+        ++m_size;
     }
 
     // Erase and free a node. Return pointer to the next node, or to the end if could not erase.
@@ -439,7 +439,7 @@ private:
             head_ = next;
 
         FreeNode(node);
-        --size_;
+        --m_size;
 
         return next;
     }

@@ -1,7 +1,7 @@
 // Generic String handling utilities
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -32,63 +32,63 @@ public:
 
     // Construct empty.
     String() :
-        length_(0),
-        capacity_(0),
-        buffer_(&endZero)
+        m_length(0),
+        m_capacity(0),
+        m_buffer(&endZero)
     {
     }
 
     // Construct from another string.
     String(const String& str) :
-        length_(0),
-        capacity_(0),
-        buffer_(&endZero)
+        m_length(0),
+        m_capacity(0),
+        m_buffer(&endZero)
     {
         *this = str;
     }
 
     // Construct from a C string.
     String(const char* str) :
-        length_(0),
-        capacity_(0),
-        buffer_(&endZero)
+        m_length(0),
+        m_capacity(0),
+        m_buffer(&endZero)
     {
         *this = str;
     }
 
     // Construct from a C string.
     String(char* str) :
-        length_(0),
-        capacity_(0),
-        buffer_(&endZero)
+        m_length(0),
+        m_capacity(0),
+        m_buffer(&endZero)
     {
         *this = (const char*)str;
     }
 
     // Construct from a char array and length.
     String(const char* str, unsigned length) :
-        length_(0),
-        capacity_(0),
-        buffer_(&endZero)
+        m_length(0),
+        m_capacity(0),
+        m_buffer(&endZero)
     {
         Resize(length);
-        CopyChars(buffer_, str, length);
+        CopyChars(m_buffer, str, length);
     }
 
     // Construct from a null-terminated wide character array.
     String(const wchar_t* str) :
-        length_(0),
-        capacity_(0),
-        buffer_(&endZero)
+        m_length(0),
+        m_capacity(0),
+        m_buffer(&endZero)
     {
         SetUTF8FromWChar(str);
     }
 
     // Construct from a null-terminated wide character array.
     String(wchar_t* str) :
-        length_(0),
-        capacity_(0),
-        buffer_(&endZero)
+        m_length(0),
+        m_capacity(0),
+        m_buffer(&endZero)
     {
         SetUTF8FromWChar(str);
     }
@@ -125,9 +125,9 @@ public:
 
     // Construct from a convertable value.
     template <class T> explicit String(const T& value) :
-        length_(0),
-        capacity_(0),
-        buffer_(&endZero)
+        m_length(0),
+        m_capacity(0),
+        m_buffer(&endZero)
     {
         *this = value.ToString();
     }
@@ -135,15 +135,15 @@ public:
     // Destruct.
     ~String()
     {
-        if (capacity_)
-            delete[] buffer_;
+        if (m_capacity)
+            delete[] m_buffer;
     }
 
     // Assign a string.
     String& operator =(const String& rhs)
     {
-        Resize(rhs.length_);
-        CopyChars(buffer_, rhs.buffer_, rhs.length_);
+        Resize(rhs.m_length);
+        CopyChars(m_buffer, rhs.m_buffer, rhs.m_length);
 
         return *this;
     }
@@ -153,7 +153,7 @@ public:
     {
         unsigned rhsLength = CStringLength(rhs);
         Resize(rhsLength);
-        CopyChars(buffer_, rhs, rhsLength);
+        CopyChars(m_buffer, rhs, rhsLength);
 
         return *this;
     }
@@ -161,9 +161,9 @@ public:
     // Add-assign a string.
     String& operator +=(const String& rhs)
     {
-        unsigned oldLength = length_;
-        Resize(length_ + rhs.length_);
-        CopyChars(buffer_ + oldLength, rhs.buffer_, rhs.length_);
+        unsigned oldLength = m_length;
+        Resize(m_length + rhs.m_length);
+        CopyChars(m_buffer + oldLength, rhs.m_buffer, rhs.m_length);
 
         return *this;
     }
@@ -172,9 +172,9 @@ public:
     String& operator +=(const char* rhs)
     {
         unsigned rhsLength = CStringLength(rhs);
-        unsigned oldLength = length_;
-        Resize(length_ + rhsLength);
-        CopyChars(buffer_ + oldLength, rhs, rhsLength);
+        unsigned oldLength = m_length;
+        Resize(m_length + rhsLength);
+        CopyChars(m_buffer + oldLength, rhs, rhsLength);
 
         return *this;
     }
@@ -182,9 +182,9 @@ public:
     // Add-assign a character.
     String& operator +=(char rhs)
     {
-        unsigned oldLength = length_;
-        Resize(length_ + 1);
-        buffer_[oldLength] = rhs;
+        unsigned oldLength = m_length;
+        Resize(m_length + 1);
+        m_buffer[oldLength] = rhs;
 
         return *this;
     }
@@ -217,9 +217,9 @@ public:
     String operator +(const String& rhs) const
     {
         String ret;
-        ret.Resize(length_ + rhs.length_);
-        CopyChars(ret.buffer_, buffer_, length_);
-        CopyChars(ret.buffer_ + length_, rhs.buffer_, rhs.length_);
+        ret.Resize(m_length + rhs.m_length);
+        CopyChars(ret.m_buffer, m_buffer, m_length);
+        CopyChars(ret.m_buffer + m_length, rhs.m_buffer, rhs.m_length);
 
         return ret;
     }
@@ -229,9 +229,9 @@ public:
     {
         unsigned rhsLength = CStringLength(rhs);
         String ret;
-        ret.Resize(length_ + rhsLength);
-        CopyChars(ret.buffer_, buffer_, length_);
-        CopyChars(ret.buffer_ + length_, rhs, rhsLength);
+        ret.Resize(m_length + rhsLength);
+        CopyChars(ret.m_buffer, m_buffer, m_length);
+        CopyChars(ret.m_buffer + m_length, rhs, rhsLength);
 
         return ret;
     }
@@ -263,29 +263,29 @@ public:
     // Return char at index.
     char& operator [](unsigned index)
     {
-        assert(index < length_);
-        return buffer_[index];
+        assert(index < m_length);
+        return m_buffer[index];
     }
 
     // Return const char at index.
     const char& operator [](unsigned index) const
     {
-        assert(index < length_);
-        return buffer_[index];
+        assert(index < m_length);
+        return m_buffer[index];
     }
 
     // Return char at index.
     char& At(unsigned index)
     {
-        assert(index < length_);
-        return buffer_[index];
+        assert(index < m_length);
+        return m_buffer[index];
     }
 
     // Return const char at index.
     const char& At(unsigned index) const
     {
-        assert(index < length_);
-        return buffer_[index];
+        assert(index < m_length);
+        return m_buffer[index];
     }
 
     // Replace all occurrences of a character.
@@ -338,22 +338,22 @@ public:
     void Swap(String& str);
 
     // Return iterator to the beginning.
-    Iterator Begin() { return Iterator(buffer_); }
+    Iterator Begin() { return Iterator(m_buffer); }
 
     // Return const iterator to the beginning.
-    ConstIterator Begin() const { return ConstIterator(buffer_); }
+    ConstIterator Begin() const { return ConstIterator(m_buffer); }
 
     // Return iterator to the end.
-    Iterator End() { return Iterator(buffer_ + length_); }
+    Iterator End() { return Iterator(m_buffer + m_length); }
 
     // Return const iterator to the end.
-    ConstIterator End() const { return ConstIterator(buffer_ + length_); }
+    ConstIterator End() const { return ConstIterator(m_buffer + m_length); }
 
     // Return first char, or 0 if empty.
-    char Front() const { return buffer_[0]; }
+    char Front() const { return m_buffer[0]; }
 
     // Return last char, or 0 if empty.
-    char Back() const { return length_ ? buffer_[length_ - 1] : buffer_[0]; }
+    char Back() const { return m_length ? m_buffer[m_length - 1] : m_buffer[0]; }
 
     // Return a substring from position to end.
     String Substring(unsigned pos) const;
@@ -387,16 +387,16 @@ public:
     String Right(unsigned count) const;
 
     // Return the C string.
-    const char* CString() const { return buffer_; }
+    const char* CString() const { return m_buffer; }
 
     // Return length.
-    unsigned Length() const { return length_; }
+    unsigned Length() const { return m_length; }
 
     // Return buffer capacity.
-    unsigned Capacity() const { return capacity_; }
+    unsigned Capacity() const { return m_capacity; }
 
     // Return whether the string is empty.
-    bool Empty() const { return length_ == 0; }
+    bool Empty() const { return m_length == 0; }
 
     // Return comparison result with a string.
     int Compare(const String& str, bool caseSensitive = true) const;
@@ -434,7 +434,7 @@ public:
     unsigned ToHash() const
     {
         unsigned hash = 0;
-        const char* ptr = buffer_;
+        const char* ptr = m_buffer;
         while (*ptr)
         {
             hash = *ptr + (hash << 6) + (hash << 16) - hash;
@@ -491,7 +491,7 @@ private:
     void MoveRange(unsigned dest, unsigned src, unsigned count)
     {
         if (count)
-            memmove(buffer_ + dest, buffer_ + src, count);
+            memmove(m_buffer + dest, m_buffer + src, count);
     }
 
     // Copy chars from one buffer to another.
@@ -515,11 +515,11 @@ private:
     void Replace(unsigned pos, unsigned length, const char* srcStart, unsigned srcLength);
 
     // String length.
-    unsigned length_;
+    unsigned m_length;
     // Capacity, zero if buffer not allocated.
-    unsigned capacity_;
+    unsigned m_capacity;
     // String buffer, null if not allocated.
-    char* buffer_;
+    char* m_buffer;
 
     // End zero for empty strings.
     static char endZero;
@@ -555,42 +555,42 @@ public:
     // Return char at index.
     wchar_t& operator [](unsigned index)
     {
-        assert(index < length_);
-        return buffer_[index];
+        assert(index < m_length);
+        return m_buffer[index];
     }
 
     // Return const char at index.
     const wchar_t& operator [](unsigned index) const
     {
-        assert(index < length_);
-        return buffer_[index];
+        assert(index < m_length);
+        return m_buffer[index];
     }
 
     // Return char at index.
     wchar_t& At(unsigned index)
     {
-        assert(index < length_);
-        return buffer_[index];
+        assert(index < m_length);
+        return m_buffer[index];
     }
 
     // Return const char at index.
     const wchar_t& At(unsigned index) const
     {
-        assert(index < length_);
-        return buffer_[index];
+        assert(index < m_length);
+        return m_buffer[index];
     }
 
     // Resize the string.
     void Resize(unsigned newLength);
 
     // Return whether the string is empty.
-    bool Empty() const { return length_ == 0; }
+    bool Empty() const { return m_length == 0; }
 
     // Return length.
-    unsigned Length() const { return length_; }
+    unsigned Length() const { return m_length; }
 
     // Return character data.
-    const wchar_t* CString() const { return buffer_; }
+    const wchar_t* CString() const { return m_buffer; }
 
     // Return string converted to String
     String ToStr()
@@ -600,9 +600,9 @@ public:
 
 private:
     // String length.
-    unsigned length_;
+    unsigned m_length;
     // String buffer, null if not allocated.
-    wchar_t* buffer_;
+    wchar_t* m_buffer;
 };
 
 // For easier converting between String <-> WString.

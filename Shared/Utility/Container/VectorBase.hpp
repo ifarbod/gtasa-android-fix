@@ -1,7 +1,7 @@
 // Vector base
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -273,29 +273,29 @@ class VectorBase
 public:
     // Construct.
     VectorBase() :
-        size_(0),
-        capacity_(0),
-        buffer_(0)
+        m_size(0),
+        m_capacity(0),
+        m_buffer(0)
     {
     }
 
     // Swap with another vector.
     void Swap(VectorBase& rhs)
     {
-        ctn::Swap(size_, rhs.size_);
-        ctn::Swap(capacity_, rhs.capacity_);
-        ctn::Swap(buffer_, rhs.buffer_);
+        ctn::Swap(m_size, rhs.m_size);
+        ctn::Swap(m_capacity, rhs.m_capacity);
+        ctn::Swap(m_buffer, rhs.m_buffer);
     }
 
 protected:
     static unsigned char* AllocateBuffer(unsigned size);
 
     // Size of vector.
-    unsigned size_;
+    unsigned m_size;
     // Buffer capacity.
-    unsigned capacity_;
+    unsigned m_capacity;
     // Buffer.
-    unsigned char* buffer_;
+    unsigned char* m_buffer;
 };
 
 }

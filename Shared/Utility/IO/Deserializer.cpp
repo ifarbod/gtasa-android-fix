@@ -1,7 +1,7 @@
 // Abstract stream for reading
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -16,14 +16,14 @@ namespace ctn
 static const float invQ = 1.0f / 32767.0f;
 
 Deserializer::Deserializer() :
-    position_(0),
-    size_(0)
+    m_position(0),
+    m_size(0)
 {
 }
 
 Deserializer::Deserializer(unsigned size) :
-    position_(0),
-    size_(size)
+    m_position(0),
+    m_size(size)
 {
 }
 
@@ -435,7 +435,7 @@ String Deserializer::ReadLine()
             {
                 char next = ReadByte();
                 if (next != 10)
-                    Seek(position_ - 1);
+                    Seek(m_position - 1);
             }
             break;
         }

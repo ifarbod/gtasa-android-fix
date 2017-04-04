@@ -1,7 +1,7 @@
 // Version info utils
 // Author(s):       AliAssassiN <ailsynthax@gmail.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -28,13 +28,13 @@ BEGIN \
     BEGIN \
         BLOCK "040904b0" \
         BEGIN \
-            VALUE "CompanyName", "CtNorth Team" \
-            VALUE "FileDescription", "CtNorth" \
+            VALUE "CompanyName", "CTNorth Team" \
+            VALUE "FileDescription", "CTNorth" \
             VALUE "FileVersion", CTN_VERSION_STR_RC \
             VALUE "InternalName", intName \
-            VALUE "LegalCopyright", "Copyright (C) 2015-2017 CtNorth Team" \
+            VALUE "LegalCopyright", "Copyright (c) 2015-2017 CTNorth Team" \
             VALUE "OriginalFilename", origName \
-            VALUE "ProductName", "CtNorth" \
+            VALUE "ProductName", "CTNorth" \
             VALUE "ProductVersion", CTN_VERSION_STR_RC \
         END \
     END \

@@ -2,7 +2,7 @@
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //                  LINK/2012 <dma2012@hotmail.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -18,10 +18,7 @@
 #include <utility>
 #include <forward_list>
 
-namespace ctn
-{
-
-namespace Hook
+namespace ctn::Hook
 {
 
 union MemoryPointer
@@ -394,7 +391,5 @@ struct Vtbl
         return ThisCall<Ret>(p, std::forward<Args>(a)...);
     }
 };
-
-}
 
 }

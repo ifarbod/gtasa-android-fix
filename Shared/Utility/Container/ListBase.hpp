@@ -1,7 +1,7 @@
 // Base for double-linked lists
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -78,7 +78,7 @@ public:
         head_(0),
         tail_(0),
         allocator_(0),
-        size_(0)
+        m_size(0)
     {
     }
 
@@ -88,7 +88,7 @@ public:
         ctn::Swap(head_, rhs.head_);
         ctn::Swap(tail_, rhs.tail_);
         ctn::Swap(allocator_, rhs.allocator_);
-        ctn::Swap(size_, rhs.size_);
+        ctn::Swap(m_size, rhs.m_size);
     }
 
 protected:
@@ -99,7 +99,7 @@ protected:
     // Node allocator.
     AllocatorBlock* allocator_;
     // Number of nodes.
-    unsigned size_;
+    unsigned m_size;
 };
 
 }

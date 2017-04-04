@@ -1,7 +1,7 @@
 // Generic String handling utilities
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -18,17 +18,17 @@ char String::endZero = 0;
 const String String::EMPTY;
 
 String::String(const WString& str) :
-    length_(0),
-    capacity_(0),
-    buffer_(&endZero)
+    m_length(0),
+    m_capacity(0),
+    m_buffer(&endZero)
 {
     SetUTF8FromWChar(str.CString());
 }
 
 String::String(int value) :
-    length_(0),
-    capacity_(0),
-    buffer_(&endZero)
+    m_length(0),
+    m_capacity(0),
+    m_buffer(&endZero)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%d", value);
@@ -36,9 +36,9 @@ String::String(int value) :
 }
 
 String::String(short value) :
-    length_(0),
-    capacity_(0),
-    buffer_(&endZero)
+    m_length(0),
+    m_capacity(0),
+    m_buffer(&endZero)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%d", value);
@@ -46,9 +46,9 @@ String::String(short value) :
 }
 
 String::String(long value) :
-    length_(0),
-    capacity_(0),
-    buffer_(&endZero)
+    m_length(0),
+    m_capacity(0),
+    m_buffer(&endZero)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%ld", value);
@@ -56,9 +56,9 @@ String::String(long value) :
 }
 
 String::String(long long value) :
-    length_(0),
-    capacity_(0),
-    buffer_(&endZero)
+    m_length(0),
+    m_capacity(0),
+    m_buffer(&endZero)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%lld", value);
@@ -66,9 +66,9 @@ String::String(long long value) :
 }
 
 String::String(unsigned value) :
-    length_(0),
-    capacity_(0),
-    buffer_(&endZero)
+    m_length(0),
+    m_capacity(0),
+    m_buffer(&endZero)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%u", value);
@@ -76,9 +76,9 @@ String::String(unsigned value) :
 }
 
 String::String(unsigned short value) :
-    length_(0),
-    capacity_(0),
-    buffer_(&endZero)
+    m_length(0),
+    m_capacity(0),
+    m_buffer(&endZero)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%u", value);
@@ -86,9 +86,9 @@ String::String(unsigned short value) :
 }
 
 String::String(unsigned long value) :
-    length_(0),
-    capacity_(0),
-    buffer_(&endZero)
+    m_length(0),
+    m_capacity(0),
+    m_buffer(&endZero)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%lu", value);
@@ -96,9 +96,9 @@ String::String(unsigned long value) :
 }
 
 String::String(unsigned long long value) :
-    length_(0),
-    capacity_(0),
-    buffer_(&endZero)
+    m_length(0),
+    m_capacity(0),
+    m_buffer(&endZero)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%llu", value);
@@ -106,9 +106,9 @@ String::String(unsigned long long value) :
 }
 
 String::String(float value) :
-    length_(0),
-    capacity_(0),
-    buffer_(&endZero)
+    m_length(0),
+    m_capacity(0),
+    m_buffer(&endZero)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%g", value);
@@ -116,9 +116,9 @@ String::String(float value) :
 }
 
 String::String(double value) :
-    length_(0),
-    capacity_(0),
-    buffer_(&endZero)
+    m_length(0),
+    m_capacity(0),
+    m_buffer(&endZero)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%.15g", value);
@@ -126,9 +126,9 @@ String::String(double value) :
 }
 
 String::String(bool value) :
-    length_(0),
-    capacity_(0),
-    buffer_(&endZero)
+    m_length(0),
+    m_capacity(0),
+    m_buffer(&endZero)
 {
     if (value)
         *this = "true";
@@ -137,22 +137,22 @@ String::String(bool value) :
 }
 
 String::String(char value) :
-    length_(0),
-    capacity_(0),
-    buffer_(&endZero)
+    m_length(0),
+    m_capacity(0),
+    m_buffer(&endZero)
 {
     Resize(1);
-    buffer_[0] = value;
+    m_buffer[0] = value;
 }
 
 String::String(char value, unsigned length) :
-    length_(0),
-    capacity_(0),
-    buffer_(&endZero)
+    m_length(0),
+    m_capacity(0),
+    m_buffer(&endZero)
 {
     Resize(length);
     for (unsigned i = 0; i < length; ++i)
-        buffer_[i] = value;
+        m_buffer[i] = value;
 }
 
 String& String::operator +=(int rhs)
@@ -209,19 +209,19 @@ void String::Replace(char replaceThis, char replaceWith, bool caseSensitive)
 {
     if (caseSensitive)
     {
-        for (unsigned i = 0; i < length_; ++i)
+        for (unsigned i = 0; i < m_length; ++i)
         {
-            if (buffer_[i] == replaceThis)
-                buffer_[i] = replaceWith;
+            if (m_buffer[i] == replaceThis)
+                m_buffer[i] = replaceWith;
         }
     }
     else
     {
         replaceThis = (char)tolower(replaceThis);
-        for (unsigned i = 0; i < length_; ++i)
+        for (unsigned i = 0; i < m_length; ++i)
         {
-            if (tolower(buffer_[i]) == replaceThis)
-                buffer_[i] = replaceWith;
+            if (tolower(m_buffer[i]) == replaceThis)
+                m_buffer[i] = replaceWith;
         }
     }
 }
@@ -230,29 +230,29 @@ void String::Replace(const String& replaceThis, const String& replaceWith, bool 
 {
     unsigned nextPos = 0;
 
-    while (nextPos < length_)
+    while (nextPos < m_length)
     {
         unsigned pos = Find(replaceThis, nextPos, caseSensitive);
         if (pos == NPOS)
             break;
-        Replace(pos, replaceThis.length_, replaceWith);
-        nextPos = pos + replaceWith.length_;
+        Replace(pos, replaceThis.m_length, replaceWith);
+        nextPos = pos + replaceWith.m_length;
     }
 }
 
 void String::Replace(unsigned pos, unsigned length, const String& replaceWith)
 {
     // If substring is illegal, do nothing
-    if (pos + length > length_)
+    if (pos + length > m_length)
         return;
 
-    Replace(pos, length, replaceWith.buffer_, replaceWith.length_);
+    Replace(pos, length, replaceWith.m_buffer, replaceWith.m_length);
 }
 
 void String::Replace(unsigned pos, unsigned length, const char* replaceWith)
 {
     // If substring is illegal, do nothing
-    if (pos + length > length_)
+    if (pos + length > m_length)
         return;
 
     Replace(pos, length, replaceWith, CStringLength(replaceWith));
@@ -261,7 +261,7 @@ void String::Replace(unsigned pos, unsigned length, const char* replaceWith)
 String::Iterator String::Replace(const String::Iterator& start, const String::Iterator& end, const String& replaceWith)
 {
     unsigned pos = (unsigned)(start - Begin());
-    if (pos >= length_)
+    if (pos >= m_length)
         return End();
     unsigned length = (unsigned)(end - start);
     Replace(pos, length, replaceWith);
@@ -302,19 +302,19 @@ String& String::Append(const char* str, unsigned length)
 {
     if (str)
     {
-        unsigned oldLength = length_;
+        unsigned oldLength = m_length;
         Resize(oldLength + length);
-        CopyChars(&buffer_[oldLength], str, length);
+        CopyChars(&m_buffer[oldLength], str, length);
     }
     return *this;
 }
 
 void String::Insert(unsigned pos, const String& str)
 {
-    if (pos > length_)
-        pos = length_;
+    if (pos > m_length)
+        pos = m_length;
 
-    if (pos == length_)
+    if (pos == m_length)
         (*this) += str;
     else
         Replace(pos, 0, str);
@@ -322,25 +322,25 @@ void String::Insert(unsigned pos, const String& str)
 
 void String::Insert(unsigned pos, char c)
 {
-    if (pos > length_)
-        pos = length_;
+    if (pos > m_length)
+        pos = m_length;
 
-    if (pos == length_)
+    if (pos == m_length)
         (*this) += c;
     else
     {
-        unsigned oldLength = length_;
-        Resize(length_ + 1);
+        unsigned oldLength = m_length;
+        Resize(m_length + 1);
         MoveRange(pos + 1, pos, oldLength - pos);
-        buffer_[pos] = c;
+        m_buffer[pos] = c;
     }
 }
 
 String::Iterator String::Insert(const String::Iterator& dest, const String& str)
 {
     unsigned pos = (unsigned)(dest - Begin());
-    if (pos > length_)
-        pos = length_;
+    if (pos > m_length)
+        pos = m_length;
     Insert(pos, str);
 
     return Begin() + pos;
@@ -349,8 +349,8 @@ String::Iterator String::Insert(const String::Iterator& dest, const String& str)
 String::Iterator String::Insert(const String::Iterator& dest, const String::Iterator& start, const String::Iterator& end)
 {
     unsigned pos = (unsigned)(dest - Begin());
-    if (pos > length_)
-        pos = length_;
+    if (pos > m_length)
+        pos = m_length;
     unsigned length = (unsigned)(end - start);
     Replace(pos, 0, &(*start), length);
 
@@ -360,8 +360,8 @@ String::Iterator String::Insert(const String::Iterator& dest, const String::Iter
 String::Iterator String::Insert(const String::Iterator& dest, char c)
 {
     unsigned pos = (unsigned)(dest - Begin());
-    if (pos > length_)
-        pos = length_;
+    if (pos > m_length)
+        pos = m_length;
     Insert(pos, c);
 
     return Begin() + pos;
@@ -375,7 +375,7 @@ void String::Erase(unsigned pos, unsigned length)
 String::Iterator String::Erase(const String::Iterator& it)
 {
     unsigned pos = (unsigned)(it - Begin());
-    if (pos >= length_)
+    if (pos >= m_length)
         return End();
     Erase(pos);
 
@@ -385,7 +385,7 @@ String::Iterator String::Erase(const String::Iterator& it)
 String::Iterator String::Erase(const String::Iterator& start, const String::Iterator& end)
 {
     unsigned pos = (unsigned)(start - Begin());
-    if (pos >= length_)
+    if (pos >= m_length)
         return End();
     unsigned length = (unsigned)(end - start);
     Erase(pos, length);
@@ -395,62 +395,62 @@ String::Iterator String::Erase(const String::Iterator& start, const String::Iter
 
 void String::Resize(unsigned newLength)
 {
-    if (!capacity_)
+    if (!m_capacity)
     {
         // If zero length requested, do not allocate buffer yet
         if (!newLength)
             return;
 
         // Calculate initial capacity
-        capacity_ = newLength + 1;
-        if (capacity_ < MIN_CAPACITY)
-            capacity_ = MIN_CAPACITY;
+        m_capacity = newLength + 1;
+        if (m_capacity < MIN_CAPACITY)
+            m_capacity = MIN_CAPACITY;
 
-        buffer_ = new char[capacity_];
+        m_buffer = new char[m_capacity];
     }
     else
     {
-        if (newLength && capacity_ < newLength + 1)
+        if (newLength && m_capacity < newLength + 1)
         {
             // Increase the capacity with half each time it is exceeded
-            while (capacity_ < newLength + 1)
-                capacity_ += (capacity_ + 1) >> 1;
+            while (m_capacity < newLength + 1)
+                m_capacity += (m_capacity + 1) >> 1;
 
-            char* newBuffer = new char[capacity_];
+            char* newBuffer = new char[m_capacity];
             // Move the existing data to the new buffer, then delete the old buffer
-            if (length_)
-                CopyChars(newBuffer, buffer_, length_);
-            delete[] buffer_;
+            if (m_length)
+                CopyChars(newBuffer, m_buffer, m_length);
+            delete[] m_buffer;
 
-            buffer_ = newBuffer;
+            m_buffer = newBuffer;
         }
     }
 
-    buffer_[newLength] = 0;
-    length_ = newLength;
+    m_buffer[newLength] = 0;
+    m_length = newLength;
 }
 
 void String::Reserve(unsigned newCapacity)
 {
-    if (newCapacity < length_ + 1)
-        newCapacity = length_ + 1;
-    if (newCapacity == capacity_)
+    if (newCapacity < m_length + 1)
+        newCapacity = m_length + 1;
+    if (newCapacity == m_capacity)
         return;
 
     char* newBuffer = new char[newCapacity];
     // Move the existing data to the new buffer, then delete the old buffer
-    CopyChars(newBuffer, buffer_, length_ + 1);
-    if (capacity_)
-        delete[] buffer_;
+    CopyChars(newBuffer, m_buffer, m_length + 1);
+    if (m_capacity)
+        delete[] m_buffer;
 
-    capacity_ = newCapacity;
-    buffer_ = newBuffer;
+    m_capacity = newCapacity;
+    m_buffer = newBuffer;
 }
 
 void String::Compact()
 {
-    if (capacity_)
-        Reserve(length_ + 1);
+    if (m_capacity)
+        Reserve(m_length + 1);
 }
 
 void String::Clear()
@@ -460,18 +460,18 @@ void String::Clear()
 
 void String::Swap(String& str)
 {
-    ctn::Swap(length_, str.length_);
-    ctn::Swap(capacity_, str.capacity_);
-    ctn::Swap(buffer_, str.buffer_);
+    ctn::Swap(m_length, str.m_length);
+    ctn::Swap(m_capacity, str.m_capacity);
+    ctn::Swap(m_buffer, str.m_buffer);
 }
 
 String String::Substring(unsigned pos) const
 {
-    if (pos < length_)
+    if (pos < m_length)
     {
         String ret;
-        ret.Resize(length_ - pos);
-        CopyChars(ret.buffer_, buffer_ + pos, ret.length_);
+        ret.Resize(m_length - pos);
+        CopyChars(ret.m_buffer, m_buffer + pos, ret.m_length);
 
         return ret;
     }
@@ -481,13 +481,13 @@ String String::Substring(unsigned pos) const
 
 String String::Substring(unsigned pos, unsigned length) const
 {
-    if (pos < length_)
+    if (pos < m_length)
     {
         String ret;
-        if (pos + length > length_)
-            length = length_ - pos;
+        if (pos + length > m_length)
+            length = m_length - pos;
         ret.Resize(length);
-        CopyChars(ret.buffer_, buffer_ + pos, ret.length_);
+        CopyChars(ret.m_buffer, m_buffer + pos, ret.m_length);
 
         return ret;
     }
@@ -498,18 +498,18 @@ String String::Substring(unsigned pos, unsigned length) const
 String String::Trimmed() const
 {
     unsigned trimStart = 0;
-    unsigned trimEnd = length_;
+    unsigned trimEnd = m_length;
 
     while (trimStart < trimEnd)
     {
-        char c = buffer_[trimStart];
+        char c = m_buffer[trimStart];
         if (c != ' ' && c != 9)
             break;
         ++trimStart;
     }
     while (trimEnd > trimStart)
     {
-        char c = buffer_[trimEnd - 1];
+        char c = m_buffer[trimEnd - 1];
         if (c != ' ' && c != 9)
             break;
         --trimEnd;
@@ -521,8 +521,8 @@ String String::Trimmed() const
 String String::ToLower() const
 {
     String ret(*this);
-    for (unsigned i = 0; i < ret.length_; ++i)
-        ret[i] = (char)tolower(buffer_[i]);
+    for (unsigned i = 0; i < ret.m_length; ++i)
+        ret[i] = (char)tolower(m_buffer[i]);
 
     return ret;
 }
@@ -530,8 +530,8 @@ String String::ToLower() const
 String String::ToUpper() const
 {
     String ret(*this);
-    for (unsigned i = 0; i < ret.length_; ++i)
-        ret[i] = (char)toupper(buffer_[i]);
+    for (unsigned i = 0; i < ret.m_length; ++i)
+        ret[i] = (char)toupper(m_buffer[i]);
 
     return ret;
 }
@@ -550,18 +550,18 @@ unsigned String::Find(char c, unsigned startPos, bool caseSensitive) const
 {
     if (caseSensitive)
     {
-        for (unsigned i = startPos; i < length_; ++i)
+        for (unsigned i = startPos; i < m_length; ++i)
         {
-            if (buffer_[i] == c)
+            if (m_buffer[i] == c)
                 return i;
         }
     }
     else
     {
         c = (char)tolower(c);
-        for (unsigned i = startPos; i < length_; ++i)
+        for (unsigned i = startPos; i < m_length; ++i)
         {
-            if (tolower(buffer_[i]) == c)
+            if (tolower(m_buffer[i]) == c)
                 return i;
         }
     }
@@ -571,16 +571,16 @@ unsigned String::Find(char c, unsigned startPos, bool caseSensitive) const
 
 unsigned String::Find(const String& str, unsigned startPos, bool caseSensitive) const
 {
-    if (!str.length_ || str.length_ > length_)
+    if (!str.m_length || str.m_length > m_length)
         return NPOS;
 
-    char first = str.buffer_[0];
+    char first = str.m_buffer[0];
     if (!caseSensitive)
         first = (char)tolower(first);
 
-    for (unsigned i = startPos; i <= length_ - str.length_; ++i)
+    for (unsigned i = startPos; i <= m_length - str.m_length; ++i)
     {
-        char c = buffer_[i];
+        char c = m_buffer[i];
         if (!caseSensitive)
             c = (char)tolower(c);
 
@@ -588,10 +588,10 @@ unsigned String::Find(const String& str, unsigned startPos, bool caseSensitive) 
         {
             unsigned skip = NPOS;
             bool found = true;
-            for (unsigned j = 1; j < str.length_; ++j)
+            for (unsigned j = 1; j < str.m_length; ++j)
             {
-                c = buffer_[i + j];
-                char d = str.buffer_[j];
+                c = m_buffer[i + j];
+                char d = str.m_buffer[j];
                 if (!caseSensitive)
                 {
                     c = (char)tolower(c);
@@ -619,23 +619,23 @@ unsigned String::Find(const String& str, unsigned startPos, bool caseSensitive) 
 
 unsigned String::FindLast(char c, unsigned startPos, bool caseSensitive) const
 {
-    if (startPos >= length_)
-        startPos = length_ - 1;
+    if (startPos >= m_length)
+        startPos = m_length - 1;
 
     if (caseSensitive)
     {
-        for (unsigned i = startPos; i < length_; --i)
+        for (unsigned i = startPos; i < m_length; --i)
         {
-            if (buffer_[i] == c)
+            if (m_buffer[i] == c)
                 return i;
         }
     }
     else
     {
         c = (char)tolower(c);
-        for (unsigned i = startPos; i < length_; --i)
+        for (unsigned i = startPos; i < m_length; --i)
         {
-            if (tolower(buffer_[i]) == c)
+            if (tolower(m_buffer[i]) == c)
                 return i;
         }
     }
@@ -645,28 +645,28 @@ unsigned String::FindLast(char c, unsigned startPos, bool caseSensitive) const
 
 unsigned String::FindLast(const String& str, unsigned startPos, bool caseSensitive) const
 {
-    if (!str.length_ || str.length_ > length_)
+    if (!str.m_length || str.m_length > m_length)
         return NPOS;
-    if (startPos > length_ - str.length_)
-        startPos = length_ - str.length_;
+    if (startPos > m_length - str.m_length)
+        startPos = m_length - str.m_length;
 
-    char first = str.buffer_[0];
+    char first = str.m_buffer[0];
     if (!caseSensitive)
         first = (char)tolower(first);
 
-    for (unsigned i = startPos; i < length_; --i)
+    for (unsigned i = startPos; i < m_length; --i)
     {
-        char c = buffer_[i];
+        char c = m_buffer[i];
         if (!caseSensitive)
             c = (char)tolower(c);
 
         if (c == first)
         {
             bool found = true;
-            for (unsigned j = 1; j < str.length_; ++j)
+            for (unsigned j = 1; j < str.m_length; ++j)
             {
-                c = buffer_[i + j];
-                char d = str.buffer_[j];
+                c = m_buffer[i + j];
+                char d = str.m_buffer[j];
                 if (!caseSensitive)
                 {
                     c = (char)tolower(c);
@@ -769,10 +769,10 @@ unsigned String::LengthUTF8() const
 {
     unsigned ret = 0;
 
-    const char* src = buffer_;
+    const char* src = m_buffer;
     if (!src)
         return ret;
-    const char* end = buffer_ + length_;
+    const char* end = m_buffer + m_length;
 
     while (src < end)
     {
@@ -788,7 +788,7 @@ unsigned String::ByteOffsetUTF8(unsigned index) const
     unsigned byteOffset = 0;
     unsigned utfPos = 0;
 
-    while (utfPos < index && byteOffset < length_)
+    while (utfPos < index && byteOffset < m_length)
     {
         NextUTF8Char(byteOffset);
         ++utfPos;
@@ -799,12 +799,12 @@ unsigned String::ByteOffsetUTF8(unsigned index) const
 
 unsigned String::NextUTF8Char(unsigned& byteOffset) const
 {
-    if (!buffer_)
+    if (!m_buffer)
         return 0;
 
-    const char* src = buffer_ + byteOffset;
+    const char* src = m_buffer + byteOffset;
     unsigned ret = DecodeUTF8(src);
-    byteOffset = (unsigned)(src - buffer_);
+    byteOffset = (unsigned)(src - m_buffer);
 
     return ret;
 }
@@ -820,7 +820,7 @@ void String::ReplaceUTF8(unsigned index, unsigned unicodeChar)
     unsigned utfPos = 0;
     unsigned byteOffset = 0;
 
-    while (utfPos < index && byteOffset < length_)
+    while (utfPos < index && byteOffset < m_length)
     {
         NextUTF8Char(byteOffset);
         ++utfPos;
@@ -1204,34 +1204,34 @@ void String::Replace(unsigned pos, unsigned length, const char* srcStart, unsign
 {
     int delta = (int)srcLength - (int)length;
 
-    if (pos + length < length_)
+    if (pos + length < m_length)
     {
         if (delta < 0)
         {
-            MoveRange(pos + srcLength, pos + length, length_ - pos - length);
-            Resize(length_ + delta);
+            MoveRange(pos + srcLength, pos + length, m_length - pos - length);
+            Resize(m_length + delta);
         }
         if (delta > 0)
         {
-            Resize(length_ + delta);
-            MoveRange(pos + srcLength, pos + length, length_ - pos - length - delta);
+            Resize(m_length + delta);
+            MoveRange(pos + srcLength, pos + length, m_length - pos - length - delta);
         }
     }
     else
-        Resize(length_ + delta);
+        Resize(m_length + delta);
 
-    CopyChars(buffer_ + pos, srcStart, srcLength);
+    CopyChars(m_buffer + pos, srcStart, srcLength);
 }
 
 WString::WString() :
-    length_(0),
-    buffer_(nullptr)
+    m_length(0),
+    m_buffer(nullptr)
 {
 }
 
 WString::WString(const String& str) :
-    length_(0),
-    buffer_(nullptr)
+    m_length(0),
+    m_buffer(nullptr)
 {
 #ifdef _WIN32
     unsigned neededSize = 0;
@@ -1248,14 +1248,14 @@ WString::WString(const String& str) :
     Resize(neededSize);
 
     byteOffset = 0;
-    wchar_t* dest = buffer_;
+    wchar_t* dest = m_buffer;
     while (byteOffset < str.Length())
         String::EncodeUTF16(dest, str.NextUTF8Char(byteOffset));
 #else
     Resize(str.LengthUTF8());
 
     unsigned byteOffset = 0;
-    wchar_t* dest = buffer_;
+    wchar_t* dest = m_buffer;
     while (byteOffset < str.Length())
         *dest++ = (wchar_t)str.NextUTF8Char(byteOffset);
 #endif
@@ -1263,29 +1263,29 @@ WString::WString(const String& str) :
 
 WString::~WString()
 {
-    delete[] buffer_;
+    delete[] m_buffer;
 }
 
 void WString::Resize(unsigned newLength)
 {
     if (!newLength)
     {
-        delete[] buffer_;
-        buffer_ = 0;
-        length_ = 0;
+        delete[] m_buffer;
+        m_buffer = 0;
+        m_length = 0;
     }
     else
     {
         wchar_t* newBuffer = new wchar_t[newLength + 1];
-        if (buffer_)
+        if (m_buffer)
         {
-            unsigned copyLength = length_ < newLength ? length_ : newLength;
-            memcpy(newBuffer, buffer_, copyLength * sizeof(wchar_t));
-            delete[] buffer_;
+            unsigned copyLength = m_length < newLength ? m_length : newLength;
+            memcpy(newBuffer, m_buffer, copyLength * sizeof(wchar_t));
+            delete[] m_buffer;
         }
         newBuffer[newLength] = 0;
-        buffer_ = newBuffer;
-        length_ = newLength;
+        m_buffer = newBuffer;
+        m_length = newLength;
     }
 }
 

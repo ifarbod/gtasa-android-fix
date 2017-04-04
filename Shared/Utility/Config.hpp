@@ -1,7 +1,7 @@
 // Config.hpp
 // Author(s):       iFarbod <>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -26,7 +26,7 @@
 // BSD
 #if defined(__FreeBSD__) || defined(__DragonFly__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__bsdi__)
     #define CTN_BSD 1
-    // For detecting the BSD version
+    // For detecting the BSD variant
     #if defined(__FreeBSD__)
         #define CTN_FREEBSD 1
     #elif defined(__DragonFly__)
@@ -58,7 +58,7 @@
 #endif
 
 // Compiler stuff
-#if __cplusplus >= 201103
+#if defined(__cplusplus) && __cplusplus >= 201103
     #define CTN_CXX11 1
 #elif defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ == 8 && __GNUC_PATCHLEVEL__ == 1
     #define CTN_CXX11 1
@@ -70,7 +70,7 @@
 #endif
 
 // C++14 support
-#if __cplusplus >= 201402
+#if defined(__cplusplus) && __cplusplus >= 201402
     #define CTN_CXX14 1
 #elif defined(__GNUC__) && __GNUC__ == 5 && __GNUC_MINOR__ == 0
     #define CTN_CXX14 1
@@ -79,6 +79,18 @@
 // Clang 3.4 and later has full C++14 support
 #elif defined(__clang__) && __clang_major__ == 3 && __clang_minor__ == 4
     #define CTN_CXX14 1
+#endif
+
+// C++17 support
+#if defined(__cplusplus) && __cplusplus >= 201703
+    #define CTN_CXX17 1
+#elif defined(__GNUC__) && __GNUC__ == 7 && __GNUC_MINOR__ == 0
+    #define CTN_CXX17 1
+#elif defined(_MSC_VER) && _MSC_VER >= 1910
+    #define CTN_CXX17 1
+// Clang 4.0 and later has full C++17 support
+#elif defined(__clang__) && __clang_major__ == 4 && __clang_minor__ == 0
+    #define CTN_CXX17 1
 #endif
 
 // This macro is used to avoid warnings about unused variables on certain compilers.
@@ -101,6 +113,6 @@
 #if defined(CTN_IOS)
     #error Compiling for iOS is not allowed
 #endif
-#if !defined(CTN_CXX11) && !defined(CTN_CXX14)
-    #error C++11 & C++14 is required to compile, use at least VS2015 with Update 3
+#if !defined(CTN_CXX11) && !defined(CTN_CXX14) && !defined(CTN_CXX17)
+    #error C++17 support is required to compile, use at least VS2017
 #endif

@@ -1,7 +1,7 @@
 // Dynamically sized buffer that can be read and written to as a stream
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -30,14 +30,14 @@ VectorBuffer::VectorBuffer(Deserializer& source, unsigned size)
 
 unsigned VectorBuffer::Read(void* dest, unsigned size)
 {
-    if (size + position_ > size_)
-        size = size_ - position_;
+    if (size + m_position > m_size)
+        size = m_size - m_position;
     if (!size)
         return 0;
 
-    unsigned char* srcPtr = &buffer_[position_];
+    unsigned char* srcPtr = &m_buffer[m_position];
     unsigned char* destPtr = (unsigned char*)dest;
-    position_ += size;
+    m_position += size;
 
     unsigned copySize = size;
     while (copySize >= sizeof(unsigned))
@@ -61,11 +61,11 @@ unsigned VectorBuffer::Read(void* dest, unsigned size)
 
 unsigned VectorBuffer::Seek(unsigned position)
 {
-    if (position > size_)
-        position = size_;
+    if (position > m_size)
+        position = m_size;
 
-    position_ = position;
-    return position_;
+    m_position = position;
+    return m_position;
 }
 
 unsigned VectorBuffer::Write(const void* data, unsigned size)
@@ -73,15 +73,15 @@ unsigned VectorBuffer::Write(const void* data, unsigned size)
     if (!size)
         return 0;
 
-    if (size + position_ > size_)
+    if (size + m_position > m_size)
     {
-        size_ = size + position_;
-        buffer_.Resize(size_);
+        m_size = size + m_position;
+        m_buffer.Resize(m_size);
     }
 
     unsigned char* srcPtr = (unsigned char*)data;
-    unsigned char* destPtr = &buffer_[position_];
-    position_ += size;
+    unsigned char* destPtr = &m_buffer[m_position];
+    m_position += size;
 
     unsigned copySize = size;
     while (copySize >= sizeof(unsigned))
@@ -105,9 +105,9 @@ unsigned VectorBuffer::Write(const void* data, unsigned size)
 
 void VectorBuffer::SetData(const PODVector<unsigned char>& data)
 {
-    buffer_ = data;
-    position_ = 0;
-    size_ = data.Size();
+    m_buffer = data;
+    m_position = 0;
+    m_size = data.Size();
 }
 
 void VectorBuffer::SetData(const void* data, unsigned size)
@@ -115,38 +115,38 @@ void VectorBuffer::SetData(const void* data, unsigned size)
     if (!data)
         size = 0;
 
-    buffer_.Resize(size);
+    m_buffer.Resize(size);
     if (size)
-        memcpy(&buffer_[0], data, size);
+        memcpy(&m_buffer[0], data, size);
 
-    position_ = 0;
-    size_ = size;
+    m_position = 0;
+    m_size = size;
 }
 
 void VectorBuffer::SetData(Deserializer& source, unsigned size)
 {
-    buffer_.Resize(size);
-    unsigned actualSize = source.Read(&buffer_[0], size);
+    m_buffer.Resize(size);
+    unsigned actualSize = source.Read(&m_buffer[0], size);
     if (actualSize != size)
-        buffer_.Resize(actualSize);
+        m_buffer.Resize(actualSize);
 
-    position_ = 0;
-    size_ = actualSize;
+    m_position = 0;
+    m_size = actualSize;
 }
 
 void VectorBuffer::Clear()
 {
-    buffer_.Clear();
-    position_ = 0;
-    size_ = 0;
+    m_buffer.Clear();
+    m_position = 0;
+    m_size = 0;
 }
 
 void VectorBuffer::Resize(unsigned size)
 {
-    buffer_.Resize(size);
-    size_ = size;
-    if (position_ > size_)
-        position_ = size_;
+    m_buffer.Resize(size);
+    m_size = size;
+    if (m_position > m_size)
+        m_position = m_size;
 }
 
 }

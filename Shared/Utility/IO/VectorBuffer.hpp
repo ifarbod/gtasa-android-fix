@@ -1,7 +1,7 @@
 // Dynamically sized buffer that can be read and written to as a stream
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -46,17 +46,17 @@ public:
     void Resize(unsigned size);
 
     // Return data.
-    const unsigned char* GetData() const { return size_ ? &buffer_[0] : 0; }
+    const unsigned char* GetData() const { return m_size ? &m_buffer[0] : 0; }
 
     // Return non-const data.
-    unsigned char* GetModifiableData() { return size_ ? &buffer_[0] : 0; }
+    unsigned char* GetModifiableData() { return m_size ? &m_buffer[0] : 0; }
 
     // Return the buffer.
-    const PODVector<unsigned char>& GetBuffer() const { return buffer_; }
+    const PODVector<unsigned char>& GetBuffer() const { return m_buffer; }
 
 private:
     // Dynamic data buffer.
-    PODVector<unsigned char> buffer_;
+    PODVector<unsigned char> m_buffer;
 };
 
 }

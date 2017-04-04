@@ -1,7 +1,7 @@
 // Custom vector implementation with dozens of features
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -68,8 +68,8 @@ public:
     // Destruct.
     ~Vector()
     {
-        DestructElements(Buffer(), size_);
-        delete[] buffer_;
+        DestructElements(Buffer(), m_size);
+        delete[] m_buffer;
     }
 
     // Assign from another vector.
@@ -117,12 +117,12 @@ public:
     // Test for equality with another vector.
     bool operator ==(const Vector<T>& rhs) const
     {
-        if (rhs.size_ != size_)
+        if (rhs.m_size != m_size)
             return false;
 
         T* buffer = Buffer();
         T* rhsBuffer = rhs.Buffer();
-        for (unsigned i = 0; i < size_; ++i)
+        for (unsigned i = 0; i < m_size; ++i)
         {
             if (buffer[i] != rhsBuffer[i])
                 return false;
@@ -134,12 +134,12 @@ public:
     // Test for inequality with another vector.
     bool operator !=(const Vector<T>& rhs) const
     {
-        if (rhs.size_ != size_)
+        if (rhs.m_size != m_size)
             return true;
 
         T* buffer = Buffer();
         T* rhsBuffer = rhs.Buffer();
-        for (unsigned i = 0; i < size_; ++i)
+        for (unsigned i = 0; i < m_size; ++i)
         {
             if (buffer[i] != rhsBuffer[i])
                 return true;
@@ -151,28 +151,28 @@ public:
     // Return element at index.
     T& operator [](unsigned index)
     {
-        assert(index < size_);
+        assert(index < m_size);
         return Buffer()[index];
     }
 
     // Return const element at index.
     const T& operator [](unsigned index) const
     {
-        assert(index < size_);
+        assert(index < m_size);
         return Buffer()[index];
     }
 
     // Return element at index.
     T& At(unsigned index)
     {
-        assert(index < size_);
+        assert(index < m_size);
         return Buffer()[index];
     }
 
     // Return const element at index.
     const T& At(unsigned index) const
     {
-        assert(index < size_);
+        assert(index < m_size);
         return Buffer()[index];
     }
 
@@ -180,7 +180,7 @@ public:
 #ifndef COVERITY_SCAN_MODEL
     void Push(const T& value)
     {
-        InsertElements(size_, &value, &value + 1);
+        InsertElements(m_size, &value, &value + 1);
     }
 #else
     // FIXME: Attempt had been made to use this model in the Coverity-Scan model file without any success
@@ -188,18 +188,18 @@ public:
     void Push(const T& value)
     {
         T array[] = { value };
-        InsertElements(size_, array, array + 1);
+        InsertElements(m_size, array, array + 1);
     }
 #endif
 
     // Add another vector at the end.
-    void Push(const Vector<T>& vector) { InsertElements(size_, vector.Begin(), vector.End()); }
+    void Push(const Vector<T>& vector) { InsertElements(m_size, vector.Begin(), vector.End()); }
 
     // Remove the last element.
     void Pop()
     {
-        if (size_)
-            Resize(size_ - 1);
+        if (m_size)
+            Resize(m_size - 1);
     }
 
     // Insert an element at position.
@@ -246,11 +246,11 @@ public:
     void Erase(unsigned pos, unsigned length = 1)
     {
         // Return if the range is illegal
-        if (pos + length > size_ || !length)
+        if (pos + length > m_size || !length)
             return;
 
-        MoveRange(pos, pos + length, size_ - pos - length);
-        Resize(size_ - length);
+        MoveRange(pos, pos + length, m_size - pos - length);
+        Resize(m_size - length);
     }
 
     // Erase a range of elements by swapping elements from the end of the array.
@@ -258,11 +258,11 @@ public:
     {
         unsigned shiftStartIndex = pos + length;
         // Return if the range is illegal
-        if (shiftStartIndex > size_ || !length)
+        if (shiftStartIndex > m_size || !length)
             return;
 
-        unsigned newSize = size_ - length;
-        unsigned trailingCount = size_ - shiftStartIndex;
+        unsigned newSize = m_size - length;
+        unsigned trailingCount = m_size - shiftStartIndex;
         if (trailingCount <= length)
         {
             // We're removing more elements from the array than exist past the end of the range being removed, so perform a normal shift and destroy
@@ -280,7 +280,7 @@ public:
     Iterator Erase(const Iterator& it)
     {
         unsigned pos = (unsigned)(it - Begin());
-        if (pos >= size_)
+        if (pos >= m_size)
             return End();
         Erase(pos);
 
@@ -291,7 +291,7 @@ public:
     Iterator Erase(const Iterator& start, const Iterator& end)
     {
         unsigned pos = (unsigned)(start - Begin());
-        if (pos >= size_)
+        if (pos >= m_size)
             return End();
         unsigned length = (unsigned)(end - start);
         Erase(pos, length);
@@ -344,30 +344,30 @@ public:
     // Set new capacity.
     void Reserve(unsigned newCapacity)
     {
-        if (newCapacity < size_)
-            newCapacity = size_;
+        if (newCapacity < m_size)
+            newCapacity = m_size;
 
-        if (newCapacity != capacity_)
+        if (newCapacity != m_capacity)
         {
             T* newBuffer = 0;
-            capacity_ = newCapacity;
+            m_capacity = newCapacity;
 
-            if (capacity_)
+            if (m_capacity)
             {
-                newBuffer = reinterpret_cast<T*>(AllocateBuffer((unsigned)(capacity_ * sizeof(T))));
+                newBuffer = reinterpret_cast<T*>(AllocateBuffer((unsigned)(m_capacity * sizeof(T))));
                 // Move the data into the new buffer
-                ConstructElements(newBuffer, Buffer(), size_);
+                ConstructElements(newBuffer, Buffer(), m_size);
             }
 
             // Delete the old buffer
-            DestructElements(Buffer(), size_);
-            delete[] buffer_;
-            buffer_ = reinterpret_cast<unsigned char*>(newBuffer);
+            DestructElements(Buffer(), m_size);
+            delete[] m_buffer;
+            m_buffer = reinterpret_cast<unsigned char*>(newBuffer);
         }
     }
 
     // Reallocate so that no extra memory is used.
-    void Compact() { Reserve(size_); }
+    void Compact() { Reserve(m_size); }
 
     // Return iterator to value, or to the end if not found.
     Iterator Find(const T& value)
@@ -397,87 +397,87 @@ public:
     ConstIterator Begin() const { return ConstIterator(Buffer()); }
 
     // Return iterator to the end.
-    Iterator End() { return Iterator(Buffer() + size_); }
+    Iterator End() { return Iterator(Buffer() + m_size); }
 
     // Return const iterator to the end.
-    ConstIterator End() const { return ConstIterator(Buffer() + size_); }
+    ConstIterator End() const { return ConstIterator(Buffer() + m_size); }
 
     // Return first element.
     T& Front()
     {
-        assert(size_);
+        assert(m_size);
         return Buffer()[0];
     }
 
     // Return const first element.
     const T& Front() const
     {
-        assert(size_);
+        assert(m_size);
         return Buffer()[0];
     }
 
     // Return last element.
     T& Back()
     {
-        assert(size_);
-        return Buffer()[size_ - 1];
+        assert(m_size);
+        return Buffer()[m_size - 1];
     }
 
     // Return const last element.
     const T& Back() const
     {
-        assert(size_);
-        return Buffer()[size_ - 1];
+        assert(m_size);
+        return Buffer()[m_size - 1];
     }
 
     // Return size of vector.
-    unsigned Size() const { return size_; }
+    unsigned Size() const { return m_size; }
 
     // Return capacity of vector.
-    unsigned Capacity() const { return capacity_; }
+    unsigned Capacity() const { return m_capacity; }
 
     // Return whether vector is empty.
-    bool Empty() const { return size_ == 0; }
+    bool Empty() const { return m_size == 0; }
 
     // Return the buffer with right type.
-    T* Buffer() const { return reinterpret_cast<T*>(buffer_); }
+    T* Buffer() const { return reinterpret_cast<T*>(m_buffer); }
 
 private:
     // Resize the vector and create/remove new elements as necessary. Current buffer will be stored in tempBuffer in case of reallocation.
     void Resize(unsigned newSize, const T* src, Vector<T>& tempBuffer)
     {
         // If size shrinks, destruct the removed elements
-        if (newSize < size_)
-            DestructElements(Buffer() + newSize, size_ - newSize);
+        if (newSize < m_size)
+            DestructElements(Buffer() + newSize, m_size - newSize);
         else
         {
             // Allocate new buffer if necessary and copy the current elements
-            if (newSize > capacity_)
+            if (newSize > m_capacity)
             {
                 Swap(tempBuffer);
-                size_ = tempBuffer.size_;
-                capacity_ = tempBuffer.capacity_;
+                m_size = tempBuffer.m_size;
+                m_capacity = tempBuffer.m_capacity;
 
-                if (!capacity_)
-                    capacity_ = newSize;
+                if (!m_capacity)
+                    m_capacity = newSize;
                 else
                 {
-                    while (capacity_ < newSize)
-                        capacity_ += (capacity_ + 1) >> 1;
+                    while (m_capacity < newSize)
+                        m_capacity += (m_capacity + 1) >> 1;
                 }
 
-                buffer_ = AllocateBuffer((unsigned)(capacity_ * sizeof(T)));
+                m_buffer = AllocateBuffer((unsigned)(m_capacity * sizeof(T)));
                 if (tempBuffer.Buffer())
                 {
-                    ConstructElements(Buffer(), tempBuffer.Buffer(), size_);
+                    ConstructElements(Buffer(), tempBuffer.Buffer(), m_size);
                 }
             }
 
             // Initialize the new elements
-            ConstructElements(Buffer() + size_, src, newSize - size_);
+            ConstructElements(Buffer() + m_size, src, newSize - m_size);
         }
 
-        size_ = newSize;
+        m_size = newSize;
     }
 
     // Insert elements.
@@ -486,12 +486,12 @@ private:
     {
         assert(start <= end);
 
-        if (pos > size_)
-            pos = size_;
+        if (pos > m_size)
+            pos = m_size;
         unsigned length = (unsigned)(end - start);
         Vector<T> tempBuffer;
-        Resize(size_ + length, 0, tempBuffer);
-        MoveRange(pos + length, pos, size_ - pos - length);
+        Resize(m_size + length, 0, tempBuffer);
+        MoveRange(pos + length, pos, m_size - pos - length);
 
         T* destPtr = Buffer() + pos;
         for (RandomIteratorT it = start; it != end; ++it)
@@ -599,7 +599,7 @@ public:
     // Destruct.
     ~PODVector()
     {
-        delete[] buffer_;
+        delete[] m_buffer;
     }
 
     // Assign from another vector.
@@ -647,12 +647,12 @@ public:
     // Test for equality with another vector.
     bool operator ==(const PODVector<T>& rhs) const
     {
-        if (rhs.size_ != size_)
+        if (rhs.m_size != m_size)
             return false;
 
         T* buffer = Buffer();
         T* rhsBuffer = rhs.Buffer();
-        for (unsigned i = 0; i < size_; ++i)
+        for (unsigned i = 0; i < m_size; ++i)
         {
             if (buffer[i] != rhsBuffer[i])
                 return false;
@@ -664,12 +664,12 @@ public:
     // Test for inequality with another vector.
     bool operator !=(const PODVector<T>& rhs) const
     {
-        if (rhs.size_ != size_)
+        if (rhs.m_size != m_size)
             return true;
 
         T* buffer = Buffer();
         T* rhsBuffer = rhs.Buffer();
-        for (unsigned i = 0; i < size_; ++i)
+        for (unsigned i = 0; i < m_size; ++i)
         {
             if (buffer[i] != rhsBuffer[i])
                 return true;
@@ -681,48 +681,48 @@ public:
     // Return element at index.
     T& operator [](unsigned index)
     {
-        assert(index < size_);
+        assert(index < m_size);
         return Buffer()[index];
     }
 
     // Return const element at index.
     const T& operator [](unsigned index) const
     {
-        assert(index < size_);
+        assert(index < m_size);
         return Buffer()[index];
     }
 
     // Return element at index.
     T& At(unsigned index)
     {
-        assert(index < size_);
+        assert(index < m_size);
         return Buffer()[index];
     }
 
     // Return const element at index.
     const T& At(unsigned index) const
     {
-        assert(index < size_);
+        assert(index < m_size);
         return Buffer()[index];
     }
 
     // Add an element at the end.
     void Push(const T& value)
     {
-        InsertElements(size_, &value, &value + 1);
+        InsertElements(m_size, &value, &value + 1);
     }
 
     // Add another vector at the end.
     void Push(const PODVector<T>& vector)
     {
-        InsertElements(size_, vector.Begin(), vector.End());
+        InsertElements(m_size, vector.Begin(), vector.End());
     }
 
     // Remove the last element.
     void Pop()
     {
-        if (size_)
-            Resize(size_ - 1);
+        if (m_size)
+            Resize(m_size - 1);
     }
 
     // Insert an element at position.
@@ -769,18 +769,18 @@ public:
     void Erase(unsigned pos, unsigned length = 1)
     {
         // Return if the range is illegal
-        if (!length || pos + length > size_)
+        if (!length || pos + length > m_size)
             return;
 
-        MoveRange(pos, pos + length, size_ - pos - length);
-        Resize(size_ - length);
+        MoveRange(pos, pos + length, m_size - pos - length);
+        Resize(m_size - length);
     }
 
     // Erase an element by iterator. Return iterator to the next element.
     Iterator Erase(const Iterator& it)
     {
         unsigned pos = (unsigned)(it - Begin());
-        if (pos >= size_)
+        if (pos >= m_size)
             return End();
         Erase(pos);
 
@@ -791,7 +791,7 @@ public:
     Iterator Erase(const Iterator& start, const Iterator& end)
     {
         unsigned pos = (unsigned)(start - Begin());
-        if (pos >= size_)
+        if (pos >= m_size)
             return End();
         unsigned length = (unsigned)(end - start);
         Erase(pos, length);
@@ -804,11 +804,11 @@ public:
     {
         unsigned shiftStartIndex = pos + length;
         // Return if the range is illegal
-        if (shiftStartIndex > size_ || !length)
+        if (shiftStartIndex > m_size || !length)
             return;
 
-        unsigned newSize = size_ - length;
-        unsigned trailingCount = size_ - shiftStartIndex;
+        unsigned newSize = m_size - length;
+        unsigned trailingCount = m_size - shiftStartIndex;
         if (trailingCount <= length)
         {
             // We're removing more elements from the array than exist past the end of the range being removed, so perform a normal shift and destroy
@@ -861,29 +861,29 @@ public:
     // Set new capacity.
     void Reserve(unsigned newCapacity)
     {
-        if (newCapacity < size_)
-            newCapacity = size_;
+        if (newCapacity < m_size)
+            newCapacity = m_size;
 
-        if (newCapacity != capacity_)
+        if (newCapacity != m_capacity)
         {
             unsigned char* newBuffer = 0;
-            capacity_ = newCapacity;
+            m_capacity = newCapacity;
 
-            if (capacity_)
+            if (m_capacity)
             {
-                newBuffer = AllocateBuffer((unsigned)(capacity_ * sizeof(T)));
+                newBuffer = AllocateBuffer((unsigned)(m_capacity * sizeof(T)));
                 // Move the data into the new buffer
-                CopyElements(reinterpret_cast<T*>(newBuffer), Buffer(), size_);
+                CopyElements(reinterpret_cast<T*>(newBuffer), Buffer(), m_size);
             }
 
             // Delete the old buffer
-            delete[] buffer_;
-            buffer_ = newBuffer;
+            delete[] m_buffer;
+            m_buffer = newBuffer;
         }
     }
 
     // Reallocate so that no extra memory is used.
-    void Compact() { Reserve(size_); }
+    void Compact() { Reserve(m_size); }
 
     // Return iterator to value, or to the end if not found.
     Iterator Find(const T& value)
@@ -913,10 +913,10 @@ public:
     ConstIterator Begin() const { return ConstIterator(Buffer()); }
 
     // Return iterator to the end.
-    Iterator End() { return Iterator(Buffer() + size_); }
+    Iterator End() { return Iterator(Buffer() + m_size); }
 
     // Return const iterator to the end.
-    ConstIterator End() const { return ConstIterator(Buffer() + size_); }
+    ConstIterator End() const { return ConstIterator(Buffer() + m_size); }
 
     // Return first element.
     T& Front() { return Buffer()[0]; }
@@ -927,56 +927,56 @@ public:
     // Return last element.
     T& Back()
     {
-        assert(size_);
-        return Buffer()[size_ - 1];
+        assert(m_size);
+        return Buffer()[m_size - 1];
     }
 
     // Return const last element.
     const T& Back() const
     {
-        assert(size_);
-        return Buffer()[size_ - 1];
+        assert(m_size);
+        return Buffer()[m_size - 1];
     }
 
     // Return number of elements.
-    unsigned Size() const { return size_; }
+    unsigned Size() const { return m_size; }
 
     // Return capacity of vector.
-    unsigned Capacity() const { return capacity_; }
+    unsigned Capacity() const { return m_capacity; }
 
     // Return whether vector is empty.
-    bool Empty() const { return size_ == 0; }
+    bool Empty() const { return m_size == 0; }
 
     // Return the buffer with right type.
-    T* Buffer() const { return reinterpret_cast<T*>(buffer_); }
+    T* Buffer() const { return reinterpret_cast<T*>(m_buffer); }
 
 private:
     // Resize the vector. Current buffer will be stored in tempBuffer in case of reallocation.
     void Resize(unsigned newSize, PODVector<T>& tempBuffer)
     {
-        if (newSize > capacity_)
+        if (newSize > m_capacity)
         {
             Swap(tempBuffer);
-            size_ = tempBuffer.size_;
-            capacity_ = tempBuffer.capacity_;
+            m_size = tempBuffer.m_size;
+            m_capacity = tempBuffer.m_capacity;
 
-            if (!capacity_)
-                capacity_ = newSize;
+            if (!m_capacity)
+                m_capacity = newSize;
             else
             {
-                while (capacity_ < newSize)
-                    capacity_ += (capacity_ + 1) >> 1;
+                while (m_capacity < newSize)
+                    m_capacity += (m_capacity + 1) >> 1;
             }
 
-            buffer_ = AllocateBuffer((unsigned)(capacity_ * sizeof(T)));
+            m_buffer = AllocateBuffer((unsigned)(m_capacity * sizeof(T)));
             // Move the data into the new buffer
             if (tempBuffer.Buffer())
             {
-                CopyElements(Buffer(), tempBuffer.Buffer(), size_);
+                CopyElements(Buffer(), tempBuffer.Buffer(), m_size);
             }
         }
 
-        size_ = newSize;
+        m_size = newSize;
     }
 
     // Insert elements.
@@ -985,12 +985,12 @@ private:
     {
         assert(start <= end);
 
-        if (pos > size_)
-            pos = size_;
+        if (pos > m_size)
+            pos = m_size;
         unsigned length = (unsigned)(end - start);
         PODVector<T> tempBuffer;
-        Resize(size_ + length, tempBuffer);
-        MoveRange(pos + length, pos, size_ - pos - length);
+        Resize(m_size + length, tempBuffer);
+        MoveRange(pos + length, pos, m_size - pos - length);
 
         T* destPtr = Buffer() + pos;
         for (RandomIteratorT i = start; i != end; ++i)
