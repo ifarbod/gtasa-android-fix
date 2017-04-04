@@ -1,7 +1,7 @@
 -- Premake5 script
 -- Author(s):       iFarbod <ifarbod@outlook.com>
 --
--- Copyright (c) 2015-2017 CtNorth Team
+-- Copyright (c) 2015-2017 CTNorth Team
 --
 -- Distributed under the MIT license (See accompanying file LICENSE or copy at
 -- https://opensource.org/licenses/MIT)
@@ -161,3 +161,8 @@ function string.togame(str)
         return "north"
     end
 end
+
+-- Helper functions for output path
+buildpath = function(p) return "%{wks.location}/../Bin/"..p.."/" end
+copy = function(p) return "{COPY} %{cfg.buildtarget.abspath} %{wks.location}../Bin/" .. p .. "/" end
+buildhost = os.computer_name()
