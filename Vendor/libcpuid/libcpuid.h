@@ -24,7 +24,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// Modified by iFarbod for CtNorth: removed the MSR specific code
+// Modified by iFarbod for CTNorth: removed the MSR specific code
 
 #ifndef __LIBCPUID_H__
 #define __LIBCPUID_H__

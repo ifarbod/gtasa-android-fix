@@ -75,7 +75,7 @@ static void stbi__stdio_write(void *context, void *data, int size)
 
 static int stbi__start_write_file(stbi__write_context *s, const char *filename)
 {
-   // CtNorth: proper UTF8 handling for Windows, requires CtNorth WString class
+   // CTNorth: proper UTF8 handling for Windows, requires CTNorth WString class
 #ifndef _WIN32
    FILE *f = fopen(filename, "wb");
 #else

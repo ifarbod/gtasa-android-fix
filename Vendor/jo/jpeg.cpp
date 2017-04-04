@@ -3,19 +3,19 @@
 //					Lasse Oorni
 //					iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
 
-// Modified by iFarbod for SAO
+// Modified by iFarbod for CTNorth
 #include "jpeg.hpp"
 
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-// SAO: for MultiByteToWideChar
+// CTNorth: for MultiByteToWideChar
 #ifdef _WIN32
 #include <Windows.h>
 #endif
@@ -279,7 +279,7 @@ bool WriteJPG(const char* filename, const void* data, int width, int height, int
         return false;
     }
 
-// SAO: proper UTF8 handling for Windows
+// CTNorth: proper UTF8 handling for Windows
 #ifndef _WIN32
     FILE* fp = fopen(filename, "wb");
 #else
@@ -324,7 +324,7 @@ bool WriteJPG(const char* filename, const void* data, int width, int height, int
     fwrite(YTable, sizeof(YTable), 1, fp);
     putc(1, fp);
     fwrite(UVTable, sizeof(UVTable), 1, fp);
-    // SAO: modified to avoid narrowing conversion
+    // CTNorth: modified to avoid narrowing conversion
     const unsigned char head1[] = {0xFF, 0xC0, 0, 0x11, 8, static_cast<unsigned char>(height >> 8),
         static_cast<unsigned char>(height & 0xFF), static_cast<unsigned char>(width >> 8),
         static_cast<unsigned char>(width & 0xFF), 3, 1, 0x11, 0, 2, 0x11, 1, 3, 0x11, 1, 0xFF, 0xC4, 0x01, 0xA2, 0};

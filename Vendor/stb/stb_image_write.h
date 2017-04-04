@@ -112,7 +112,7 @@ publish, and distribute this file as you see fit.
 
 */
 
-// Modified by iFarbod for CtNorth: Added Unicode support
+// Modified by iFarbod for CTNorth: Added Unicode support
 
 #ifndef INCLUDE_STB_IMAGE_WRITE_H
 #define INCLUDE_STB_IMAGE_WRITE_H
