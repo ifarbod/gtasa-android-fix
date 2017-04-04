@@ -2,7 +2,7 @@
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //                  NTAuthority
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -105,7 +105,7 @@ void GameLauncher::Launch(const char* gamePath)
     Hook::MakeRet0(0x7468E0);
     // Change CdStream semaphore to allow more than 2 SA instances
     MT19937_64 mt(time(nullptr));
-    Hook::CopyStr(0x858AD4, String::Format("CtN%d", mt()).CString());
+    Hook::CopyStr(0x858AD4, String::Format("CTN%d", mt()).CString());
 
     LoadLibraryA(CLIENT_CORE_NAME DEBUG_SUFFIX LIB_EXTENSION);
 

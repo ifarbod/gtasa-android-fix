@@ -1,7 +1,7 @@
 // Physical entity base
 // Author(s):       iFarbod <>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -66,7 +66,7 @@ public:
 
             // 16  0x00010000
             u32 m_unknown16 : 1;
-            // 17  0x00020000  Xref @ CPhysical::processCollision
+            // 17  0x00020000  Xref @ CPhysical::ProcessCollision
             u32 m_unknown17 : 1;
             // 18  0x00040000
             u32 m_bulletProof : 1;
@@ -114,7 +114,7 @@ public:
     f32 m_buoyancyConstant;                // +0x0A0
     CVector m_centerOfMass;                // +0x0A4
     CEntryInfoList m_entryInfoList;        // +0x0B0
-    CPtrNodeDoubleLink* m_pMovingList;     // +0x0B4
+    CPtrNodeDoubleLink* m_movingList;      // +0x0B4
     u8 m_field0B8;                         // +0x0B8
     u8 m_numEntitiesCollided;              // +0x0B9
     u8 m_contactSurface;                   // +0x0BA

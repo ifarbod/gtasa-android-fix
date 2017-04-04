@@ -1,7 +1,7 @@
 // HookGameCore.cpp
 // Author(s):       iFarbod <>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -41,11 +41,11 @@ static HookFunction hookFunction([]()
     // Process test keys
     MakeCall(0x53C090, TestUpdate);
 
+    // Use Data/peds.ifp instead of anim/peds.ifp
+    CopyStr(0x85C718, "data\\ped.ifp");
+
 #ifdef CTN_DEBUG
     // Increase rendering priority for streaming objects like trees so you don't crash into them w/ a plane
     MakeNop(0x5557CF, 7);
-
-    // Use Data/peds.ifp instead of anim/peds.ifp
-    CopyStr(0x85C718, "data\\ped.ifp");
 #endif
 });

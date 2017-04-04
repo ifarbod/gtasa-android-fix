@@ -1,7 +1,7 @@
 // Linker configuration
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -23,7 +23,7 @@
 #include "GameLauncher.hpp"
 
 #define CTN_REG_KEY HKEY_CURRENT_USER
-#define CTN_REG_SUBKEY "SOFTWARE\\CtNorth"
+#define CTN_REG_SUBKEY "SOFTWARE\\CTNorth"
 
 #define GAME_EXECUTABLE_NAME "gta_sa.exe"
 

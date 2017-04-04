@@ -34,9 +34,8 @@ project "Launcher"
         "**.rc"
     }
 
-    -- TODO: Insiders version
-    --files "res/ctn.ico"
-    files "res/ctn-insiders.ico"
+    -- TODO: Version management
+    files "res/ctn-canary.ico"
 
     filter "architecture:x64"
         flags { "ExcludeFromBuild" }

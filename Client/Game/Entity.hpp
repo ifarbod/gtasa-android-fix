@@ -2,7 +2,7 @@
 // Author(s):       iFarbod <>
 //                  GTA Modding Community <http://gtamodding.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -31,19 +31,19 @@ public:
         {
             // 0  0x00000001 Set if this entity is a big building
             u32 m_usesCollision : 1;
-            // 1  0x00000002 Has object been processed by a ProcessEntityCollision function?
+            //  1  0x00000002 Has object been processed by a ProcessEntityCollision function?
             u32 m_collisionProcessed : 1;
-            // 2  0x00000004 Is entity static?
+            //  2  0x00000004 Is entity static?
             u32 m_isStatic : 1;
-            // 3  0x00000008 Has entity processed some contact forces?
+            //  3  0x00000008 Has entity processed some contact forces?
             u32 m_hasContacted : 1; //
-            // 4  0x00000010 Is entity stuck ?
+            //  4  0x00000010 Is entity stuck ?
             u32 m_isStuck : 1;
-            // 5  0x00000020 Is entity in a collision free safe position?
+            //  5  0x00000020 Is entity in a collision free safe position?
             u32 m_inSafePosition : 1;
-            // 6  0x00000040 Was entity control processing postponed?
+            //  6  0x00000040 Was entity control processing postponed?
             u32 m_wasPostponed : 1;
-            // 7  0x00000080 Is the entity visible?
+            //  7  0x00000080 Is the entity visible?
             u32 m_isVisible : 1;
 
             //  8  0x00000100  Set if this entity is a big building

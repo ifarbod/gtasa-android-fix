@@ -1,7 +1,8 @@
 // Ped model info
 // Author(s):       iFarbod <>
+//                  dkluin <>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -58,8 +59,9 @@ public:
                     u16 m_onFoot : 1;
                 };
 
-                u16 m_canDriveCars;
+                u16 m_carsCanDriveMask;     // +0x30
             };
+
             union
             {
                 struct
@@ -74,11 +76,11 @@ public:
                     bool m_unk7 : 1;
                 };
 
-                u16 m_otherFlags;
+                u16 m_otherFlags;           // +0x32
             };
         };
 
-        u32 m_pedModelFlags;
+        u32 m_pedModelFlags;    // +0x30
     };
 
     CColModel* m_hitColModel;

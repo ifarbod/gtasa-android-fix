@@ -1,7 +1,7 @@
 // Cam.hpp
 // Author(s):       iFarbod <>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -18,29 +18,29 @@ namespace ctn::SA
 {
 
 const s32 NUMBER_OF_VECTORS_FOR_AVERAGE = 2;
-#define CAM_NUM_TARGET_HISTORY 4
+const s32 CAM_NUM_TARGET_HISTORY = 4;
 
 class CCam
 {
 public:
     // Used for follow ped mode
-    bool m_belowMinDist;
+    bool m_belowMinDist;                    // +0x000
     // Used for follow ped mode
-    bool m_behindPlayerDesired;
-    bool m_camLookingAtVector;
-    bool m_collisionChecksOn;
+    bool m_behindPlayerDesired;             // +0x001
+    bool m_camLookingAtVector;              // +0x002
+    bool m_collisionChecksOn;               // +0x003
     // Used for camera on a string
-    bool m_fixingBeta;
-    bool m_theHeightFixerVehicleIsATrain;
-    bool m_lookBehindCamWasInFront;
-    bool m_lookingBehind;
-    bool m_lookingLeft;
-    bool m_lookingRight;
+    bool m_fixingBeta;                    // +0x004
+    bool m_theHeightFixerVehicleIsATrain; // +0x005
+    bool m_lookBehindCamWasInFront;       // +0x006
+    bool m_lookingBehind;                 // +0x007
+    bool m_lookingLeft;                   // +0x008
+    bool m_lookingRight;                  // +0x009
     // For interpolation type stuff to work
-    bool m_resetStatics;
-    bool m_rotating;
+    bool m_resetStatics;                    // +0x00A
+    bool m_rotating;                        // +0x00B
 
-    s16 m_mode; // CameraMode
+    s16 m_mode;
     u32 m_finishTime;
 
     s32 m_doCollisionChecksOnFrameNum;
@@ -51,9 +51,8 @@ public:
     s32 m_directionWasLooking;
 
     f32 m_maxRoleAngle;         //=DEGTORAD(5.0f)
-                                // Used for adding a slight roll to the camera in the
+
     f32 m_roll;
-    // Camera on a string mode
     f32 m_rollSpeed;
     f32 m_syphonModeTargetZOffSet;
     f32 m_amountFractionObscured;
@@ -75,19 +74,18 @@ public:
     f32 m_pedBetweenCameraHeightOffset;
     f32 m_playerInFrontSyphonAngleOffSet;
     f32 m_radiusForDead;
-    // Used for follow ped mode
     f32 m_realGroundDist;
     f32 m_targetBeta;
     f32 m_timeElapsedf32;
     f32 m_tilt;
     f32 m_tiltSpeed;
 
-    f32 m_transitionBeta;           // 156
-    f32 m_trueBeta;                 // 160
-    f32 m_trueAlpha;                // 164
-    f32 m_initialPlayerOrientation; // used for first person // 168
+    f32 m_transitionBeta;
+    f32 m_trueBeta;
+    f32 m_trueAlpha;
+    f32 m_initialPlayerOrientation;
 
-    f32 m_fVerticalAngle;   // alpha // 172
+    f32 m_fVerticalAngle;
     f32 m_AlphaSpeed;       // 176
     f32 m_FOV;              // 180
     f32 m_FOVSpeed;         // 184
@@ -98,9 +96,8 @@ public:
     f32 m_CA_MIN_DISTANCE; // 204
     f32 m_CA_MAX_DISTANCE;
     f32 m_SpeedVar;
-    f32 m_cameraHeightMultiplier; // used by TwoPlayer_Separate_Cars_TopDown // 216
+    f32 m_cameraHeightMultiplier;
 
-    // ped onfoot zoom distance
     f32 m_targetZoomGroundOne; // 220
     f32 m_targetZoomGroundTwo;
     f32 m_targetZoomGroundThree; // 228
@@ -114,19 +111,18 @@ public:
     f32 m_minRealGroundDist;
     f32 m_targetCloseInDist;
 
-    // For targetting in cooperative mode.
-    f32 m_betaTargeting; // 260
+    f32 m_betaTargeting;
     CVector2D m_targeting;
-    s32 m_carWeAreFocusingOn;  // which car is closer to the camera in 2 player cooperative mode with separate cars.
-    f32 m_carWeAreFocusingOnI; // interpolated version
+    s32 m_carWeAreFocusingOn;
+    f32 m_carWeAreFocusingOnI;
 
-    f32 m_camBumpedHorz; // 280
+    f32 m_camBumpedHorz;
     f32 m_camBumpedVert;
-    s32 m_camBumpedTime; // 288
+    s32 m_camBumpedTime;
 
-    CVector m_sourceSpeedOverOneFrame; // 292
-    CVector m_targetSpeedOverOneFrame; // 304
-    CVector m_upOverOneFrame;          // 316
+    CVector m_sourceSpeedOverOneFrame;
+    CVector m_targetSpeedOverOneFrame;
+    CVector m_upOverOneFrame;
 
     CVector m_targetCoorsForFudgeInter; // 328
     CVector m_camFixedModeVector;       // 340

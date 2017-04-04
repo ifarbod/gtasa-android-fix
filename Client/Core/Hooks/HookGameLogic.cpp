@@ -2,7 +2,7 @@
 // Author(s):       iFarbod <ifarbod@outlook.com>
 //                  LINK/2012 <dma2012@gmail.com>
 //
-// Copyright (c) 2015-2017 CtNorth Team
+// Copyright (c) 2015-2017 CTNorth Team
 //
 // Distributed under the MIT license (See accompanying file LICENSE or copy at
 // https://opensource.org/licenses/MIT)
@@ -13,18 +13,6 @@
 
 using namespace ctn;
 using namespace ctn::Hook;
-
-#ifdef CTN_DEBUG
-void LoadWeaponData_accuracy(void* p)
-{
-    Call(0x5389D0, p);
-
-    for (int i = 0; i < 80; i++)
-    {
-        MemWrite(0xC8AAB8 + i * 0x70 + 0x38, 10.0f);
-    }
-}
-#endif
 
 static HookFunction hookFunction([]()
 {
@@ -226,9 +214,6 @@ static HookFunction hookFunction([]()
     MemWrite<u8>(0x4F9CCE, 0xCE);
 
 #ifdef CTN_DEBUG
-    // Test no-recoil weapons
-    MakeCall(0x5BEC66, LoadWeaponData_accuracy);
-
     // Limit fps to 60
     MemWrite(0x619626, 60);
 #endif
