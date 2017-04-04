@@ -166,9 +166,9 @@ inline void MemWrite(MemoryPointer addr, T value)
     }
 }
 
-// Searches in the range [@addr, @addr + @maxSearch] for a pointer in the range [@defaultBase, @defaultEnd] and replaces
-// it with the proper offset in the pointer @replacementBase.
-// does memory unprotection if @vp is true.
+// Searches in the range [|addr|, |addr| + |maxSearch|] for a pointer in the range [|defaultBase|, |defaultEnd|] and replaces
+// it with the proper offset in the pointer |replacementBase|.
+// does memory unprotection if |vp| is true.
 inline MemoryPointer AdjustPointer(MemoryPointer addr, MemoryPointer replacementBase, MemoryPointer defaultBase,
     MemoryPointer defaultEnd, size_t maxSearch = 8)
 {
@@ -246,15 +246,7 @@ inline void MakeRet0(MemoryPointer at)
     MakeRet(at + 2);
 }
 
-// Uses al instead of eax
-inline void MakeRet0Ex(MemoryPointer at)
-{
-    MemWrite<u8>(at, 0x32); // xor al, al
-    MemWrite<u8>(at + 1, 0xC0);
-    MakeRet(at + 2);
-}
-
-inline MemoryPointer GetAbsoluteOffset(int relValue, MemoryPointer endOfInstruction)
+inline MemoryPointer GetAbsoluteOffset(size_t relValue, MemoryPointer endOfInstruction)
 {
     return endOfInstruction.Get<char>() + relValue;
 }
@@ -274,8 +266,9 @@ inline MemoryPointer ReadRelativeOffset(MemoryPointer at, size_t sizeofAddr = 4)
             return (GetAbsoluteOffset(MemRead<s16>(at), at + sizeofAddr));
         case 4:
             return (GetAbsoluteOffset(MemRead<s32>(at), at + sizeofAddr));
+        default:
+            return nullptr;
     }
-    return nullptr;
 }
 
 inline void MakeRelativeOffset(MemoryPointer at, MemoryPointer dest, size_t sizeofAddr = 4)
@@ -284,10 +277,13 @@ inline void MakeRelativeOffset(MemoryPointer at, MemoryPointer dest, size_t size
     {
         case 1:
             MemWrite<s8>(at, static_cast<s8>(GetRelativeOffset(dest, at + sizeofAddr)));
+            break;
         case 2:
             MemWrite<s16>(at, static_cast<s16>(GetRelativeOffset(dest, at + sizeofAddr)));
+            break;
         case 4:
             MemWrite<s32>(at, static_cast<s32>(GetRelativeOffset(dest, at + sizeofAddr)));
+            break;
     }
 }
 

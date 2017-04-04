@@ -1,7 +1,6 @@
-project "Utility"
+project "Base"
     language "C++"
     kind "StaticLib"
-    targetname "Utility"
 
     pchheader "PCH.hpp"
     pchsource "PCH.cpp"
@@ -9,19 +8,21 @@ project "Utility"
     flags { "NoIncrementalLink", "NoEditAndContinue" }
     includedirs { "." }
 
-    links {
+    links
+    {
         "AngelScript"
     }
 
-    vpaths {
-        ["Headers/*"] = { "**.hpp", "**.h" },
+    vpaths
+    {
+        ["Headers/*"] = "**.hpp",
         ["Sources/*"] = "**.cpp",
         ["*"] = "premake5.lua"
     }
 
-    files {
+    files
+    {
         "premake5.lua",
-        "**.h",
         "**.hpp",
         "**.cpp"
     }
