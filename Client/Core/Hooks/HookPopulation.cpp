@@ -39,7 +39,7 @@ static HookFunction hookFunction([]()
     MakeShortJmp(0x40E7DF);
 
     // Disable CPopulation::AddToPopulation
-    MakeRet0Ex(0x614720);
+    MakeRet0(0x614720);
 
     // Disable CPopulation::Update
     //MakeRet(0x616650);
