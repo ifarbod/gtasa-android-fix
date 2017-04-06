@@ -12,7 +12,7 @@ premake.modules.compose_files = {}
 
 -- Config variables
 local BIN_DIR = "Bin"
-local DATA_DIR = "Shared/Data"
+local DATA_DIR = "Data"
 local OUTPUT_DIR = "InstallFiles"
 
 newaction {
