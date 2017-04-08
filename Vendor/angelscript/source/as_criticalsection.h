@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2014 Andreas Jonsson
+   Copyright (c) 2003-2017 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied
    warranty. In no event will the authors be held liable for any
@@ -116,7 +116,7 @@ END_AS_NAMESPACE
 #include <xtl.h>
 #else
 #ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
+  #define WIN32_LEAN_AND_MEAN
 #endif
 #ifndef _WIN32_WINNT
   #define _WIN32_WINNT 0x0600 // We need this to get the declaration for Windows Phone compatible Ex functions
@@ -162,7 +162,7 @@ protected:
 
 	// Critical sections and semaphores are available on Windows XP and onwards.
 	// Windows XP is oldest version we support with multithreading.
-
+	
 	// The implementation is based on the following article, that shows
 	// how to implement a fair read/write lock that doesn't risk starving
 	// the writers:
