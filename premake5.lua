@@ -27,9 +27,9 @@ workspace "CTNorth"
     symbols "On" -- Change to Full?
     characterset "Unicode"
     pic "On"
-    systemversion "10.0.14393.0"
+    systemversion "10.0.15063.0"
     startproject "Launcher"
-    
+
     -- Preprocessor definitions
     defines
     {
@@ -52,7 +52,7 @@ workspace "CTNorth"
 
         -- Enable SSE
         "CTN_SSE",
-        
+
         -- Test Versioning
         "CTN_MAJOR_VERSION=0",
         "CTN_MINOR_VERSION=1",
@@ -112,7 +112,7 @@ workspace "CTNorth"
     -- Include the projects we are going to build
     group "Base"
     include "Base"
-    
+
     group "Client"
     include "Client/Core"
     include "Client/Launcher"
