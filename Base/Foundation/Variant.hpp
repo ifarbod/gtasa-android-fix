@@ -60,7 +60,7 @@ struct VariantValue
         int int_;
         bool bool_;
         float float_;
-        void* ptr_;
+        void* m_ptr;
     };
 
     union
@@ -555,7 +555,7 @@ public:
     Variant& operator =(void* rhs)
     {
         SetType(VAR_VOIDPTR);
-        value_.ptr_ = rhs;
+        value_.m_ptr = rhs;
         return *this;
     }
 
@@ -635,7 +635,7 @@ public:
     Variant& operator =(const Matrix3& rhs)
     {
         SetType(VAR_MATRIX3);
-        *(reinterpret_cast<Matrix3*>(value_.ptr_)) = rhs;
+        *(reinterpret_cast<Matrix3*>(value_.m_ptr)) = rhs;
         return *this;
     }
 
@@ -643,7 +643,7 @@ public:
     Variant& operator =(const Matrix3x4& rhs)
     {
         SetType(VAR_MATRIX3X4);
-        *(reinterpret_cast<Matrix3x4*>(value_.ptr_)) = rhs;
+        *(reinterpret_cast<Matrix3x4*>(value_.m_ptr)) = rhs;
         return *this;
     }
 
@@ -651,7 +651,7 @@ public:
     Variant& operator =(const Matrix4& rhs)
     {
         SetType(VAR_MATRIX4);
-        *(reinterpret_cast<Matrix4*>(value_.ptr_)) = rhs;
+        *(reinterpret_cast<Matrix4*>(value_.m_ptr)) = rhs;
         return *this;
     }
 
@@ -718,7 +718,7 @@ public:
     bool operator ==(void* rhs) const
     {
         if (type_ == VAR_VOIDPTR)
-            return value_.ptr_ == rhs;
+            return value_.m_ptr == rhs;
         else if (type_ == VAR_PTR)
             return *(reinterpret_cast<const WeakPtr<RefCounted>*>(&value_)) == rhs;
         else
@@ -782,7 +782,7 @@ public:
         if (type_ == VAR_PTR)
             return *(reinterpret_cast<const WeakPtr<RefCounted>*>(&value_)) == rhs;
         else if (type_ == VAR_VOIDPTR)
-            return value_.ptr_ == rhs;
+            return value_.m_ptr == rhs;
         else
             return false;
     }
@@ -790,19 +790,19 @@ public:
     // Test for equality with a Matrix3. To return true, both the type and value must match.
     bool operator ==(const Matrix3& rhs) const
     {
-        return type_ == VAR_MATRIX3 ? *(reinterpret_cast<const Matrix3*>(value_.ptr_)) == rhs : false;
+        return type_ == VAR_MATRIX3 ? *(reinterpret_cast<const Matrix3*>(value_.m_ptr)) == rhs : false;
     }
 
     // Test for equality with a Matrix3x4. To return true, both the type and value must match.
     bool operator ==(const Matrix3x4& rhs) const
     {
-        return type_ == VAR_MATRIX3X4 ? *(reinterpret_cast<const Matrix3x4*>(value_.ptr_)) == rhs : false;
+        return type_ == VAR_MATRIX3X4 ? *(reinterpret_cast<const Matrix3x4*>(value_.m_ptr)) == rhs : false;
     }
 
     // Test for equality with a Matrix4. To return true, both the type and value must match.
     bool operator ==(const Matrix4& rhs) const
     {
-        return type_ == VAR_MATRIX4 ? *(reinterpret_cast<const Matrix4*>(value_.ptr_)) == rhs : false;
+        return type_ == VAR_MATRIX4 ? *(reinterpret_cast<const Matrix4*>(value_.m_ptr)) == rhs : false;
     }
 
     // Test for inequality with another variant.
@@ -989,7 +989,7 @@ public:
     void* GetVoidPtr() const
     {
         if (type_ == VAR_VOIDPTR)
-            return value_.ptr_;
+            return value_.m_ptr;
         else if (type_ == VAR_PTR)
             return *reinterpret_cast<const WeakPtr<RefCounted>*>(&value_);
         else
@@ -1047,19 +1047,19 @@ public:
     // Return a Matrix3 or identity on type mismatch.
     const Matrix3& GetMatrix3() const
     {
-        return type_ == VAR_MATRIX3 ? *(reinterpret_cast<const Matrix3*>(value_.ptr_)) : Matrix3::IDENTITY;
+        return type_ == VAR_MATRIX3 ? *(reinterpret_cast<const Matrix3*>(value_.m_ptr)) : Matrix3::IDENTITY;
     }
 
     // Return a Matrix3x4 or identity on type mismatch.
     const Matrix3x4& GetMatrix3x4() const
     {
-        return type_ == VAR_MATRIX3X4 ? *(reinterpret_cast<const Matrix3x4*>(value_.ptr_)) : Matrix3x4::IDENTITY;
+        return type_ == VAR_MATRIX3X4 ? *(reinterpret_cast<const Matrix3x4*>(value_.m_ptr)) : Matrix3x4::IDENTITY;
     }
 
     // Return a Matrix4 or identity on type mismatch.
     const Matrix4& GetMatrix4() const
     {
-        return type_ == VAR_MATRIX4 ? *(reinterpret_cast<const Matrix4*>(value_.ptr_)) : Matrix4::IDENTITY;
+        return type_ == VAR_MATRIX4 ? *(reinterpret_cast<const Matrix4*>(value_.m_ptr)) : Matrix4::IDENTITY;
     }
 
     // Return value's type.

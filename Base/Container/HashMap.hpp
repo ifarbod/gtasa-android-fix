@@ -134,10 +134,10 @@ public:
         }
 
         // Point to the pair.
-        KeyValue* operator ->() const { return &(static_cast<Node*>(ptr_))->pair_; }
+        KeyValue* operator ->() const { return &(static_cast<Node*>(m_ptr))->pair_; }
 
         // Dereference the pair.
-        KeyValue& operator *() const { return (static_cast<Node*>(ptr_))->pair_; }
+        KeyValue& operator *() const { return (static_cast<Node*>(m_ptr))->pair_; }
     };
 
     // Hash map node const iterator.
@@ -154,14 +154,14 @@ public:
 
         // Construct from a non-const iterator.
         ConstIterator(const Iterator& rhs) :
-            HashIteratorBase(rhs.ptr_)
+            HashIteratorBase(rhs.m_ptr)
         {
         }
 
         // Assign from a non-const iterator.
         ConstIterator& operator =(const Iterator& rhs)
         {
-            ptr_ = rhs.ptr_;
+            m_ptr = rhs.m_ptr;
             return *this;
         }
 
@@ -196,10 +196,10 @@ public:
         }
 
         // Point to the pair.
-        const KeyValue* operator ->() const { return &(static_cast<Node*>(ptr_))->pair_; }
+        const KeyValue* operator ->() const { return &(static_cast<Node*>(m_ptr))->pair_; }
 
         // Dereference the pair.
-        const KeyValue& operator *() const { return (static_cast<Node*>(ptr_))->pair_; }
+        const KeyValue& operator *() const { return (static_cast<Node*>(m_ptr))->pair_; }
     };
 
     // Construct empty.
@@ -400,10 +400,10 @@ public:
     // Erase a pair by iterator. Return iterator to the next pair.
     Iterator Erase(const Iterator& it)
     {
-        if (!ptrs_ || !it.ptr_)
+        if (!ptrs_ || !it.m_ptr)
             return End();
 
-        Node* node = static_cast<Node*>(it.ptr_);
+        Node* node = static_cast<Node*>(it.m_ptr);
         Node* next = node->Next();
 
         unsigned hashKey = Hash(node->pair_.first_);
@@ -437,8 +437,8 @@ public:
         {
             for (Iterator i = Begin(); i != End();)
             {
-                FreeNode(static_cast<Node*>(i++.ptr_));
-                i.ptr_->prev_ = 0;
+                FreeNode(static_cast<Node*>(i++.m_ptr));
+                i.m_ptr->prev_ = 0;
             }
 
             head_ = tail_;
@@ -752,7 +752,7 @@ private:
     {
         for (Iterator i = Begin(); i != End(); ++i)
         {
-            Node* node = static_cast<Node*>(i.ptr_);
+            Node* node = static_cast<Node*>(i.m_ptr);
             unsigned hashKey = Hash(i->first_);
             node->down_ = Ptrs()[hashKey];
             Ptrs()[hashKey] = node;

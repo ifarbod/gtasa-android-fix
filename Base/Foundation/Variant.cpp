@@ -93,15 +93,15 @@ Variant& Variant::operator =(const Variant& rhs)
             break;
 
         case VAR_MATRIX3:
-            *(reinterpret_cast<Matrix3*>(value_.ptr_)) = *(reinterpret_cast<const Matrix3*>(rhs.value_.ptr_));
+            *(reinterpret_cast<Matrix3*>(value_.m_ptr)) = *(reinterpret_cast<const Matrix3*>(rhs.value_.m_ptr));
             break;
 
         case VAR_MATRIX3X4:
-            *(reinterpret_cast<Matrix3x4*>(value_.ptr_)) = *(reinterpret_cast<const Matrix3x4*>(rhs.value_.ptr_));
+            *(reinterpret_cast<Matrix3x4*>(value_.m_ptr)) = *(reinterpret_cast<const Matrix3x4*>(rhs.value_.m_ptr));
             break;
 
         case VAR_MATRIX4:
-            *(reinterpret_cast<Matrix4*>(value_.ptr_)) = *(reinterpret_cast<const Matrix4*>(rhs.value_.ptr_));
+            *(reinterpret_cast<Matrix4*>(value_.m_ptr)) = *(reinterpret_cast<const Matrix4*>(rhs.value_.m_ptr));
             break;
 
         default:
@@ -178,13 +178,13 @@ bool Variant::operator ==(const Variant& rhs) const
             return *(reinterpret_cast<const IntVector2*>(&value_)) == *(reinterpret_cast<const IntVector2*>(&rhs.value_));
 
         case VAR_MATRIX3:
-            return *(reinterpret_cast<const Matrix3*>(value_.ptr_)) == *(reinterpret_cast<const Matrix3*>(rhs.value_.ptr_));
+            return *(reinterpret_cast<const Matrix3*>(value_.m_ptr)) == *(reinterpret_cast<const Matrix3*>(rhs.value_.m_ptr));
 
         case VAR_MATRIX3X4:
-            return *(reinterpret_cast<const Matrix3x4*>(value_.ptr_)) == *(reinterpret_cast<const Matrix3x4*>(rhs.value_.ptr_));
+            return *(reinterpret_cast<const Matrix3x4*>(value_.m_ptr)) == *(reinterpret_cast<const Matrix3x4*>(rhs.value_.m_ptr));
 
         case VAR_MATRIX4:
-            return *(reinterpret_cast<const Matrix4*>(value_.ptr_)) == *(reinterpret_cast<const Matrix4*>(rhs.value_.ptr_));
+            return *(reinterpret_cast<const Matrix4*>(value_.m_ptr)) == *(reinterpret_cast<const Matrix4*>(rhs.value_.m_ptr));
 
         case VAR_DOUBLE:
             return *(reinterpret_cast<const double*>(&value_)) == *(reinterpret_cast<const double*>(&rhs.value_));
@@ -405,7 +405,7 @@ String Variant::ToString() const
         {
             const PODVector<unsigned char>& buffer = *(reinterpret_cast<const PODVector<unsigned char>*>(&value_));
             String ret;
-            BufferToString(ret, buffer.Begin().ptr_, buffer.Size());
+            BufferToString(ret, buffer.Begin().m_ptr, buffer.Size());
             return ret;
         }
 
@@ -421,13 +421,13 @@ String Variant::ToString() const
             return (reinterpret_cast<const IntVector2*>(&value_))->ToString();
 
         case VAR_MATRIX3:
-            return (reinterpret_cast<const Matrix3*>(value_.ptr_))->ToString();
+            return (reinterpret_cast<const Matrix3*>(value_.m_ptr))->ToString();
 
         case VAR_MATRIX3X4:
-            return (reinterpret_cast<const Matrix3x4*>(value_.ptr_))->ToString();
+            return (reinterpret_cast<const Matrix3x4*>(value_.m_ptr))->ToString();
 
         case VAR_MATRIX4:
-            return (reinterpret_cast<const Matrix4*>(value_.ptr_))->ToString();
+            return (reinterpret_cast<const Matrix4*>(value_.m_ptr))->ToString();
 
         case VAR_DOUBLE:
             return String(*reinterpret_cast<const double*>(&value_));
@@ -479,7 +479,7 @@ bool Variant::IsZero() const
             return reinterpret_cast<const PODVector<unsigned char>*>(&value_)->Empty();
 
         case VAR_VOIDPTR:
-            return value_.ptr_ == 0;
+            return value_.m_ptr == 0;
 
         case VAR_RESOURCEREF:
             return reinterpret_cast<const ResourceRef*>(&value_)->name_.Empty();
@@ -514,13 +514,13 @@ bool Variant::IsZero() const
             return *reinterpret_cast<const WeakPtr<RefCounted>*>(&value_) == (RefCounted*)0;
 
         case VAR_MATRIX3:
-            return *reinterpret_cast<const Matrix3*>(value_.ptr_) == Matrix3::IDENTITY;
+            return *reinterpret_cast<const Matrix3*>(value_.m_ptr) == Matrix3::IDENTITY;
 
         case VAR_MATRIX3X4:
-            return *reinterpret_cast<const Matrix3x4*>(value_.ptr_) == Matrix3x4::IDENTITY;
+            return *reinterpret_cast<const Matrix3x4*>(value_.m_ptr) == Matrix3x4::IDENTITY;
 
         case VAR_MATRIX4:
-            return *reinterpret_cast<const Matrix4*>(value_.ptr_) == Matrix4::IDENTITY;
+            return *reinterpret_cast<const Matrix4*>(value_.m_ptr) == Matrix4::IDENTITY;
 
         case VAR_DOUBLE:
             return *reinterpret_cast<const double*>(&value_) == 0.0;
@@ -573,15 +573,15 @@ void Variant::SetType(VariantType newType)
             break;
 
         case VAR_MATRIX3:
-            delete reinterpret_cast<Matrix3*>(value_.ptr_);
+            delete reinterpret_cast<Matrix3*>(value_.m_ptr);
             break;
 
         case VAR_MATRIX3X4:
-            delete reinterpret_cast<Matrix3x4*>(value_.ptr_);
+            delete reinterpret_cast<Matrix3x4*>(value_.m_ptr);
             break;
 
         case VAR_MATRIX4:
-            delete reinterpret_cast<Matrix4*>(value_.ptr_);
+            delete reinterpret_cast<Matrix4*>(value_.m_ptr);
             break;
 
         default:
@@ -625,15 +625,15 @@ void Variant::SetType(VariantType newType)
             break;
 
         case VAR_MATRIX3:
-            value_.ptr_ = new Matrix3();
+            value_.m_ptr = new Matrix3();
             break;
 
         case VAR_MATRIX3X4:
-            value_.ptr_ = new Matrix3x4();
+            value_.m_ptr = new Matrix3x4();
             break;
 
         case VAR_MATRIX4:
-            value_.ptr_ = new Matrix4();
+            value_.m_ptr = new Matrix4();
             break;
 
         default:

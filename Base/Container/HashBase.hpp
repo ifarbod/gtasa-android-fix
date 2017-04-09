@@ -39,38 +39,38 @@ struct HashIteratorBase
 {
     // Construct.
     HashIteratorBase() :
-        ptr_(0)
+        m_ptr(0)
     {
     }
 
     // Construct with a node pointer.
     explicit HashIteratorBase(HashNodeBase* ptr) :
-        ptr_(ptr)
+        m_ptr(ptr)
     {
     }
 
     // Test for equality with another iterator.
-    bool operator ==(const HashIteratorBase& rhs) const { return ptr_ == rhs.ptr_; }
+    bool operator ==(const HashIteratorBase& rhs) const { return m_ptr == rhs.m_ptr; }
 
     // Test for inequality with another iterator.
-    bool operator !=(const HashIteratorBase& rhs) const { return ptr_ != rhs.ptr_; }
+    bool operator !=(const HashIteratorBase& rhs) const { return m_ptr != rhs.m_ptr; }
 
     // Go to the next node.
     void GotoNext()
     {
-        if (ptr_)
-            ptr_ = ptr_->next_;
+        if (m_ptr)
+            m_ptr = m_ptr->next_;
     }
 
     // Go to the previous node.
     void GotoPrev()
     {
-        if (ptr_)
-            ptr_ = ptr_->prev_;
+        if (m_ptr)
+            m_ptr = m_ptr->prev_;
     }
 
     // Node pointer.
-    HashNodeBase* ptr_;
+    HashNodeBase* m_ptr;
 };
 
 // Hash set/map base class.

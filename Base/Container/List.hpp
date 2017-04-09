@@ -84,10 +84,10 @@ public:
         }
 
         // Point to the node value.
-        T* operator ->() const { return &(static_cast<Node*>(ptr_))->value_; }
+        T* operator ->() const { return &(static_cast<Node*>(m_ptr))->value_; }
 
         // Dereference the node value.
-        T& operator *() const { return (static_cast<Node*>(ptr_))->value_; }
+        T& operator *() const { return (static_cast<Node*>(m_ptr))->value_; }
     };
 
     // List const iterator.
@@ -104,14 +104,14 @@ public:
 
         // Construct from a non-const iterator.
         ConstIterator(const Iterator& rhs) :
-            ListIteratorBase(rhs.ptr_)
+            ListIteratorBase(rhs.m_ptr)
         {
         }
 
         // Assign from a non-const iterator.
         ConstIterator& operator =(const Iterator& rhs)
         {
-            ptr_ = rhs.ptr_;
+            m_ptr = rhs.m_ptr;
             return *this;
         }
 
@@ -146,10 +146,10 @@ public:
         }
 
         // Point to the node value.
-        const T* operator ->() const { return &(static_cast<Node*>(ptr_))->value_; }
+        const T* operator ->() const { return &(static_cast<Node*>(m_ptr))->value_; }
 
         // Dereference the node value.
-        const T& operator *() const { return (static_cast<Node*>(ptr_))->value_; }
+        const T& operator *() const { return (static_cast<Node*>(m_ptr))->value_; }
     };
 
     // Construct empty.
@@ -256,12 +256,12 @@ public:
     void PushFront(const T& value) { InsertNode(Head(), value); }
 
     // Insert an element at position.
-    void Insert(const Iterator& dest, const T& value) { InsertNode(static_cast<Node*>(dest.ptr_), value); }
+    void Insert(const Iterator& dest, const T& value) { InsertNode(static_cast<Node*>(dest.m_ptr), value); }
 
     // Insert a list at position.
     void Insert(const Iterator& dest, const List<T>& list)
     {
-        Node* destNode = static_cast<Node*>(dest.ptr_);
+        Node* destNode = static_cast<Node*>(dest.m_ptr);
         ConstIterator it = list.Begin();
         ConstIterator end = list.End();
         while (it != end)
@@ -271,7 +271,7 @@ public:
     // Insert elements by iterators.
     void Insert(const Iterator& dest, const ConstIterator& start, const ConstIterator& end)
     {
-        Node* destNode = static_cast<Node*>(dest.ptr_);
+        Node* destNode = static_cast<Node*>(dest.m_ptr);
         ConstIterator it = start;
         while (it != end)
             InsertNode(destNode, *it++);
@@ -280,7 +280,7 @@ public:
     // Insert elements.
     void Insert(const Iterator& dest, const T* start, const T* end)
     {
-        Node* destNode = static_cast<Node*>(dest.ptr_);
+        Node* destNode = static_cast<Node*>(dest.m_ptr);
         const T* ptr = start;
         while (ptr != end)
             InsertNode(destNode, *ptr++);
@@ -303,7 +303,7 @@ public:
     // Erase an element by iterator. Return iterator to the next element.
     Iterator Erase(Iterator it)
     {
-        return Iterator(EraseNode(static_cast<Node*>(it.ptr_)));
+        return Iterator(EraseNode(static_cast<Node*>(it.m_ptr)));
     }
 
     // Erase a range by iterators. Return an iterator to the next element.
@@ -323,8 +323,8 @@ public:
         {
             for (Iterator i = Begin(); i != End();)
             {
-                FreeNode(static_cast<Node*>(i++.ptr_));
-                i.ptr_->prev_ = 0;
+                FreeNode(static_cast<Node*>(i++.m_ptr));
+                i.m_ptr->prev_ = 0;
             }
 
             head_ = tail_;
