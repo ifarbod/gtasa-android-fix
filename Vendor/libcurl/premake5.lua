@@ -2,12 +2,14 @@ project "libcurl"
     language "C++"
     kind "StaticLib"
 
-    includedirs {
+    includedirs
+    {
         "include",
         "lib"
     }
 
-    defines {
+    defines
+    {
         -- We are building libcurl
         "BUILDING_LIBCURL",
         -- Build as a static library
@@ -26,13 +28,15 @@ project "libcurl"
         
     }
     
-    vpaths {
+    vpaths
+    {
         ["Headers/*"] = { "include/curl/**.h", "lib/**.h" },
         ["Sources/*"] = "lib/**.c",
         ["*"] = "premake5.lua"
     }
 
-    files {
+    files
+    {
         -- Source files
         "lib/amigaos.c",
         "lib/asyn-ares.c",

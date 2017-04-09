@@ -4,13 +4,15 @@ project "MinHook"
 
     includedirs { "include" }
 
-    vpaths {
+    vpaths
+    {
         ["Headers/*"] = "**.h",
         ["Sources/*"] = "**.c",
         ["*"] = "premake5.lua"
     }
 
-    files {
+    files
+    {
         "premake5.lua",
         "**.h",
         "buffer.c",

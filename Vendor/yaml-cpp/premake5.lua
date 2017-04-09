@@ -4,13 +4,15 @@ project "yaml-cpp"
 
     includedirs { "include" }
 
-    vpaths {
+    vpaths
+    {
         ["Headers/*"] = { "include/yaml-cpp/**.h", "src/**.h" },
         ["Sources/*"] = "src/**.cpp",
         ["*"] = "premake5.lua"
     }
 
-    files {
+    files
+    {
         "**.cpp",
         "**.h",
         "premake5.lua"

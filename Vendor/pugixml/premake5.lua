@@ -3,13 +3,15 @@ project "PugiXML"
     language "C++"
 
 
-    vpaths {
+    vpaths
+    {
         ["Headers/*"] = "**.hpp",
         ["Sources/*"] = "**.cpp",
         ["*"] = "premake5.lua"
     }
 
-    files {
+    files
+    {
         "premake5.lua",
         "*.hpp",
         "*.cpp"

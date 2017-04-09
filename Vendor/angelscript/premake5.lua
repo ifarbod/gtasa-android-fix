@@ -2,15 +2,20 @@ project "AngelScript"
     language "C++"
     kind "StaticLib"
 
-    includedirs { "include" }
+    includedirs
+    {
+        "include"
+    }
 
-    vpaths {
+    vpaths
+    {
         ["Headers/*"] = { "include/**.h", "source/**.h" },
         ["Sources/*"] = "source/**.cpp",
         ["*"] = "premake5.lua"
     }
 
-    files {
+    files
+    {
         "**.cpp",
         "**.h",
         "premake5.lua"

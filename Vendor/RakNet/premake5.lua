@@ -3,7 +3,8 @@ project "RakNet"
     kind "StaticLib"
     characterset "MBCS"
 
-    vpaths {
+    vpaths
+    {
         ["Headers/*"] = "**.h",
         ["Sources"] = "**.cpp",
         ["*"] = "premake5.lua"
@@ -11,7 +12,8 @@ project "RakNet"
 
     defines { "_RAKNET_LIB" }
 
-    files {
+    files
+    {
         "premake5.lua",
         "*.h",
         "*.cpp"

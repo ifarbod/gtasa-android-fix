@@ -4,13 +4,15 @@ project "FreeType"
     
     includedirs { "include" }
     
-    defines {
+    defines
+    {
         "FT2_BUILD_LIBRARY"
     }
 
     disablewarnings { "4018" }
 
-    files {
+    files
+    {
         "premake5.lua",
         "src/autofit/autofit.c",
         "src/base/ftbase.c",
@@ -53,4 +55,3 @@ project "FreeType"
         "src/type42/type42.c",
         "src/winfonts/winfnt.c"
     }
-

@@ -2,13 +2,15 @@ project "SQlite"
     language "C++"
     kind "StaticLib"
 
-    vpaths {
+    vpaths
+    {
         ["Headers/*"] = "**.h",
         ["Sources/*"] = "**.c",
         ["*"] = "premake5.lua"
     }
 
-    files {
+    files
+    {
         "premake5.lua",
         "**.h",
         "**.c"
