@@ -81,7 +81,7 @@ public:
     int WeakRefs() const;
 
     // Return pointer to the reference count structure.
-    RefCount* RefCountPtr() { return refCount_; }
+    RefCount* RefCountPtr() { return m_refCount; }
 
     virtual bool IsObject() const { return false; }
 
@@ -112,7 +112,7 @@ private:
     RefCounted& operator =(const RefCounted& rhs) = default; // delete?
 
     // Pointer to the reference count structure.
-    RefCount* refCount_;
+    RefCount* m_refCount;
 
     InstantiationType instantiationType_;
     void* jsHeapPtr_;

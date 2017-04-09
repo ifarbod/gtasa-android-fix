@@ -29,7 +29,7 @@ public:
 
     // Construct a null shared pointer.
     SharedPtr(std::nullptr_t) :
-        m_ptr(0)
+        m_ptr(nullptr)
     {
     }
 
@@ -234,21 +234,21 @@ public:
     // Construct a null weak pointer.
     WeakPtr() :
         m_ptr(0),
-        refCount_(0)
+        m_refCount(0)
     {
     }
 
     // Construct a null weak pointer.
     WeakPtr(std::nullptr_t) :
         m_ptr(0),
-        refCount_(0)
+        m_refCount(0)
     {
     }
 
     // Copy-construct from another weak pointer.
     WeakPtr(const WeakPtr<T>& rhs) :
         m_ptr(rhs.m_ptr),
-        refCount_(rhs.refCount_)
+        m_refCount(rhs.m_refCount)
     {
         AddRef();
     }
@@ -256,7 +256,7 @@ public:
     // Copy-construct from another weak pointer allowing implicit upcasting.
     template <class U> WeakPtr(const WeakPtr<U>& rhs) :
         m_ptr(rhs.m_ptr),
-        refCount_(rhs.refCount_)
+        m_refCount(rhs.m_refCount)
     {
         AddRef();
     }
@@ -264,7 +264,7 @@ public:
     // Construct from a shared pointer.
     WeakPtr(const SharedPtr<T>& rhs) :
         m_ptr(rhs.Get()),
-        refCount_(rhs.RefCountPtr())
+        m_refCount(rhs.RefCountPtr())
     {
         AddRef();
     }
@@ -272,7 +272,7 @@ public:
     // Construct from a raw pointer.
     explicit WeakPtr(T* ptr) :
         m_ptr(ptr),
-        refCount_(ptr ? ptr->RefCountPtr() : 0)
+        m_refCount(ptr ? ptr->RefCountPtr() : 0)
     {
         AddRef();
     }
@@ -286,12 +286,12 @@ public:
     // Assign from a shared pointer.
     WeakPtr<T>& operator =(const SharedPtr<T>& rhs)
     {
-        if (m_ptr == rhs.Get() && refCount_ == rhs.RefCountPtr())
+        if (m_ptr == rhs.Get() && m_refCount == rhs.RefCountPtr())
             return *this;
 
         ReleaseRef();
         m_ptr = rhs.Get();
-        refCount_ = rhs.RefCountPtr();
+        m_refCount = rhs.RefCountPtr();
         AddRef();
 
         return *this;
@@ -300,12 +300,12 @@ public:
     // Assign from a weak pointer.
     WeakPtr<T>& operator =(const WeakPtr<T>& rhs)
     {
-        if (m_ptr == rhs.m_ptr && refCount_ == rhs.refCount_)
+        if (m_ptr == rhs.m_ptr && m_refCount == rhs.m_refCount)
             return *this;
 
         ReleaseRef();
         m_ptr = rhs.m_ptr;
-        refCount_ = rhs.refCount_;
+        m_refCount = rhs.m_refCount;
         AddRef();
 
         return *this;
@@ -314,12 +314,12 @@ public:
     // Assign from another weak pointer allowing implicit upcasting.
     template <class U> WeakPtr<T>& operator =(const WeakPtr<U>& rhs)
     {
-        if (m_ptr == rhs.m_ptr && refCount_ == rhs.refCount_)
+        if (m_ptr == rhs.m_ptr && m_refCount == rhs.m_refCount)
             return *this;
 
         ReleaseRef();
         m_ptr = rhs.m_ptr;
-        refCount_ = rhs.refCount_;
+        m_refCount = rhs.m_refCount;
         AddRef();
 
         return *this;
@@ -330,12 +330,12 @@ public:
     {
         RefCount* refCount = ptr ? ptr->RefCountPtr() : 0;
 
-        if (m_ptr == ptr && refCount_ == refCount)
+        if (m_ptr == ptr && m_refCount == refCount)
             return *this;
 
         ReleaseRef();
         m_ptr = ptr;
-        refCount_ = refCount;
+        m_refCount = refCount;
         AddRef();
 
         return *this;
@@ -384,10 +384,10 @@ public:
     }
 
     // Test for equality with another weak pointer.
-    template <class U> bool operator ==(const WeakPtr<U>& rhs) const { return m_ptr == rhs.m_ptr && refCount_ == rhs.refCount_; }
+    template <class U> bool operator ==(const WeakPtr<U>& rhs) const { return m_ptr == rhs.m_ptr && m_refCount == rhs.m_refCount; }
 
     // Test for inequality with another weak pointer.
-    template <class U> bool operator !=(const WeakPtr<U>& rhs) const { return m_ptr != rhs.m_ptr || refCount_ != rhs.refCount_; }
+    template <class U> bool operator !=(const WeakPtr<U>& rhs) const { return m_ptr != rhs.m_ptr || m_refCount != rhs.m_refCount; }
 
     // Test for less than with another weak pointer.
     template <class U> bool operator <(const WeakPtr<U>& rhs) const { return m_ptr < rhs.m_ptr; }
@@ -403,7 +403,7 @@ public:
     {
         ReleaseRef();
         m_ptr = static_cast<T*>(rhs.Get());
-        refCount_ = rhs.refCount_;
+        m_refCount = rhs.m_refCount;
         AddRef();
     }
 
@@ -415,21 +415,21 @@ public:
 
         if (m_ptr)
         {
-            refCount_ = rhs.refCount_;
+            m_refCount = rhs.m_refCount;
             AddRef();
         }
         else
-            refCount_ = 0;
+            m_refCount = 0;
     }
 
     // Check if the pointer is null.
-    bool Null() const { return refCount_ == 0; }
+    bool Null() const { return m_refCount == 0; }
 
     // Check if the pointer is not null.
-    bool NotNull() const { return refCount_ != 0; }
+    bool NotNull() const { return m_refCount != 0; }
 
     // Return the object's reference count, or 0 if null pointer or if object has expired.
-    int Refs() const { return (refCount_ && refCount_->refs_ >= 0) ? refCount_->refs_ : 0; }
+    int Refs() const { return (m_refCount && m_refCount->refs_ >= 0) ? m_refCount->refs_ : 0; }
 
     // Return the object's weak reference count.
     int WeakRefs() const
@@ -437,14 +437,14 @@ public:
         if (!Expired())
             return m_ptr->WeakRefs();
         else
-            return refCount_ ? refCount_->weakRefs_ : 0;
+            return m_refCount ? m_refCount->weakRefs_ : 0;
     }
 
     // Return whether the object has expired. If null pointer, always return true.
-    bool Expired() const { return refCount_ ? refCount_->refs_ < 0 : true; }
+    bool Expired() const { return m_refCount ? m_refCount->refs_ < 0 : true; }
 
     // Return pointer to the RefCount structure.
-    RefCount* RefCountPtr() const { return refCount_; }
+    RefCount* RefCountPtr() const { return m_refCount; }
 
     // Return hash value for HashSet & HashMap.
     unsigned ToHash() const { return (unsigned)((size_t)m_ptr / sizeof(T)); }
@@ -455,33 +455,33 @@ private:
     // Add a weak reference to the object pointed to.
     void AddRef()
     {
-        if (refCount_)
+        if (m_refCount)
         {
-            assert(refCount_->weakRefs_ >= 0);
-            ++(refCount_->weakRefs_);
+            assert(m_refCount->weakRefs_ >= 0);
+            ++(m_refCount->weakRefs_);
         }
     }
 
     // Release the weak reference. Delete the Refcount structure if necessary.
     void ReleaseRef()
     {
-        if (refCount_)
+        if (m_refCount)
         {
-            assert(refCount_->weakRefs_ > 0);
-            --(refCount_->weakRefs_);
+            assert(m_refCount->weakRefs_ > 0);
+            --(m_refCount->weakRefs_);
 
-            if (Expired() && !refCount_->weakRefs_)
-                delete refCount_;
+            if (Expired() && !m_refCount->weakRefs_)
+                delete m_refCount;
         }
 
         m_ptr = 0;
-        refCount_ = 0;
+        m_refCount = 0;
     }
 
     // Pointer to the object.
     T* m_ptr;
     // Pointer to the RefCount structure.
-    RefCount* refCount_;
+    RefCount* m_refCount;
 };
 
 // Perform a static cast from one weak pointer type to another.

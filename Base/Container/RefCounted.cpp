@@ -14,27 +14,27 @@ namespace ctn
 {
 
 RefCounted::RefCounted() :
-    refCount_(new RefCount()),
+    m_refCount(new RefCount()),
     instantiationType_(INSTANTIATION_NATIVE),
     jsHeapPtr_(0)
 {
     // Hold a weak ref to self to avoid possible double delete of the refcount
-    (refCount_->weakRefs_)++;
+    (m_refCount->weakRefs_)++;
 }
 
 RefCounted::~RefCounted()
 {
-    assert(refCount_);
-    assert(refCount_->refs_ == 0);
-    assert(refCount_->weakRefs_ > 0);
+    assert(m_refCount);
+    assert(m_refCount->refs_ == 0);
+    assert(m_refCount->weakRefs_ > 0);
 
     // Mark object as expired, release the self weak ref and delete the refcount if no other weak refs exist
-    refCount_->refs_ = -1;
-    (refCount_->weakRefs_)--;
-    if (!refCount_->weakRefs_)
-        delete refCount_;
+    m_refCount->refs_ = -1;
+    (m_refCount->weakRefs_)--;
+    if (!m_refCount->weakRefs_)
+        delete m_refCount;
 
-    refCount_ = 0;
+    m_refCount = 0;
 
     for (unsigned i = 0; i < refCountedDeletedFunctions_.Size(); i++)
         refCountedDeletedFunctions_[i](this);
@@ -42,10 +42,10 @@ RefCounted::~RefCounted()
 
 void RefCounted::AddRef()
 {
-    assert(refCount_->refs_ >= 0);
-    (refCount_->refs_)++;
+    assert(m_refCount->refs_ >= 0);
+    (m_refCount->refs_)++;
 
-    if (jsHeapPtr_ && refCount_->refs_ == 2)
+    if (jsHeapPtr_ && m_refCount->refs_ == 2)
     {
         for (unsigned i = 0; i < refCountChangedFunctions_.Size(); i++)
         {
@@ -56,38 +56,38 @@ void RefCounted::AddRef()
 
 void RefCounted::ReleaseRef()
 {
-    assert(refCount_->refs_ > 0);
-    (refCount_->refs_)--;
+    assert(m_refCount->refs_ > 0);
+    (m_refCount->refs_)--;
 
-    if (jsHeapPtr_ && refCount_->refs_ == 1)
+    if (jsHeapPtr_ && m_refCount->refs_ == 1)
     {
         for (unsigned i = 0; i < refCountChangedFunctions_.Size(); i++)
         {
-            (refCount_->refs_)++;
+            (m_refCount->refs_)++;
             refCountChangedFunctions_[i](this, 1);
-            if (refCount_->refs_ == 1)
+            if (m_refCount->refs_ == 1)
             {
-                refCount_->refs_ = 0;
+                m_refCount->refs_ = 0;
                 delete this;
                 return;
             }
-            (refCount_->refs_)--;
+            (m_refCount->refs_)--;
         }
     }
 
-    if (!refCount_->refs_)
+    if (!m_refCount->refs_)
         delete this;
 }
 
 int RefCounted::Refs() const
 {
-    return refCount_->refs_;
+    return m_refCount->refs_;
 }
 
 int RefCounted::WeakRefs() const
 {
     // Subtract one to not return the internally held reference
-    return refCount_->weakRefs_ - 1;
+    return m_refCount->weakRefs_ - 1;
 }
 
 PODVector<RefCountChangedFunction> RefCounted::refCountChangedFunctions_;
@@ -95,8 +95,8 @@ PODVector<RefCountedDeletedFunction> RefCounted::refCountedDeletedFunctions_;
 
 void RefCounted::AddRefSilent()
 {
-    assert(refCount_->refs_ >= 0);
-    (refCount_->refs_)++;
+    assert(m_refCount->refs_ >= 0);
+    (m_refCount->refs_)++;
 }
 
 void RefCounted::AddRefCountChangedFunction(RefCountChangedFunction function)
