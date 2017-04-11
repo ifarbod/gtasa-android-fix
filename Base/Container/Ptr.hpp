@@ -233,14 +233,14 @@ template <class T> class WeakPtr
 public:
     // Construct a null weak pointer.
     WeakPtr() :
-        m_ptr(0),
+        m_ptr(nullptr),
         m_refCount(0)
     {
     }
 
     // Construct a null weak pointer.
     WeakPtr(std::nullptr_t) :
-        m_ptr(0),
+        m_ptr(nullptr),
         m_refCount(0)
     {
     }
@@ -328,7 +328,7 @@ public:
     // Assign from a raw pointer.
     WeakPtr<T>& operator =(T* ptr)
     {
-        RefCount* refCount = ptr ? ptr->RefCountPtr() : 0;
+        RefCount* refCount = ptr ? ptr->RefCountPtr() : nullptr;
 
         if (m_ptr == ptr && m_refCount == refCount)
             return *this;
@@ -354,7 +354,7 @@ public:
     T* Get() const
     {
         if (Expired())
-            return 0;
+            return nullptr;
         else
             return m_ptr;
     }
@@ -501,16 +501,18 @@ template <class T, class U> WeakPtr<T> DynamicCast(const WeakPtr<U>& ptr)
 }
 
 // Delete object of type T. T must be complete. See boost::checked_delete.
-template <class T> inline void CheckedDelete(T* x)
+template <class T> inline
+void CheckedDelete(T* x)
 {
     // Intentionally complex - simplification causes regressions
-    typedef char type_must_be_complete[sizeof(T) ? 1 : -1];
+    using type_must_be_complete[sizeof(T) ? 1 : -1] = char;
     (void) sizeof(type_must_be_complete);
     delete x;
 }
 
 // Unique pointer template class.
-template <class T> class UniquePtr
+template <class T>
+class UniquePtr
 {
     // Make non-copyable.
     UniquePtr(const UniquePtr&);
@@ -518,7 +520,7 @@ template <class T> class UniquePtr
 
 public:
     // Construct empty.
-    UniquePtr() : m_ptr(0) { }
+    UniquePtr() : m_ptr(nullptr) { }
 
     // Construct from pointer.
     explicit UniquePtr(T* ptr) : m_ptr(ptr) { }
@@ -534,10 +536,10 @@ public:
     UniquePtr(std::nullptr_t) { }
 
     // Move-construct from UniquePtr.
-    UniquePtr(UniquePtr && up) : m_ptr(up.Detach()) { }
+    UniquePtr(UniquePtr&& up) : m_ptr(up.Detach()) { }
 
     // Move-assign from UniquePtr.
-    UniquePtr& operator = (UniquePtr && up)
+    UniquePtr& operator = (UniquePtr&& up)
     {
         Reset(up.Detach());
         return *this;
@@ -579,21 +581,21 @@ public:
     T* Detach()
     {
         T* ptr = m_ptr;
-        m_ptr = 0;
+        m_ptr = nullptr;
         return ptr;
     }
 
     // Check if the pointer is null.
-    bool Null() const { return m_ptr == 0; }
+    bool Null() const { return m_ptr == nullptr; }
 
     // Check if the pointer is not null.
-    bool NotNull() const { return m_ptr != 0; }
+    bool NotNull() const { return m_ptr != nullptr; }
 
     // Return the raw pointer.
     T* Get() const { return m_ptr; }
 
     // Reset.
-    void Reset(T* ptr = 0)
+    void Reset(T* ptr = nullptr)
     {
         CheckedDelete(m_ptr);
         m_ptr = ptr;
@@ -620,13 +622,13 @@ template <class T> void Swap(UniquePtr<T>& first, UniquePtr<T>& second)
 }
 
 // Construct UniquePtr.
-template <class T, class ... Args> UniquePtr<T> MakeUnique(Args && ... args)
+template <class T, class ... Args> UniquePtr<T> MakeUnique(Args&&... args)
 {
     return UniquePtr<T>(new T(std::forward<Args>(args)...));
 }
 
 // Construct SharedPtr.
-template <class T, class ... Args> SharedPtr<T> MakeShared(Args && ... args)
+template <class T, class... Args> SharedPtr<T> MakeShared(Args&&... args)
 {
     return SharedPtr<T>(new T(std::forward<Args>(args)...));
 }
