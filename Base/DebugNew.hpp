@@ -8,7 +8,7 @@
 
 #pragma once
 
-#if defined(_MSC_VER) && defined(_DEBUG)
+#if defined(_MSC_VER) && defined(CTN_DEBUG)
 
 #define _CRTDBG_MAP_ALLOC
 
@@ -18,7 +18,7 @@
 
 #include <crtdbg.h>
 
-#define _DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
-#define new _DEBUG_NEW
+#define CTN_DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new CTN_DEBUG_NEW
 
 #endif
