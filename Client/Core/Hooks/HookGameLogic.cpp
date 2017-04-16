@@ -121,10 +121,6 @@ static HookFunction hookFunction([]()
     MakeNop(0x6D1999);
     MakeJmp(0x6D1999 + 1, 0x6D1A36);
 
-    // Change money counter format to mobile's one
-    CopyStr(0x866C94, "$%d");
-    CopyStr(0x866C8C, "$-%d");
-
     // Increase Streaming_rwObjectInstancesList limit (disables flicker)
     MemWrite<s32>(0x5B8E55, 7500 * 0xC);
     MemWrite<s32>(0x5B8EB0, 7500 * 0xC);
