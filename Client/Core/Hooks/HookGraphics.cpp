@@ -19,19 +19,19 @@ void __declspec(naked) GetMaxExtraDirectionals()
 {
     __asm
     {
-        call	CanSeeOutSideFromCurrArea
-        test	al, al
-        jz		GetMaxExtraDirectionals_Six
+        call CanSeeOutSideFromCurrArea
+        test al, al
+        jz GetMaxExtraDirectionals_Six
 
         // Low details?
-        mov		eax, [g_fx]
-        cmp		dword ptr[eax + 54h], 0
-        jne		GetMaxExtraDirectionals_Six
-        mov		ebx, 4
+        mov        eax, [g_fx]
+        cmp        dword ptr[eax + 54h], 0
+        jne        GetMaxExtraDirectionals_Six
+        mov        ebx, 4
         retn
 
         GetMaxExtraDirectionals_Six :
-        mov		ebx, 6
+        mov        ebx, 6
         retn
     }
 }
