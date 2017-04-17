@@ -8,34 +8,6 @@
 
 #pragma once
 
-// Some definitions
-#define MOD_NAME "CTNorth"
-#define MOD_NAME_ALT "CTN"
-#define REGISTRY_AREA "SOFTWARE\\" MOD_NAME
-
-// URI protocol for joining server/game sessions from browser
-#define SHORT_URI_LAUNCH_1 "ctn://"
-#define SHORT_URI_LAUNCH_2 "ctnorth://"
-#define SHORT_URI_LAUNCH_4 "ctn"
-#define SHORT_URI_LAUNCH_5 "ctnorth"
-
-// Library debug suffix
-#ifdef CTN_DEBUG
-#define DEBUG_SUFFIX "_d"
-#else
-#define DEBUG_SUFFIX
-#endif
-
-// Library extension
-#ifdef _WIN32
-#define LIB_EXTENSION ".dll"
-#else
-#define LIB_EXTENSION ".so"
-#endif
-
-#define CLIENT_MPLAUNCHER "CTN"
-#define CLIENT_CORE_NAME "Core"
-
 // Version string generation
 #define CTN_STRINGIZE_HELPER(x) #x
 #define CTN_STRINGIZE(x) CTN_STRINGIZE_HELPER(x)
