@@ -23,7 +23,6 @@ As this game doesn't have a _built-in_ network play functionality, many attempts
 ## Community
 [![Discord guild](https://img.shields.io/badge/chat-on%20Discord-7085D4.svg)](https://discord.gg/Tx2mHuc)
 [![Telegram group](https://img.shields.io/badge/chat-on%20Telegram-2AA1DD.svg)](https://t.me/ctnorth)
-[![Codewake](https://www.codewake.com/badges/ask_question.svg)](https://www.codewake.com/p/ctnorth)
 
 ## Key Features (Planned)
 * A.I./Co-op
