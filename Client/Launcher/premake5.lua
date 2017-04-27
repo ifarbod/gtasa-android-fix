@@ -9,8 +9,10 @@ project "Launcher"
     pchsource "Precompiled.cpp"
 
     entrypoint "wmainCRTStartup"
-    flags { "NoIncrementalLink", "NoEditAndContinue" }
-    linkoptions "/IGNORE:4254 /OPT:NOLBR /SAFESEH:NO /DYNAMICBASE:NO /LARGEADDRESSAWARE /LAST:.zdata"
+    editandcontinue "Off"
+    largeaddressaware "On" -- largeaddressaware(true)
+    flags { "NoIncrementalLink" }
+    linkoptions "/IGNORE:4254 /OPT:NOLBR /SAFESEH:NO /DYNAMICBASE:NO /LAST:.zdata"
 
     links
     {
