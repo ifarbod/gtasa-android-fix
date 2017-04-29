@@ -348,6 +348,7 @@ Temporary Items
 Build/
 Bin/
 InstallFiles/
+Out/
 
 # MSBuild files
 *.vcxproj
