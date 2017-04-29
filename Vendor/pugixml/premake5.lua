@@ -1,8 +1,7 @@
 project "PugiXML"
-    kind "StaticLib"
     language "C++"
-
-
+    kind "StaticLib"
+    
     vpaths
     {
         ["Headers/*"] = "**.hpp",

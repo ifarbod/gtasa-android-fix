@@ -13,9 +13,8 @@
 #include <Hooking/Hook.hpp>
 #include <Container/Str.hpp>
 #include <Foundation/ProcessUtils.hpp>
-#include <Math/MT.hpp>
-#include <time.h>
-#include <filesystem>
+#include <Container/ArrayPtr.hpp>
+#include <PEImage.hpp>
 
 using namespace ctn;
 
@@ -50,15 +49,14 @@ void GameLauncher::Launch(const char* gamePath)
 
     // Find the file length and allocate a related buffer
     u32 length;
-    u8* data;
 
     fseek(gameFile, 0, SEEK_END);
     length = ftell(gameFile);
 
-    data = new u8[length];
+    SharedArrayPtr<u8> data(new u8[length]);
 
     // Seek back to the start and read the file
-    fseek(gameFile, 0, SEEK_SET);
+    rewind(gameFile);
     fread(data, 1, length, gameFile);
 
     // Close the file, and continue on
@@ -67,7 +65,9 @@ void GameLauncher::Launch(const char* gamePath)
     // Load the executable into our module context
     HMODULE exeModule = GetModuleHandleW(nullptr);
 
-    ExecutableLoader exeLoader(data);
+    ExecutableLoader exeLoader(data.Get());
+
+    SetCurrentDirectoryA("D:\\CTN-SA\\");
 
     exeLoader.SetLibraryLoader([](const char* libName)
     {
@@ -86,31 +86,10 @@ void GameLauncher::Launch(const char* gamePath)
 
     exeLoader.LoadIntoModule(exeModule);
 
-    // Free the old binary
-    delete[] data;
-
-    DWORD oldProtect;
-
-    // apply memory protection
-    VirtualProtect((void*)0x401000, 0x456000, PAGE_EXECUTE_READ, &oldProtect); // .text
-    VirtualProtect((void*)0x857000, 0x1000, PAGE_EXECUTE_READ, &oldProtect); // _rwcseg
-    //VirtualProtect((void*)0x858000, 0x4C000, PAGE_READONLY, &oldProtect); // .idata/.rdata
-    VirtualProtect((void*)0x8A4000, 0x40C000, PAGE_READWRITE, &oldProtect); // .data/.idata/.data/_rwdseg
-    VirtualProtect((void*)0xCB0000, 0x1000, PAGE_READWRITE, &oldProtect); // .rsrc
-
-    // Use our icon
-    Hook::MemWrite<u8>(0x7486A5, 1);
-
-    // Patch IsAlreadyRunning
-    Hook::MakeRet0(0x7468E0);
-    // Change CdStream semaphore to allow more than 2 SA instances
-    MT19937_64 mt(time(nullptr));
-    Hook::CopyStr(0x858AD4, String::Format("CTN%d", mt()).CString());
-
-    LoadLibraryA(CLIENT_CORE_NAME DEBUG_SUFFIX LIB_EXTENSION);
+    LoadLibraryA("Core.dll");
 
     // Get the entry point
-    auto entryPoint = (void(*)())exeLoader.GetEntryPoint();
+    auto entryPoint = reinterpret_cast<void(*)()>(exeLoader.GetEntryPoint());
 
     // Call the entry point
     AddVectoredExceptionHandler(0, HandleVariant);
