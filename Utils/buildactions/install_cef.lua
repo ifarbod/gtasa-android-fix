@@ -13,7 +13,7 @@ premake.modules.install_cef = {}
 -- Config variables
 local CEF_PATH = "Vendor/cef3/"
 local CEF_URL = "https://outwa.it/cef"
-local CEF_URL_SHA1 = "https://outwa.it/cef/sha"
+local CEF_URL_SHA1 = "https://outwa.it/cef/sha1"
 
 newaction
 {
