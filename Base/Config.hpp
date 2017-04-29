@@ -31,11 +31,11 @@
 // is really mac/ios.
 #elif defined(__APPLE__)
     #include <TargetConditionals.h>
-    #define CTN_OS_MACOSX 1
+#define CTN_OS_MACOSX 1
 
-    #if defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE
-        #define CTN_OS_IOS 1
-    #endif
+#if defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE
+    #define CTN_OS_IOS 1
+#endif
 
 #elif defined(_WIN32)
     #define CTN_OS_WINDOWS 1

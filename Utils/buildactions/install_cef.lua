@@ -12,10 +12,11 @@ premake.modules.install_cef = {}
 
 -- Config variables
 local CEF_PATH = "Vendor/cef3/"
-local CEF_URL = "http://ctnorth.000webhostapp.com/cef"
-local CEF_URL_SHA1 = "http://ctnorth.000webhostapp.com/cef/sha"
+local CEF_URL = "https://outwa.it/cef"
+local CEF_URL_SHA1 = "https://outwa.it/cef/sha"
 
-newaction {
+newaction
+{
     trigger = "install_cef",
     description = "Downloads and installs CEF",
 
