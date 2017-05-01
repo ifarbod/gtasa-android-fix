@@ -16,6 +16,10 @@ using namespace ctn::Hook;
 
 static HookFunction hookFunction([]()
 {
+    // No gta_sa.set writing
+    //MakeRet(0x57C8F0);
+    MakeRet(0x57C660);
+
     // Disable CGameLogic::Update
     MakeRet(0x442AD0);
 
@@ -97,6 +101,13 @@ static HookFunction hookFunction([]()
     MemWrite<u8>(0x4C01F1, 0x00);
     MakeNop(0x4C01F2, 3);
 
+    // Don't lock the cursor at 0,0
+    MakeRet(0x7453F0);
+
+    // Fix for sliding over objects and vehicles (ice floor)
+    MakeJmp(0x5E1E72, 0x5E1F30);
+    MakeNop(0x5E1E77);
+
     // Avoid GTA setting vehicle primary color to white (1) after setting a new paintjob
     MakeNop(0x6D65C5, 11);
 
@@ -129,7 +140,7 @@ static HookFunction hookFunction([]()
     MakeRet(0x744AE0);
 
     // SetWindowText
-    MemWrite(0x619608, MOD_NAME);
+    MemWrite(0x619608, "CTNorth");
 
     // Disable CIniFile::LoadIniFile (gta3.ini)
     MakeRet(0x56D070);
