@@ -657,25 +657,37 @@ unsigned ToLower(unsigned ch)
 
 String GetFileSizeString(unsigned long long memorySize)
 {
-    static const char* memorySizeStrings = "kMGTPE";
+    static const char* const kByteStringsUnlocalized[] = {
+        " B",
+        " kB",
+        " MB",
+        " GB",
+        " TB",
+        " PB"
+    };
 
     String output;
 
-    if (memorySize < 1024)
-    {
-        output = String(memorySize) + " b";
+    double unit_amount = static_cast<double>(memorySize);
+    size_t dimension = 0;
+    const int kKilo = 1024;
+    while (unit_amount >= kKilo &&
+        dimension < ARRAY_SIZE(kByteStringsUnlocalized) - 1) {
+        unit_amount /= kKilo;
+        dimension++;
     }
-    else
-    {
-        const int exponent = (int)(log((double)memorySize) / log(1024.0));
-        const double majorValue = ((double)memorySize) / pow(1024.0, exponent);
-        char buffer[64];
-        memset(buffer, 0, 64);
-        sprintf(buffer, "%.1f", majorValue);
-        output = buffer;
-        output += " ";
-        output += memorySizeStrings[exponent - 1];
+
+    char buf[64];
+    if (memorySize != 0 && dimension > 0 && unit_amount < 100) {
+        snprintf(buf, ARRAY_SIZE(buf), "%.2lf%s", unit_amount,
+            kByteStringsUnlocalized[dimension]);
     }
+    else {
+        snprintf(buf, ARRAY_SIZE(buf), "%.0lf%s", unit_amount,
+            kByteStringsUnlocalized[dimension]);
+    }
+
+    output = buf;
 
     return output;
 }
