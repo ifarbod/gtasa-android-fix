@@ -73,8 +73,8 @@ inline T Sign(T value) { return value > 0.0 ? 1.0 : (value < 0.0 ? -1.0 : 0.0); 
 inline bool IsNaN(float value) { return value != value; }
 
 // Clamp a number to a range.
-template <class T>
-inline T Clamp(T value, T min, T max)
+template <class T> inline
+constexpr T Clamp(const T value, const T min, const T max)
 {
     if (value < min)
         return min;
