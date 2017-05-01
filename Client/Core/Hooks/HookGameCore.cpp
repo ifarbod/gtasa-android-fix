@@ -35,6 +35,29 @@ void TestUpdate()
 
 static HookFunction hookFunction([]()
 {
+    // Use our icon
+    Hook::MemWrite<u8>(0x7486A5, 1);
+
+    // Patch IsAlreadyRunning
+    Hook::MakeRet0(0x7468E0);
+
+    // Don't catch WM_SYSKEYDOWN and WM_SYSKEYUP (fixes Alt+F4)
+    MakeJmp(0x748220, 0x748446);
+    MemWrite<u8>(0x7481E3, 0x5C); // esi -> ebx
+    MemWrite<u8>(0x7481EA, 0x53); // esi -> ebx
+    MemWrite<u8>(0x74820D, 0xFB); // esi -> ebx
+    MemWrite<s8>(0x7481EF, 0x54 - 0x3C); // use stack space for new lParam
+    MemWrite<s8>(0x748200, 0x4C - 0x3C); // use stack space for new lParam
+    MemWrite<s8>(0x748214, 0x4C - 0x3C); // use stack space for new lParam
+
+    MakeJmp(0x74826A, 0x748446);
+    MemWrite<u8>(0x74822D, 0x5C); // esi -> ebx
+    MemWrite<u8>(0x748234, 0x53); // esi -> ebx
+    MemWrite<u8>(0x748257, 0xFB); // esi -> ebx
+    MemWrite<s8>(0x748239, 0x54 - 0x3C); // use stack space for new lParam
+    MemWrite<s8>(0x74824A, 0x4C - 0x3C); // use stack space for new lParam
+    MemWrite<s8>(0x74825E, 0x4C - 0x3C); // use stack space for new lParam
+
     // Disable loading default.dat in CGame::Initialize
     MakeCall(0x53BC95, DoNothing);
 
