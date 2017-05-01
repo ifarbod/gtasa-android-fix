@@ -18,21 +18,10 @@
 #define CALC_BITMASK16(n) (u16(1 << n))
 
 #define ARRAY_LENGTH(arr) (sizeof(arr) / sizeof(arr[0]))
-#define ARRAY_SIZE(arr)    (sizeof(arr) / sizeof(*arr))
-#define    SAFE_DELETE(memory)    { delete memory; memory = nullptr; }
-#define    SAFE_RELEASE(p)    { if ( (p) ) { (p)->Release(); (p) = nullptr; } }
-#define SAFE_DELETE_ARRAY(memory) { if(memory) { delete [] memory; memory = nullptr; }
-#define SAFE_FREE(memory) { if (memory) { free(memory); memory = nullptr; } }
-
-#define METERS_TO_FEET(x) (x * 3.280839895)
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(*arr))
 
 #ifdef _WIN32
 #define DIRECTORY_SEPARATOR_CHAR "\\"
 #else
 #define DIRECTORY_SEPARATOR_CHAR "/"
 #endif
-
-// Declspec
-#define DLLEXPORT __declspec(dllexport)
-#define DLLIMPORT __declspec(dllimport)
-#define NAKED __declspec(naked)
