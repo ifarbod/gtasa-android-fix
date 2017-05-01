@@ -14,7 +14,6 @@
 #include <Container/Str.hpp>
 #include <Foundation/ProcessUtils.hpp>
 #include <Container/ArrayPtr.hpp>
-#include <PEImage.hpp>
 
 using namespace ctn;
 
