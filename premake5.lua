@@ -31,7 +31,7 @@ workspace "CTNorth"
     pic "On"
     systemversion "10.0.15063.0"
     startproject "Launcher"
-    
+
     -- Preprocessor definitions
     defines
     {
@@ -51,17 +51,14 @@ workspace "CTNorth"
         "CTN_MINOR_VERSION=1",
         "CTN_PATCH_VERSION=0"
     }
-    
+
     if CI_BUILD then
     filter {}
         defines { "CI_BUILD=1" }
     end
 
-    -- License header definition file for the LicenseHeaderManager VS extension
-    files "ctn.licenseheader"
-
     -- Find DirectX SDK
-    FindDirectX9()
+    --FindDirectX9()
 
     includedirs
     {
