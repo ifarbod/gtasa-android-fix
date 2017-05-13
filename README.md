@@ -42,6 +42,8 @@ Primarily focused on GTA: San Andreas; As this game doesn't have a _built-in_ ne
 * Auto-updater
   - No need of manually updating your client anymore! New updates download silently as you play or before launching the client! With delta compression, Most of the updates are as small as 3 MB.
 
+[![Join the chat at https://gitter.im/sanandreasonline/sao](https://badges.gitter.im/sanandreasonline/sao.svg)](https://gitter.im/sanandreasonline/sao?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## License
 
 [MIT](LICENSE.md) © 2015-2017 CTNorth Team
